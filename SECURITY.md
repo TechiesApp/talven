@@ -1,6 +1,6 @@
 # Security policy
 
-Talven is a design-stage project. This repository contains documentation and no compiler, runtime, package, or release artifact. There is no supported software version yet, and no vulnerability response process is claimed. See the [security design](docs/security.md) for the proposed threat model and controls.
+Talven contains an experimental M1a reference compiler alongside its design documentation. There is no supported production software version or runtime release yet, and no mature vulnerability response process is claimed. See the [prototype limits](docs/prototype.md) for the implemented subset and the [security design](docs/security.md) for the broader proposed threat model and controls. The prototype is not a sandbox for hostile code.
 
 ## Reporting a concern
 

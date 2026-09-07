@@ -6,7 +6,23 @@ Pronounced **TAL-ven**.
 
 A proposal for a native programming language designed first for LLM coding agents, with a clear source language for humans, strong safety, and explicit control over hardware and resources.
 
-**Status: design stage.** This repository records requirements and proposed architecture for Talven. It does not contain a working compiler, runtime, package manager, or benchmarks. The language name was selected on 7 September 2026.
+**Status: experimental M1a compiler prototype.** The repository contains a small working reference compiler alongside the broader language proposal. It checks types and move-only scalar-field records, emits native programs through C11, returns structured agent context, and provides a basic LSP. It is not a production language release or completion of the full M1 milestone. The language name was selected on 7 September 2026.
+
+## Try the prototype
+
+From the repository root, use Python 3.11+ and a C11 compiler named `cc` for native builds. Analysis uses only the Python standard library.
+
+~~~sh
+python3 -m talven check examples/vectors.tal --json
+python3 -m talven context examples/vectors.tal --symbol dot --include-body
+python3 -m talven build examples/vectors.tal -o build/vectors
+./build/vectors
+python3 -m unittest discover -s tests -v
+~~~
+
+The vector example exits zero when its calculation is correct. See the [prototype guide](docs/prototype.md) for grammar, ownership rules, diagnostics, context/cache identity, LSP integration, and freestanding emission. See the [validation record](docs/prototype-validation.md) for actual target evidence.
+
+The implemented subset has `i32`, `bool`, immutable locals, functions, conditionals, and move-only records containing scalars. Borrowed references, heap/resource cleanup, a formatter, full LSP features, concurrency, GPU backends, package adapters, and comparative model benchmarks remain future work.
 
 ## Product goal
 
@@ -32,6 +48,9 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 
 | Document | Purpose |
 | --- | --- |
+| [Prototype guide](docs/prototype.md) | Implemented M1a grammar, commands, contracts, limits, and design tradeoffs |
+| [Prototype validation](docs/prototype-validation.md) | Reproducible tests and actual target evidence |
+| [Agent experiments](experiments/README.md) | Initial task corpus and model evaluation protocol |
 | [Requirements](docs/requirements.md) | Traceable record of the product requirements and evidence needed to satisfy them |
 | [Architecture](docs/architecture.md) | Compiler, native core, optional modules, target support, and toolchain |
 | [Architecture diagrams](docs/architecture-diagrams.md) | Agent verification, protected release boundaries, and CPU/GPU resource lifetimes |
@@ -51,7 +70,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 
 ## Scope and limits
 
-- Features described here are requirements or proposals, not implemented guarantees.
+- The prototype guide identifies implemented behavior; broader architecture features remain requirements or proposals.
 - High-level convenience must have visible dependencies and costs.
 - A universal translator cannot be assumed to remove every foreign runtime, garbage collector, or semantic difference.
 - A language cannot guarantee integrity after every possible kernel, firmware, hardware, or key compromise.
@@ -60,11 +79,11 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 
 ## First implementation objective
 
-Prove the agent workflow alongside a small safe native subset: compile a useful program, obtain relevant context, make a bounded change, and verify it on ARM64 and x86-64. Evaluate small-system feasibility early before expanding the runtime and ecosystem.
+The M1a prototype starts the agent workflow and native subset. Completing M1 still requires ARM64 execution evidence, a defined borrowing subset, canonical formatting, and controlled agent task evaluations. Expand the runtime and ecosystem after these foundations have evidence.
 
 ## Project status
 
-The language is named **Talven**. Its public repository is [TechiesApp/talven](https://github.com/TechiesApp/talven). Implementation language and final grammar remain open decisions. Design work proceeds through [design proposals](docs/proposals/README.md) and GitHub Discussions.
+The language is named **Talven**. Its public repository is [TechiesApp/talven](https://github.com/TechiesApp/talven). M1a uses Python and C11 as an experimental bootstrap; the production compiler implementation and final grammar remain open decisions. Design work proceeds through [design proposals](docs/proposals/README.md) and GitHub Discussions.
 
 ## License
 

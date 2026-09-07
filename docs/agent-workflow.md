@@ -1,6 +1,6 @@
 # Agent-first workflow
 
-Status: proposed interfaces and evaluation plan.
+Status: broader proposed interfaces and evaluation plan. [M1a](prototype.md) now implements bounded context lookup, structured diagnostics, and basic LSP features through one frontend. Provider caching, persistent semantic caches, atomic edit validation, and comparative model evaluations remain future work.
 
 ## Optimize completed work
 
@@ -80,4 +80,3 @@ No proprietary tokenizer, vendor-only model feature, fine-tuning requirement, or
 Compare a small proposed syntax against equivalent Rust, C, and TypeScript tasks where comparison is meaningful. Include unfamiliar API use, a type change, an ownership error, a concurrency fix, and a security-relevant dependency change.
 
 Give each system the same task and verification criteria. Report failure rates and repair costs, not just the shortest successful example.
-

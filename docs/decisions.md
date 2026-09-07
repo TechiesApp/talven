@@ -33,12 +33,15 @@ Status definitions:
 | D19 | Accepted | The language is named Talven, pronounced TAL-ven | Selected by the project owner on 7 September 2026; repository: TechiesApp/talven |
 | D20 | Accepted | Apache License 2.0 for all repository content; contributions under DCO sign-off | Chosen on 7 September 2026 for its explicit patent grant and wide organizational acceptance; see [LICENSE](../LICENSE) |
 | D21 | Accepted | Design changes proceed through numbered proposals in `docs/proposals/` with decisions recorded here | Established on 7 September 2026; see [GOVERNANCE.md](../GOVERNANCE.md) |
+| D22 | Proposed | Use a dependency-free Python reference frontend and C11 backend for M1a | [Proposal 0001](proposals/0001-m1a-reference-compiler.md); implemented as an experiment; final compiler language/backend remain open |
+| D23 | Proposed | Start with affine stack records containing scalar fields | Proposal 0001; M1a checks demonstrate moves without claiming borrowed references, heap ownership, or destructors |
+| D24 | Proposed | Share frontend analysis between CLI, bounded context, and basic LSP | Proposal 0001; remaining editor features and performance require further work |
 
 ## Open decisions
 
 | Decision | Questions to resolve |
 | --- | --- |
-| Compiler implementation | Which bootstrap language and backend best support the first experiment? |
+| Compiler implementation | Should the Python/C11 prototype evolve or be replaced for production compiler throughput, portability, and tooling latency? |
 | Type model | Which nominal/structural rules, generics, and composition features are necessary? |
 | Borrowing model | What references may escape scopes or cross suspension and task boundaries? |
 | Failure semantics | How are overflow, panic, cancellation, OOM, and foreign exceptions represented? |

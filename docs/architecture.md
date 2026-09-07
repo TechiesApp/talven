@@ -37,7 +37,7 @@ Keep a typed intermediate representation before lowering to machine-oriented cod
 
 Prefer deterministic module interfaces and incremental dependency analysis. Public function boundaries should state contracts explicitly, while local type inference can reduce repetition.
 
-The bootstrap compiler language is undecided. Do not commit to self-hosting before the semantics and toolchain are useful.
+The M1a reference compiler uses Python and a C11 backend to exercise the shared semantic model and native execution. The production bootstrap language and backend remain undecided. Do not commit to self-hosting before the semantics and toolchain are useful. See the [prototype scope and tradeoffs](prototype.md).
 
 ## Small native core
 

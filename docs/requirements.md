@@ -1,6 +1,6 @@
 # Requirements
 
-Status: recorded product requirements and proposed acceptance evidence. None of the runtime capabilities below is implemented in this repository.
+Status: recorded product requirements and proposed acceptance evidence. [M1a](prototype.md) implements a small subset of these requirements; the table remains the broader intended scope, not a list of completed features.
 
 The priority order is agent effectiveness, semantic clarity and safety, native control and efficiency, then breadth of convenience and ecosystem support. All requirements remain part of the vision; implementation is staged.
 
@@ -49,4 +49,3 @@ Ambient chat history must not silently change a program's behavior. A context su
 ## Evaluation discipline
 
 Record model version, tokenizer, prompts, available tools, context policy, compiler revision, target, optimization level, hardware, and task success criteria. Distinguish hypotheses, benchmark results, and released guarantees. Do not invent token-reduction, speedup, RAM, or security percentages.
-

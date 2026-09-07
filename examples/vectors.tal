@@ -1,0 +1,17 @@
+// Records are stack values with move-only language semantics.
+struct Vec2 { x: i32, y: i32 }
+
+fn dot(a: Vec2, b: Vec2) -> i32 {
+    return a.x * b.x + a.y * b.y;
+}
+
+fn main() -> i32 {
+    let left = Vec2 { x: 2, y: 3 };
+    let right = Vec2 { x: 4, y: 5 };
+    let result = dot(left, right);
+    if (result == 23) {
+        return 0;
+    } else {
+        return 1;
+    }
+}

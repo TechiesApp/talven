@@ -1,6 +1,6 @@
 # Language, memory, and concurrency
 
-Status: proposed semantics. Exact syntax, type rules, and implementation remain open.
+Status: broader proposed semantics. The [M1a prototype](prototype.md) implements a smaller grammar and affine scalar-field record subset. Borrowing, allocation, and concurrency rules here remain future design work.
 
 ## Syntax principles
 
@@ -91,4 +91,3 @@ Hard real-time scheduling, lock-free algorithms, and hardware-specific tuning ne
 Demonstrate safe rejection of invalid ownership and task lifetimes, bounded resource use, cleanup after errors, and correct interaction between cancellation and outstanding operations.
 
 Measure allocation counts, peak RAM, fragmentation where relevant, task overhead, throughput, and tail latency. Compare safe abstractions with appropriate lower-level baselines without removing required checks merely to improve a benchmark.
-
