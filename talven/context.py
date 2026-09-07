@@ -7,9 +7,9 @@ import platform
 import unicodedata
 
 from . import FORMAT_PROFILE, PROFILE, VERSION
-from .frontend import Analysis, CompileError, Expr, Function, Span, Statement
+from .frontend import Analysis, CompileError, Expr, Function, Span, Statement, base_type, borrow_mode
 
-SCHEMA = "talven.context.v1"
+SCHEMA = "talven.context.v2"
 
 
 def encode(value: object) -> str:
@@ -28,10 +28,16 @@ def compiler_hash() -> str:
 
 
 def function_fact(fn: Function) -> dict:
+    parameters = []
+    for name, typ in fn.params:
+        mode = borrow_mode(typ.text)
+        parameter = {"name": name.text, "type": typ.text,
+                     "passing": f"borrow-{mode}" if mode else "copy" if typ.text in ("i32", "bool") else "move"}
+        if mode:
+            parameter.update(scope="call", may_write=mode == "exclusive", escapes=False)
+        parameters.append(parameter)
     return {"kind": "function", "name": fn.name.text, "signature": fn.signature(),
-            "parameters": [{"name": n.text, "type": t.text,
-                            "passing": "copy" if t.text in ("i32", "bool") else "move"}
-                           for n, t in fn.params], "returns": fn.result.text,
+            "parameters": parameters, "returns": fn.result.text,
             "calls": sorted(fn.calls)}
 
 
@@ -44,6 +50,8 @@ def expressions(body: list[Statement]):
             yield from walk(child)
     for statement in body:
         yield from walk(statement.expr)
+        if statement.target is not None:
+            yield from walk(statement.target)
         yield from expressions(statement.then)
         yield from expressions(statement.otherwise)
 
@@ -63,11 +71,11 @@ def context(analysis: Analysis, symbol: str | None = None, max_bytes: int = 1638
     used_records = set(analysis.records) if symbol is None else {symbol} if symbol in analysis.records else set()
     for name in selected + dependencies:
         fn = analysis.functions[name]
-        used_records.update(t.text for _, t in fn.params if t.text in analysis.records)
+        used_records.update(base_type(t.text) for _, t in fn.params if base_type(t.text) in analysis.records)
         if fn.result.text in analysis.records:
             used_records.add(fn.result.text)
         if name in selected:
-            used_records.update(expr.typ for expr in expressions(fn.body) if expr.typ in analysis.records)
+            used_records.update(base_type(expr.typ) for expr in expressions(fn.body) if base_type(expr.typ) in analysis.records)
     records = [{"kind": "record", "name": name, "ownership": "move-only",
                 "fields": [{"name": n.text, "type": t.text} for n, t in analysis.records[name].fields]}
                for name in sorted(used_records)]
@@ -84,7 +92,9 @@ def context(analysis: Analysis, symbol: str | None = None, max_bytes: int = 1638
               "callers": sorted(name for name, fn in analysis.functions.items() if symbol in fn.calls),
               "rules": {"integers": "checked signed i32; divide and remainder truncate toward zero",
                         "evaluation": "left-to-right; && and || short-circuit",
-                        "resources": "affine scalar-field records; no heap, references, destructors, or FFI",
+                        "resources": "affine scalar-field records; call-scoped borrows; no heap, destructors, or FFI",
+                        "borrows": "explicit named-record arguments; shared reads or one exclusive writer; references cannot escape",
+                        "mutation": "scalar fields of let mut owners or &mut parameters; assignment evaluates its value before storing",
                         "trust": "hashes identify inputs; they do not authenticate stored or remote content"}}
     if include_body:
         for fact in result["functions"]:

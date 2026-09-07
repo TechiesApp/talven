@@ -1,6 +1,6 @@
 # Requirements
 
-Status: recorded product requirements and proposed acceptance evidence. [M1a](prototype.md) implements a small language subset and [M1b](formatting.md) adds formatting/native checks; the table remains the broader intended scope, not a list of completed features.
+Status: recorded product requirements and proposed acceptance evidence. [M1a](prototype.md) implements a small language subset, [M1b](formatting.md) adds formatting/native checks, and [M1c](borrowing.md) adds call-scoped borrowing; the table remains the broader intended scope, not a list of completed features.
 
 The priority order is agent effectiveness, semantic clarity and safety, native control and efficiency, then breadth of convenience and ecosystem support. All requirements remain part of the vision; implementation is staged.
 

@@ -22,7 +22,7 @@ Run `node scripts/check-docs.mjs` before opening a pull request. It verifies eve
 
 ## Compiler changes
 
-Run `python3 -m unittest discover -s tests -v` from the repository root. A C11 compiler named `cc` is needed for native tests; the scalar conformance tests also require its undefined-behavior sanitizer support. Report skipped tests or unsupported toolchains explicitly.
+Run `python3 -m unittest discover -s tests -v` from the repository root. A C11 compiler named `cc` is needed for native tests; the native conformance tests also require its undefined-behavior sanitizer support. Run `python3 scripts/check-borrow-sanitizers.py` on a supported host for the separate required CI address/undefined-behavior sanitizer check; see [borrowing validation](docs/borrowing-validation.md) for runtime prerequisites and coverage. Report skipped tests or unsupported toolchains explicitly.
 
 Run `python3 -m talven fmt FILE --check` for changed `.tal` files. Use `fmt --write` explicitly to apply the canonical layout in a coordinated workspace. See [formatting](docs/formatting.md) for comment preservation and write limits. The native CI matrix checks Linux x86-64 and ARM64, rejects skipped tests, and records each actual compiler/host environment.
 

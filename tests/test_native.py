@@ -35,6 +35,16 @@ class NativeTests(unittest.TestCase):
     def test_vector_example_runs(self):
         self.assertEqual(0, self.compile_run(Path("examples/vectors.tal").read_text()).returncode)
 
+    def test_borrowing_example_and_side_effect_order_with_ubsan(self):
+        paths = [Path("examples/borrowing.tal"), *sorted(Path("tests/fixtures").glob("borrowing-*.tal"))]
+        self.assertEqual(3, len(paths))
+        for path in paths:
+            for optimization in ("-O0", "-O2"):
+                with self.subTest(path=path, optimization=optimization):
+                    result = self.compile_run(path.read_text(), optimization, sanitizer=True)
+                    self.assertEqual(0, result.returncode, result.stderr)
+                    self.assertEqual("", result.stderr)
+
     def test_c_keywords_are_mangled_without_injecting_c(self):
         source = "fn switch(auto: i32) -> i32 { let const = auto; return const; } fn main() -> i32 { return switch(0); }"
         self.assertEqual(0, self.compile_run(source).returncode)
@@ -117,7 +127,7 @@ class CommandTests(unittest.TestCase):
         self.assertEqual(1, invalid.returncode)
         self.assertEqual("E0301", json.loads(invalid.stdout)["diagnostics"][0]["code"])
         result = self.command("context", "examples/vectors.tal", "--symbol", "dot")
-        self.assertEqual("talven.context.v1", json.loads(result.stdout)["schema"])
+        self.assertEqual("talven.context.v2", json.loads(result.stdout)["schema"])
 
     def test_failed_build_preserves_existing_output_and_no_shell_interpolation(self):
         with tempfile.TemporaryDirectory() as temporary:

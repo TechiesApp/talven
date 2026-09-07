@@ -38,6 +38,8 @@ Status definitions:
 | D24 | Proposed | Share frontend analysis between CLI, bounded context, and basic LSP | Proposal 0001; remaining editor features and performance require further work |
 | D25 | Proposed | One token-preserving canonical formatter shared by CLI and LSP | [Proposal 0002](proposals/0002-canonical-formatting-and-native-checks.md); implemented experimental layout, with no token-savings claim |
 | D26 | Proposed | Run native conformance on declared Linux x86-64 and ARM64 CI hosts | Proposal 0002; record real compiler/host/test evidence, reject skips, and keep target claims limited to successful runs |
+| D27 | Proposed | Explicit call-scoped shared/exclusive borrowing of named scalar-field records, with no reference escape | [Proposal 0003](proposals/0003-call-scoped-borrowing.md); implemented experiment with mutation, conflict rejection, and explicit reborrowing |
+| D28 | Proposed | Preserve source-order effects in native lowering and expose borrow contracts through context v2 | Proposal 0003; ordered native fixtures and shared CLI/LSP/context tests; no complete effect system or performance claim |
 
 ## Open decisions
 

@@ -1,0 +1,65 @@
+struct Counter {
+    value: i32,
+    visited: bool
+}
+
+struct Pair {
+    first: i32,
+    second: i32
+}
+
+fn step(c: &mut Counter) -> i32 {
+    c.value = c.value + 1;
+    return c.value;
+}
+
+fn visit(c: &mut Counter) -> bool {
+    c.visited = true;
+    return true;
+}
+
+fn pair(a: i32, b: i32) -> Pair {
+    return Pair { first: a, second: b };
+}
+
+fn consume(c: Counter) -> i32 {
+    return c.value;
+}
+
+fn main() -> i32 {
+    let mut c = Counter { value: 1, visited: false };
+    let p = pair(c.value, step(&mut c));
+    if (p.first != 1 || p.second != 2) {
+        return 1;
+    }
+    let sum = c.value + step(&mut c);
+    if (sum != 5) {
+        return 2;
+    }
+    let reversed = Pair { second: c.value, first: step(&mut c) };
+    if (reversed.second != 3 || reversed.first != 4) {
+        return 3;
+    }
+    let consecutive = pair(step(&mut c), step(&mut c));
+    if (consecutive.first != 5 || consecutive.second != 6) {
+        return 4;
+    }
+    if (false && visit(&mut c)) {
+        return 5;
+    }
+    if (true || visit(&mut c)) {
+        if (c.visited) {
+            return 6;
+        }
+    }
+    if (false || visit(&mut c)) {
+        if (!c.visited) {
+            return 7;
+        }
+    }
+    c.value = step(&mut c) + 1;
+    if (consume(c) != 8) {
+        return 8;
+    }
+    return 0;
+}

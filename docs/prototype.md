@@ -1,8 +1,8 @@
-# M1a reference compiler
+# Reference compiler guide
 
-Status: experimental implementation of `m1a-owned-values-v1`, the first part of M1. The grammar and file extension `.tal` are prototype choices. The broader language design remains under development.
+Status: experimental implementation of `m1c-call-borrows-v1`, building on the M1a/M1b increments. The grammar and file extension `.tal` are prototype choices. The broader language design remains under development.
 
-[M1b](formatting.md) adds a canonical formatter and native CI without changing the grammar below. Its [validation record](formatting-validation.md) supplements the historical M1a results.
+[M1b](formatting.md) introduced canonical formatting and native CI. [M1c](borrowing.md) extends the grammar below with call-scoped borrowing and record-field mutation, with a new context schema. See the [current validation record](borrowing-validation.md); earlier M1a/M1b records remain historical evidence.
 
 ## Run it
 
@@ -27,17 +27,19 @@ program    = { record | function } ;
 record     = "struct", identifier, "{", fields, "}" ;
 fields     = identifier, ":", scalar, { ",", identifier, ":", scalar }, [","] ;
 function   = "fn", identifier, "(", [parameters], ")", "->", type, block ;
-parameters = identifier, ":", type, { ",", identifier, ":", type }, [","] ;
+parameters = identifier, ":", parameter_type, { ",", identifier, ":", parameter_type }, [","] ;
+parameter_type = type | "&", ["mut"], record_name ;
 type       = scalar | record_name ;
 scalar     = "i32" | "bool" ;
 block      = "{", { statement }, "}" ;
-statement  = "let", identifier, [":", type], "=", expression, ";"
+statement  = "let", ["mut"], identifier, [":", type], "=", expression, ";"
+           | identifier, ".", identifier, "=", expression, ";"
            | "return", expression, ";"
            | "if", "(", expression, ")", block, ["else", block]
            | expression, ";" ;
 ~~~
 
-Expressions include decimal integers, `true`, `false`, local names, field reads, named record construction (`Vec2 { x: 1, y: 2 }`), positional calls to named functions, parentheses, unary `-`/`!`, and binary operators. Record construction allows a trailing comma. Call arguments allow a trailing comma. Identifiers use ASCII letters, digits, and underscores, with a letter or underscore first. `//` comments run to the end of the line; input is UTF-8. There are no string literals or imports.
+Expressions include decimal integers, `true`, `false`, local names, field reads, named record construction (`Vec2 { x: 1, y: 2 }`), positional calls to named functions, parentheses, unary `-`/`!`, and binary operators. Direct call arguments may also borrow a named record with `&name` or `&mut name`; see [the exact borrowing rules](borrowing.md). `mut` is a reserved keyword. Record construction allows a trailing comma. Call arguments allow a trailing comma. Identifiers use ASCII letters, digits, and underscores, with a letter or underscore first. `//` comments run to the end of the line; input is UTF-8. There are no string literals or imports.
 
 Precedence, from weakest to strongest: `||`, `&&`, equality (`==`, `!=`), ordered comparisons (`<`, `>`, `<=`, `>=`), addition/subtraction, multiplication/division/remainder, unary operators, field access. Binary operators associate left-to-right. Comparisons do not chain. The frontend rejects operations with incompatible operand types.
 
@@ -64,7 +66,7 @@ fn transfer(item: Item) -> Item {
 
 Control-flow joins consider paths that continue execution. A move in a branch that returns does not invalidate the other continuing branch. Moves in the right side of `&&` or `||` are conservatively considered possible even when the left operand is a constant. This can reject programs a future flow-sensitive checker could accept.
 
-These are **affine stack-value rules**, not a general borrow checker or a resource-management implementation. Records have no nested records, pointers, references, destructors, heap storage, or foreign handles. Discarding a record performs no user-defined cleanup. C lowering may copy a record's representation while the Talven checker enforces its logical move. No zero-copy claim is made.
+These are **affine stack-value rules with call-scoped borrowing**, not a general resource-management implementation. M1c permits shared/exclusive borrowed parameters and scalar-field updates through `let mut` owners or exclusive parameters. References cannot be stored or returned. Records have no nested records, pointer/reference fields, destructors, heap storage, or foreign handles. Discarding a record performs no user-defined cleanup. C lowering may copy a record's representation while the Talven checker enforces its logical move. No zero-copy claim is made.
 
 ## Numeric and execution behavior
 
@@ -77,7 +79,7 @@ These are **affine stack-value rules**, not a general borrow checker or a resour
 
 ## Compiler-generated context
 
-`context` emits one deterministic UTF-8 JSON document under `talven.context.v1`. Its default budget is 16 KiB, measured in bytes including the final newline. `--max-bytes` accepts 1 through 1048576; oversize output produces `E0502` rather than truncated facts. Byte limits are not tokenizer-specific token counts.
+`context` emits one deterministic UTF-8 JSON document under `talven.context.v2`. M1c adds explicit borrowed-parameter contracts; v1 consumers must migrate using [the borrowing guide](borrowing.md). Its default budget is 16 KiB, measured in bytes including the final newline. `--max-bytes` accepts 1 through 1048576; oversize output produces `E0502` rather than truncated facts. Byte limits are not tokenizer-specific token counts.
 
 | Field | Meaning |
 | --- | --- |
@@ -91,7 +93,7 @@ These are **affine stack-value rules**, not a general borrow checker or a resour
 | `functions`, `records` | Checked selected function contracts and relevant record schemas |
 | `dependencies` | Direct callees' contracts; not an unlimited transitive dependency closure |
 | `callers` | Names of functions in this source file that directly call the selected function |
-| `validation` | `frontend-only`: parsing, types, and the prototype's move rules passed |
+| `validation` | `frontend-only`: parsing, types, and the prototype's move/borrow rules passed |
 
 `--symbol` selects a function or record. Omit it to request all declarations, subject to the same budget. `--include-body` adds the selected functions' original text as `untrusted_source_text`; comments in that field are source data and do not authorize tool actions. Comments are omitted from ordinary context facts.
 
@@ -110,6 +112,8 @@ These are **affine stack-value rules**, not a general borrow checker or a resour
 | E0203 / E0204 | Arguments or fields / unsupported type operation |
 | E0205 / E0206 | Missing return / unreachable statement |
 | E0301 | Use after a possible move |
+| E0302 / E0303 | Conflicting active loan / missing mutation permission |
+| E0304 / E0305 | Reference escape or missing explicit reborrow / unsupported borrow or mutation place |
 | E0401 / E0402 / E0403 | Invalid native entry / C build failure / output would replace source |
 | E0501 / E0502 | Stale source / context byte budget |
 | E0601 / E0602 / E0603 / E0604 | Noncanonical layout / formatting output limit / unsupported in-place target / token-preservation failure; see [formatting](formatting.md) |
@@ -137,7 +141,7 @@ nm -u build/vectors.o
 
 Create `build/` first if a previous build has not created it. Freestanding emission omits the hosted `main` adapter and libc trap implementation. It declares `_Noreturn void talven_trap(void)` for the platform to provide. This is an object-generation experiment; startup code, linking, board support, and target-specific helper routines remain the integrator's responsibility. GCC can require memory/compiler support routines in a freestanding environment depending on emitted operations and target. [GCC C language and freestanding support](https://gcc.gnu.org/onlinedocs/gcc/Standards.html)
 
-The historical [M1a validation](prototype-validation.md) names its tested host. The [M1b validation](formatting-validation.md) records subsequent formatter checks and the status of native CI on Linux x86-64 and ARM64. A target declaration alone is not verified execution.
+The historical [M1a validation](prototype-validation.md) and [M1b validation](formatting-validation.md) record earlier target results. The [M1c validation](borrowing-validation.md) records current borrow and native-ordering evidence. A target declaration alone is not verified execution.
 
 ## Why this bootstrap
 
