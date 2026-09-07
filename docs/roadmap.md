@@ -79,7 +79,7 @@ No numeric target is claimed until a baseline exists. Report the model, tokenize
 4. Establish a task corpus and comparison protocol for agent cost and success.
 5. Specify capability transfer and protected policy enforcement.
 6. Choose the first foreign library and first GPU experiment from concrete workloads.
-7. Decide the permanent language name and project license.
+7. Populate the design proposal process with the first grammar, ownership, and context-schema proposals. (The language name and Apache-2.0 license were decided on 7 September 2026.)
 
 These are planning items, not automatically created issues or assigned commitments.
 

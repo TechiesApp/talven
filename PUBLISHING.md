@@ -6,7 +6,7 @@ Talven's public repository is [TechiesApp/talven](https://github.com/TechiesApp/
 
 The initial content consists of design documentation and four Mermaid architecture diagrams: one overall system diagram, two agent and security flowcharts, and one CPU/GPU resource-lifetime sequence. The README links to the requirements, architecture, security model, and roadmap.
 
-This is a design-stage project. No working compiler, executable, dependency installation, CI workflow, or runtime release is included. No project license has been selected.
+This is a design-stage project. No working compiler, executable, dependency installation, or runtime release is included. The repository is licensed under [Apache-2.0](LICENSE). A CI workflow checks relative links, renders Mermaid diagrams, and verifies DCO sign-off on pull requests.
 
 ## Get the repository
 

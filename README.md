@@ -43,7 +43,11 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 | [Roadmap](docs/roadmap.md) | Staged experiments and evidence gates |
 | [Decision register](docs/decisions.md) | Requirements, proposals, unresolved decisions, and limits |
 | [References](docs/references.md) | Primary guidance supporting the security discussion |
+| [Design proposals](docs/proposals/README.md) | How a design change is written, discussed, and accepted |
 | [Contributing](CONTRIBUTING.md) | How to propose and evaluate design changes |
+| [Governance](GOVERNANCE.md) | Roles and how decisions are made |
+| [Security policy](SECURITY.md) | How to report a security concern privately |
+| [Code of conduct](CODE_OF_CONDUCT.md) | Expected behavior in project spaces |
 
 ## Scope and limits
 
@@ -60,4 +64,8 @@ Prove the agent workflow alongside a small safe native subset: compile a useful 
 
 ## Project status
 
-The language is named **Talven**. Its public repository is [TechiesApp/talven](https://github.com/TechiesApp/talven). Implementation language, final grammar, and licensing remain open decisions. No project license has been selected in this initial design package.
+The language is named **Talven**. Its public repository is [TechiesApp/talven](https://github.com/TechiesApp/talven). Implementation language and final grammar remain open decisions. Design work proceeds through [design proposals](docs/proposals/README.md) and GitHub Discussions.
+
+## License
+
+Talven is licensed under the [Apache License, Version 2.0](LICENSE). Contributions are accepted under the same license and must be signed off under the [Developer Certificate of Origin](https://developercertificate.org/); see [CONTRIBUTING.md](CONTRIBUTING.md).

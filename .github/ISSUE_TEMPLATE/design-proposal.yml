@@ -1,0 +1,40 @@
+name: Design proposal
+description: Propose a change to Talven's requirements, semantics, architecture, or roadmap
+title: "[Proposal] "
+labels: ["proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Substantial proposals should become a document under `docs/proposals/` via pull request. Use this issue to scope the idea first. Everything in this repository is a proposal unless implementation evidence exists.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is hard, unclear, or costly today, for an LLM coding agent and for a human reader?
+    validations:
+      required: true
+  - type: input
+    id: requirements
+    attributes:
+      label: Requirement IDs affected
+      description: From docs/requirements.md, for example R08, R10
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed direction
+      description: The semantics or behavior you propose. Label illustrative syntax as non-normative.
+    validations:
+      required: true
+  - type: textarea
+    id: costs
+    attributes:
+      label: Costs and implications
+      description: Agent context, runtime and memory, security boundary, target constraints, interoperability.
+  - type: textarea
+    id: evaluation
+    attributes:
+      label: How would we evaluate this?
+      description: The measurement, corpus, or negative test cases that would show the claim is right. Do not invent numbers.

@@ -18,7 +18,7 @@ Use deterministic source and dependency context. Do not treat stale summaries or
 
 ## Verification and evidence
 
-Check relative links and consistency for documentation changes. Use meaningful behavioral verification for implementation changes when an implementation exists.
+Run `node scripts/check-docs.mjs` for documentation changes; it verifies relative links and renders Mermaid diagrams and is the same check CI runs. Substantial design changes go through `docs/proposals/`. Use meaningful behavioral verification for implementation changes when an implementation exists.
 
 Record benchmark inputs, model and tokenizer versions, target, compiler settings, hardware, and correctness criteria. Never invent measurements or claim checks ran when they did not.
 

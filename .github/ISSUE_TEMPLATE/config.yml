@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Design discussion or idea
+    url: https://github.com/TechiesApp/talven/discussions
+    about: Ideas that are not yet ready for a formal proposal. Start here.
+  - name: Security concern
+    url: https://github.com/TechiesApp/talven/security/policy
+    about: Report security-relevant problems privately, not as a public issue.

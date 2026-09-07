@@ -31,12 +31,13 @@ Status definitions:
 | D17 | Limit | Provider prompt caching is distinct from compiler and build caching | Record different keys, costs, invalidation, and trust assumptions |
 | D18 | Requirement | A public repository under TechiesApp | TechiesApp/talven was created by the project owner; public visibility verified on 7 September 2026 |
 | D19 | Accepted | The language is named Talven, pronounced TAL-ven | Selected by the project owner on 7 September 2026; repository: TechiesApp/talven |
+| D20 | Accepted | Apache License 2.0 for all repository content; contributions under DCO sign-off | Chosen on 7 September 2026 for its explicit patent grant and wide organizational acceptance; see [LICENSE](../LICENSE) |
+| D21 | Accepted | Design changes proceed through numbered proposals in `docs/proposals/` with decisions recorded here | Established on 7 September 2026; see [GOVERNANCE.md](../GOVERNANCE.md) |
 
 ## Open decisions
 
 | Decision | Questions to resolve |
 | --- | --- |
-| Project license | What reuse terms should apply to future code and existing design material? |
 | Compiler implementation | Which bootstrap language and backend best support the first experiment? |
 | Type model | Which nominal/structural rules, generics, and composition features are necessary? |
 | Borrowing model | What references may escape scopes or cross suspension and task boundaries? |

@@ -1,0 +1,42 @@
+name: Docs check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  links-and-diagrams:
+    name: Relative links and Mermaid diagrams
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check links and render diagrams
+        run: node scripts/check-docs.mjs
+
+  dco:
+    name: Developer Certificate of Origin sign-off
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Every commit in the PR carries a Signed-off-by trailer
+        run: |
+          set -euo pipefail
+          range="${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}"
+          missing=0
+          while read -r sha; do
+            if ! git log -1 --format=%B "$sha" | grep -qE '^Signed-off-by: .+ <.+@.+>$'; then
+              echo "::error::Commit $sha is missing a Signed-off-by trailer (use git commit -s)"
+              missing=1
+            fi
+          done < <(git rev-list --no-merges "$range")
+          exit $missing
