@@ -5,6 +5,9 @@
 //
 // Usage: node scripts/check-docs.mjs [--no-mermaid]
 // Requires Node 18+. Mermaid rendering needs `npx @mermaid-js/mermaid-cli`.
+// puppeteer-config.json disables the Chromium sandbox so rendering works on
+// CI runners that block unprivileged user namespaces (Ubuntu 24.04+). Only
+// trusted repository content is rendered.
 
 import { readdirSync, readFileSync, statSync, existsSync, mkdtempSync, writeFileSync } from "node:fs";
 import { join, dirname, resolve, relative } from "node:path";
@@ -50,6 +53,7 @@ console.log(`links: ${linkCount} relative links checked across ${files.length} f
 if (!skipMermaid) {
   const fenceRe = /^(`{3,}|~{3,})mermaid[^\n]*\n([\s\S]*?)\n\1[ \t]*$/gm;
   const tmp = mkdtempSync(join(tmpdir(), "talven-mermaid-"));
+  const puppeteerConfig = join(root, "scripts", "puppeteer-config.json");
   let blocks = 0;
   for (const file of files) {
     const text = readFileSync(file, "utf8");
@@ -59,7 +63,7 @@ if (!skipMermaid) {
       const base = `${relative(root, file).replace(/[\/\\]/g, "__")}.${i}`;
       const input = join(tmp, `${base}.mmd`);
       writeFileSync(input, m[2]);
-      const r = spawnSync("npx", ["--yes", "-p", "@mermaid-js/mermaid-cli", "mmdc", "-q", "-i", input, "-o", join(tmp, `${base}.svg`)], { encoding: "utf8" });
+      const r = spawnSync("npx", ["--yes", "-p", "@mermaid-js/mermaid-cli", "mmdc", "-q", "-p", puppeteerConfig, "-i", input, "-o", join(tmp, `${base}.svg`)], { encoding: "utf8" });
       if (r.status !== 0) fail(`${relative(root, file)}: mermaid block ${i} failed to render\n${(r.stderr || r.stdout).trim()}`);
     }
   }
