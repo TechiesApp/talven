@@ -4,7 +4,7 @@ Status: initial governance for a design-stage project. It is intentionally simpl
 
 ## Roles
 
-**Project owner.** Techies App Technologies Sdn Bhd (TechiesApp, [techies.app](https://techies.app)), acting through the repository administrators, owns the project name, repository, and final decision authority during the design stage.
+**Project owner.** Techies App Technologies Sdn Bhd (TechiesApp, [techies.app](https://techies.app); legal details in [NOTICE](NOTICE)), acting through the repository administrators, owns the project name, repository, and final decision authority during the design stage.
 
 **Maintainers.** People with write access who review proposals and pull requests. The initial maintainer set is the project owner. Maintainers are added by the project owner and listed in this file when the set grows beyond one.
 
