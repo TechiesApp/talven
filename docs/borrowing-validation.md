@@ -38,7 +38,19 @@ The invalid borrowing example must return E0302. CI additionally checks formatti
 
 ## Hosted target evidence
 
-M1c CI results will be recorded here after publication. Earlier [M1b target results](formatting-validation.md) cover the previous profile and are not borrowing validation. The declared matrix remains Linux x86-64 with Python 3.11/3.12 and Linux ARM64 with Python 3.12.
+The [first M1c native run](https://github.com/TechiesApp/talven/actions/runs/34115045076) succeeded on 7 September 2026 for commit `c1ebc28a65ec91ad9657db3c90f97f66e4201f54`. All jobs reported the compiler fingerprint recorded above.
+
+| Host and C target | Python | Test suite | ASan/UBSan executions | Job evidence |
+| --- | --- | --- | --- | --- |
+| Linux x86-64, `x86_64-linux-gnu` | 3.11.16 | 80 passed, no skips | 6 passed | [Job 101719770956](https://github.com/TechiesApp/talven/actions/runs/34115045076/job/101719770956) |
+| Linux x86-64, `x86_64-linux-gnu` | 3.12.14 | 80 passed, no skips | 6 passed | [Job 101719770688](https://github.com/TechiesApp/talven/actions/runs/34115045076/job/101719770688) |
+| Linux ARM64, `aarch64-linux-gnu` | 3.12.14 | 80 passed, no skips | 6 passed | [Job 101719771013](https://github.com/TechiesApp/talven/actions/runs/34115045076/job/101719771013) |
+
+All three jobs used GCC 13.3.0, Ubuntu package `13.3.0-6ubuntu2~24.04.1`. The six sanitizer executions are three programs at two optimization levels, with address/undefined-behavior checks and explicit leak/stack-use-after-return detection. Each job also verified its actual architecture, checked all seven example/fixture layouts, and built and executed both CLI examples. The local LeakSanitizer limitation did not occur on these CI hosts.
+
+The [documentation job](https://github.com/TechiesApp/talven/actions/runs/34115045136/job/101719771446) passed all 135 relative links and four Mermaid renders for that commit. The [DCO job](https://github.com/TechiesApp/talven/actions/runs/34115045136/job/101719771347) also passed. These CI results supply the rendering and full sanitizer evidence unavailable locally.
+
+Earlier [M1b target results](formatting-validation.md) cover the previous profile; they remain separate historical evidence.
 
 ## Limits
 

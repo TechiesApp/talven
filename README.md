@@ -23,7 +23,7 @@ python3 -m unittest discover -s tests -v
 
 The vector example exits zero when its calculation is correct. See the [prototype guide](docs/prototype.md) for grammar, ownership rules, diagnostics, context/cache identity, LSP integration, and freestanding emission. See the [validation record](docs/prototype-validation.md) for actual target evidence.
 
-The current **80 tests pass locally on Linux x86-64**. See the [M1c validation record](docs/borrowing-validation.md) for borrowing coverage and target results. Historical [M1b validation](docs/formatting-validation.md) records 61 passing tests on Linux x86-64 and ARM64 for the previous profile.
+Native CI passed all **80 tests on Linux x86-64 and ARM64**, with no skips. All three jobs also passed six ASan/UBSan borrowing executions and built and ran both CLI examples. See the [M1c validation record](docs/borrowing-validation.md) for exact host, compiler, and job evidence.
 
 The implemented subset has `i32`, `bool`, functions, conditionals, and move-only records containing scalars. [M1c borrowing](docs/borrowing.md) adds `let mut` record owners, shared `&Record` and exclusive `&mut Record` call arguments, and field assignment. References cannot be stored or returned. Escaping references, heap/resource cleanup, full LSP features, concurrency, GPU backends, package adapters, and comparative model benchmarks remain future work.
 
