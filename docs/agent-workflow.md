@@ -1,6 +1,6 @@
 # Agent-first workflow
 
-Status: broader proposed interfaces and evaluation plan. [M1a](prototype.md) now implements bounded context lookup, structured diagnostics, and basic LSP features through one frontend. Provider caching, persistent semantic caches, atomic edit validation, and comparative model evaluations remain future work.
+Status: broader proposed interfaces and evaluation plan. [M1a](prototype.md) implements bounded context lookup, structured diagnostics, and basic LSP features through one frontend. [M1b](formatting.md) adds shared CLI/LSP formatting. Provider caching, persistent semantic caches, atomic edit validation, and comparative model evaluations remain future work.
 
 ## Optimize completed work
 
@@ -60,6 +60,8 @@ Cache integrity and isolation matter. Do not share secrets across users or proje
 Prioritize incremental parsing and diagnostics, completion, definition, references, rename, formatting, documentation, and contextual ownership/effect information.
 
 Use the compiler's semantic model for both human and agent tooling so they do not disagree about types or permissions. Editor responsiveness and context retrieval latency are explicit evaluation criteria.
+
+The implemented formatter uses the shared parser without requiring successful type checking. It preserves tokens/comments and returns version-independent LSP text edits; clients must discard a formatting response if their document changed. Exact source/context hashes must be refreshed after an applied edit. The CLI's freshness checks are not atomic compare-and-swap enforcement.
 
 ## Protected agent execution
 

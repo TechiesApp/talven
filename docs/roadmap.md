@@ -14,6 +14,8 @@ Current repository contribution: requirements and architecture are documented. T
 
 Current increment: **M1a reference compiler**. Implemented parsing, strict scalar types, affine scalar-field records, functions, conditionals, structured diagnostics, deterministic bounded context, C11 lowering, and a basic LSP. See [actual validation](prototype-validation.md). This increment does not complete the full M1 gate.
 
+Following increment: **M1b formatting and native checks**. The CLI and LSP share a token-preserving canonical formatter, with explicit file writes and structured check diagnostics. Native CI declares Linux x86-64 and ARM64 jobs; see [M1b scope](formatting.md) and [its execution evidence](formatting-validation.md). Borrowing and controlled model evaluation remain open.
+
 Prototype parsing, strict types, functions, basic data types, a limited ownership model, deterministic diagnostics, a formatter, and compiler-derived context lookup.
 
 Compile and run a useful small program on the first ARM64 and x86-64 hosts. Keep the source of truth shared between CLI, LSP, and agent interfaces from the beginning.
@@ -75,12 +77,12 @@ No numeric target is claimed until a baseline exists. Report the model, tokenize
 
 ## Remaining foundation work
 
-1. Extend the prototype's scalar/record rules with a defined borrowing model and canonical formatting.
+1. Extend the prototype's scalar/record rules with a defined borrowing model; the initial canonical formatter is implemented in M1b.
 2. Evaluate the bounded context and diagnostics with agents, then define atomic edit validation.
-3. Verify ARM64 execution and measure bootstrap/backend costs before deciding production implementation choices.
+3. Review the new native CI evidence on ARM64/x86-64 and measure bootstrap/backend costs before deciding production implementation choices.
 4. Run the initial task corpus and establish equivalent cross-language baselines for agent cost and success.
 5. Specify capability transfer and protected policy enforcement.
 6. Choose the first foreign library and first GPU experiment from concrete workloads.
-7. Review [Proposal 0001](proposals/0001-m1a-reference-compiler.md) and record decisions from the first grammar, ownership, and context experiments. The language name and Apache-2.0 license are already selected.
+7. Review [Proposal 0001](proposals/0001-m1a-reference-compiler.md) and [Proposal 0002](proposals/0002-canonical-formatting-and-native-checks.md), recording decisions from the grammar, ownership, context, and formatting experiments. The language name and Apache-2.0 license are already selected.
 
 These are planning items, not automatically created issues or assigned commitments.

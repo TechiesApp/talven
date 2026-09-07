@@ -66,7 +66,7 @@ Provide one coherent developer entry point for building, running, testing, forma
 
 A capable development installation does not require a large deployed executable. Build tools and optional development services can stay on the developer machine.
 
-No CLI command names or installation procedure are specified yet.
+The [prototype guide](prototype.md) and [formatting guide](formatting.md) describe the implemented CLI commands. Production installation and the broader toolkit remain open design work.
 
 ## Targets and ABI
 

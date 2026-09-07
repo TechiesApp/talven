@@ -6,7 +6,7 @@ from pathlib import Path
 import platform
 import unicodedata
 
-from . import PROFILE, VERSION
+from . import FORMAT_PROFILE, PROFILE, VERSION
 from .frontend import Analysis, CompileError, Expr, Function, Span, Statement
 
 SCHEMA = "talven.context.v1"
@@ -74,7 +74,7 @@ def context(analysis: Analysis, symbol: str | None = None, max_bytes: int = 1638
     inputs = {"schema": SCHEMA, "compiler_version": VERSION, "compiler_hash": compiler_hash(),
               "bootstrap_runtime": {"implementation": platform.python_implementation(),
                                     "version": platform.python_version(), "unicode": unicodedata.unidata_version},
-              "source_hash": revision, "profile": PROFILE,
+              "source_hash": revision, "profile": PROFILE, "formatter_profile": FORMAT_PROFILE,
               "target": "c11-freestanding" if freestanding else "c11-hosted",
               "symbol": symbol, "include_body": include_body}
     result = {**inputs, "cache_key": hashlib.sha256(encode(inputs).encode("utf-8")).hexdigest(),

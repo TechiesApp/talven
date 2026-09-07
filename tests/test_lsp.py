@@ -4,6 +4,7 @@ import unittest
 from unittest.mock import patch
 
 from talven.frontend import analyze, source_range
+from talven.formatter import format_source
 from talven.lsp import Server, offset_at, read_message, serve, write_message
 
 URI = "file:///workspace/example.tal"
@@ -43,6 +44,7 @@ class LspTests(unittest.TestCase):
         first = read_message(io.BytesIO(output.getvalue()))
         self.assertEqual("utf-16", first["result"]["capabilities"]["positionEncoding"])
         self.assertEqual(1, first["result"]["capabilities"]["textDocumentSync"]["change"])
+        self.assertTrue(first["result"]["capabilities"]["documentFormattingProvider"])
 
     def test_editor_and_compiler_share_diagnostics_without_execution(self):
         invalid = "fn main() -> i32 { return false; }"
@@ -104,3 +106,38 @@ class LspTests(unittest.TestCase):
         output = io.BytesIO()
         self.assertEqual(1, serve(io.BytesIO(raw), output))
         self.assertEqual(-32700, read_message(io.BytesIO(output.getvalue()))["error"]["code"])
+
+    def formatting(self, options=None):
+        self.server.handle({"id": 4, "method": "textDocument/formatting", "params": {
+            "textDocument": {"uri": URI}, "options": options or {"tabSize": 4, "insertSpaces": True}}})
+        return self.messages()[-1]
+
+    def test_formatting_returns_utf16_edit_without_mutating_document(self):
+        source = "fn main()->i32{return 0;}// 😀"
+        self.open(source, version=3)
+        with patch("subprocess.run", side_effect=AssertionError("LSP must not execute tools")):
+            edits = self.formatting({"tabSize": 8, "insertSpaces": False})["result"]
+        self.assertEqual(1, len(edits))
+        self.assertEqual({"line": 0, "character": len(source) + 1}, edits[0]["range"]["end"])
+        self.assertEqual(format_source(source), edits[0]["newText"])
+        self.assertEqual(source, self.server.documents[URI].source)
+        self.assertEqual(3, self.server.documents[URI].version)
+
+    def test_formatting_type_errors_succeeds_but_syntax_errors_produce_no_edit(self):
+        self.open("fn main()->i32{return false;}")
+        self.assertIsNone(self.server.documents[URI].analysis)
+        self.assertIn("return false;", self.formatting()["result"][0]["newText"])
+        self.open("fn main()->i32{return 0}", version=2)
+        error = self.formatting()["error"]
+        self.assertEqual(-32803, error["code"])
+        self.assertEqual("E0002", error["data"]["diagnostics"][0]["code"])
+
+    def test_formatting_noop_and_invalid_options(self):
+        self.open(format_source(SOURCE))
+        self.assertEqual([], self.formatting()["result"])
+        self.assertEqual(-32602, self.formatting({"tabSize": True, "insertSpaces": True})["error"]["code"])
+        self.assertEqual(-32602, self.formatting({"tabSize": 4})["error"]["code"])
+
+    def test_formatting_does_not_fetch_unopened_uris(self):
+        self.assertEqual(-32602, self.formatting()["error"]["code"])
+        self.assertEqual({}, self.server.documents)

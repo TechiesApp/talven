@@ -6,7 +6,7 @@ Pronounced **TAL-ven**.
 
 A proposal for a native programming language designed first for LLM coding agents, with a clear source language for humans, strong safety, and explicit control over hardware and resources.
 
-**Status: experimental M1a compiler prototype.** The repository contains a small working reference compiler alongside the broader language proposal. It checks types and move-only scalar-field records, emits native programs through C11, returns structured agent context, and provides a basic LSP. It is not a production language release or completion of the full M1 milestone. The language name was selected on 7 September 2026.
+**Status: experimental compiler with M1b formatting tools.** The repository contains a small working reference compiler alongside the broader language proposal. It checks types and move-only scalar-field records, emits native programs through C11, returns structured agent context, and shares a canonical formatter between CLI and LSP. It is not a production language release or completion of the full M1 milestone. The language name was selected on 7 September 2026.
 
 ## Try the prototype
 
@@ -14,6 +14,7 @@ From the repository root, use Python 3.11+ and a C11 compiler named `cc` for nat
 
 ~~~sh
 python3 -m talven check examples/vectors.tal --json
+python3 -m talven fmt examples/vectors.tal --check --json
 python3 -m talven context examples/vectors.tal --symbol dot --include-body
 python3 -m talven build examples/vectors.tal -o build/vectors
 ./build/vectors
@@ -22,7 +23,7 @@ python3 -m unittest discover -s tests -v
 
 The vector example exits zero when its calculation is correct. See the [prototype guide](docs/prototype.md) for grammar, ownership rules, diagnostics, context/cache identity, LSP integration, and freestanding emission. See the [validation record](docs/prototype-validation.md) for actual target evidence.
 
-The implemented subset has `i32`, `bool`, immutable locals, functions, conditionals, and move-only records containing scalars. Borrowed references, heap/resource cleanup, a formatter, full LSP features, concurrency, GPU backends, package adapters, and comparative model benchmarks remain future work.
+The implemented subset has `i32`, `bool`, immutable locals, functions, conditionals, and move-only records containing scalars. [M1b formatting](docs/formatting.md) adds deterministic layout and editor formatting without changing these language rules. Borrowed references, heap/resource cleanup, full LSP features, concurrency, GPU backends, package adapters, and comparative model benchmarks remain future work.
 
 ## Product goal
 
@@ -50,6 +51,8 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 | --- | --- |
 | [Prototype guide](docs/prototype.md) | Implemented M1a grammar, commands, contracts, limits, and design tradeoffs |
 | [Prototype validation](docs/prototype-validation.md) | Reproducible tests and actual target evidence |
+| [Formatting guide](docs/formatting.md) | Canonical CLI/LSP formatting, explicit writes, and cache/target implications |
+| [M1b validation](docs/formatting-validation.md) | Formatter checks and native CI evidence |
 | [Agent experiments](experiments/README.md) | Initial task corpus and model evaluation protocol |
 | [Requirements](docs/requirements.md) | Traceable record of the product requirements and evidence needed to satisfy them |
 | [Architecture](docs/architecture.md) | Compiler, native core, optional modules, target support, and toolchain |
@@ -79,7 +82,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 
 ## First implementation objective
 
-The M1a prototype starts the agent workflow and native subset. Completing M1 still requires ARM64 execution evidence, a defined borrowing subset, canonical formatting, and controlled agent task evaluations. Expand the runtime and ecosystem after these foundations have evidence.
+The M1a prototype starts the agent workflow and native subset; M1b adds canonical formatting and native CI for Linux x86-64 and ARM64. Consult the validation records for successful target runs. Completing M1 still requires a defined borrowing subset and controlled agent task evaluations. Expand the runtime and ecosystem after these foundations have evidence.
 
 ## Project status
 
