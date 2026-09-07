@@ -1,0 +1,37 @@
+struct Counter {
+    value: i32
+}
+
+fn read_twice(a: &Counter, b: &Counter) -> i32 {
+    return a.value + b.value;
+}
+
+fn shared_forward(c: &Counter) -> i32 {
+    return read_twice(&c, &c);
+}
+
+fn descend(c: &mut Counter) -> i32 {
+    if (c.value > 0) {
+        c.value = c.value - 1;
+        return descend(&mut c);
+    }
+    return shared_forward(&c);
+}
+
+fn moved_owner(c: Counter) -> i32 {
+    let mut local = c;
+    local.value = 10;
+    return descend(&mut local);
+}
+
+fn main() -> i32 {
+    let mut c = Counter { value: 40 };
+    if (descend(&mut c) != 0 || c.value != 0) {
+        return 1;
+    }
+    c.value = 2;
+    if (read_twice(&c, &c) != 4) {
+        return 2;
+    }
+    return moved_owner(c);
+}

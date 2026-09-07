@@ -69,10 +69,16 @@ jobs:
           PY
       - name: Check example formatting
         run: |
-          for source in examples/*.tal examples/invalid/*.tal; do
+          for source in examples/*.tal examples/invalid/*.tal tests/fixtures/*.tal; do
             python3 -m talven fmt "$source" --check --json
           done
-      - name: Build and execute the native CLI example
+      - name: Check native borrow lifetimes and ordering with ASan and UBSan
+        env:
+          ASAN_OPTIONS: detect_leaks=1:detect_stack_use_after_return=1:halt_on_error=1
+        run: python3 scripts/check-borrow-sanitizers.py
+      - name: Build and execute the native CLI examples
         run: |
           python3 -m talven build examples/vectors.tal -o build/vectors
           ./build/vectors
+          python3 -m talven build examples/borrowing.tal -o build/borrowing
+          ./build/borrowing

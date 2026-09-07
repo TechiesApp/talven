@@ -1,6 +1,6 @@
-# M1b canonical formatting
+# Canonical formatting
 
-Status: implemented experimental tooling, profile `m1b-layout-v1`, compiler version `0.2.0-dev`. The language semantics remain `m1a-owned-values-v1`. This increment adds formatting and native CI; it does not complete M1 or introduce borrowed references.
+Status: implemented experimental tooling. M1b introduced `m1b-layout-v1` for the owned-value subset. The current M1c compiler `0.3.0-dev` uses `m1c-layout-v1` with `m1c-call-borrows-v1`, preserving the layout rules below while adding borrow/mutation tokens. See [borrowing](borrowing.md) for the language extension and context migration; full M1 still needs controlled agent evaluation.
 
 ## Commands
 
@@ -69,14 +69,14 @@ The freshness check and replacement are separate operations. There remains a rac
 | E0604 | Internal token-preservation check failed; no edit is produced |
 | E0901 | File, encoding, or replacement failure |
 
-Compiler context adds `formatter_profile` to the identity fields of `talven.context.v1`. The compiler fingerprint also covers the formatter and source-edit modules. Formatting changes exact source bytes, so source/context hashes must be refreshed after applying an edit. A successful formatting check does not establish type correctness. Run `check` and the relevant independent tests after semantic edits.
+Compiler context includes `formatter_profile` in its identity fields. M1b introduced this in `talven.context.v1`; M1c uses `talven.context.v2` for new borrowed-parameter contracts. The compiler fingerprint also covers the formatter and source-edit modules. Formatting changes exact source bytes, so source/context hashes must be refreshed after applying an edit. A successful formatting check does not establish type correctness. Run `check` and the relevant independent tests after semantic edits.
 
 Consistent formatting is intended to reduce unnecessary diffs and agent style decisions. No token savings, cache-hit improvement, latency target, or model success-rate gain has been measured. The formatter adds build/editor work but does not add code or a runtime dependency to generated native programs.
 
 ## Native verification
 
-The new [compiler workflow](../.github/workflows/compiler-check.yml) declares Linux x86-64 with Python 3.11/3.12 and Linux ARM64 with Python 3.12. Each job verifies its actual machine architecture, requires `cc` and `nm`, runs the full suite with no skips, checks example formatting, and builds and executes the CLI vector example. A job summary records Python, C compiler/target, compiler fingerprint, and test counts.
+The new [compiler workflow](../.github/workflows/compiler-check.yml) declares Linux x86-64 with Python 3.11/3.12 and Linux ARM64 with Python 3.12. Each job verifies its actual machine architecture, requires `cc` and `nm`, runs the full suite with no skips, checks example formatting, and builds and executes the CLI vector and borrowing examples. M1c also requires a separate ASan/UBSan check of borrowed lifetimes and observable evaluation order at two optimization levels. A job summary records Python, C compiler/target, compiler fingerprint, and test counts.
 
 The actions use full commit pins verified against official releases: [checkout v7.0.1](https://github.com/actions/checkout/releases/tag/v7.0.1) and [setup-python v7.0.0](https://github.com/actions/setup-python/releases/tag/v7.0.0). The workflow requests read-only repository contents and disables persisted checkout credentials; it neither publishes releases nor changes deployment settings. Pins and runner images still need maintenance. A checked-in workflow is not independent enforcement against someone who can modify it.
 
-[GitHub's runner reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners) lists `ubuntu-24.04` and `ubuntu-24.04-arm` for public repositories. Declaring a runner does not prove successful execution: consult the [validation record](formatting-validation.md) and actual pull-request checks. These jobs do not validate GPUs, Windows/macOS, boards, all ARM/x86 variants, or the broader planned language.
+[GitHub's runner reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners) lists `ubuntu-24.04` and `ubuntu-24.04-arm` for public repositories. Declaring a runner does not prove successful execution: consult the [historical M1b record](formatting-validation.md), [current M1c record](borrowing-validation.md), and actual pull-request checks. These jobs do not validate GPUs, Windows/macOS, boards, all ARM/x86 variants, or the broader planned language.

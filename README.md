@@ -6,7 +6,7 @@ Pronounced **TAL-ven**.
 
 A proposal for a native programming language designed first for LLM coding agents, with a clear source language for humans, strong safety, and explicit control over hardware and resources.
 
-**Status: experimental compiler with M1b formatting tools.** The repository contains a small working reference compiler alongside the broader language proposal. It checks types and move-only scalar-field records, emits native programs through C11, returns structured agent context, and shares a canonical formatter between CLI and LSP. It is not a production language release or completion of the full M1 milestone. The language name was selected on 7 September 2026.
+**Status: experimental compiler with M1c call-scoped borrowing.** The repository contains a small working reference compiler alongside the broader language proposal. It checks types, moves, shared/exclusive borrows, and scalar-field mutation; emits native programs through C11; returns structured agent context; and shares a canonical formatter between CLI and LSP. It is not a production language release or completion of the full M1 milestone. The language name was selected on 7 September 2026.
 
 ## Try the prototype
 
@@ -23,9 +23,11 @@ python3 -m unittest discover -s tests -v
 
 The vector example exits zero when its calculation is correct. See the [prototype guide](docs/prototype.md) for grammar, ownership rules, diagnostics, context/cache identity, LSP integration, and freestanding emission. See the [validation record](docs/prototype-validation.md) for actual target evidence.
 
-Native CI has passed all **61 tests on Linux x86-64 and ARM64**, including building and running the CLI example. See the [M1b validation record](docs/formatting-validation.md) for exact compiler, Python, target, and job evidence.
+Native CI passed all **80 tests on Linux x86-64 and ARM64**, with no skips. All three jobs also passed six ASan/UBSan borrowing executions and built and ran both CLI examples. See the [M1c validation record](docs/borrowing-validation.md) for exact host, compiler, and job evidence.
 
-The implemented subset has `i32`, `bool`, immutable locals, functions, conditionals, and move-only records containing scalars. [M1b formatting](docs/formatting.md) adds deterministic layout and editor formatting without changing these language rules. Borrowed references, heap/resource cleanup, full LSP features, concurrency, GPU backends, package adapters, and comparative model benchmarks remain future work.
+The implemented subset has `i32`, `bool`, functions, conditionals, and move-only records containing scalars. [M1c borrowing](docs/borrowing.md) adds `let mut` record owners, shared `&Record` and exclusive `&mut Record` call arguments, and field assignment. References cannot be stored or returned. Escaping references, heap/resource cleanup, full LSP features, concurrency, GPU backends, package adapters, and comparative model benchmarks remain future work.
+
+Try `python3 -m talven build examples/borrowing.tal -o build/borrowing`, then `./build/borrowing`. The example updates a record through an exclusive borrow and then reads it through a shared borrow.
 
 ## Product goal
 
@@ -51,10 +53,12 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 
 | Document | Purpose |
 | --- | --- |
-| [Prototype guide](docs/prototype.md) | Implemented M1a grammar, commands, contracts, limits, and design tradeoffs |
+| [Prototype guide](docs/prototype.md) | Current implemented grammar, commands, contracts, limits, and design tradeoffs |
 | [Prototype validation](docs/prototype-validation.md) | Historical M1a tests and initial x86-64 evidence |
 | [Formatting guide](docs/formatting.md) | Canonical CLI/LSP formatting, explicit writes, and cache/target implications |
-| [M1b validation](docs/formatting-validation.md) | Formatter checks and native CI evidence |
+| [M1b validation](docs/formatting-validation.md) | Historical formatter checks and native CI evidence |
+| [Borrowing guide](docs/borrowing.md) | Call-scoped loans, mutation, evaluation order, and context v2 migration |
+| [M1c validation](docs/borrowing-validation.md) | Borrow rejection, native ordering/lifetimes, LSP/context, and sanitizer evidence |
 | [Agent experiments](experiments/README.md) | Initial task corpus and model evaluation protocol |
 | [Requirements](docs/requirements.md) | Traceable record of the product requirements and evidence needed to satisfy them |
 | [Architecture](docs/architecture.md) | Compiler, native core, optional modules, target support, and toolchain |
@@ -84,7 +88,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 
 ## First implementation objective
 
-The M1a prototype starts the agent workflow and native subset; M1b adds canonical formatting and native CI for Linux x86-64 and ARM64. Consult the validation records for successful target runs. Completing M1 still requires a defined borrowing subset and controlled agent task evaluations. Expand the runtime and ecosystem after these foundations have evidence.
+M1a starts the agent workflow and native subset; M1b adds canonical formatting and native CI; M1c adds a defined call-scoped borrowing subset. Consult the validation records for successful target runs. Completing M1 still requires controlled agent task evaluations and review of the implemented rules. Expand the runtime and ecosystem after these foundations have evidence.
 
 ## Project status
 

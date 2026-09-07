@@ -1,6 +1,6 @@
 # Agent-first workflow
 
-Status: broader proposed interfaces and evaluation plan. [M1a](prototype.md) implements bounded context lookup, structured diagnostics, and basic LSP features through one frontend. [M1b](formatting.md) adds shared CLI/LSP formatting. Provider caching, persistent semantic caches, atomic edit validation, and comparative model evaluations remain future work.
+Status: broader proposed interfaces and evaluation plan. [M1a](prototype.md) implements bounded context lookup, structured diagnostics, and basic LSP features through one frontend. [M1b](formatting.md) adds shared CLI/LSP formatting. [M1c](borrowing.md) adds call-scoped borrow contracts to context v2 and matching LSP diagnostics/hover. Provider caching, persistent semantic caches, atomic edit validation, and comparative model evaluations remain future work.
 
 ## Optimize completed work
 
@@ -21,6 +21,8 @@ A context request should be able to return a bounded view of:
 - The exact revision and context schema version.
 
 Use stable symbol identity within a defined revision scheme, deterministic ordering, and dependency-aware invalidation. Expand implementations only when the task needs them.
+
+The current context v2 reports copy/move/shared-borrow/exclusive-borrow parameter modes, call scope, nonescape, and permitted mutation. Mutation permission is not a complete effect analysis. Consumers must recognize the schema/profile and obtain fresh context after changing source or upgrading the compiler.
 
 Comments and natural-language summaries may supplement these facts. They cannot override checked semantics.
 

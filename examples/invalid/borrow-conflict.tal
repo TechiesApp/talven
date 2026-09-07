@@ -1,0 +1,14 @@
+struct Counter {
+    value: i32
+}
+
+fn combine(writer: &mut Counter, reader: &Counter) -> i32 {
+    writer.value = reader.value;
+    return writer.value;
+}
+
+fn main() -> i32 {
+    let mut counter = Counter { value: 0 };
+    // E0302: the second argument conflicts with the exclusive first borrow.
+    return combine(&mut counter, &counter);
+}

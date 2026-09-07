@@ -1,8 +1,9 @@
 """One parser and semantic checker shared by the CLI, context API, and LSP.
 
 The prototype deliberately stops at the first diagnostic. Records contain only
-scalars and are affine values: they may be moved once or discarded, with no
-user-defined destructor, heap allocation, reference, or foreign resource.
+scalars and are affine values. Named records may be borrowed for a call, with
+shared reads or exclusive field mutation. References cannot be stored or
+returned. There is no heap allocation, destructor, or foreign resource.
 """
 
 from __future__ import annotations
@@ -14,7 +15,17 @@ MAX_SOURCE_BYTES = 256 * 1024
 MAX_TOKENS = 16384
 MAX_AST_DEPTH = 128
 SCALARS = {"i32", "bool"}
-KEYWORDS = {"fn", "struct", "let", "return", "if", "else", "true", "false"}
+KEYWORDS = {"fn", "struct", "let", "mut", "return", "if", "else", "true", "false"}
+
+
+def borrow_mode(typ: str) -> str | None:
+    if typ.startswith("&mut "):
+        return "exclusive"
+    return "shared" if typ.startswith("&") else None
+
+
+def base_type(typ: str) -> str:
+    return typ[5:] if typ.startswith("&mut ") else typ[1:] if typ.startswith("&") else typ
 
 
 @dataclass(frozen=True)
@@ -56,7 +67,7 @@ def lex(source: str, *, include_comments: bool = False) -> list[Token]:
         raise CompileError("E0005", "Source exceeds the 256 KiB prototype limit", Span(0, 0))
     pattern = re.compile(r"(?P<skip>\s+)|(?P<comment>//[^\n]*)|(?P<int>[0-9]+)|"
                          r"(?P<id>[A-Za-z_][A-Za-z_0-9]*)|"
-                         r"(?P<op>->|==|!=|<=|>=|&&|\|\||[{}():;,.+*/%<>=!\-])")
+                         r"(?P<op>->|==|!=|<=|>=|&&|\|\||[{}():;,.+*/%<>=!&\-])")
     tokens = []
     offset = 0
     while offset < len(source):
@@ -95,6 +106,8 @@ class Statement:
     annotation: Token | None = None
     then: list[Statement] = field(default_factory=list)
     otherwise: list[Statement] = field(default_factory=list)
+    mutable: bool = False
+    target: Expr | None = None
 
 
 @dataclass
@@ -148,12 +161,20 @@ class Parser:
             return True
         return False
 
+    def type_token(self) -> Token:
+        if self.current.kind != "&":
+            return self.take("id")
+        start = self.take("&").span.start
+        mutable = self.accept("mut")
+        name = self.take("id")
+        return Token("type", ("&mut " if mutable else "&") + name.text, Span(start, name.span.end))
+
     def pairs(self, end: str) -> list[tuple[Token, Token]]:
         result = []
         while self.current.kind != end:
             name = self.take("id")
             self.take(":")
-            result.append((name, self.take("id")))
+            result.append((name, self.type_token()))
             if not self.accept(","):
                 break
         self.take(end)
@@ -174,7 +195,7 @@ class Parser:
                 self.take("(")
                 params = self.pairs(")")
                 self.take("->")
-                result = self.take("id")
+                result = self.type_token()
                 body = self.block()
                 functions.append(Function(name, params, result, body,
                                           Span(start, self.tokens[self.index - 1].span.end)))
@@ -186,12 +207,13 @@ class Parser:
         while self.current.kind != "}":
             start = self.current.span.start
             if self.accept("let"):
+                mutable = self.accept("mut")
                 name = self.take("id")
-                annotation = self.take("id") if self.accept(":") else None
+                annotation = self.type_token() if self.accept(":") else None
                 self.take("=")
                 expr = self.expression()
                 end = self.take(";").span.end
-                statements.append(Statement("let", Span(start, end), expr, name, annotation))
+                statements.append(Statement("let", Span(start, end), expr, name, annotation, mutable=mutable))
             elif self.accept("return"):
                 expr = self.expression()
                 end = self.take(";").span.end
@@ -206,14 +228,21 @@ class Parser:
                                             expr, then=then, otherwise=otherwise))
             else:
                 expr = self.expression()
+                target = expr if expr.kind == "field" and self.accept("=") else None
+                if target is not None:
+                    expr = self.expression()
                 end = self.take(";").span.end
-                statements.append(Statement("expr", Span(start, end), expr))
+                statements.append(Statement("assign" if target else "expr", Span(start, end), expr, target=target))
         self.take("}")
         return statements
 
     def expression(self, minimum: int = 0) -> Expr:
         token = self.current
-        if token.kind in ("-", "!"):
+        if self.accept("&"):
+            mode = "exclusive" if self.accept("mut") else "shared"
+            child = self.expression(7)
+            left = Expr("borrow", Span(token.span.start, child.span.end), mode, [child])
+        elif token.kind in ("-", "!"):
             self.index += 1
             child = self.expression(7)
             left = Expr("unary", Span(token.span.start, child.span.end), token.text, [child])
@@ -264,15 +293,17 @@ class Parser:
 class Binding:
     typ: str
     declaration: Span
+    mutable: bool = False
 
 
 @dataclass
 class State:
     bindings: dict[str, Binding] = field(default_factory=dict)
     moved: set[str] = field(default_factory=set)
+    loans: dict[str, str] = field(default_factory=dict)
 
     def copy(self) -> State:
-        return State(dict(self.bindings), set(self.moved))
+        return State(dict(self.bindings), set(self.moved), dict(self.loans))
 
 
 @dataclass
@@ -305,22 +336,83 @@ class Checker:
     def reference(self, span: Span, definition: Span, description: str):
         self.references.append(Reference(span, definition, description))
 
-    def type_name(self, token: Token):
-        if token.text not in SCALARS and token.text not in self.records:
+    def type_name(self, token: Token, parameter: bool = False):
+        mode, base = borrow_mode(token.text), base_type(token.text)
+        if mode and not parameter:
+            self.error("E0304", "Borrowed types are allowed only on function parameters; references cannot escape", token.span)
+        if base not in SCALARS and base not in self.records:
             self.error("E0101", f"Unknown type {token.text}", token.span)
-        if token.text in self.records:
-            record = self.records[token.text]
-            self.reference(token.span, record.name.span, f"struct {token.text} (move-only)")
+        if mode and base not in self.records:
+            self.error("E0305", "Only named records can be borrowed in this profile", token.span)
+        if base in self.records:
+            record = self.records[base]
+            description = f"{token.text} ({mode} borrow; call-scoped)" if mode else f"struct {base} (move-only)"
+            self.reference(token.span, record.name.span, description)
 
     def same_type(self, actual: str, expected: str, span: Span):
         if actual != expected:
             self.error("E0201", f"Expected {expected}, found {actual}; implicit conversions are not supported", span)
 
-    def bind(self, name: Token, typ: str, state: State):
+    def bind(self, name: Token, typ: str, state: State, mutable: bool = False):
         if name.text in state.bindings:
             self.error("E0102", f"Duplicate or shadowed binding {name.text}", name.span)
-        state.bindings[name.text] = Binding(typ, name.span)
-        self.reference(name.span, name.span, f"{name.text}: {typ}")
+        if mutable and typ not in self.records:
+            self.error("E0305", "let mut currently supports owned records with scalar fields", name.span)
+        state.bindings[name.text] = Binding(typ, name.span, mutable)
+        self.reference(name.span, name.span, self.binding_description(name.text, state.bindings[name.text]))
+
+    def binding_description(self, name: str, binding: Binding) -> str:
+        mode = borrow_mode(binding.typ)
+        detail = f" ({mode} borrow; call-scoped)" if mode else " (mutable owner)" if binding.mutable else ""
+        return f"{name}: {binding.typ}{detail}"
+
+    def lookup(self, expr: Expr, state: State) -> Binding:
+        if expr.value not in state.bindings:
+            self.error("E0101", f"Unknown binding {expr.value}", expr.span)
+        if expr.value in state.moved:
+            self.error("E0301", f"{expr.value} was moved on a possible path and cannot be used again", expr.span)
+        binding = state.bindings[expr.value]
+        expr.typ = binding.typ
+        self.reference(expr.span, binding.declaration, self.binding_description(expr.value, binding))
+        return binding
+
+    def access(self, expr: Expr, state: State, action: str = "read"):
+        held = state.loans.get(expr.value)
+        if held == "exclusive" or (held and action != "read"):
+            self.error("E0302", f"Cannot {action} {expr.value}: an earlier argument holds a {held} borrow until its call returns", expr.span)
+
+    def require_mutable(self, expr: Expr, binding: Binding):
+        if borrow_mode(binding.typ) != "exclusive" and not binding.mutable:
+            self.error("E0303", f"Mutating {expr.value} requires a let mut owner or an &mut parameter", expr.span)
+
+    def borrow(self, expr: Expr, state: State) -> str:
+        place = expr.args[0]
+        if place.kind != "name":
+            self.error("E0305", "Borrow a named record binding; temporaries, fields, and nested references are unsupported", place.span)
+        binding = self.lookup(place, state)
+        base = base_type(binding.typ)
+        if base not in self.records:
+            self.error("E0305", "Only named records can be borrowed in this profile", place.span)
+        if expr.value == "exclusive":
+            self.require_mutable(place, binding)
+        self.access(place, state, "borrow exclusively" if expr.value == "exclusive" else "read")
+        state.loans[place.value] = expr.value
+        expr.typ = ("&mut " if expr.value == "exclusive" else "&") + base
+        return expr.typ
+
+    def assignment(self, stmt: Statement, state: State):
+        target = stmt.target
+        if target.kind != "field" or target.args[0].kind != "name":
+            self.error("E0305", "Assignment requires a scalar field of a named record binding", target.span)
+        typ = self.expr(target, state, consume=False)
+        place = target.args[0]
+        self.require_mutable(place, state.bindings[place.value])
+        self.access(place, state, "write")
+        self.same_type(self.expr(stmt.expr, state), typ, stmt.expr.span)
+        # The right side can move an owned record. The final store is still
+        # a use of its destination and must not revive a moved binding.
+        self.lookup(place, state)
+        self.access(place, state, "write")
 
     def check(self) -> Analysis:
         names = set(SCALARS)
@@ -347,7 +439,7 @@ class Checker:
         for fn in self.program.functions:
             self.type_name(fn.result)
             for _, typ in fn.params:
-                self.type_name(typ)
+                self.type_name(typ, parameter=True)
             self.reference(fn.name.span, fn.name.span, fn.signature())
         for fn in self.program.functions:
             self.function = fn
@@ -364,12 +456,15 @@ class Checker:
         for stmt in statements:
             if not reachable:
                 self.error("E0206", "Unreachable statement", stmt.span)
+            if stmt.kind == "assign":
+                self.assignment(stmt, state)
+                continue
             typ = self.expr(stmt.expr, state)
             if stmt.kind == "let":
                 if stmt.annotation:
                     self.type_name(stmt.annotation)
                     self.same_type(typ, stmt.annotation.text, stmt.expr.span)
-                self.bind(stmt.name, typ, state)
+                self.bind(stmt.name, typ, state, mutable=stmt.mutable)
             elif stmt.kind == "return":
                 self.same_type(typ, self.function.result.text, stmt.expr.span)
                 reachable = False
@@ -393,18 +488,16 @@ class Checker:
         elif kind == "bool":
             typ = "bool"
         elif kind == "name":
-            if value not in state.bindings:
-                self.error("E0101", f"Unknown binding {value}", expr.span)
-            binding = state.bindings[value]
-            if value in state.moved:
-                self.error("E0301", f"{value} was moved on a possible path and cannot be used again", expr.span)
+            binding = self.lookup(expr, state)
             typ = binding.typ
-            self.reference(expr.span, binding.declaration, f"{value}: {typ}")
+            if consume and borrow_mode(typ):
+                self.error("E0304", "Borrowed parameters cannot be used as owned values; reborrow explicitly in a call", expr.span)
+            self.access(expr, state, "move" if consume and typ not in SCALARS else "read")
             if consume and typ not in SCALARS:
                 state.moved.add(value)
         elif kind == "field":
             base = self.expr(expr.args[0], state, consume=False)
-            record = self.records.get(base)
+            record = self.records.get(base_type(base))
             fields = {} if record is None else {n.text: (n, t) for n, t in record.fields}
             if value not in fields:
                 self.error("E0101", f"Type {base} has no field {value}", expr.span)
@@ -433,11 +526,25 @@ class Checker:
                 self.error("E0101", f"Unknown function {value}", expr.span)
             if len(expr.args) != len(fn.params):
                 self.error("E0203", f"{value} expects {len(fn.params)} arguments", expr.span)
-            for child, (_, expected) in zip(expr.args, fn.params):
-                self.same_type(self.expr(child, state), expected.text, child.span)
+            outer_loans = dict(state.loans)
+            try:
+                for child, (_, expected) in zip(expr.args, fn.params):
+                    if child.kind == "borrow":
+                        actual = self.borrow(child, state)
+                    elif borrow_mode(expected.text):
+                        self.error("E0304", f"Pass {expected.text} explicitly with &name or &mut name", child.span)
+                    else:
+                        actual = self.expr(child, state)
+                    self.same_type(actual, expected.text, child.span)
+            finally:
+                # Nested calls release only their loans. Any loans already
+                # held by an enclosing call's earlier arguments remain live.
+                state.loans = outer_loans
             self.function.calls.add(value)
             self.reference(Span(expr.span.start, expr.span.start + len(value)), fn.name.span, fn.signature())
             typ = fn.result.text
+        elif kind == "borrow":
+            self.error("E0304", "Borrow expressions are allowed only as direct call arguments; references cannot be stored or returned", expr.span)
         elif kind == "unary":
             child = expr.args[0]
             if value == "-" and child.kind == "int" and (child.value.lstrip("0") or "0") == "2147483648":
@@ -479,6 +586,8 @@ def parse(source: str) -> Program:
                 raise CompileError("E0005", "Syntax tree exceeds the 128-level prototype limit", node.span)
             if isinstance(node, Statement):
                 children = [node.expr, *node.then, *node.otherwise]
+                if node.target is not None:
+                    children.append(node.target)
             else:
                 children = [*node.args, *(child for _, child in node.fields)]
             pending.extend((child, depth + 1) for child in children)

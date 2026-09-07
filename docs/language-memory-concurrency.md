@@ -1,6 +1,6 @@
 # Language, memory, and concurrency
 
-Status: broader proposed semantics. The [M1a prototype](prototype.md) implements a smaller grammar and affine scalar-field record subset. Borrowing, allocation, and concurrency rules here remain future design work.
+Status: broader proposed semantics. The [prototype](prototype.md) implements affine scalar-field records and [M1c call-scoped borrowing](borrowing.md). Broader borrowing, allocation, and concurrency rules here remain future design work.
 
 ## Syntax principles
 
@@ -22,7 +22,7 @@ fn sum(values: view<i32>) -> i64 {
 }
 ~~~
 
-The sketch demonstrates an explicit read-only view, a public signature, and a widening conversion. The representation of views, borrowing syntax, and overflow handling still require a specification.
+The sketch demonstrates an explicit read-only view, a public signature, and a widening conversion. The representation of views and their lifetime/overflow rules still require a specification. M1c separately defines borrowed record parameters and checked i32 arithmetic; it does not implement this sketch.
 
 ## Ownership and borrowing
 

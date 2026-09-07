@@ -81,6 +81,28 @@ class LspTests(unittest.TestCase):
         self.assertIsNone(offset_at("😀x", {"line": 0, "character": 1}))
         self.assertIsNone(offset_at(SOURCE, {"line": -1, "character": 0}))
 
+    def test_borrow_permissions_appear_in_hover_and_field_definition(self):
+        source = "struct P { x: i32 } fn update(p: &mut P) -> i32 { p.x = p.x + 1; return p.x; }"
+        self.open(source)
+        analysis = analyze(source)
+        ref = next(r for r in analysis.references if "exclusive borrow" in r.description and r.span.start > 50)
+        point = source_range(source, ref.span)["start"]
+        self.assertIn("&mut P (exclusive borrow; call-scoped)", self.query("textDocument/hover", point)["result"]["contents"]["value"])
+        field = next(r for r in analysis.references if r.description == "x: i32" and r.span.start > 50)
+        definition = self.query("textDocument/definition", source_range(source, field.span)["start"])["result"]
+        self.assertEqual(source_range(source, analysis.records["P"].fields[0][0].span), definition["range"])
+
+    def test_conflicting_borrow_edit_uses_frontend_diagnostic_and_recovers(self):
+        source = "struct P { x: i32 } fn f(a: &mut P, b: &P) -> i32 { return a.x + b.x; } fn main() -> i32 { let mut p = P { x: 1 }; return f(&mut p, &p); }"
+        with patch("subprocess.run", side_effect=AssertionError("LSP must not execute tools")):
+            self.open(source)
+            self.assertEqual("E0302", self.messages()[-1]["params"]["diagnostics"][0]["code"])
+            fixed = source.replace("a: &mut P", "a: &P").replace("f(&mut p,", "f(&p,")
+            self.server.handle({"method": "textDocument/didChange", "params": {
+                "textDocument": {"uri": URI, "version": 2}, "contentChanges": [{"text": fixed}]}})
+        self.assertEqual([], self.messages()[-1]["params"]["diagnostics"])
+        self.assertIsNotNone(self.server.documents[URI].analysis)
+
     def test_invalid_and_oversized_messages_fail_cleanly(self):
         cases = [b"Content-Length: 999999999\r\n\r\n", b"Content-Length: 2\r\n\r\nx",
                  b"Content-Length: 2\r\nContent-Length: 2\r\n\r\n{}",

@@ -116,8 +116,10 @@ def format_source(source: str) -> str:
             inline = before is not None and "\n" not in source[before.span.end:token.span.start]
             writer.comment(token.text.removesuffix("\r"), inline)
             continue
-        unary = kind == "!" or (kind == "-" and not ends_expression)
+        unary = kind in ("!", "&") or (kind == "-" and not ends_expression)
         after_word = previous not in (None, "(", ".") and not previous_unary
+        if kind == "&" and previous == "&":
+            after_word = True  # Do not merge two borrow tokens into &&.
         if kind in ("(", "{"):
             group = delimiters[index]
             writer.write(token.text, space=(kind == "{" or (kind == "(" and previous != "id" and after_word)))

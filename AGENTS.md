@@ -1,6 +1,6 @@
 # Repository guidance for coding agents
 
-This repository contains the reference compiler, M1b formatting tools, and broader design proposals for Talven, an LLM-first native systems language. Read README.md, docs/prototype.md, and the relevant design documents before making changes.
+This repository contains the reference compiler with M1c borrowing, formatting tools, and broader design proposals for Talven, an LLM-first native systems language. Read README.md, docs/prototype.md, docs/borrowing.md, and the relevant design documents before making changes.
 
 ## Preserve the product intent
 
@@ -22,7 +22,7 @@ Run `node scripts/check-docs.mjs` for documentation changes; it verifies relativ
 
 Run `python3 -m unittest discover -s tests -v` for compiler changes. Native tests need a C11 compiler named `cc`; report any skipped target evidence. Preserve the shared frontend used by CLI, context, and LSP.
 
-For changed `.tal` files, run `python3 -m talven fmt FILE --check`. The formatter checks syntax and layout, not types or task correctness. Native CI additionally verifies actual host architecture, disallows skipped tests, and executes the CLI example.
+For changed `.tal` files, run `python3 -m talven fmt FILE --check`. The formatter checks syntax and layout, not types or task correctness. Native CI additionally verifies actual host architecture, disallows skipped tests, executes both CLI examples, and requires ASan/UBSan borrow conformance through `python3 scripts/check-borrow-sanitizers.py`. Report sanitizer host limitations; do not relabel skipped or failed checks as successful evidence.
 
 Record benchmark inputs, model and tokenizer versions, target, compiler settings, hardware, and correctness criteria. Never invent measurements or claim checks ran when they did not.
 
