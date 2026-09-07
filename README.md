@@ -23,6 +23,8 @@ python3 -m unittest discover -s tests -v
 
 The vector example exits zero when its calculation is correct. See the [prototype guide](docs/prototype.md) for grammar, ownership rules, diagnostics, context/cache identity, LSP integration, and freestanding emission. See the [validation record](docs/prototype-validation.md) for actual target evidence.
 
+Native CI has passed all **61 tests on Linux x86-64 and ARM64**, including building and running the CLI example. See the [M1b validation record](docs/formatting-validation.md) for exact compiler, Python, target, and job evidence.
+
 The implemented subset has `i32`, `bool`, immutable locals, functions, conditionals, and move-only records containing scalars. [M1b formatting](docs/formatting.md) adds deterministic layout and editor formatting without changing these language rules. Borrowed references, heap/resource cleanup, full LSP features, concurrency, GPU backends, package adapters, and comparative model benchmarks remain future work.
 
 ## Product goal
@@ -50,7 +52,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 | Document | Purpose |
 | --- | --- |
 | [Prototype guide](docs/prototype.md) | Implemented M1a grammar, commands, contracts, limits, and design tradeoffs |
-| [Prototype validation](docs/prototype-validation.md) | Reproducible tests and actual target evidence |
+| [Prototype validation](docs/prototype-validation.md) | Historical M1a tests and initial x86-64 evidence |
 | [Formatting guide](docs/formatting.md) | Canonical CLI/LSP formatting, explicit writes, and cache/target implications |
 | [M1b validation](docs/formatting-validation.md) | Formatter checks and native CI evidence |
 | [Agent experiments](experiments/README.md) | Initial task corpus and model evaluation protocol |

@@ -20,6 +20,8 @@ The CLI built and ran `examples/vectors.tal` successfully. All three `.tal` exam
 
 The local documentation check verified **105 relative links across 28 Markdown files**. Rendering remains unavailable locally because the required Puppeteer browser is absent; its earlier download approval was cancelled. The four diagram blocks are unchanged, and the existing pull-request documentation job runs the full rendering check. Local link verification alone is not a diagram-rendering pass.
 
+The [GitHub documentation job](https://github.com/TechiesApp/talven/actions/runs/34110749076/job/101706166572) subsequently passed the full relative-link and four-diagram rendering check for commit `b054445fd203684eec3a018a23231ce56e980c3c`. The DCO sign-off job also passed.
+
 ## Reproduce
 
 ~~~sh
@@ -36,7 +38,15 @@ Native tests need `cc`, its undefined-behavior sanitizer support, and `nm` for t
 
 ## Hosted target evidence
 
-The [compiler workflow](../.github/workflows/compiler-check.yml) declares Linux x86-64 with Python 3.11 and 3.12, and Linux ARM64 with Python 3.12. Successful execution is not claimed from the workflow definition alone. Review the implementation pull request's job results and recorded environment summaries.
+The first [native CI run](https://github.com/TechiesApp/talven/actions/runs/34110749528) succeeded on 7 September 2026 for commit `b054445fd203684eec3a018a23231ce56e980c3c`. Job logs reported the same compiler-source fingerprint as the local run above.
+
+| Host and C target | Python | Tests | Execution evidence |
+| --- | --- | --- | --- |
+| Linux x86-64, `x86_64-linux-gnu` | 3.11.16 | 61 passed, no skips | [Job 101706168812](https://github.com/TechiesApp/talven/actions/runs/34110749528/job/101706168812) |
+| Linux x86-64, `x86_64-linux-gnu` | 3.12.14 | 61 passed, no skips | [Job 101706168609](https://github.com/TechiesApp/talven/actions/runs/34110749528/job/101706168609) |
+| Linux ARM64, `aarch64-linux-gnu` | 3.12.14 | 61 passed, no skips | [Job 101706168897](https://github.com/TechiesApp/talven/actions/runs/34110749528/job/101706168897) |
+
+All three jobs used GCC 13.3.0, Ubuntu package `13.3.0-6ubuntu2~24.04.1`. The architecture assertion, test suite, all example formatting checks, and native CLI build/execution steps succeeded. This is actual hosted execution evidence for the M1a subset with M1b tooling.
 
 Each job checks the actual machine architecture, runs the suite, validates example formatting, and compiles and runs the vector example through the CLI. This covers the current subset on those hosts, not all ARM/x86 hardware, OS/ABI variants, freestanding boards, concurrency, GPU memory, or foreign runtimes.
 
