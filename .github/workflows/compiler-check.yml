@@ -1,0 +1,78 @@
+name: Compiler checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  conformance:
+    name: Native conformance (${{ matrix.arch }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            arch: x86_64
+            python: '3.11'
+          - runner: ubuntu-24.04
+            arch: x86_64
+            python: '3.12'
+          - runner: ubuntu-24.04-arm
+            arch: aarch64
+            python: '3.12'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Verify host and run all tests without skips
+        env:
+          TALVEN_EXPECT_ARCH: ${{ matrix.arch }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import platform
+          import shutil
+          import subprocess
+          import sys
+          import unittest
+          from talven.context import compiler_hash
+
+          if platform.machine() != os.environ['TALVEN_EXPECT_ARCH']:
+              raise SystemExit('Runner architecture does not match the declared test target')
+          for tool in ('cc', 'nm'):
+              if not shutil.which(tool):
+                  raise SystemExit(f'CI requires {tool}; skipping native evidence is not allowed')
+          evidence = {
+              'system': platform.system(),
+              'machine': platform.machine(),
+              'python': platform.python_version(),
+              'c_target': subprocess.check_output(['cc', '-dumpmachine'], text=True).strip(),
+              'c_compiler': subprocess.check_output(['cc', '--version'], text=True).splitlines()[0],
+              'compiler_hash': compiler_hash(),
+          }
+          print(json.dumps(evidence, sort_keys=True), flush=True)
+          result = unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.discover('tests'))
+          evidence.update(tests=result.testsRun, skipped=len(result.skipped), passed=result.wasSuccessful())
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
+              summary.write('```json\n' + json.dumps(evidence, indent=2, sort_keys=True) + '\n```\n')
+          sys.exit(0 if result.wasSuccessful() and not result.skipped else 1)
+          PY
+      - name: Check example formatting
+        run: |
+          for source in examples/*.tal examples/invalid/*.tal; do
+            python3 -m talven fmt "$source" --check --json
+          done
+      - name: Build and execute the native CLI example
+        run: |
+          python3 -m talven build examples/vectors.tal -o build/vectors
+          ./build/vectors

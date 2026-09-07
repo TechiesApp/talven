@@ -9,17 +9,26 @@ import tempfile
 
 from . import VERSION
 from .backend import emit_c
-from .context import context, encode
+from .context import context, encode, source_hash
+from .formatter import format_source
 from .frontend import CompileError, MAX_SOURCE_BYTES, Span, analyze
+from .source_edit import replace_source, writable_source
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="talven", description="Talven M1a reference compiler")
+    parser = argparse.ArgumentParser(prog="talven", description="Talven reference compiler and agent tooling")
     parser.add_argument("--version", action="version", version=f"Talven {VERSION}")
     commands = parser.add_subparsers(dest="command", required=True)
     check = commands.add_parser("check", help="Parse and type/ownership-check without execution")
     check.add_argument("source", type=Path)
     check.add_argument("--json", action="store_true")
+    fmt = commands.add_parser("fmt", help="Format source with one canonical, token-preserving layout")
+    fmt.add_argument("source", type=Path)
+    mode = fmt.add_mutually_exclusive_group()
+    mode.add_argument("--check", action="store_true", help="Check formatting without writing source")
+    mode.add_argument("--write", action="store_true", help="Explicitly replace the source file after freshness checks")
+    fmt.add_argument("--json", action="store_true", help="Use structured diagnostics with --check")
+    fmt.add_argument("--expect-source-hash", help="Reject an unexpected source revision")
     ctx = commands.add_parser("context", help="Return bounded, deterministic compiler-derived JSON")
     ctx.add_argument("source", type=Path)
     ctx.add_argument("--symbol")
@@ -37,16 +46,38 @@ def main(argv: list[str] | None = None) -> int:
     build.add_argument("--cc", default="cc", help="Trusted C compiler executable (one path, no shell command)")
     commands.add_parser("lsp", help="Start the read-only LSP server over stdio")
     args = parser.parse_args(argv)
+    if args.command == "fmt" and args.json and not args.check:
+        parser.error("fmt --json requires --check")
     if args.command == "lsp":
         from .lsp import serve
         return serve(sys.stdin.buffer, sys.stdout.buffer)
     source = ""
     try:
+        if args.command == "fmt" and args.write:
+            writable_source(args.source)
         with args.source.open("rb") as stream:
+            snapshot = os.fstat(stream.fileno())
             data = stream.read(MAX_SOURCE_BYTES + 1)
         if len(data) > MAX_SOURCE_BYTES:
             raise CompileError("E0005", "Source exceeds the 256 KiB prototype limit", Span(0, 0))
         source = data.decode("utf-8")
+        if args.command == "fmt":
+            if args.expect_source_hash is not None and args.expect_source_hash != source_hash(source):
+                raise CompileError("E0501", "Source revision changed; request fresh source before formatting", Span(0, 0))
+            formatted = format_source(source)
+            if args.check:
+                if formatted != source:
+                    raise CompileError("E0601", "Source is not canonically formatted; run talven fmt --write", Span(0, 0))
+                if args.json:
+                    print(encode({"schema": "talven.diagnostics.v1", "ok": True, "diagnostics": []}), end="")
+                else:
+                    print("Formatting check passed")
+            elif args.write:
+                replace_source(args.source, data, formatted, snapshot)
+                print(f"Formatted {args.source}" if formatted != source else "Already formatted")
+            else:
+                sys.stdout.write(formatted)
+            return 0
         result = analyze(source)
         if args.command == "check":
             if args.json:

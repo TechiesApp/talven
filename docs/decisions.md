@@ -36,6 +36,8 @@ Status definitions:
 | D22 | Proposed | Use a dependency-free Python reference frontend and C11 backend for M1a | [Proposal 0001](proposals/0001-m1a-reference-compiler.md); implemented as an experiment; final compiler language/backend remain open |
 | D23 | Proposed | Start with affine stack records containing scalar fields | Proposal 0001; M1a checks demonstrate moves without claiming borrowed references, heap ownership, or destructors |
 | D24 | Proposed | Share frontend analysis between CLI, bounded context, and basic LSP | Proposal 0001; remaining editor features and performance require further work |
+| D25 | Proposed | One token-preserving canonical formatter shared by CLI and LSP | [Proposal 0002](proposals/0002-canonical-formatting-and-native-checks.md); implemented experimental layout, with no token-savings claim |
+| D26 | Proposed | Run native conformance on declared Linux x86-64 and ARM64 CI hosts | Proposal 0002; record real compiler/host/test evidence, reject skips, and keep target claims limited to successful runs |
 
 ## Open decisions
 

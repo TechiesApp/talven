@@ -2,6 +2,8 @@
 
 Status: experimental implementation of `m1a-owned-values-v1`, the first part of M1. The grammar and file extension `.tal` are prototype choices. The broader language design remains under development.
 
+[M1b](formatting.md) adds a canonical formatter and native CI without changing the grammar below. Its [validation record](formatting-validation.md) supplements the historical M1a results.
+
 ## Run it
 
 Use Python 3.11 or later from the repository root. This compiler uses the Python standard library only; no package installation or build scripts are needed to analyze code. A trusted C11 compiler is needed for native builds.
@@ -83,6 +85,7 @@ These are **affine stack-value rules**, not a general borrow checker or a resour
 | `compiler_hash` | SHA-256 over a canonical list of compiler module names and their SHA-256 hashes |
 | `bootstrap_runtime` | Python implementation/version and Unicode database version |
 | `profile`, `target`, `schema` | Language subset, C11 hosted/freestanding context profile, and context format version |
+| `formatter_profile` | Added in M1b: the canonical layout profile, included in the cache identity |
 | `symbol`, `include_body` | The request's selection and optional implementation-text inclusion |
 | `cache_key` | SHA-256 over the preceding identity fields; a cache identifier, not an authenticity proof |
 | `functions`, `records` | Checked selected function contracts and relevant record schemas |
@@ -109,15 +112,16 @@ These are **affine stack-value rules**, not a general borrow checker or a resour
 | E0301 | Use after a possible move |
 | E0401 / E0402 / E0403 | Invalid native entry / C build failure / output would replace source |
 | E0501 / E0502 | Stale source / context byte budget |
+| E0601 / E0602 / E0603 / E0604 | Noncanonical layout / formatting output limit / unsupported in-place target / token-preservation failure; see [formatting](formatting.md) |
 | E0901 | File, encoding, process-launch, or build-timeout failure |
 
 ## Editor integration
 
 Launch `python3 -m talven lsp` through an LSP client, with the repository root available on `PYTHONPATH` or as the process working directory. No editor extension is bundled.
 
-The stdio server supports initialization/shutdown, full document synchronization, diagnostics, hover, definition lookup, and top-level document symbols. It reads editor-supplied text and never fetches document URIs. UTF-16 positions and version checks prevent old document updates from replacing a newer in-memory model. Parsing an invalid edit clears the previous successful semantic model.
+The stdio server supports initialization/shutdown, full document synchronization, diagnostics, hover, definition lookup, top-level document symbols, and whole-document formatting. It reads editor-supplied text and never fetches document URIs. UTF-16 positions and version checks prevent old document updates from replacing a newer in-memory model. Parsing an invalid edit clears the previous successful semantic model. Formatting returns edits for the client to apply; see [the M1b guide](formatting.md).
 
-This is an initial LSP integration, not the planned full editor experience. Incremental parsing, completion, references/rename, formatting, semantic tokens, multi-file workspaces, and error recovery remain unimplemented. Definition/hover coverage is limited to references recorded by the checker; constructor field labels are not indexed yet.
+This is an initial LSP integration, not the planned full editor experience. Incremental parsing, completion, references/rename, semantic tokens, multi-file workspaces, and error recovery remain unimplemented. Definition/hover coverage is limited to references recorded by the checker; constructor field labels are not indexed yet.
 
 Prototype limits: 256 KiB UTF-8 source; 16384 tokens; syntax trees at most 128 levels; LSP JSON at most 128 levels, message bodies at most 1 MiB, headers at most 8 KiB, and at most 32 open documents. These limits reduce accidental resource growth; they are not OS-level CPU or RAM quotas.
 
@@ -133,7 +137,7 @@ nm -u build/vectors.o
 
 Create `build/` first if a previous build has not created it. Freestanding emission omits the hosted `main` adapter and libc trap implementation. It declares `_Noreturn void talven_trap(void)` for the platform to provide. This is an object-generation experiment; startup code, linking, board support, and target-specific helper routines remain the integrator's responsibility. GCC can require memory/compiler support routines in a freestanding environment depending on emitted operations and target. [GCC C language and freestanding support](https://gcc.gnu.org/onlinedocs/gcc/Standards.html)
 
-The validation record in [prototype-validation.md](prototype-validation.md) names the tested host. ARM64 is a target goal, not a verified execution claim for this change.
+The historical [M1a validation](prototype-validation.md) names its tested host. The [M1b validation](formatting-validation.md) records subsequent formatter checks and the status of native CI on Linux x86-64 and ARM64. A target declaration alone is not verified execution.
 
 ## Why this bootstrap
 

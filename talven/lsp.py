@@ -1,4 +1,4 @@
-"""Bounded stdio LSP: full document sync, diagnostics, hover, definition, symbols.
+"""Bounded stdio LSP: sync, diagnostics, navigation, symbols, formatting edits.
 
 Documents are analyzed from editor-supplied text. The server never opens a URI,
 executes a compiler subprocess, installs a dependency, or runs source programs.
@@ -11,7 +11,8 @@ import json
 from typing import BinaryIO
 
 from . import VERSION
-from .frontend import Analysis, CompileError, analyze, source_range
+from .formatter import format_source
+from .frontend import Analysis, CompileError, Span, analyze, source_range
 
 MAX_MESSAGE_BYTES = 1024 * 1024
 MAX_DOCUMENTS = 32
@@ -128,7 +129,8 @@ class Server:
                 self.initialized = True
                 self.send(id=identity, result={"capabilities": {
                     "positionEncoding": "utf-16", "textDocumentSync": {"openClose": True, "change": 1},
-                    "hoverProvider": True, "definitionProvider": True, "documentSymbolProvider": True},
+                    "hoverProvider": True, "definitionProvider": True, "documentSymbolProvider": True,
+                    "documentFormattingProvider": True},
                     "serverInfo": {"name": "talven", "version": VERSION}})
                 return None
             if not self.initialized:
@@ -157,6 +159,25 @@ class Server:
                 uri = params["textDocument"]["uri"]
                 self.documents.pop(uri, None)
                 self.send(method="textDocument/publishDiagnostics", params={"uri": uri, "diagnostics": []})
+            elif method == "textDocument/formatting":
+                doc = self.documents.get(params["textDocument"]["uri"])
+                if doc is None:
+                    raise ValueError("Document is not open")
+                options = params.get("options")
+                if (not isinstance(options, dict) or type(options.get("tabSize")) is not int
+                        or options["tabSize"] < 1 or type(options.get("insertSpaces")) is not bool):
+                    raise ValueError("Formatting options require a positive tabSize and boolean insertSpaces")
+                # The versioned canonical profile takes precedence over
+                # client indentation preferences; no workspace config is read.
+                try:
+                    formatted = format_source(doc.source)
+                except CompileError as error:
+                    self.send(id=identity, error={"code": -32803, "message": "Source could not be formatted",
+                                                 "data": {"diagnostics": [error.diagnostic(doc.source)]}})
+                    return None
+                edits = [] if formatted == doc.source else [
+                    {"range": source_range(doc.source, Span(0, len(doc.source))), "newText": formatted}]
+                self.send(id=identity, result=edits)
             elif method in ("textDocument/hover", "textDocument/definition", "textDocument/documentSymbol"):
                 doc = self.documents.get(params["textDocument"]["uri"])
                 result = [] if method.endswith("documentSymbol") else None

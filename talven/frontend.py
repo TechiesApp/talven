@@ -51,10 +51,10 @@ class Token:
     span: Span
 
 
-def lex(source: str) -> list[Token]:
+def lex(source: str, *, include_comments: bool = False) -> list[Token]:
     if len(source.encode("utf-8")) > MAX_SOURCE_BYTES:
         raise CompileError("E0005", "Source exceeds the 256 KiB prototype limit", Span(0, 0))
-    pattern = re.compile(r"(?P<skip>\s+|//[^\n]*)|(?P<int>[0-9]+)|"
+    pattern = re.compile(r"(?P<skip>\s+)|(?P<comment>//[^\n]*)|(?P<int>[0-9]+)|"
                          r"(?P<id>[A-Za-z_][A-Za-z_0-9]*)|"
                          r"(?P<op>->|==|!=|<=|>=|&&|\|\||[{}():;,.+*/%<>=!\-])")
     tokens = []
@@ -63,7 +63,7 @@ def lex(source: str) -> list[Token]:
         match = pattern.match(source, offset)
         if not match:
             raise CompileError("E0001", "Unexpected character", Span(offset, offset + 1))
-        if match.lastgroup != "skip":
+        if match.lastgroup != "skip" and (include_comments or match.lastgroup != "comment"):
             text = match.group()
             kind = match.lastgroup if match.lastgroup != "op" else text
             if kind == "id" and text in KEYWORDS:
@@ -468,7 +468,8 @@ class Checker:
         return typ
 
 
-def analyze(source: str) -> Analysis:
+def parse(source: str) -> Program:
+    """Parse with the same input/depth limits, without requiring valid types."""
     try:
         program = Parser(lex(source)).program()
         pending = [(stmt, 1) for fn in program.functions for stmt in fn.body]
@@ -481,7 +482,14 @@ def analyze(source: str) -> Analysis:
             else:
                 children = [*node.args, *(child for _, child in node.fields)]
             pending.extend((child, depth + 1) for child in children)
-        return Checker(source, program).check()
+        return program
+    except RecursionError:
+        raise CompileError("E0005", "Expression or block nesting exceeds the prototype limit", Span(0, 0)) from None
+
+
+def analyze(source: str) -> Analysis:
+    try:
+        return Checker(source, parse(source)).check()
     except RecursionError:
         raise CompileError("E0005", "Expression or block nesting exceeds the prototype limit", Span(0, 0)) from None
 
