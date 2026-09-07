@@ -1,0 +1,17 @@
+# Local build and tool output
+/build/
+/target/
+/dist/
+.cache/
+*.log
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Editor and OS metadata
+.DS_Store
+.idea/
+.vscode/
+
