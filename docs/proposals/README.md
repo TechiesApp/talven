@@ -28,3 +28,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | Number | Title | Status |
 | --- | --- | --- |
 | 0000 | [Template](0000-template.md) | Template |
+| 0001 | [M1a reference compiler and agent interface](0001-m1a-reference-compiler.md) | Draft |

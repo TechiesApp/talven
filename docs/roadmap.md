@@ -8,9 +8,11 @@ Deliver a traceable requirement set, a minimal grammar proposal, ownership rules
 
 Gate: reviewers can distinguish product requirements from proposals and identify unresolved semantics. The specification is short enough to give to an unfamiliar model.
 
-Current repository contribution: the requirements and architecture discussion are documented. Grammar, formal rules, and implementation remain unfinished.
+Current repository contribution: requirements and architecture are documented. The [M1a guide](prototype.md) defines a small implemented grammar and affine value rules, with an [agent evaluation protocol](../experiments/README.md). A complete language specification and protected evaluation runner remain unfinished.
 
 ## M1: Small native subset with agent tooling
+
+Current increment: **M1a reference compiler**. Implemented parsing, strict scalar types, affine scalar-field records, functions, conditionals, structured diagnostics, deterministic bounded context, C11 lowering, and a basic LSP. See [actual validation](prototype-validation.md). This increment does not complete the full M1 gate.
 
 Prototype parsing, strict types, functions, basic data types, a limited ownership model, deterministic diagnostics, a formatter, and compiler-derived context lookup.
 
@@ -71,15 +73,14 @@ Gate: each target has a tested support statement, and each security claim names 
 
 No numeric target is claimed until a baseline exists. Report the model, tokenizer, hardware, compiler flags, workload, and correctness criteria alongside every benchmark.
 
-## Initial work items
+## Remaining foundation work
 
-1. Propose the minimum type and ownership rules with a small set of valid and invalid examples.
-2. Define a bounded compiler-context schema and structured diagnostic format.
-3. Evaluate a backend and bootstrap compiler implementation with the first targets.
-4. Establish a task corpus and comparison protocol for agent cost and success.
+1. Extend the prototype's scalar/record rules with a defined borrowing model and canonical formatting.
+2. Evaluate the bounded context and diagnostics with agents, then define atomic edit validation.
+3. Verify ARM64 execution and measure bootstrap/backend costs before deciding production implementation choices.
+4. Run the initial task corpus and establish equivalent cross-language baselines for agent cost and success.
 5. Specify capability transfer and protected policy enforcement.
 6. Choose the first foreign library and first GPU experiment from concrete workloads.
-7. Populate the design proposal process with the first grammar, ownership, and context-schema proposals. (The language name and Apache-2.0 license were decided on 7 September 2026.)
+7. Review [Proposal 0001](proposals/0001-m1a-reference-compiler.md) and record decisions from the first grammar, ownership, and context experiments. The language name and Apache-2.0 license are already selected.
 
 These are planning items, not automatically created issues or assigned commitments.
-
