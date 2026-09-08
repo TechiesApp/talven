@@ -49,7 +49,7 @@ jobs:
 
           if platform.machine() != os.environ['TALVEN_EXPECT_ARCH']:
               raise SystemExit('Runner architecture does not match the declared test target')
-          for tool in ('cc', 'nm'):
+          for tool in ('cc', 'nm', 'readelf', 'size'):
               if not shutil.which(tool):
                   raise SystemExit(f'CI requires {tool}; skipping native evidence is not allowed')
           evidence = {
@@ -69,7 +69,7 @@ jobs:
           PY
       - name: Check example formatting
         run: |
-          for source in examples/*.tal examples/invalid/*.tal tests/fixtures/*.tal experiments/corpora/borrowing-v1/*.tal; do
+          for source in examples/*.tal examples/invalid/*.tal tests/fixtures/*.tal experiments/corpora/borrowing-v1/*.tal experiments/freestanding/*.tal; do
             python3 -m talven fmt "$source" --check --json
           done
       - name: Exercise provider-neutral evaluation without model calls
@@ -97,3 +97,7 @@ jobs:
           ./build/vectors
           python3 -m talven build examples/borrowing.tal -o build/borrowing
           ./build/borrowing
+      - name: Link and execute without libc or a heap allocator
+        env:
+          TALVEN_EXPECT_ARCH: ${{ matrix.arch }}
+        run: python3 scripts/check-freestanding.py --expect-arch "$TALVEN_EXPECT_ARCH" --out build/freestanding-check

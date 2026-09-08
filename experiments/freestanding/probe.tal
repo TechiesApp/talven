@@ -1,0 +1,50 @@
+struct Counter {
+    value: i32
+}
+
+fn read(c: &Counter) -> i32 {
+    return c.value;
+}
+
+fn increment(c: &mut Counter, delta: i32) -> i32 {
+    c.value = c.value + delta;
+    return c.value;
+}
+
+fn bump(c: &mut Counter, delta: i32) -> i32 {
+    increment(&mut c, delta);
+    return read(&c);
+}
+
+fn pack(before: i32, first: i32, second: i32) -> i32 {
+    return before * 10000 + first * 100 + second;
+}
+
+fn ordered(initial: i32, delta: i32) -> i32 {
+    let mut counter = Counter { value: initial };
+    return pack(counter.value, bump(&mut counter, delta), bump(&mut counter, delta));
+}
+
+fn add_value(a: i32, b: i32) -> i32 {
+    return a + b;
+}
+
+fn subtract_value(a: i32, b: i32) -> i32 {
+    return a - b;
+}
+
+fn multiply_value(a: i32, b: i32) -> i32 {
+    return a * b;
+}
+
+fn negate_value(a: i32) -> i32 {
+    return -a;
+}
+
+fn divide_value(a: i32, b: i32) -> i32 {
+    return a / b;
+}
+
+fn remainder_value(a: i32, b: i32) -> i32 {
+    return a % b;
+}
