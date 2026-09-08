@@ -1,0 +1,1099 @@
+{
+  "clock": {
+    "adjustable": false,
+    "implementation": "clock_gettime(CLOCK_MONOTONIC)",
+    "monotonic": true,
+    "resolution": 0.001
+  },
+  "compiler_hash": "aea751513c037a6eba45ae74a0d050550773352e22ad573daa478ed4e09a916b",
+  "complete": true,
+  "finished_at": "2026-09-08T08:54:14.524521+00:00",
+  "git": {
+    "dirty": false,
+    "revision": "a635fc75d8be1f43adb8643bd92a5b8a369a4855"
+  },
+  "host": {
+    "arch": "aarch64",
+    "cc": {
+      "bytes": 1319624,
+      "sha256": "dc53dbc5a583d03ae8ed6272ca9afc0f58873f9f9b86dd7d448b17fb3f88a8d0",
+      "target": "aarch64-linux-gnu",
+      "version": "cc (Debian 12.2.0-14+deb12u1) 12.2.0"
+    },
+    "cpu_model": null,
+    "logical_cpus": 8,
+    "python": {
+      "bytes": 73408,
+      "sha256": "de76f306d201c6d88e9c779cb10315930d3723cd621ff6d091a60e343d56ba64"
+    },
+    "python_implementation": "CPython",
+    "python_version": "3.11.16",
+    "release": "6.12.76-linuxkit",
+    "system": "Linux"
+  },
+  "inputs": {
+    "examples/borrowing.tal": {
+      "bytes": 557,
+      "sha256": "b56fc55d264cea820015d78f4ba94804726b5a7f50c779864344e8f7f95f4a2c"
+    },
+    "examples/vectors.tal": {
+      "bytes": 382,
+      "sha256": "769fc486140c54f44da5295921748f30b30e0ef8ecaccdca6a9de3800661f725"
+    },
+    "experiments/__init__.py": {
+      "bytes": 145,
+      "sha256": "1b44e84cbdf653bbe32c3a836984c6fd88d845ece38d7cb7314525dd13c4d746"
+    },
+    "experiments/tooling_workloads.py": {
+      "bytes": 3599,
+      "sha256": "3596d3f588f3d384f180d1acec5b357cfa239029db46ccb02351a3020c9a72ad"
+    },
+    "scripts/measure-tooling.py": {
+      "bytes": 18290,
+      "sha256": "b37aaff3df4ab583f30dd2224673bf037c9f0265dd053b87323a9e7319588354"
+    },
+    "talven/__init__.py": {
+      "bytes": 163,
+      "sha256": "9b137b1cdbd33d9594daa9e8e473c132a7d03c8a7877b0550a40255ffe39149d"
+    },
+    "talven/__main__.py": {
+      "bytes": 8598,
+      "sha256": "093e92f481c05396fb491c3346d1547221b8758b3c74fcc22ae824f8e3e0076f"
+    },
+    "talven/backend.py": {
+      "bytes": 6838,
+      "sha256": "2af1aec47c87bd69303ff0f22131e287476315abeda40ad02f3fe101445cd2f7"
+    },
+    "talven/context.py": {
+      "bytes": 5822,
+      "sha256": "7f35847ffaf462fa5195cdf3faea1e878b028d689bc51efd8df7d6256f710916"
+    },
+    "talven/edit_validation.py": {
+      "bytes": 11206,
+      "sha256": "84d7196107248ce424c09cb3332ccb27fcb9b18446ec85719f8d379db81b5905"
+    },
+    "talven/formatter.py": {
+      "bytes": 5926,
+      "sha256": "b4c23bbb53c151e7c7ef3c5002df6d8b492b262f39f76729a0b7030f2b626651"
+    },
+    "talven/frontend.py": {
+      "bytes": 26231,
+      "sha256": "b67d207dcaad027a12f440e054f81d5d08488f48b8498e909881a9bc38c4d72b"
+    },
+    "talven/lsp.py": {
+      "bytes": 10501,
+      "sha256": "abf13abae64ef21a1f79cbdf5bccc98ebe159c4ec8b233b84fa0417edb6b1b01"
+    },
+    "talven/source_edit.py": {
+      "bytes": 1770,
+      "sha256": "fc4e1b355ac0db9f985c312cbe5c35a148c1840bfa8f8f9e7f993b21584275c2"
+    }
+  },
+  "operator_environment_note": "Docker Desktop Linux VM; python:3.11-bookworm image sha256:35d3a4a3d5e42e02ab916d44513a050689f12c0533d45598d229672503fe77ca; macOS-host bind-mounted checkout; no concurrent task validation jobs; host background load uncontrolled",
+  "passed": true,
+  "profile": "m1c-call-borrows-v1",
+  "schema": "talven.tooling-observation.v1",
+  "series": [
+    {
+      "artifact_bytes": null,
+      "max_ns": 44990917,
+      "measured_ns": [
+        34041791,
+        37248083,
+        35871333,
+        44990917,
+        34077833
+      ],
+      "median_ns": 35871333,
+      "min_ns": 34041791,
+      "operation": "check",
+      "samples": 5,
+      "stdout_bytes": [
+        62,
+        62,
+        62,
+        62,
+        62
+      ],
+      "warmup_ns": [
+        32801750
+      ],
+      "workload": "vectors"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 41893083,
+      "measured_ns": [
+        34866709,
+        36735375,
+        35790250,
+        41893083,
+        36577166
+      ],
+      "median_ns": 36577166,
+      "min_ns": 34866709,
+      "operation": "format",
+      "samples": 5,
+      "stdout_bytes": [
+        382,
+        382,
+        382,
+        382,
+        382
+      ],
+      "warmup_ns": [
+        34338666
+      ],
+      "workload": "vectors"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 42189833,
+      "measured_ns": [
+        32085500,
+        42189833,
+        35960416,
+        36382709,
+        40405458
+      ],
+      "median_ns": 36382709,
+      "min_ns": 32085500,
+      "operation": "context",
+      "samples": 5,
+      "stdout_bytes": [
+        1823,
+        1823,
+        1823,
+        1823,
+        1823
+      ],
+      "warmup_ns": [
+        34947125
+      ],
+      "workload": "vectors"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 58010333,
+      "measured_ns": [
+        35465625,
+        58010333,
+        37600875,
+        33419792,
+        33727542
+      ],
+      "median_ns": 35465625,
+      "min_ns": 33419792,
+      "operation": "snapshot",
+      "samples": 5,
+      "stdout_bytes": [
+        390,
+        390,
+        390,
+        390,
+        390
+      ],
+      "warmup_ns": [
+        35081375
+      ],
+      "workload": "vectors"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 48464417,
+      "measured_ns": [
+        35367417,
+        48464417,
+        41720084,
+        37768916,
+        38566750
+      ],
+      "median_ns": 38566750,
+      "min_ns": 35367417,
+      "operation": "validate",
+      "samples": 5,
+      "stdout_bytes": [
+        982,
+        982,
+        982,
+        982,
+        982
+      ],
+      "warmup_ns": [
+        37055458
+      ],
+      "workload": "vectors"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 38478916,
+      "measured_ns": [
+        31377125,
+        38478916,
+        35972959,
+        32116916,
+        35243917
+      ],
+      "median_ns": 35243917,
+      "min_ns": 31377125,
+      "operation": "emit-c",
+      "samples": 5,
+      "stdout_bytes": [
+        2413,
+        2413,
+        2413,
+        2413,
+        2413
+      ],
+      "warmup_ns": [
+        31120875
+      ],
+      "workload": "vectors"
+    },
+    {
+      "artifact_bytes": [
+        70464,
+        70464,
+        70464,
+        70464,
+        70464
+      ],
+      "max_ns": 33360041,
+      "measured_ns": [
+        24803000,
+        33360041,
+        26893709,
+        22184750,
+        25913875
+      ],
+      "median_ns": 25913875,
+      "min_ns": 22184750,
+      "operation": "c-build",
+      "samples": 5,
+      "stdout_bytes": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "warmup_ns": [
+        22997750
+      ],
+      "workload": "vectors"
+    },
+    {
+      "artifact_bytes": [
+        70456,
+        70456,
+        70456,
+        70456,
+        70456
+      ],
+      "max_ns": 70036750,
+      "measured_ns": [
+        59610250,
+        70036750,
+        65049958,
+        56387292,
+        67810583
+      ],
+      "median_ns": 65049958,
+      "min_ns": 56387292,
+      "operation": "build",
+      "samples": 5,
+      "stdout_bytes": [
+        141,
+        141,
+        141,
+        141,
+        141
+      ],
+      "warmup_ns": [
+        61961000
+      ],
+      "workload": "vectors"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 84579250,
+      "measured_ns": [
+        41561084,
+        31601459,
+        50210750,
+        84579250,
+        39954500
+      ],
+      "median_ns": 41561084,
+      "min_ns": 31601459,
+      "operation": "check",
+      "samples": 5,
+      "stdout_bytes": [
+        62,
+        62,
+        62,
+        62,
+        62
+      ],
+      "warmup_ns": [
+        40253958
+      ],
+      "workload": "borrowing"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 66214666,
+      "measured_ns": [
+        39157167,
+        40436583,
+        50894625,
+        66214666,
+        37228167
+      ],
+      "median_ns": 40436583,
+      "min_ns": 37228167,
+      "operation": "format",
+      "samples": 5,
+      "stdout_bytes": [
+        557,
+        557,
+        557,
+        557,
+        557
+      ],
+      "warmup_ns": [
+        33001959
+      ],
+      "workload": "borrowing"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 63821875,
+      "measured_ns": [
+        37247708,
+        39736626,
+        63821875,
+        61876208,
+        39485417
+      ],
+      "median_ns": 39736626,
+      "min_ns": 37247708,
+      "operation": "context",
+      "samples": 5,
+      "stdout_bytes": [
+        2064,
+        2064,
+        2064,
+        2064,
+        2064
+      ],
+      "warmup_ns": [
+        36916250
+      ],
+      "workload": "borrowing"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 79099500,
+      "measured_ns": [
+        38179375,
+        40982000,
+        79099500,
+        69223000,
+        36551333
+      ],
+      "median_ns": 40982000,
+      "min_ns": 36551333,
+      "operation": "snapshot",
+      "samples": 5,
+      "stdout_bytes": [
+        390,
+        390,
+        390,
+        390,
+        390
+      ],
+      "warmup_ns": [
+        42735333
+      ],
+      "workload": "borrowing"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 55947083,
+      "measured_ns": [
+        39396417,
+        40830750,
+        48387125,
+        55947083,
+        37641292
+      ],
+      "median_ns": 40830750,
+      "min_ns": 37641292,
+      "operation": "validate",
+      "samples": 5,
+      "stdout_bytes": [
+        982,
+        982,
+        982,
+        982,
+        982
+      ],
+      "warmup_ns": [
+        40280375
+      ],
+      "workload": "borrowing"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 54577208,
+      "measured_ns": [
+        36041041,
+        38541375,
+        54577208,
+        45039500,
+        35616792
+      ],
+      "median_ns": 38541375,
+      "min_ns": 35616792,
+      "operation": "emit-c",
+      "samples": 5,
+      "stdout_bytes": [
+        2818,
+        2818,
+        2818,
+        2818,
+        2818
+      ],
+      "warmup_ns": [
+        37250417
+      ],
+      "workload": "borrowing"
+    },
+    {
+      "artifact_bytes": [
+        70536,
+        70536,
+        70536,
+        70536,
+        70536
+      ],
+      "max_ns": 73951875,
+      "measured_ns": [
+        25806167,
+        36325625,
+        73951875,
+        34664667,
+        30763250
+      ],
+      "median_ns": 34664667,
+      "min_ns": 25806167,
+      "operation": "c-build",
+      "samples": 5,
+      "stdout_bytes": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "warmup_ns": [
+        31362042
+      ],
+      "workload": "borrowing"
+    },
+    {
+      "artifact_bytes": [
+        70536,
+        70536,
+        70536,
+        70536,
+        70536
+      ],
+      "max_ns": 347445208,
+      "measured_ns": [
+        62647417,
+        84679917,
+        347445208,
+        74773166,
+        65594375
+      ],
+      "median_ns": 74773166,
+      "min_ns": 62647417,
+      "operation": "build",
+      "samples": 5,
+      "stdout_bytes": [
+        143,
+        143,
+        143,
+        143,
+        143
+      ],
+      "warmup_ns": [
+        69353834
+      ],
+      "workload": "borrowing"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 73049709,
+      "measured_ns": [
+        35979125,
+        37758458,
+        73049709,
+        44122041,
+        45692208
+      ],
+      "median_ns": 44122041,
+      "min_ns": 35979125,
+      "operation": "check",
+      "samples": 5,
+      "stdout_bytes": [
+        62,
+        62,
+        62,
+        62,
+        62
+      ],
+      "warmup_ns": [
+        41028292
+      ],
+      "workload": "chain-32"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 135301292,
+      "measured_ns": [
+        39590625,
+        69227334,
+        135301292,
+        42701000,
+        43608292
+      ],
+      "median_ns": 43608292,
+      "min_ns": 39590625,
+      "operation": "format",
+      "samples": 5,
+      "stdout_bytes": [
+        2170,
+        2170,
+        2170,
+        2170,
+        2170
+      ],
+      "warmup_ns": [
+        42535000
+      ],
+      "workload": "chain-32"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 67673583,
+      "measured_ns": [
+        35475708,
+        67673583,
+        44436000,
+        36685542,
+        37568833
+      ],
+      "median_ns": 37568833,
+      "min_ns": 35475708,
+      "operation": "context",
+      "samples": 5,
+      "stdout_bytes": [
+        1554,
+        1554,
+        1554,
+        1554,
+        1554
+      ],
+      "warmup_ns": [
+        43593250
+      ],
+      "workload": "chain-32"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 71541083,
+      "measured_ns": [
+        37781167,
+        71541083,
+        41607833,
+        37283875,
+        37188625
+      ],
+      "median_ns": 37781167,
+      "min_ns": 37188625,
+      "operation": "snapshot",
+      "samples": 5,
+      "stdout_bytes": [
+        391,
+        391,
+        391,
+        391,
+        391
+      ],
+      "warmup_ns": [
+        38393083
+      ],
+      "workload": "chain-32"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 59789125,
+      "measured_ns": [
+        38623542,
+        59789125,
+        44754375,
+        41166875,
+        57833292
+      ],
+      "median_ns": 44754375,
+      "min_ns": 38623542,
+      "operation": "validate",
+      "samples": 5,
+      "stdout_bytes": [
+        984,
+        984,
+        984,
+        984,
+        984
+      ],
+      "warmup_ns": [
+        40969708
+      ],
+      "workload": "chain-32"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 50595125,
+      "measured_ns": [
+        34607417,
+        42882083,
+        44240292,
+        38441167,
+        50595125
+      ],
+      "median_ns": 42882083,
+      "min_ns": 34607417,
+      "operation": "emit-c",
+      "samples": 5,
+      "stdout_bytes": [
+        9899,
+        9899,
+        9899,
+        9899,
+        9899
+      ],
+      "warmup_ns": [
+        34660542
+      ],
+      "workload": "chain-32"
+    },
+    {
+      "artifact_bytes": [
+        71600,
+        71600,
+        71600,
+        71600,
+        71600
+      ],
+      "max_ns": 161828417,
+      "measured_ns": [
+        57711042,
+        161828417,
+        128897792,
+        59549000,
+        85611333
+      ],
+      "median_ns": 85611333,
+      "min_ns": 57711042,
+      "operation": "c-build",
+      "samples": 5,
+      "stdout_bytes": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "warmup_ns": [
+        54444542
+      ],
+      "workload": "chain-32"
+    },
+    {
+      "artifact_bytes": [
+        71600,
+        71600,
+        71600,
+        71600,
+        71600
+      ],
+      "max_ns": 166552042,
+      "measured_ns": [
+        140403250,
+        166552042,
+        123369292,
+        97783334,
+        114461250
+      ],
+      "median_ns": 123369292,
+      "min_ns": 97783334,
+      "operation": "build",
+      "samples": 5,
+      "stdout_bytes": [
+        142,
+        142,
+        142,
+        142,
+        142
+      ],
+      "warmup_ns": [
+        131362709
+      ],
+      "workload": "chain-32"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 75147833,
+      "measured_ns": [
+        60870750,
+        39984167,
+        75147833,
+        40751167,
+        48496333
+      ],
+      "median_ns": 48496333,
+      "min_ns": 39984167,
+      "operation": "check",
+      "samples": 5,
+      "stdout_bytes": [
+        62,
+        62,
+        62,
+        62,
+        62
+      ],
+      "warmup_ns": [
+        44462291
+      ],
+      "workload": "chain-128"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 98766917,
+      "measured_ns": [
+        98766917,
+        68724167,
+        90774334,
+        43500000,
+        43915917
+      ],
+      "median_ns": 68724167,
+      "min_ns": 43500000,
+      "operation": "format",
+      "samples": 5,
+      "stdout_bytes": [
+        8563,
+        8563,
+        8563,
+        8563,
+        8563
+      ],
+      "warmup_ns": [
+        48471958
+      ],
+      "workload": "chain-128"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 63636292,
+      "measured_ns": [
+        63636292,
+        48547792,
+        62706625,
+        36740416,
+        37034541
+      ],
+      "median_ns": 48547792,
+      "min_ns": 36740416,
+      "operation": "context",
+      "samples": 5,
+      "stdout_bytes": [
+        1560,
+        1560,
+        1560,
+        1560,
+        1560
+      ],
+      "warmup_ns": [
+        41973334
+      ],
+      "workload": "chain-128"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 133205333,
+      "measured_ns": [
+        41645834,
+        133205333,
+        44326166,
+        42310542,
+        33986250
+      ],
+      "median_ns": 42310542,
+      "min_ns": 33986250,
+      "operation": "snapshot",
+      "samples": 5,
+      "stdout_bytes": [
+        391,
+        391,
+        391,
+        391,
+        391
+      ],
+      "warmup_ns": [
+        37904625
+      ],
+      "workload": "chain-128"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 82423584,
+      "measured_ns": [
+        58527166,
+        82423584,
+        66345667,
+        63389666,
+        44964834
+      ],
+      "median_ns": 63389666,
+      "min_ns": 44964834,
+      "operation": "validate",
+      "samples": 5,
+      "stdout_bytes": [
+        984,
+        984,
+        984,
+        984,
+        984
+      ],
+      "warmup_ns": [
+        43802833
+      ],
+      "workload": "chain-128"
+    },
+    {
+      "artifact_bytes": null,
+      "max_ns": 670208750,
+      "measured_ns": [
+        45088542,
+        65755417,
+        71715666,
+        139133125,
+        670208750
+      ],
+      "median_ns": 71715666,
+      "min_ns": 45088542,
+      "operation": "emit-c",
+      "samples": 5,
+      "stdout_bytes": [
+        36572,
+        36572,
+        36572,
+        36572,
+        36572
+      ],
+      "warmup_ns": [
+        36959875
+      ],
+      "workload": "chain-128"
+    },
+    {
+      "artifact_bytes": [
+        75184,
+        75184,
+        75184,
+        75184,
+        75184
+      ],
+      "max_ns": 1448303709,
+      "measured_ns": [
+        168717041,
+        1448303709,
+        240532125,
+        194606584,
+        354710167
+      ],
+      "median_ns": 240532125,
+      "min_ns": 168717041,
+      "operation": "c-build",
+      "samples": 5,
+      "stdout_bytes": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "warmup_ns": [
+        147981792
+      ],
+      "workload": "chain-128"
+    },
+    {
+      "artifact_bytes": [
+        75184,
+        75184,
+        75184,
+        75184,
+        75184
+      ],
+      "max_ns": 721196751,
+      "measured_ns": [
+        175456625,
+        721196751,
+        167666959,
+        183056000,
+        398907000
+      ],
+      "median_ns": 183056000,
+      "min_ns": 167666959,
+      "operation": "build",
+      "samples": 5,
+      "stdout_bytes": [
+        143,
+        143,
+        143,
+        143,
+        143
+      ],
+      "warmup_ns": [
+        193521583
+      ],
+      "workload": "chain-128"
+    }
+  ],
+  "settings": {
+    "c_flags": [
+      "-std=c11",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-pedantic-errors"
+    ],
+    "cache_policy": "fresh processes; no bytecode writes; existing bytecode and OS caches uncontrolled",
+    "environment_overrides": {
+      "LC_ALL": "C",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONHASHSEED": "0"
+    },
+    "order": "workload, phase, repetition, operation; fixed sequential order",
+    "repetitions": 5,
+    "timeout_seconds": 60,
+    "timing": "perf_counter_ns around process launch/communicate; output verification and receipt writes excluded",
+    "warmups": 1
+  },
+  "source_report_sha256": "75af54c1af5b58e5f8ac0fd84f92815163c1049a2ca19c955733a1eebb7f6cd7",
+  "source_schema": "talven.tooling-baseline.v1",
+  "started_at": "2026-09-08T08:53:56.032715+00:00",
+  "suite": "m1c-tooling-workloads-v1",
+  "unmeasured": [
+    "model/tokens/cost (no provider)",
+    "memory/allocations",
+    "LSP latency",
+    "native throughput",
+    "cold-cache performance"
+  ],
+  "workloads": [
+    {
+      "candidate": {
+        "bytes": 428,
+        "sha256": "68173a7cf8dbe1b99147e04e16fb425597b97c067c9e6ce4ce89f54082b267f0"
+      },
+      "criteria": "Four full-i32 dot products (positive, negative, zero, large); main returns zero.",
+      "generated_c": {
+        "bytes": 2413,
+        "sha256": "6946c505d2f84f5b154953e9ac61ed4dd2eb0856bdb03e50977a10c20529b63f"
+      },
+      "id": "vectors",
+      "native_verified": true,
+      "oracle": {
+        "bytes": 560,
+        "sha256": "e1e806800b3dac5c07a9713012ae84cf1d5e70fdae6e1b32c74c77bbc0d69f17"
+      },
+      "origin": "examples/vectors.tal",
+      "source": {
+        "bytes": 382,
+        "sha256": "769fc486140c54f44da5295921748f30b30e0ef8ecaccdca6a9de3800661f725"
+      }
+    },
+    {
+      "candidate": {
+        "bytes": 603,
+        "sha256": "43bb862bf92c5e99c23525abb9c9d104f997883134f89aed6765ca95b7384b8a"
+      },
+      "criteria": "Five initial values; read preserves owner, add/step_twice return and mutate correctly; main returns zero.",
+      "generated_c": {
+        "bytes": 2818,
+        "sha256": "c0a73c63b7b133468b3ef1b50880a3467909e026da6c76345694edd9d6a69d48"
+      },
+      "id": "borrowing",
+      "native_verified": true,
+      "oracle": {
+        "bytes": 706,
+        "sha256": "d21cf0dbd594e5030828e1356d6033742df35efbd412e908336373129ef1496b"
+      },
+      "origin": "examples/borrowing.tal",
+      "source": {
+        "bytes": 557,
+        "sha256": "b56fc55d264cea820015d78f4ba94804726b5a7f50c779864344e8f7f95f4a2c"
+      }
+    },
+    {
+      "candidate": {
+        "bytes": 2216,
+        "sha256": "acc026c947084b2f8fe6bd4df3c527dc17aa9edfcbcffb615a1de03c87e02ba0"
+      },
+      "criteria": "32-helper chain returns input + 32 for three full-i32 inputs; main returns zero.",
+      "generated_c": {
+        "bytes": 9899,
+        "sha256": "33bc5de4a5773b41f4a1ec72a7047bb112d34b0ca2549fe427ecdde81288d162"
+      },
+      "id": "chain-32",
+      "native_verified": true,
+      "oracle": {
+        "bytes": 270,
+        "sha256": "3986eead31a1c4e2a21796b54e1b3bd3aeaf347482ded579a3130bdefdabbbc8"
+      },
+      "origin": "generated: 32 helpers plus main",
+      "source": {
+        "bytes": 2170,
+        "sha256": "90d4ddf2d2cecde01d170ccb7e223eceafff14cb48df0b4fdf3e20a62143823b"
+      }
+    },
+    {
+      "candidate": {
+        "bytes": 8609,
+        "sha256": "e556701f0ffdd21d81a60556eeae0b10327181fd07f9a37db5b986aafa7c97b0"
+      },
+      "criteria": "128-helper chain returns input + 128 for three full-i32 inputs; main returns zero.",
+      "generated_c": {
+        "bytes": 36572,
+        "sha256": "1d67c043628d8823899bb42520a40a49ed12994c0d2dae492ba2245ed563369a"
+      },
+      "id": "chain-128",
+      "native_verified": true,
+      "oracle": {
+        "bytes": 275,
+        "sha256": "b877f50e8e8ad93c51f18c14e0116548ff897c6d8b2759f1c6b7e08fd2e7663b"
+      },
+      "origin": "generated: 128 helpers plus main",
+      "source": {
+        "bytes": 8563,
+        "sha256": "c507333baed34f93c849a66db1428a21d9319b1ce62f1eef2daa332c7e5980a4"
+      }
+    }
+  ]
+}

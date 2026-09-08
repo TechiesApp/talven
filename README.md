@@ -69,6 +69,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 | [Read-only edit previews](docs/edit-validation.md) | Exact revision snapshots, checked candidates, structured diagnostics and declaration comparisons |
 | [Edit preview evidence](docs/edit-validation-evidence.md) | Actual revision/repair checks, separate native acceptance and offline regressions |
 | [Offline tooling baseline](docs/tooling-baseline.md) | Reproducible CLI/build timings, output sizes, native acceptance and archived measurements |
+| [Tooling baseline evidence](docs/tooling-baseline-evidence.md) | Actual sample ranges and byte sizes, with host conditions and measurement limits |
 | [Requirements](docs/requirements.md) | Traceable record of the product requirements and evidence needed to satisfy them |
 | [Architecture](docs/architecture.md) | Compiler, native core, optional modules, target support, and toolchain |
 | [Architecture diagrams](docs/architecture-diagrams.md) | Agent verification, protected release boundaries, and CPU/GPU resource lifetimes |

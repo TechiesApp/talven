@@ -1,6 +1,6 @@
 # Offline compiler and tooling baseline
 
-Status: implemented experiment, report `talven.tooling-baseline.v1`, workload suite `m1c-tooling-workloads-v1`. This measures the current Python/C11 bootstrap on fixed inputs. It does not choose a production compiler, compare languages, measure model effectiveness, or complete M1. See [Proposal 0009](proposals/0009-offline-tooling-baseline.md).
+Status: implemented experiment, report `talven.tooling-baseline.v1`, workload suite `m1c-tooling-workloads-v1`. This measures the current Python/C11 bootstrap on fixed inputs. It does not choose a production compiler, compare languages, measure model effectiveness, or complete M1. See [Proposal 0009](proposals/0009-offline-tooling-baseline.md) and [actual observations](tooling-baseline-evidence.md).
 
 ## Run and retain a baseline
 
@@ -64,7 +64,7 @@ The output directory retains:
 - `report.json`: raw command timings/status, checks, summaries, exact argv/order/settings, host OS/architecture/CPU model when available, Python and C executable identities, C target/version, source/compiler identities, timestamps, and Git revision/dirty state.
 - `inputs/`: the benchmark's executing sources, all compiler modules, and both original example sources with byte lengths and SHA-256 hashes.
 - `workloads/`: source/candidate/oracle files, generated C, independent checker, and every warmup/measured executable, with report hashes for measured artifacts.
-- `commands/`: every command's exact stdout/stderr bytes, with hashes and lengths in the report.
+- `commands/`: every runner-launched command's exact stdout/stderr bytes, with hashes and lengths in the report. Internal child commands launched by the compiler retain the compiler's existing output behavior.
 
 Inputs and compiler/tool identities are checked for observed changes before a successful report. Hashes identify bytes; they do not authenticate archives or guarantee an atomic filesystem snapshot. The checkout, Python runtime, C toolchain, and host remain trusted. Standard libraries, system headers, linked libraries, inherited environment beyond the explicit overrides, and compiler subtools are not bundled or fully pinned. Bytecode/cache contents are not archived. Restore those environmental inputs separately for comparable repeats; artifact preservation does not promise bit-identical timing or binaries. The runner has subprocess timeouts but no hostile-process sandbox or comprehensive memory/disk quotas.
 
