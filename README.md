@@ -59,7 +59,8 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 | [M1b validation](docs/formatting-validation.md) | Historical formatter checks and native CI evidence |
 | [Borrowing guide](docs/borrowing.md) | Call-scoped loans, mutation, evaluation order, and context v2 migration |
 | [M1c validation](docs/borrowing-validation.md) | Borrow rejection, native ordering/lifetimes, LSP/context, and sanitizer evidence |
-| [Agent experiments](experiments/README.md) | Initial task corpus and model evaluation protocol |
+| [Agent experiments](experiments/README.md) | Reproducible evaluation harness, independent acceptance, adapter protocol, and measurement accounting |
+| [Evaluation validation](docs/evaluation-validation.md) | Actual harness test and offline fixture evidence, with unmeasured model metrics explicit |
 | [Requirements](docs/requirements.md) | Traceable record of the product requirements and evidence needed to satisfy them |
 | [Architecture](docs/architecture.md) | Compiler, native core, optional modules, target support, and toolchain |
 | [Architecture diagrams](docs/architecture-diagrams.md) | Agent verification, protected release boundaries, and CPU/GPU resource lifetimes |
@@ -88,7 +89,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 
 ## First implementation objective
 
-M1a starts the agent workflow and native subset; M1b adds canonical formatting and native CI; M1c adds a defined call-scoped borrowing subset. Consult the validation records for successful target runs. Completing M1 still requires controlled agent task evaluations and review of the implemented rules. Expand the runtime and ecosystem after these foundations have evidence.
+M1a starts the agent workflow and native subset; M1b adds canonical formatting and native CI; M1c adds a defined call-scoped borrowing subset. The [evaluation harness](experiments/README.md) now runs the initial corpus with independent native acceptance, source-only/compiler-context conditions, bounded repairs, and provenance-aware token/cost reporting. Offline fixtures validate the harness; no live model comparison or token savings is claimed. Consult the validation records for successful target runs. Completing M1 still requires controlled agent task evaluations and review of the implemented rules. Expand the runtime and ecosystem after these foundations have evidence.
 
 ## Project status
 
