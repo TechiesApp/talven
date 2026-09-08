@@ -33,3 +33,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0003 | [Call-scoped borrowing](0003-call-scoped-borrowing.md) | Draft |
 | 0004 | [Reproducible agent evaluation](0004-reproducible-agent-evaluation.md) | Draft |
 | 0005 | [Borrowing evaluation corpus](0005-borrowing-evaluation-corpus.md) | Draft |
+| 0006 | [Anthropic evaluation adapter](0006-anthropic-evaluation-adapter.md) | Draft |
