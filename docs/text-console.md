@@ -95,3 +95,15 @@ The implementation working tree passed **232 tests with no skips** in a Linux AR
 The text lifetime/embedded-zero test passed ASan/UBSan with stack-use-after-return detection and inlining disabled. The separate borrowing sanitizer check passed all six executions. The existing freestanding probe passed all 18 success/trap executions with dependency inspection. Example formatting and whitespace checks passed; documentation validation checked 267 relative links and rendered four diagrams at that point.
 
 Compiler module fingerprint for these executions: `78074c94edcd20405a117ef51a943cfbe2c773112a195ffeb663a8c619c7c389`. These were working-tree checks, not a clean release benchmark; local raw logs and the freestanding report remain under ignored `build/hello-*` paths. GitHub checks provide separate clean-checkout target evidence after publication.
+
+### GitHub execution record, 8 September 2026
+
+[PR #11](https://github.com/TechiesApp/talven/pull/11) implementation commit `0df054429aa5f84c3f75eae922f2627b39f47a4a` passed the [compiler workflow](https://github.com/TechiesApp/talven/actions/runs/34212251417) with the same compiler fingerprint. Each job verified its actual architecture, passed **232 tests without skips**, and independently executed the greeting with exact stdout, empty stderr, and exit zero:
+
+| Actual Linux host | CPython | C compiler and target | Execution |
+| --- | --- | --- | --- |
+| x86-64 | 3.11.16 | GCC 13.3.0, `x86_64-linux-gnu` | [Passed](https://github.com/TechiesApp/talven/actions/runs/34212251417/job/102015724662) |
+| x86-64 | 3.12.14 | GCC 13.3.0, `x86_64-linux-gnu` | [Passed](https://github.com/TechiesApp/talven/actions/runs/34212251417/job/102015724987) |
+| ARM64 | 3.12.14 | GCC 13.3.0, `aarch64-linux-gnu` | [Passed](https://github.com/TechiesApp/talven/actions/runs/34212251417/job/102015724958) |
+
+All three jobs also passed both offline agent corpora, the Anthropic fixtures, borrowing sanitizers, the no-libc probe, and the tooling baseline correctness gates. The [documentation and DCO workflow](https://github.com/TechiesApp/talven/actions/runs/34212251395) passed. These results establish the tested behavior on those hosts; they do not establish speed improvements or live-model effectiveness. Later documentation-only evidence additions do not change the compiler fingerprint above.

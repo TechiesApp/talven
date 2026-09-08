@@ -34,7 +34,7 @@ python3 -m unittest discover -s tests -v
 
 The vector example exits zero when its calculation is correct. See the [prototype guide](docs/prototype.md) for grammar, ownership rules, diagnostics, context/cache identity, LSP integration, and freestanding emission. See the [validation record](docs/prototype-validation.md) for actual target evidence.
 
-Native CI passed all **80 tests on Linux x86-64 and ARM64**, with no skips. All three jobs also passed six ASan/UBSan borrowing executions and built and ran both CLI examples. See the [M1c validation record](docs/borrowing-validation.md) for exact host, compiler, and job evidence.
+The historical M1c native CI runs passed all **80 tests on Linux x86-64 and ARM64**, with no skips. All three jobs also passed six ASan/UBSan borrowing executions and built and ran both original CLI examples. See the [M1c validation record](docs/borrowing-validation.md) for that host, compiler, and job evidence. The static-text guide above records the expanded suite and greeting executions.
 
 The implemented subset has `i32`, `bool`, static immutable `str` values, functions, conditionals, and move-only records containing scalars. [M1c borrowing](docs/borrowing.md) adds `let mut` record owners, shared `&Record` and exclusive `&mut Record` call arguments, and field assignment. Borrowed references cannot be stored or returned; static text views are copyable and can be returned. Escaping borrows, heap/resource cleanup, full LSP features, concurrency, GPU backends, package adapters, and comparative model benchmarks remain future work.
 

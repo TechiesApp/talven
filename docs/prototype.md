@@ -2,7 +2,7 @@
 
 Status: experimental implementation of `m1-static-text-v1`, building on M1a/M1b/M1c. The grammar and file extension `.tal` are prototype choices. The broader language design remains under development.
 
-[M1b](formatting.md) introduced canonical formatting and native CI. [M1c](borrowing.md) extends the grammar below with call-scoped borrowing and record-field mutation, with a new context schema. See the [current validation record](borrowing-validation.md); earlier M1a/M1b records remain historical evidence.
+[M1b](formatting.md) introduced canonical formatting and native CI. [M1c](borrowing.md) extends the grammar below with call-scoped borrowing and record-field mutation, with a new context schema. See the [M1c validation record](borrowing-validation.md); earlier M1a/M1b records remain historical evidence.
 
 ## Run it
 
@@ -97,7 +97,9 @@ These are **affine stack-value rules with call-scoped borrowing**, not a general
 | `symbol`, `include_body` | The request's selection and optional implementation-text inclusion |
 | `cache_key` | SHA-256 over the preceding identity fields; a cache identifier, not an authenticity proof |
 | `functions`, `records` | Checked selected function contracts and relevant record schemas |
-| `dependencies` | Direct callees' contracts; not an unlimited transitive dependency closure |
+| `dependencies` | Direct source callees' contracts; not an unlimited transitive dependency closure |
+| `builtins` | Builtin contracts used by selected functions and their direct source callees; separate from source declarations |
+| `required_runtime` | Optional runtime requirements across all emitted functions; frontend facts, not a build or permission check |
 | `callers` | Names of functions in this source file that directly call the selected function |
 | `validation` | `frontend-only`: parsing, types, and the prototype's move/borrow rules passed |
 
@@ -113,6 +115,7 @@ These are **affine stack-value rules with call-scoped borrowing**, not a general
 | --- | --- |
 | E0001 / E0002 | Lexical / syntax error |
 | E0005 | Input, token, syntax-depth, or parser-recursion limit |
+| E0006 | Invalid escape, raw ASCII control, or unterminated text literal |
 | E0101 / E0102 | Unknown / duplicate name |
 | E0201 / E0202 | Type mismatch / integer literal range |
 | E0203 / E0204 | Arguments or fields / unsupported type operation |
@@ -121,6 +124,7 @@ These are **affine stack-value rules with call-scoped borrowing**, not a general
 | E0302 / E0303 | Conflicting active loan / missing mutation permission |
 | E0304 / E0305 | Reference escape or missing explicit reborrow / unsupported borrow or mutation place |
 | E0401 / E0402 / E0403 | Invalid native entry / C build failure / output would replace source |
+| E0404 | Console opt-in missing or incompatible freestanding/console emission |
 | E0501 / E0502 | Stale source / context byte budget |
 | E0601 / E0602 / E0603 / E0604 | Noncanonical layout / formatting output limit / unsupported in-place target / token-preservation failure; see [formatting](formatting.md) |
 | E0701 / E0702 / E0703 | Invalid edit-preview request / compiler revision mismatch / preview output budget; see [edit previews](edit-validation.md) |

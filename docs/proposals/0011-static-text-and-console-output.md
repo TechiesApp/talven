@@ -4,7 +4,7 @@
 - Author(s): Talven contributors, following the owner's Hello World request
 - Requirements affected: R01, R07, R08, R10, R11, R12, R15, R24, R25
 - Decisions affected: D07, D09, D28, D39
-- Discussion: implementation pull request for this proposal
+- Discussion: [PR #11](https://github.com/TechiesApp/talven/pull/11), building on [design PR #10](https://github.com/TechiesApp/talven/pull/10)
 
 ## Problem
 
