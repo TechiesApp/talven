@@ -8,7 +8,7 @@ Deliver a traceable requirement set, a minimal grammar proposal, ownership rules
 
 Gate: reviewers can distinguish product requirements from proposals and identify unresolved semantics. The specification is short enough to give to an unfamiliar model.
 
-Current repository contribution: requirements and architecture are documented. The [M1a guide](prototype.md) defines a small implemented grammar and affine value rules, with an [agent evaluation protocol](../experiments/README.md). A complete language specification and protected evaluation runner remain unfinished.
+Current repository contribution: requirements and architecture are documented. The [M1a guide](prototype.md) defines a small implemented grammar and affine value rules, with an [executable agent evaluation protocol](../experiments/README.md). The runner owns source-edit acceptance and records reproducible inputs; hostile-process isolation and a complete language specification remain unfinished.
 
 ## M1: Small native subset with agent tooling
 
@@ -21,6 +21,8 @@ Prototype parsing, strict types, functions, basic data types, a limited ownershi
 Compile and run a useful small program on the first ARM64 and x86-64 hosts. Keep the source of truth shared between CLI, LSP, and agent interfaces from the beginning.
 
 Gate: a model can make a bounded change using a fixed context budget, and independent checks establish correctness. Invalid ownership and type examples fail predictably.
+
+Evaluation increment: [Proposal 0004](proposals/0004-reproducible-agent-evaluation.md) implements the provider-neutral four-task harness, source-only/compiler-context trials, bounded repairs, independent structural/native checks, archived provenance, and token/cost accounting that preserves unknown values. Scripted fixtures validate execution; controlled live model results remain open, so this does not complete the M1 gate.
 
 Do an early no-heap/freestanding experiment to discover hidden runtime assumptions. A broad embedded target matrix is not required at this stage.
 
@@ -80,9 +82,9 @@ No numeric target is claimed until a baseline exists. Report the model, tokenize
 1. Evaluate M1c call-scoped borrowing diagnostics and context v2 with controlled agents. Escaping references, heap lifetimes, and field-sensitive borrowing need separate designs.
 2. Evaluate the bounded context and diagnostics with agents, then define atomic edit validation.
 3. Review the new native CI evidence on ARM64/x86-64 and measure bootstrap/backend costs before deciding production implementation choices.
-4. Run the initial task corpus and establish equivalent cross-language baselines for agent cost and success.
+4. Run the initial task corpus with live agents using the implemented harness, then establish equivalent cross-language baselines for agent cost and success. Offline fixture runs are not model measurements.
 5. Specify capability transfer and protected policy enforcement.
 6. Choose the first foreign library and first GPU experiment from concrete workloads.
-7. Review [Proposal 0001](proposals/0001-m1a-reference-compiler.md), [Proposal 0002](proposals/0002-canonical-formatting-and-native-checks.md), and [Proposal 0003](proposals/0003-call-scoped-borrowing.md), recording decisions from the grammar, ownership, context, and formatting experiments. The language name and Apache-2.0 license are already selected.
+7. Review [Proposal 0001](proposals/0001-m1a-reference-compiler.md), [Proposal 0002](proposals/0002-canonical-formatting-and-native-checks.md), [Proposal 0003](proposals/0003-call-scoped-borrowing.md), and [Proposal 0004](proposals/0004-reproducible-agent-evaluation.md), recording decisions from the grammar, ownership, context, formatting, and evaluation experiments. The language name and Apache-2.0 license are already selected.
 
 These are planning items, not automatically created issues or assigned commitments.
