@@ -5,9 +5,10 @@ import math
 from pathlib import Path
 import sys
 
+from . import CORPUS_VERSION
 from .protocol import encode, strict_json
 from .runner import load_run, make_report, reverify, run_experiment
-from .tasks import TASKS
+from .tasks import CORPORA, get_tasks
 
 
 def bounded_int(low, high):
@@ -29,11 +30,13 @@ def positive_seconds(text):
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Reproducible Talven source-edit agent evaluation")
     commands = parser.add_subparsers(dest="command", required=True)
-    commands.add_parser("tasks", help="Print the versioned public corpus")
+    tasks = commands.add_parser("tasks", help="Print the versioned public corpus")
+    tasks.add_argument("--corpus", choices=CORPORA, default=CORPUS_VERSION)
     run = commands.add_parser("run", help="Run a trusted adapter; creates a new artifact directory")
     run.add_argument("--adapter", required=True, type=Path)
     run.add_argument("--out", required=True, type=Path)
-    run.add_argument("--task", action="append", choices=TASKS)
+    run.add_argument("--corpus", choices=CORPORA, default=CORPUS_VERSION)
+    run.add_argument("--task", action="append", help="Task ID from the selected corpus; may be repeated")
     run.add_argument("--context", choices=("source", "compiler", "both"), default="both")
     run.add_argument("--repetitions", type=bounded_int(1, 100), default=1)
     run.add_argument("--max-repairs", type=bounded_int(0, 20), default=2)
@@ -54,15 +57,16 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         if args.command == "tasks":
-            value = TASKS
+            value = get_tasks(args.corpus)
         elif args.command == "run":
-            tasks = args.task or list(TASKS)
+            tasks = args.task or list(get_tasks(args.corpus))
             if len(set(tasks)) != len(tasks):
                 raise ValueError("Duplicate task selection; use --repetitions instead")
             modes = ["source", "compiler"] if args.context == "both" else [args.context]
             limits = {key: getattr(args, key) for key in ("max_repairs", "context_bytes", "adapter_timeout",
                       "native_timeout", "verification_timeout", "task_timeout")}
-            value = run_experiment(args.adapter, args.out, tasks, modes, args.repetitions, args.cc, limits)
+            value = run_experiment(args.adapter, args.out, tasks, modes, args.repetitions, args.cc, limits,
+                                   corpus_version=args.corpus)
             print(encode({"output": str(args.out.resolve()), **make_report(value)}), end="")
             return 2 if value["summary"]["error_tasks"] else 1 if value["summary"]["failed_tasks"] else 0
         elif args.command == "report":

@@ -16,7 +16,7 @@ from . import CORPUS_VERSION, SCHEMA
 from .metrics import aggregate, summarize_trial
 from .process import run_process
 from .protocol import candidate_source, digest, encode, parse_response, read_config, strict_json
-from .tasks import TASKS
+from .tasks import get_tasks
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,16 +30,17 @@ def write_json(path, value):
     temporary.replace(path)
 
 
-def pinned_files():
+def pinned_files(corpus_version=CORPUS_VERSION):
+    tasks = get_tasks(corpus_version)
     files = {ROOT / name for name in GUIDES}
-    files.update(ROOT / task["source"] for task in TASKS.values())
+    files.update(ROOT / task["source"] for task in tasks.values())
     for package in ("talven", "experiments"):
         files.update((ROOT / package).rglob("*.py"))
     return {str(path.relative_to(ROOT)): path.read_bytes() for path in sorted(files)}
 
 
-def assert_unchanged(hashes, adapter=None):
-    current = {name: digest(data) for name, data in pinned_files().items()}
+def assert_unchanged(hashes, adapter=None, corpus_version=CORPUS_VERSION):
+    current = {name: digest(data) for name, data in pinned_files(corpus_version).items()}
     if current != hashes:
         raise ValueError("Pinned compiler, harness, guide, or task inputs changed; stop and start a new run")
     if adapter:
@@ -106,11 +107,15 @@ def trial_id(task, mode, repetition):
     return f"{task}-{mode}-{repetition:03d}"
 
 
-def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, limits, checkpoint):
+def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, limits, checkpoint,
+              corpus_version=CORPUS_VERSION):
+    tasks = get_tasks(corpus_version)
+    if task_id not in tasks:
+        raise ValueError(f"Task {task_id!r} is not in corpus {corpus_version!r}")
     identifier = trial_id(task_id, mode, repetition)
     directory = run_dir / identifier
     directory.mkdir()
-    source = inputs[TASKS[task_id]["source"]].decode("utf-8")
+    source = inputs[tasks[task_id]["source"]].decode("utf-8")
     started = time.monotonic()
     result = {"id": identifier, "task": task_id, "context_mode": mode, "repetition": repetition,
               "status": "error", "attempts": [], "elapsed_seconds": 0.0}
@@ -134,8 +139,8 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
             result.update(status="error", error="task_timeout")
             break
         try:
-            assert_unchanged(hashes, config)
-            payload = {"instruction": TASKS[task_id]["instruction"], "source": source, "feedback": feedback}
+            assert_unchanged(hashes, config, corpus_version)
+            payload = {"instruction": tasks[task_id]["instruction"], "source": source, "feedback": feedback}
             if mode == "compiler":
                 payload["compiler_context"] = compiler_context(source, limits["context_bytes"])
             messages.append({"role": "user", "content": encode(payload)})
@@ -144,7 +149,7 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
             break
         attempt_dir = directory / f"attempt-{attempt_index:03d}"
         attempt_dir.mkdir()
-        request = {"schema": "talven.eval.request.v1", "corpus_version": CORPUS_VERSION,
+        request = {"schema": "talven.eval.request.v1", "corpus_version": corpus_version,
                    "task_id": task_id, "context_mode": mode, "repetition": repetition,
                    "attempt": attempt_index, "allowed_files": ["task.tal"],
                    "model": {key: config[key] for key in ("provider", "model", "tokenizer", "settings")},
@@ -162,7 +167,7 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
         (attempt_dir / "response.txt").write_text(process["stdout"], encoding="utf-8")
         attempt["response_sha256"] = digest(process["stdout"].encode("utf-8"))
         try:
-            assert_unchanged(hashes, config)
+            assert_unchanged(hashes, config, corpus_version)
             # A failing adapter can still return a valid billing receipt. Keep
             # that observed usage even though no candidate will be accepted.
             response, usage = parse_response(process["stdout"])
@@ -212,7 +217,8 @@ def make_report(run, costs=None):
         raise ValueError("Verification cost receipts must be keyed by existing trial IDs")
     trials = [{**trial, "metrics": summarize_trial(trial["attempts"], run["measurement_kind"], costs.get(trial["id"]))}
               for trial in run["trials"]]
-    report = {"schema": "talven.eval.report.v1", "measurement_kind": run["measurement_kind"],
+    report = {"schema": "talven.eval.report.v1", "corpus_version": run.get("corpus_version", CORPUS_VERSION),
+            "measurement_kind": run["measurement_kind"],
             "cost_scope": "model + adapter tools + measured verification; excludes human labor",
             "run_complete": run["complete"], "planned_trials": run["planned_trials"],
             "summary": aggregate(trials),
@@ -229,10 +235,17 @@ def make_report(run, costs=None):
     return report
 
 
-def run_experiment(adapter_path, output, tasks, modes, repetitions, cc, limits):
+def run_experiment(adapter_path, output, tasks, modes, repetitions, cc, limits,
+                   corpus_version=CORPUS_VERSION):
+    corpus = get_tasks(corpus_version)
+    for task in tasks:
+        if task not in corpus:
+            raise ValueError(f"Task {task!r} is not in corpus {corpus_version!r}")
+    if len(set(tasks)) != len(tasks):
+        raise ValueError("Duplicate task selection; use --repetitions instead")
     config = read_config(adapter_path)
     env = environment(cc)
-    inputs = pinned_files()
+    inputs = pinned_files(corpus_version)
     hashes = {name: digest(data) for name, data in inputs.items()}
     run_dir = Path(output).resolve()
     run_dir.mkdir(parents=True, exist_ok=False)
@@ -248,7 +261,7 @@ def run_experiment(adapter_path, output, tasks, modes, repetitions, cc, limits):
         destination = run_dir / "inputs" / name
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_bytes(data)
-    run = {"schema": SCHEMA, "corpus_version": CORPUS_VERSION, "measurement_kind": config["kind"],
+    run = {"schema": SCHEMA, "corpus_version": corpus_version, "measurement_kind": config["kind"],
            "started_at": datetime.now(timezone.utc).isoformat(), "complete": False,
            "planned_trials": len(tasks) * len(modes) * repetitions,
            "environment": env, "adapter": config, "input_hashes": hashes,
@@ -273,8 +286,9 @@ def run_experiment(adapter_path, output, tasks, modes, repetitions, cc, limits):
     for repetition in range(1, repetitions + 1):
         for task in tasks:
             for mode in modes:
-                run_trial(task, mode, repetition, run_dir, config, env, inputs, hashes, limits, checkpoint)
-                assert_unchanged(hashes, config)
+                run_trial(task, mode, repetition, run_dir, config, env, inputs, hashes, limits, checkpoint,
+                          corpus_version)
+                assert_unchanged(hashes, config, corpus_version)
     run["complete"] = True
     checkpoint()
     return run
@@ -282,15 +296,27 @@ def run_experiment(adapter_path, output, tasks, modes, repetitions, cc, limits):
 
 def load_run(directory):
     run = strict_json((Path(directory) / "run.json").read_text(encoding="utf-8"))
-    if not isinstance(run, dict) or run.get("schema") != SCHEMA or run.get("corpus_version") != CORPUS_VERSION:
+    if not isinstance(run, dict) or run.get("schema") != SCHEMA:
         raise ValueError("Unsupported evaluation run schema or corpus")
+    get_tasks(run.get("corpus_version"))
     return run
 
 
 def reverify(directory, cc=None):
     directory = Path(directory).resolve()
     run = load_run(directory)
-    assert_unchanged(run["input_hashes"])
+    corpus_version = run["corpus_version"]
+    tasks = get_tasks(corpus_version)
+    for task in run.get("task_order", []):
+        if task not in tasks:
+            raise ValueError(f"Archived task {task!r} is not in corpus {corpus_version!r}")
+    for trial in run["trials"]:
+        task, mode, repetition = trial["task"], trial["context_mode"], trial["repetition"]
+        if task not in tasks or mode not in ("source", "compiler") or type(repetition) is not int or not 1 <= repetition <= 100:
+            raise ValueError(f"Invalid trial identity for corpus {corpus_version!r}")
+        if trial["id"] != trial_id(task, mode, repetition):
+            raise ValueError("Trial ID does not match its inputs")
+    assert_unchanged(run["input_hashes"], corpus_version=corpus_version)
     # Archived metadata is untrusted data, never authority to select a program.
     env = environment(cc or "cc")
     limits = run["limits"]
@@ -300,11 +326,7 @@ def reverify(directory, cc=None):
             raise ValueError("Invalid archived verification timeout")
     results = []
     for trial in run["trials"]:
-        task, mode, repetition = trial["task"], trial["context_mode"], trial["repetition"]
-        if task not in TASKS or mode not in ("source", "compiler") or type(repetition) is not int or not 1 <= repetition <= 100:
-            raise ValueError("Invalid trial identity")
-        if trial["id"] != trial_id(task, mode, repetition):
-            raise ValueError("Trial ID does not match its inputs")
+        task = trial["task"]
         attempts = trial["attempts"]
         last = attempts[-1] if attempts else {}
         if "source_sha256" not in last:
@@ -318,5 +340,6 @@ def reverify(directory, cc=None):
             raise ValueError("Candidate artifact changed or escaped the run directory")
         result = verify_candidate(task, candidate, env, run["limits"]["verification_timeout"], run["limits"]["native_timeout"])
         results.append({"id": trial["id"], **result})
-    return {"schema": "talven.eval.reverification.v1", "environment": env, "trials": results,
+    return {"schema": "talven.eval.reverification.v1", "corpus_version": corpus_version,
+            "environment": env, "trials": results,
             "note": "Fresh correctness checks only; no new model usage or billing measurements"}

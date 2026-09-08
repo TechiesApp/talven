@@ -24,6 +24,8 @@ Gate: a model can make a bounded change using a fixed context budget, and indepe
 
 Evaluation increment: [Proposal 0004](proposals/0004-reproducible-agent-evaluation.md) implements the provider-neutral four-task harness, source-only/compiler-context trials, bounded repairs, independent structural/native checks, archived provenance, and token/cost accounting that preserves unknown values. Scripted fixtures validate execution; controlled live model results remain open, so this does not complete the M1 gate.
 
+Borrowing evaluation increment: [Proposal 0005](proposals/0005-borrowing-evaluation-corpus.md) adds a separately versioned four-task corpus for overlapping loans, missing write permission, explicit reborrowing, and evaluation order. The original corpus remains the default. Independent checks include mutation, call order, and dependence on helper return values; both corpora can be exercised offline. See [actual borrowing evaluation validation](borrowing-evaluation-validation.md). Next: implement a selected provider adapter with offline protocol tests, then run a live pilot only with an approved budget. Use actual results to guide language/tooling changes before claiming the M1 gate is complete.
+
 Do an early no-heap/freestanding experiment to discover hidden runtime assumptions. A broad embedded target matrix is not required at this stage.
 
 ## M2: Memory and concurrency foundations
@@ -86,5 +88,6 @@ No numeric target is claimed until a baseline exists. Report the model, tokenize
 5. Specify capability transfer and protected policy enforcement.
 6. Choose the first foreign library and first GPU experiment from concrete workloads.
 7. Review [Proposal 0001](proposals/0001-m1a-reference-compiler.md), [Proposal 0002](proposals/0002-canonical-formatting-and-native-checks.md), [Proposal 0003](proposals/0003-call-scoped-borrowing.md), and [Proposal 0004](proposals/0004-reproducible-agent-evaluation.md), recording decisions from the grammar, ownership, context, formatting, and evaluation experiments. The language name and Apache-2.0 license are already selected.
+8. Review [Proposal 0005](proposals/0005-borrowing-evaluation-corpus.md) and evaluate the borrowing corpus with live agents; fixtures establish harness behavior only.
 
 These are planning items, not automatically created issues or assigned commitments.

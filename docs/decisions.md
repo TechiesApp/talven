@@ -41,6 +41,7 @@ Status definitions:
 | D27 | Proposed | Explicit call-scoped shared/exclusive borrowing of named scalar-field records, with no reference escape | [Proposal 0003](proposals/0003-call-scoped-borrowing.md); implemented experiment with mutation, conflict rejection, and explicit reborrowing |
 | D28 | Proposed | Preserve source-order effects in native lowering and expose borrow contracts through context v2 | Proposal 0003; ordered native fixtures and shared CLI/LSP/context tests; no complete effect system or performance claim |
 | D29 | Proposed | Versioned provider-neutral agent evaluations with runner-controlled acceptance and provenance-aware accounting | [Proposal 0004](proposals/0004-reproducible-agent-evaluation.md); source-only/compiler-context trials, bounded repairs, archived inputs, and unknown metrics preserved; live model comparisons remain unmeasured |
+| D30 | Proposed | Preserve the original evaluation corpus and select borrowing repairs separately | [Proposal 0005](proposals/0005-borrowing-evaluation-corpus.md); independent native values, mutation, call order, and return-sensitivity checks; live agent results remain unmeasured |
 
 ## Open decisions
 

@@ -2,6 +2,8 @@
 
 Measured on 8 September 2026. This record concerns harness correctness, not live agent effectiveness. No paid model calls were made, and no comparative model tokens, dollar costs, or savings were measured.
 
+This is the historical validation of the original `m1c-agent-tasks-v1` increment. The subsequent [borrowing corpus validation](borrowing-evaluation-validation.md) records the expanded harness checks and both selectable suites.
+
 ## Linux ARM64 execution
 
 The full unchanged compiler suite and new harness tests ran in a Linux ARM64 container on an ARM64 Docker host:
@@ -42,4 +44,4 @@ All **39 harness tests passed** on macOS ARM64 using Python 3.14.4 and Apple Cla
 
 The documentation link/diagram check is required before the PR. Native Linux x86-64 and ARM64 CI also run the harness fixture and reverification alongside the existing conformance/sanitizer checks. A configured job is not execution evidence; inspect actual PR checks before making additional target claims.
 
-Acceptance tests are finite and public. The runner limits source edits; a trusted adapter and externally protected execution environment remain required. Live provider integrations, borrowing-specific model tasks, and cross-language comparisons remain unmeasured follow-up work.
+Acceptance tests are finite and public. The runner limits source edits; a trusted adapter and externally protected execution environment remain required. Live provider integrations, live borrowing task results, and cross-language comparisons remain unmeasured follow-up work.

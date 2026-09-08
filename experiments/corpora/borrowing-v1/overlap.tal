@@ -1,0 +1,33 @@
+struct Counter {
+    value: i32
+}
+
+fn read(c: &Counter) -> i32 {
+    return c.value;
+}
+
+fn add(c: &mut Counter, delta: i32) -> i32 {
+    c.value = c.value + delta;
+    return c.value;
+}
+
+fn with_before(c: &mut Counter, before: i32, delta: i32) -> i32 {
+    let after = add(&mut c, delta);
+    return before * 100 + after;
+}
+
+fn exercise(c: &mut Counter, delta: i32) -> i32 {
+    return with_before(&mut c, read(&c), delta);
+}
+
+fn main() -> i32 {
+    let mut counter = Counter { value: 5 };
+    let result = exercise(&mut counter, 3);
+    if (result != 508) {
+        return 1;
+    }
+    if (read(&counter) != 8) {
+        return 2;
+    }
+    return 0;
+}
