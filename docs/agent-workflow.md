@@ -59,6 +59,14 @@ Put stable language rules and module interfaces before task-specific material wh
 
 Cache integrity and isolation matter. Do not share secrets across users or projects through caches, and do not let a cached successful check replace verification under a changed policy.
 
+## Development feedback and reload
+
+Fast save-to-diagnostic and save-to-running-code feedback is an explicit requirement for humans and agents. [Proposal 0010](proposals/0010-fast-compiler-and-development-reload.md) stages this as watch/restart, persistent incremental compilation, then restricted state-preserving hot reload. None is implemented today, and the proposed `talven dev` command is illustrative.
+
+A development session should identify the requested, built and running revisions, reject superseded build results, and preserve a still-running working version when compilation fails. Reports must distinguish restart (state lost and initialization rerun) from hot reload (eligible state retained). Invalid edits should receive the same shared frontend diagnostics as CLI/LSP checks. A successful frontend check or reload is not proof of task correctness; independent acceptance remains necessary.
+
+Current source/compiler hashes and declaration comparisons cannot authorize native code replacement or prove a complete dependency graph, compatible ABI/state, or a safe reload boundary. The applying host needs independent writer coordination and lifetime enforcement. Benchmark the complete development loop and verify which revision actually executes, not only how quickly a tool returns.
+
 ## Human LSP
 
 Prioritize incremental parsing and diagnostics, completion, definition, references, rename, formatting, documentation, and contextual ownership/effect information.

@@ -31,6 +31,8 @@ The priority order is agent effectiveness, semantic clarity and safety, native c
 | R21 | Follow current security practices | Versioned guidance mapping, dependency review, compiler testing, and a response process |
 | R22 | Protect data across filesystem, memory, network, and servers | Explicit authorization and integrity controls with a documented trusted computing base |
 | R23 | Extend protection toward the root of the platform | Declare hardware and firmware prerequisites, recovery mechanisms, and unsupported guarantees |
+| R24 | Provide a very fast compiler and responsive developer/agent feedback | Measure startup, checking, full builds, incremental rebuilds and compiler memory on representative workloads; evaluate a native implementation against the reference |
+| R25 | Refresh running code quickly during development, with live reload and eligible state-preserving hot reload | Measure save-to-diagnostic and save-to-running-revision latency; verify dependency-aware reuse, state preservation, restart boundaries, and absence of reload support from release artifacts |
 
 ## Meaning of context-first
 
@@ -47,5 +49,7 @@ Ambient chat history must not silently change a program's behavior. A context su
 “Prevent tampering” means enforceable prevention, authenticated detection, containment, and recovery under a stated threat model. It cannot mean unconditional protection against compromise of every underlying component.
 
 ## Evaluation discipline
+
+R24 and R25 were requested on 8 September 2026. [Proposal 0010](proposals/0010-fast-compiler-and-development-reload.md) records the proposed native-compiler and staged reload direction. The current Python/C11 bootstrap, standalone CLI timings and read-only edit previews do not establish incremental compilation or hot reload. Avoid full recompilation for ordinary edits where dependencies permit; incompatible changes may require broader rebuilding and restart. These requirements set no measured latency guarantee or mandatory production runtime.
 
 Record model version, tokenizer, prompts, available tools, context policy, compiler revision, target, optimization level, hardware, and task success criteria. Distinguish hypotheses, benchmark results, and released guarantees. Do not invent token-reduction, speedup, RAM, or security percentages.

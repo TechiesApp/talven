@@ -32,6 +32,17 @@ The edit-preview increment, [Proposal 0008](proposals/0008-revision-checked-edit
 
 The offline tooling increment, [Proposal 0009](proposals/0009-offline-tooling-baseline.md), adds a [repeatable CLI/build baseline](tooling-baseline.md) with fixed inputs, native acceptance, raw samples, and byte-size reporting. It measures the current bootstrap without selecting a production replacement or supplying model-effectiveness evidence.
 
+### Planned next increments
+
+These are proposed follow-ups, not implemented features or a new claim that M1 is complete. [Proposal 0010](proposals/0010-fast-compiler-and-development-reload.md) records the owner-requested fast compiler and development refresh requirements.
+
+1. Add the first visible console program: static text literals, optional terminal output and exact-output native tests for Hello World. Specify encoding, output errors and the freestanding boundary; keep heap allocation unnecessary for literal output.
+2. Add an explicit watch/restart development session with revision tracking, failed-build handling and process cleanup. Its first implementation may use full builds and must report that honestly.
+3. Prototype a native compiler and persistent dependency-aware compilation before broad runtime expansion. Preserve reference behavior and independent acceptance; evaluate Rust and fast backend candidates such as Cranelift using representative measurements. Neither is selected yet.
+4. Add restricted, opt-in hot reload after module/state contracts and safe execution boundaries are defined. Interface/layout/initialization changes may require restart. Concurrency participation needs the later M2 lifetime rules.
+
+Measure actual save-to-diagnostic and save-to-running-revision latency, cache reuse, memory and correctness. Release builds should omit development reload support. This work starts before the broader M5 toolkit; controlled agent evaluation remains a separate M1 gate, with no paid run authorized by this plan.
+
 ## M2: Memory and concurrency foundations
 
 Add allocator interfaces, containers, typed failures, structured tasks, cancellation, synchronization, and a selected optional executor.
@@ -73,6 +84,7 @@ Gate: each target has a tested support statement, and each security claim names 
 | Agent effectiveness | Correct completion rate, total input/output tokens, repair count, tool calls, latency |
 | Context | Relevant context size, retrieval latency, invalidation correctness, cache hit behavior |
 | Human experience | Readability, navigation, diagnostics, rename correctness, editor responsiveness |
+| Development loop | Cold/warm compiler latency, save-to-diagnostic and save-to-running-revision latency, affected work, cache invalidation, state/restart correctness, retained memory |
 | Native performance | Throughput, latency distribution, generated code, startup, binary size |
 | Memory | Peak RSS or applicable device metric, allocations, fragmentation, cleanup behavior |
 | Concurrency | Scheduling overhead, queue growth, backpressure, cancellation, contention |
