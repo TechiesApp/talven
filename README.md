@@ -62,6 +62,8 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 | [Agent experiments](experiments/README.md) | Reproducible evaluation harness, independent acceptance, adapter protocol, and measurement accounting |
 | [Evaluation validation](docs/evaluation-validation.md) | Actual harness test and offline fixture evidence, with unmeasured model metrics explicit |
 | [Borrowing evaluation validation](docs/borrowing-evaluation-validation.md) | Separate borrowing corpus, independent acceptance, and actual offline execution evidence |
+| [Provider adapter guide](experiments/adapters/README.md) | Optional Anthropic Messages adapter, offline fixtures, explicit live configuration, and usage accounting |
+| [Anthropic adapter validation](docs/anthropic-adapter-validation.md) | Actual offline protocol, native acceptance, and fixture accounting evidence |
 | [Requirements](docs/requirements.md) | Traceable record of the product requirements and evidence needed to satisfy them |
 | [Architecture](docs/architecture.md) | Compiler, native core, optional modules, target support, and toolchain |
 | [Architecture diagrams](docs/architecture-diagrams.md) | Agent verification, protected release boundaries, and CPU/GPU resource lifetimes |

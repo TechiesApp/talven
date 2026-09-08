@@ -80,6 +80,13 @@ jobs:
           python3 tests/fixtures/eval_borrow_adapter.py --write-config build/eval-borrow-fixture.json
           python3 -m experiments run --corpus m1c-borrowing-tasks-v1 --adapter build/eval-borrow-fixture.json --out build/eval-borrow-smoke
           python3 -m experiments reverify build/eval-borrow-smoke --out build/eval-borrow-reverified.json
+      - name: Exercise Anthropic Messages fixtures without model calls
+        run: |
+          python3 experiments/adapters/anthropic_messages.py --fixture tests/fixtures/anthropic_messages.json --model fixture-messages-v1 --tokenizer 'fixture: no tokenizer' --write-config build/anthropic-fixture.json
+          python3 -m experiments run --adapter build/anthropic-fixture.json --task strict-type --context both --max-repairs 1 --out build/anthropic-type
+          python3 -m experiments reverify build/anthropic-type --out build/anthropic-type-reverified.json
+          python3 -m experiments run --corpus m1c-borrowing-tasks-v1 --task borrow-permission --adapter build/anthropic-fixture.json --context both --max-repairs 1 --out build/anthropic-borrow
+          python3 -m experiments reverify build/anthropic-borrow --out build/anthropic-borrow-reverified.json
       - name: Check native borrow lifetimes and ordering with ASan and UBSan
         env:
           ASAN_OPTIONS: detect_leaks=1:detect_stack_use_after_return=1:halt_on_error=1

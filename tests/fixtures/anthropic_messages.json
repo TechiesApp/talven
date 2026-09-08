@@ -1,0 +1,106 @@
+{
+  "schema": "talven.eval.anthropic-fixture.v1",
+  "model": "fixture-messages-v1",
+  "responses": {
+    "strict-type": [
+      {
+        "http_status": 200,
+        "request_id": "req_fixture_strict-type_0",
+        "body": {
+          "id": "msg_fixture_strict-type_0",
+          "type": "message",
+          "model": "fixture-messages-v1",
+          "role": "assistant",
+          "stop_reason": "end_turn",
+          "stop_sequence": null,
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"edits\": {\"task.tal\": \"fn main() -> i32 {\\n    // E0201: bool cannot implicitly convert to i32.\\n    let count: i32 = true;\\n    return count;\\n}\\n\"}}"
+            }
+          ],
+          "usage": {
+            "input_tokens": 17,
+            "cache_creation_input_tokens": 11,
+            "cache_read_input_tokens": 0,
+            "output_tokens": 23
+          }
+        }
+      },
+      {
+        "http_status": 200,
+        "request_id": "req_fixture_strict-type_1",
+        "body": {
+          "id": "msg_fixture_strict-type_1",
+          "type": "message",
+          "model": "fixture-messages-v1",
+          "role": "assistant",
+          "stop_reason": "end_turn",
+          "stop_sequence": null,
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"edits\": {\"task.tal\": \"fn main() -> i32 {\\n    let count: i32 = 1;\\n    return count;\\n}\\n\"}}"
+            }
+          ],
+          "usage": {
+            "input_tokens": 18,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 11,
+            "output_tokens": 24
+          }
+        }
+      }
+    ],
+    "borrow-permission": [
+      {
+        "http_status": 200,
+        "request_id": "req_fixture_borrow-permission_0",
+        "body": {
+          "id": "msg_fixture_borrow-permission_0",
+          "type": "message",
+          "model": "fixture-messages-v1",
+          "role": "assistant",
+          "stop_reason": "end_turn",
+          "stop_sequence": null,
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"edits\": {\"task.tal\": \"struct Counter {\\n    value: i32\\n}\\n\\nfn read(c: &Counter) -> i32 {\\n    return c.value;\\n}\\n\\nfn add(c: &mut Counter, delta: i32) -> i32 {\\n    c.value = c.value + delta;\\n    return c.value;\\n}\\n\\nfn exercise(c: &Counter, delta: i32) -> i32 {\\n    add(&mut c, delta);\\n    return read(&c);\\n}\\n\\nfn main() -> i32 {\\n    let counter = Counter { value: 5 };\\n    let result = exercise(&mut counter, 3);\\n    if (result != 8) {\\n        return 1;\\n    }\\n    if (read(&counter) != 8) {\\n        return 2;\\n    }\\n    return 0;\\n}\\n\"}}"
+            }
+          ],
+          "usage": {
+            "input_tokens": 17,
+            "cache_creation_input_tokens": 11,
+            "cache_read_input_tokens": 0,
+            "output_tokens": 23
+          }
+        }
+      },
+      {
+        "http_status": 200,
+        "request_id": "req_fixture_borrow-permission_1",
+        "body": {
+          "id": "msg_fixture_borrow-permission_1",
+          "type": "message",
+          "model": "fixture-messages-v1",
+          "role": "assistant",
+          "stop_reason": "end_turn",
+          "stop_sequence": null,
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"edits\": {\"task.tal\": \"struct Counter { value: i32 }\\nfn read(c: &Counter) -> i32 { return c.value; }\\nfn add(c: &mut Counter, delta: i32) -> i32 {\\n    c.value = c.value + delta;\\n    return c.value;\\n}\\nfn exercise(c: &mut Counter, delta: i32) -> i32 {\\n    add(&mut c, delta);\\n    return read(&c);\\n}\\nfn main() -> i32 {\\n    let mut counter = Counter { value: 5 };\\n    let result = exercise(&mut counter, 3);\\n    if (result != 8) { return 1; }\\n    if (read(&counter) != 8) { return 2; }\\n    return 0;\\n}\\n\"}}"
+            }
+          ],
+          "usage": {
+            "input_tokens": 18,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 11,
+            "output_tokens": 24
+          }
+        }
+      }
+    ]
+  }
+}
