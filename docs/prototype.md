@@ -1,10 +1,12 @@
 # Reference compiler guide
 
-Status: experimental implementation of `m1c-call-borrows-v1`, building on the M1a/M1b increments. The grammar and file extension `.tal` are prototype choices. The broader language design remains under development.
+Status: experimental implementation of `m1-static-text-v1`, building on M1a/M1b/M1c. The grammar and file extension `.tal` are prototype choices. The broader language design remains under development.
 
-[M1b](formatting.md) introduced canonical formatting and native CI. [M1c](borrowing.md) extends the grammar below with call-scoped borrowing and record-field mutation, with a new context schema. See the [current validation record](borrowing-validation.md); earlier M1a/M1b records remain historical evidence.
+[M1b](formatting.md) introduced canonical formatting and native CI. [M1c](borrowing.md) extends the grammar below with call-scoped borrowing and record-field mutation, with a new context schema. See the [M1c validation record](borrowing-validation.md); earlier M1a/M1b records remain historical evidence.
 
 ## Run it
+
+The [static text and console increment](text-console.md) adds immutable `str` values and an optional POSIX `print` builtin while preserving M1c borrowing rules. It does not add a general string library, allocator, module system, or managed runtime.
 
 Use Python 3.11 or later from the repository root. This compiler uses the Python standard library only; no package installation or build scripts are needed to analyze code. A trusted C11 compiler is needed for native builds.
 
@@ -16,7 +18,7 @@ python3 -m talven build examples/vectors.tal -o build/vectors
 python3 -m unittest discover -s tests -v
 ~~~
 
-The vector example exits with status zero when its calculation is correct. Programs currently communicate success through exit status; printing and standard I/O APIs are not implemented. Hosted operating systems may reduce an integer return value to a smaller exit-status range.
+The vector example exits with status zero when its calculation is correct. For visible output, build `examples/hello.tal` with `--console`; its print call returns `0` after writing all greeting bytes or `1` on a returned write failure. See the [full output contract](text-console.md), including partial output and host signals. General file/input APIs are not implemented. Hosted operating systems may reduce an integer return value to a smaller exit-status range.
 
 `check` and `context` do not invoke a C compiler or execute source programs. `emit-c` writes generated C without invoking another tool. `build` explicitly invokes the executable selected by `--cc` (default `cc`) using an argument array, with a 30-second timeout. It replaces the requested output only after compilation succeeds. The selected C compiler is trusted software; this is not a sandbox.
 
@@ -31,7 +33,7 @@ fields     = identifier, ":", scalar, { ",", identifier, ":", scalar }, [","] ;
 function   = "fn", identifier, "(", [parameters], ")", "->", type, block ;
 parameters = identifier, ":", parameter_type, { ",", identifier, ":", parameter_type }, [","] ;
 parameter_type = type | "&", ["mut"], record_name ;
-type       = scalar | record_name ;
+type       = scalar | "str" | record_name ;
 scalar     = "i32" | "bool" ;
 block      = "{", { statement }, "}" ;
 statement  = "let", ["mut"], identifier, [":", type], "=", expression, ";"
@@ -41,17 +43,19 @@ statement  = "let", ["mut"], identifier, [":", type], "=", expression, ";"
            | expression, ";" ;
 ~~~
 
-Expressions include decimal integers, `true`, `false`, local names, field reads, named record construction (`Vec2 { x: 1, y: 2 }`), positional calls to named functions, parentheses, unary `-`/`!`, and binary operators. Direct call arguments may also borrow a named record with `&name` or `&mut name`; see [the exact borrowing rules](borrowing.md). `mut` is a reserved keyword. Record construction allows a trailing comma. Call arguments allow a trailing comma. Identifiers use ASCII letters, digits, and underscores, with a letter or underscore first. `//` comments run to the end of the line; input is UTF-8. There are no string literals or imports.
+Expressions include decimal integers, `true`, `false`, quoted static text literals, local names, field reads, named record construction (`Vec2 { x: 1, y: 2 }`), positional calls to named functions or the `print` builtin, parentheses, unary `-`/`!`, and binary operators. Text supports no unary/binary operators in this profile; [literal encoding and escapes](text-console.md) are defined separately. Direct call arguments may also borrow a named record with `&name` or `&mut name`; see [the exact borrowing rules](borrowing.md). `mut` is a reserved keyword. Record construction allows a trailing comma. Call arguments allow a trailing comma. Identifiers use ASCII letters, digits, and underscores, with a letter or underscore first. `//` comments run to the end of the line outside literals; input is UTF-8. Imports are not implemented.
 
 Precedence, from weakest to strongest: `||`, `&&`, equality (`==`, `!=`), ordered comparisons (`<`, `>`, `<=`, `>=`), addition/subtraction, multiplication/division/remainder, unary operators, field access. Binary operators associate left-to-right. Comparisons do not chain. The frontend rejects operations with incompatible operand types.
 
-Functions and record types have distinct declarations in one global namespace; duplicate global names and names replacing scalar types are rejected. Calls always name global functions. Local bindings and parameters occupy a local namespace; shadowing an existing local binding is rejected. Branch-local names do not escape their block. Functions may refer to later declarations and may recurse.
+Functions and record types have distinct declarations in one global namespace; duplicate global names and names replacing scalar types, `str`, or `print` are rejected. Calls always name global functions or builtins. Local bindings and parameters occupy a local namespace; shadowing an existing local binding is rejected. Branch-local names do not escape their block. Functions may refer to later declarations and may recurse.
 
 All parameters and return types are explicit. Local types may be inferred. Every reachable function path must return the declared type. Unreachable statements after an unconditional return are rejected. `if` conditions require `bool`; parentheses around the condition avoid ambiguity with record literals.
 
 ## Values and ownership
 
 `i32` and `bool` copy by value. Records are nominal, move-only values whose fields are restricted to these scalars. A record moves when assigned to a new binding, passed to a function, returned, or discarded as an expression statement. It cannot subsequently be used on a reachable path. Reading a scalar field leaves its record available.
+
+`str` copies a view of immutable static UTF-8 bytes. Its data outlives every function call; returning it does not return a borrow of a local. Text record fields, mutable text, dynamic allocation, and `&str` are unsupported. This does not broaden M1c's record-reference escape rules.
 
 ~~~text
 struct Item { value: i32 }
@@ -93,7 +97,9 @@ These are **affine stack-value rules with call-scoped borrowing**, not a general
 | `symbol`, `include_body` | The request's selection and optional implementation-text inclusion |
 | `cache_key` | SHA-256 over the preceding identity fields; a cache identifier, not an authenticity proof |
 | `functions`, `records` | Checked selected function contracts and relevant record schemas |
-| `dependencies` | Direct callees' contracts; not an unlimited transitive dependency closure |
+| `dependencies` | Direct source callees' contracts; not an unlimited transitive dependency closure |
+| `builtins` | Builtin contracts used by selected functions and their direct source callees; separate from source declarations |
+| `required_runtime` | Optional runtime requirements across all emitted functions; frontend facts, not a build or permission check |
 | `callers` | Names of functions in this source file that directly call the selected function |
 | `validation` | `frontend-only`: parsing, types, and the prototype's move/borrow rules passed |
 
@@ -109,6 +115,7 @@ These are **affine stack-value rules with call-scoped borrowing**, not a general
 | --- | --- |
 | E0001 / E0002 | Lexical / syntax error |
 | E0005 | Input, token, syntax-depth, or parser-recursion limit |
+| E0006 | Invalid escape, raw ASCII control, or unterminated text literal |
 | E0101 / E0102 | Unknown / duplicate name |
 | E0201 / E0202 | Type mismatch / integer literal range |
 | E0203 / E0204 | Arguments or fields / unsupported type operation |
@@ -117,6 +124,7 @@ These are **affine stack-value rules with call-scoped borrowing**, not a general
 | E0302 / E0303 | Conflicting active loan / missing mutation permission |
 | E0304 / E0305 | Reference escape or missing explicit reborrow / unsupported borrow or mutation place |
 | E0401 / E0402 / E0403 | Invalid native entry / C build failure / output would replace source |
+| E0404 | Console opt-in missing or incompatible freestanding/console emission |
 | E0501 / E0502 | Stale source / context byte budget |
 | E0601 / E0602 / E0603 / E0604 | Noncanonical layout / formatting output limit / unsupported in-place target / token-preservation failure; see [formatting](formatting.md) |
 | E0701 / E0702 / E0703 | Invalid edit-preview request / compiler revision mismatch / preview output budget; see [edit previews](edit-validation.md) |

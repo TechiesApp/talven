@@ -97,6 +97,15 @@ jobs:
           ./build/vectors
           python3 -m talven build examples/borrowing.tal -o build/borrowing
           ./build/borrowing
+          python3 -m talven build examples/hello.tal --console -o build/hello
+          python3 - <<'PY'
+          import subprocess
+          result = subprocess.run(['./build/hello'], capture_output=True, timeout=5)
+          assert result.returncode == 0, result
+          assert result.stdout == b'Hello, world!\n', result.stdout
+          assert result.stderr == b'', result.stderr
+          print('Hello World: exact stdout, empty stderr, exit 0')
+          PY
       - name: Link and execute without libc or a heap allocator
         env:
           TALVEN_EXPECT_ARCH: ${{ matrix.arch }}

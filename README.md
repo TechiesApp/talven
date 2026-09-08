@@ -6,11 +6,22 @@ Pronounced **TAL-ven**.
 
 A proposal for a native programming language designed first for LLM coding agents, with a clear source language for humans, strong safety, and explicit control over hardware and resources.
 
-**Status: experimental compiler with M1c call-scoped borrowing.** The repository contains a small working reference compiler alongside the broader language proposal. It checks types, moves, shared/exclusive borrows, and scalar-field mutation; emits native programs through C11; returns structured agent context; and shares a canonical formatter between CLI and LSP. It is not a production language release or completion of the full M1 milestone. The language name was selected on 7 September 2026.
+**Status: experimental compiler with static text, optional console output, and M1c call-scoped borrowing.** The repository contains a small working reference compiler alongside the broader language proposal. It checks types, moves, shared/exclusive borrows, and scalar-field mutation; emits native programs through C11; returns structured agent context; and shares a canonical formatter between CLI and LSP. It is not a production language release or completion of the full M1 milestone. The language name was selected on 7 September 2026.
 
 ## Try the prototype
 
 From the repository root, use Python 3.11+ and a C11 compiler named `cc` for native builds. Analysis uses only the Python standard library.
+
+Build the first visible program with the optional POSIX console support:
+
+~~~sh
+python3 -m talven build examples/hello.tal --console -o build/hello
+./build/hello
+~~~
+
+It prints `Hello, world!` followed by a newline. The [text and console guide](docs/text-console.md) defines UTF-8 literals, output status, dependencies, and limitations. The executable runs natively without Python; the current compiler uses Python and a C11 toolchain.
+
+The earlier calculation example and analysis tools remain available:
 
 ~~~sh
 python3 -m talven check examples/vectors.tal --json
@@ -23,9 +34,9 @@ python3 -m unittest discover -s tests -v
 
 The vector example exits zero when its calculation is correct. See the [prototype guide](docs/prototype.md) for grammar, ownership rules, diagnostics, context/cache identity, LSP integration, and freestanding emission. See the [validation record](docs/prototype-validation.md) for actual target evidence.
 
-Native CI passed all **80 tests on Linux x86-64 and ARM64**, with no skips. All three jobs also passed six ASan/UBSan borrowing executions and built and ran both CLI examples. See the [M1c validation record](docs/borrowing-validation.md) for exact host, compiler, and job evidence.
+The historical M1c native CI runs passed all **80 tests on Linux x86-64 and ARM64**, with no skips. All three jobs also passed six ASan/UBSan borrowing executions and built and ran both original CLI examples. See the [M1c validation record](docs/borrowing-validation.md) for that host, compiler, and job evidence. The static-text guide above records the expanded suite and greeting executions.
 
-The implemented subset has `i32`, `bool`, functions, conditionals, and move-only records containing scalars. [M1c borrowing](docs/borrowing.md) adds `let mut` record owners, shared `&Record` and exclusive `&mut Record` call arguments, and field assignment. References cannot be stored or returned. Escaping references, heap/resource cleanup, full LSP features, concurrency, GPU backends, package adapters, and comparative model benchmarks remain future work.
+The implemented subset has `i32`, `bool`, static immutable `str` values, functions, conditionals, and move-only records containing scalars. [M1c borrowing](docs/borrowing.md) adds `let mut` record owners, shared `&Record` and exclusive `&mut Record` call arguments, and field assignment. Borrowed references cannot be stored or returned; static text views are copyable and can be returned. Escaping borrows, heap/resource cleanup, full LSP features, concurrency, GPU backends, package adapters, and comparative model benchmarks remain future work.
 
 Try `python3 -m talven build examples/borrowing.tal -o build/borrowing`, then `./build/borrowing`. The example updates a record through an exclusive borrow and then reads it through a shared borrow.
 
@@ -55,6 +66,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 | Document | Purpose |
 | --- | --- |
 | [Prototype guide](docs/prototype.md) | Current implemented grammar, commands, contracts, limits, and design tradeoffs |
+| [Hello World, static text and console output](docs/text-console.md) | Runnable greeting, UTF-8 byte views, explicit POSIX output and error behavior |
 | [Prototype validation](docs/prototype-validation.md) | Historical M1a tests and initial x86-64 evidence |
 | [Formatting guide](docs/formatting.md) | Canonical CLI/LSP formatting, explicit writes, and cache/target implications |
 | [M1b validation](docs/formatting-validation.md) | Historical formatter checks and native CI evidence |

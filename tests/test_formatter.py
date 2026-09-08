@@ -85,7 +85,8 @@ x;}// finished
         self.assertEqual("struct Empty {\n}\n", format_source("struct Empty{}"))
 
     def test_invalid_syntax_and_input_limits_produce_diagnostics(self):
-        cases = [("fn main() -> i32 { return 0 }", "E0002"), ('fn f(){"text"}', "E0001"),
+        cases = [("fn main() -> i32 { return 0 }", "E0002"), ('fn f(){"text"}', "E0002"),
+                 ('fn f() -> i32 { return @; }', "E0001"),
                  (" " * (MAX_SOURCE_BYTES + 1), "E0005"),
                  ("//\n" * 17000, "E0005"),
                  ("fn f() -> i32 { return " + "(" * 2000 + "0" + ")" * 2000 + "; }", "E0005")]

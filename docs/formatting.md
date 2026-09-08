@@ -1,6 +1,6 @@
 # Canonical formatting
 
-Status: implemented experimental tooling. M1b introduced `m1b-layout-v1` for the owned-value subset. The current M1c compiler `0.3.0-dev` uses `m1c-layout-v1` with `m1c-call-borrows-v1`, preserving the layout rules below while adding borrow/mutation tokens. See [borrowing](borrowing.md) for the language extension and context migration; full M1 still needs controlled agent evaluation.
+Status: implemented experimental tooling. M1b introduced `m1b-layout-v1` for the owned-value subset, and M1c added borrowing tokens with `m1c-layout-v1`. Compiler `0.4.0-dev` uses `m1-static-text-layout-v1` with `m1-static-text-v1`; it preserves the layout rules below and treats each quoted literal as one token with unchanged spelling. See [borrowing](borrowing.md) and [static text](text-console.md) for the extensions and context contracts; full M1 still needs controlled agent evaluation.
 
 ## Commands
 

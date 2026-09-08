@@ -38,3 +38,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0008 | [Revision-checked edit validation](0008-revision-checked-edit-validation.md) | Draft |
 | 0009 | [Offline compiler and tooling baseline](0009-offline-tooling-baseline.md) | Draft |
 | 0010 | [Fast compiler and development reload](0010-fast-compiler-and-development-reload.md) | Draft |
+| 0011 | [Static text and optional console output](0011-static-text-and-console-output.md) | Draft |
