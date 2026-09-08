@@ -41,10 +41,12 @@ def main(argv: list[str] | None = None) -> int:
     emit.add_argument("source", type=Path)
     emit.add_argument("-o", "--output", type=Path)
     emit.add_argument("--freestanding", action="store_true")
+    emit.add_argument("--console", action="store_true", help="Enable optional hosted POSIX stdout writes")
     build = commands.add_parser("build", help="Invoke a trusted local C compiler to build a native executable")
     build.add_argument("source", type=Path)
     build.add_argument("-o", "--output", type=Path, required=True)
     build.add_argument("--cc", default="cc", help="Trusted C compiler executable (one path, no shell command)")
+    build.add_argument("--console", action="store_true", help="Enable optional hosted POSIX stdout writes")
     commands.add_parser("lsp", help="Start the read-only LSP server over stdio")
     edit = commands.add_parser("edit", help="Create revision-checked read-only edit receipts")
     edit_commands = edit.add_subparsers(dest="edit_command", required=True)
@@ -116,7 +118,7 @@ def main(argv: list[str] | None = None) -> int:
             if output is not None and (output.resolve() == args.source.resolve()
                                        or (output.exists() and output.samefile(args.source))):
                 raise CompileError("E0403", "Output must not overwrite the source file", Span(0, 0))
-            generated = emit_c(result, freestanding=getattr(args, "freestanding", False))
+            generated = emit_c(result, freestanding=getattr(args, "freestanding", False), console=args.console)
             if args.command == "emit-c":
                 if output:
                     output.write_text(generated, encoding="utf-8")

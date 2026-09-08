@@ -15,6 +15,9 @@ MAX_SOURCE_BYTES = 256 * 1024
 MAX_TOKENS = 16384
 MAX_AST_DEPTH = 128
 SCALARS = {"i32", "bool"}
+COPY_TYPES = SCALARS | {"str"}
+BUILTINS = {"print"}
+PRINT_SIGNATURE = "fn print(text: str) -> i32"
 KEYWORDS = {"fn", "struct", "let", "mut", "return", "if", "else", "true", "false"}
 
 
@@ -62,6 +65,31 @@ class Token:
     span: Span
 
 
+def text_literal(source: str, start: int) -> tuple[int, str]:
+    """Validate and decode one quoted literal without changing its spelling."""
+    escapes = {'"': '"', "\\": "\\", "n": "\n", "r": "\r", "t": "\t", "0": "\0"}
+    chars = []
+    offset = start + 1
+    while offset < len(source):
+        char = source[offset]
+        if char == '"':
+            return offset + 1, "".join(chars)
+        if ord(char) < 32 or ord(char) == 127:
+            raise CompileError("E0006", "Text literals require escapes for control characters and newlines",
+                               Span(start, offset + 1))
+        if char == "\\":
+            offset += 1
+            if offset >= len(source):
+                break
+            if source[offset] not in escapes:
+                raise CompileError("E0006", "Unsupported text escape; use \\\", \\\\, \\n, \\r, \\t, or \\0",
+                                   Span(start, offset + 1))
+            char = escapes[source[offset]]
+        chars.append(char)
+        offset += 1
+    raise CompileError("E0006", "Unterminated text literal", Span(start, offset))
+
+
 def lex(source: str, *, include_comments: bool = False) -> list[Token]:
     if len(source.encode("utf-8")) > MAX_SOURCE_BYTES:
         raise CompileError("E0005", "Source exceeds the 256 KiB prototype limit", Span(0, 0))
@@ -71,6 +99,13 @@ def lex(source: str, *, include_comments: bool = False) -> list[Token]:
     tokens = []
     offset = 0
     while offset < len(source):
+        if source[offset] == '"':
+            end, _ = text_literal(source, offset)
+            tokens.append(Token("text", source[offset:end], Span(offset, end)))
+            if len(tokens) > MAX_TOKENS:
+                raise CompileError("E0005", "Source exceeds the prototype token limit", Span(offset, end))
+            offset = end
+            continue
         match = pattern.match(source, offset)
         if not match:
             raise CompileError("E0001", "Unexpected character", Span(offset, offset + 1))
@@ -249,6 +284,10 @@ class Parser:
         elif self.accept("("):
             left = self.expression()
             self.take(")")
+        elif token.kind == "text":
+            self.index += 1
+            _, value = text_literal(token.text, 0)
+            left = Expr("text", token.span, value)
         elif token.kind in ("int", "true", "false"):
             self.index += 1
             left = Expr("int" if token.kind == "int" else "bool", token.span, token.text)
@@ -309,7 +348,7 @@ class State:
 @dataclass
 class Reference:
     span: Span
-    definition: Span
+    definition: Span | None
     description: str
 
 
@@ -333,14 +372,14 @@ class Checker:
     def error(self, code: str, message: str, span: Span):
         raise CompileError(code, message, span)
 
-    def reference(self, span: Span, definition: Span, description: str):
+    def reference(self, span: Span, definition: Span | None, description: str):
         self.references.append(Reference(span, definition, description))
 
     def type_name(self, token: Token, parameter: bool = False):
         mode, base = borrow_mode(token.text), base_type(token.text)
         if mode and not parameter:
             self.error("E0304", "Borrowed types are allowed only on function parameters; references cannot escape", token.span)
-        if base not in SCALARS and base not in self.records:
+        if base not in COPY_TYPES and base not in self.records:
             self.error("E0101", f"Unknown type {token.text}", token.span)
         if mode and base not in self.records:
             self.error("E0305", "Only named records can be borrowed in this profile", token.span)
@@ -415,7 +454,7 @@ class Checker:
         self.access(place, state, "write")
 
     def check(self) -> Analysis:
-        names = set(SCALARS)
+        names = COPY_TYPES | BUILTINS
         for item in [*self.program.records, *self.program.functions]:
             if item.name.text in names:
                 self.error("E0102", f"Duplicate or reserved declaration {item.name.text}", item.name.span)
@@ -487,13 +526,15 @@ class Checker:
             typ = "i32"
         elif kind == "bool":
             typ = "bool"
+        elif kind == "text":
+            typ = "str"
         elif kind == "name":
             binding = self.lookup(expr, state)
             typ = binding.typ
             if consume and borrow_mode(typ):
                 self.error("E0304", "Borrowed parameters cannot be used as owned values; reborrow explicitly in a call", expr.span)
-            self.access(expr, state, "move" if consume and typ not in SCALARS else "read")
-            if consume and typ not in SCALARS:
+            self.access(expr, state, "move" if consume and typ not in COPY_TYPES else "read")
+            if consume and typ not in COPY_TYPES:
                 state.moved.add(value)
         elif kind == "field":
             base = self.expr(expr.args[0], state, consume=False)
@@ -520,6 +561,16 @@ class Checker:
             self.reference(Span(expr.span.start, expr.span.start + len(value)), record.name.span,
                            f"struct {value} (move-only)")
             typ = value
+        elif kind == "call" and value == "print":
+            if len(expr.args) != 1:
+                self.error("E0203", "print expects 1 argument", expr.span)
+            child = expr.args[0]
+            actual = self.borrow(child, state) if child.kind == "borrow" else self.expr(child, state)
+            self.same_type(actual, "str", child.span)
+            self.function.calls.add(value)
+            self.reference(Span(expr.span.start, expr.span.start + len(value)), None,
+                           PRINT_SIGNATURE + " (requires --console; writes exact bytes; 0 success, 1 write failure)")
+            typ = "i32"
         elif kind == "call":
             fn = self.functions.get(value)
             if fn is None:
@@ -562,7 +613,7 @@ class Checker:
                 typ = "bool"
             elif value in ("==", "!="):
                 if left not in SCALARS:
-                    self.error("E0204", "Record equality is not part of this prototype", expr.span)
+                    self.error("E0204", "Equality currently supports only i32 and bool", expr.span)
                 self.same_type(right, left, expr.args[1].span)
                 typ = "bool"
             else:

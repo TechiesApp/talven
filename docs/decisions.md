@@ -50,6 +50,7 @@ Status definitions:
 | D36 | Requirement | Provide quick development refresh with incremental reuse, live reload and eligible state-preserving hot reload | Owner request on 8 September 2026; R25; incompatible changes may require restart, and development support must remain optional for deployed programs |
 | D37 | Proposed | Evaluate a native compiler early while retaining the Python reference and independent acceptance | [Proposal 0010](proposals/0010-fast-compiler-and-development-reload.md); Rust is a leading candidate, Cranelift a backend candidate; neither is selected or implemented for Talven |
 | D38 | Proposed | Stage development tooling as watch/restart, persistent incremental compilation, then restricted hot reload | Proposal 0010; revision-aware publication, defined state/lifetime boundaries and development-only loader; all stages remain unimplemented |
+| D39 | Proposed | Start visible output with immutable static UTF-8 views and an explicitly selected POSIX print builtin | [Proposal 0011](proposals/0011-static-text-and-console-output.md); exact bytes, output failures, static lifetimes, optional dependencies and shared tooling; dynamic text, general I/O, and reload remain separate |
 
 ## Open decisions
 

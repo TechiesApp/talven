@@ -109,7 +109,7 @@ Record actual hardware, OS, compiler/backend/toolchain versions, inputs/edits, f
 
 ## Roadmap placement
 
-Keep the first visible console program and watch/restart loop as small early M1 increments. A console program needs static text literals and optional terminal output, both currently absent. Their syntax, encoding, I/O failure behavior and freestanding boundaries need their own implementation proposal and tests. Use it as a concrete refresh workload.
+Keep the first visible console program and watch/restart loop as small early M1 increments. [Proposal 0011](0011-static-text-and-console-output.md) now supplies the first [static-text console implementation](../text-console.md), including encoding, I/O failure behavior and freestanding boundaries. Use it as a concrete refresh workload; automatic watch/restart is still unimplemented.
 
 Prototype the native compiler and dependency-aware development architecture before broad M2–M6 expansion. Add persistent incremental operation after demonstrating its invalidation rules. Restricted hot reload follows explicit module/state contracts and safe boundaries; concurrency extensions depend on the M2 lifetime model. Initial development refresh should not wait for M5 or require a general public FFI.
 

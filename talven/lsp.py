@@ -196,7 +196,8 @@ class Server:
                             result = ({"contents": {"kind": "plaintext", "value": ref.description},
                                        "range": source_range(doc.source, ref.span)} if method.endswith("hover")
                                       else {"uri": params["textDocument"]["uri"],
-                                            "range": source_range(doc.source, ref.definition)})
+                                            "range": source_range(doc.source, ref.definition)}
+                                      if ref.definition is not None else None)
                 self.send(id=identity, result=result)
             elif request:
                 self.send(id=identity, error={"code": -32601, "message": "Method not supported"})

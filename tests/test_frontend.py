@@ -34,7 +34,8 @@ class FrontendTests(unittest.TestCase):
 
     def test_invalid_syntax_and_types(self):
         cases = [
-            ("E0001", 'fn main() -> i32 { return "bad"; }'),
+            ("E0001", 'fn main() -> i32 { return @; }'),
+            ("E0201", 'fn main() -> i32 { return "bad"; }'),
             ("E0002", "fn main() -> i32 { return 1 }"),
             ("E0002", "fn main() -> i32 { let x = 1; x = 2; return x; }"),
             ("E0101", "fn f() -> unknown { return 1; }"),

@@ -148,7 +148,7 @@ def format_source(source: str) -> str:
         if kind in (")", "}"):
             ends_expression = delimiters[index].kind in ("paren", "literal")
         else:
-            ends_expression = kind in ("id", "int", "true", "false")
+            ends_expression = kind in ("id", "int", "true", "false", "text")
         previous, previous_unary = kind, unary
     formatted = writer.finish()
     if token_identity(lex(formatted, include_comments=True)) != token_identity(tokens):

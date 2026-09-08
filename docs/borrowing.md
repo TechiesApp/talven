@@ -1,6 +1,6 @@
 # M1c call-scoped borrowing
 
-Status: implemented experiment, compiler `0.3.0-dev`, language profile `m1c-call-borrows-v1`, formatter `m1c-layout-v1`, and context schema `talven.context.v2`. [Proposal 0003](proposals/0003-call-scoped-borrowing.md) remains Draft. This adds a bounded borrowing model to M1a/M1b; full M1 still needs controlled agent evaluation.
+Status: implemented experiment, introduced in compiler `0.3.0-dev`, language profile `m1c-call-borrows-v1`, formatter `m1c-layout-v1`, and context schema `talven.context.v2`. The [static-text increment](text-console.md) preserves these record borrowing rules in compiler `0.4.0-dev`; its copyable static text views do not borrow local storage. [Proposal 0003](proposals/0003-call-scoped-borrowing.md) remains Draft. Full M1 still needs controlled agent evaluation.
 
 ## Read and update a record
 
