@@ -46,12 +46,17 @@ Status definitions:
 | D32 | Proposed | Link and execute a bounded freestanding C probe with explicit Linux startup and traps, without libc or a heap allocator | [Proposal 0007](proposals/0007-freestanding-linux-execution.md); inspect dependencies and target, test values/traps, and record actual file/section sizes; broader runtimes and board support remain open |
 | D33 | Proposed | Preview complete candidate edits against exact source/compiler revisions through the shared frontend | [Proposal 0008](proposals/0008-revision-checked-edit-validation.md); read-only snapshots, invalid-base repairs and bounded declaration comparisons; atomic application and independent task acceptance remain separate |
 | D34 | Proposed | Measure offline CLI/build costs on fixed workloads with native acceptance and retained raw samples | [Proposal 0009](proposals/0009-offline-tooling-baseline.md); separate process timings and byte sizes with environment/provenance; production backend choice and controlled agent results remain open |
+| D35 | Requirement | Make compiler speed and developer/agent feedback latency explicit product goals | Owner request on 8 September 2026; R24; measure startup, checking, full/incremental builds and memory without assuming a speedup from implementation language |
+| D36 | Requirement | Provide quick development refresh with incremental reuse, live reload and eligible state-preserving hot reload | Owner request on 8 September 2026; R25; incompatible changes may require restart, and development support must remain optional for deployed programs |
+| D37 | Proposed | Evaluate a native compiler early while retaining the Python reference and independent acceptance | [Proposal 0010](proposals/0010-fast-compiler-and-development-reload.md); Rust is a leading candidate, Cranelift a backend candidate; neither is selected or implemented for Talven |
+| D38 | Proposed | Stage development tooling as watch/restart, persistent incremental compilation, then restricted hot reload | Proposal 0010; revision-aware publication, defined state/lifetime boundaries and development-only loader; all stages remain unimplemented |
 
 ## Open decisions
 
 | Decision | Questions to resolve |
 | --- | --- |
-| Compiler implementation | Should the Python/C11 prototype evolve or be replaced for production compiler throughput, portability, and tooling latency? |
+| Compiler implementation | Which native implementation/backend and packaging meet R24? Evaluate against the Python/C11 reference; production selection remains open. |
+| Development reload | Which dependency/cache, internal ABI, state-invariant, safe-boundary and restart contracts meet R25 without adding mandatory release overhead? |
 | Type model | Which nominal/structural rules, generics, and composition features are necessary? |
 | Borrowing model | What references may escape scopes or cross suspension and task boundaries? |
 | Failure semantics | How are overflow, panic, cancellation, OOM, and foreign exceptions represented? |

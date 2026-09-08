@@ -37,3 +37,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0007 | [Freestanding Linux execution](0007-freestanding-linux-execution.md) | Draft |
 | 0008 | [Revision-checked edit validation](0008-revision-checked-edit-validation.md) | Draft |
 | 0009 | [Offline compiler and tooling baseline](0009-offline-tooling-baseline.md) | Draft |
+| 0010 | [Fast compiler and development reload](0010-fast-compiler-and-development-reload.md) | Draft |

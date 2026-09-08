@@ -44,6 +44,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 | Native systems programming | Ahead-of-time compilation, explicit layouts and allocation, safe ownership, controlled unsafe operations |
 | Small default footprint | A freestanding core; allocation, OS services, async execution, networking, foreign runtimes, and GPU backends are optional |
 | Rich developer experience | A coherent Bun-like toolkit for builds, tests, formatting, documentation, packages, and editor support |
+| Fast development feedback | Fast compilation, incremental rebuilds, live reload and eligible state-preserving hot reload, with explicit restart boundaries and optional development support |
 | Existing ecosystems | Incremental adapters for native libraries and established language runtimes, with explicit compatibility and cost boundaries |
 | CPU and GPU work | Structured concurrency, bounded CPU parallelism, synchronous and asynchronous APIs, explicit device memory and transfers |
 | Broad deployment | ARM64 and x86-64 first; more operating systems, boards, and freestanding targets through declared support profiles |
@@ -70,6 +71,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 | [Edit preview evidence](docs/edit-validation-evidence.md) | Actual revision/repair checks, separate native acceptance and offline regressions |
 | [Offline tooling baseline](docs/tooling-baseline.md) | Reproducible CLI/build timings, output sizes, native acceptance and archived measurements |
 | [Tooling baseline evidence](docs/tooling-baseline-evidence.md) | Actual sample ranges and byte sizes, with host conditions and measurement limits |
+| [Fast compiler and development reload](docs/proposals/0010-fast-compiler-and-development-reload.md) | Proposed native compiler evaluation, incremental builds, watch/restart and restricted hot reload; not implemented |
 | [Requirements](docs/requirements.md) | Traceable record of the product requirements and evidence needed to satisfy them |
 | [Architecture](docs/architecture.md) | Compiler, native core, optional modules, target support, and toolchain |
 | [Architecture diagrams](docs/architecture-diagrams.md) | Agent verification, protected release boundaries, and CPU/GPU resource lifetimes |
