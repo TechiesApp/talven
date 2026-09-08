@@ -139,7 +139,7 @@ cc -std=c11 -O2 -ffreestanding -fno-builtin -c build/vectors.c -o build/vectors.
 nm -u build/vectors.o
 ~~~
 
-Create `build/` first if a previous build has not created it. Freestanding emission omits the hosted `main` adapter and libc trap implementation. It declares `_Noreturn void talven_trap(void)` for the platform to provide. This is an object-generation experiment; startup code, linking, board support, and target-specific helper routines remain the integrator's responsibility. GCC can require memory/compiler support routines in a freestanding environment depending on emitted operations and target. [GCC C language and freestanding support](https://gcc.gnu.org/onlinedocs/gcc/Standards.html)
+Create `build/` first if a previous build has not created it. Freestanding emission omits the hosted `main` adapter and libc trap implementation. It declares `_Noreturn void talven_trap(void)` for the platform to provide. These commands stop at object generation. The separate [Linux execution probe](freestanding.md) supplies bounded startup/trap code and checks a linked executable without libc on the declared Linux hosts; broader startup, board support, and target-specific helper routines remain the integrator's responsibility. GCC can require memory/compiler support routines in a freestanding environment depending on emitted operations and target. [GCC C language and freestanding support](https://gcc.gnu.org/onlinedocs/gcc/Standards.html)
 
 The historical [M1a validation](prototype-validation.md) and [M1b validation](formatting-validation.md) record earlier target results. The [M1c validation](borrowing-validation.md) records current borrow and native-ordering evidence. A target declaration alone is not verified execution.
 

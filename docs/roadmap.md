@@ -26,7 +26,7 @@ Evaluation increment: [Proposal 0004](proposals/0004-reproducible-agent-evaluati
 
 Borrowing evaluation increment: [Proposal 0005](proposals/0005-borrowing-evaluation-corpus.md) adds a separately versioned four-task corpus for overlapping loans, missing write permission, explicit reborrowing, and evaluation order. The original corpus remains the default. Independent checks include mutation, call order, and dependence on helper return values; both corpora can be exercised offline. See [actual borrowing evaluation validation](borrowing-evaluation-validation.md). Provider integration increment: [Proposal 0006](proposals/0006-anthropic-evaluation-adapter.md) adds an optional [Anthropic Messages adapter](../experiments/adapters/README.md) with synthetic protocol fixtures, explicit live execution, and receipt-aware accounting. Live API compatibility and model results remain unmeasured. Next: select a pinned model and approve a budget for a controlled pilot. Use actual results to guide language/tooling changes before claiming the M1 gate is complete.
 
-Do an early no-heap/freestanding experiment to discover hidden runtime assumptions. A broad embedded target matrix is not required at this stage.
+The no-heap/freestanding increment, [Proposal 0007](proposals/0007-freestanding-linux-execution.md), adds a [bounded Linux execution probe](freestanding.md): explicit startup/traps, linking without libc or an allocator, artifact dependency checks, and measured file/section sizes. It exercises the existing compiler and keeps Linux process services explicit. Board startup, bounded stack use, and a broader embedded target matrix remain later work; this does not satisfy the separate live-agent gate.
 
 ## M2: Memory and concurrency foundations
 
