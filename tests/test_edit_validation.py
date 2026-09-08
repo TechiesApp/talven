@@ -1,4 +1,6 @@
 import json
+from contextlib import redirect_stderr, redirect_stdout
+import io
 from pathlib import Path
 import tempfile
 import unittest
@@ -8,6 +10,7 @@ from talven import PROFILE
 from talven.context import compiler_hash, encode, source_hash
 from talven.edit_validation import snapshot_source, validate_edit
 from talven.frontend import analyze as frontend_analyze
+from talven.__main__ import main
 
 
 VALID = "fn main() -> i32 { return 0; }\n"
@@ -177,6 +180,113 @@ class EditValidationTests(unittest.TestCase):
             receipt = validate_edit(self.source, self.source, expected_source_hash=source_hash(VALID),
                                     expected_compiler_hash=identity)
         self.assertEqual("E0702", receipt["diagnostics"][0]["code"])
+
+    def test_cli_snapshot_success_failure_json_newline_and_exit_codes(self):
+        output = io.StringIO()
+        with redirect_stdout(output):
+            status = main(["edit", "snapshot", str(self.source)])
+        self.assertEqual(0, status)
+        self.assertTrue(output.getvalue().endswith("\n"))
+        self.assertTrue(json.loads(output.getvalue())["ok"])
+        output = io.StringIO()
+        with redirect_stdout(output):
+            status = main(["edit", "snapshot", str(self.root / "missing.tal")])
+        self.assertEqual(1, status)
+        self.assertEqual("E0901", json.loads(output.getvalue())["diagnostics"][0]["code"])
+
+    def test_cli_validate_success_failure_json_newline_and_exit_codes(self):
+        args = ["edit", "validate", str(self.source), "--candidate", str(self.candidate),
+                "--expect-source-hash", source_hash(VALID),
+                "--expect-compiler-hash", compiler_hash()]
+        output = io.StringIO()
+        with redirect_stdout(output):
+            status = main(args)
+        self.assertEqual(0, status)
+        self.assertTrue(output.getvalue().endswith("\n"))
+        self.assertTrue(json.loads(output.getvalue())["ok"])
+        args[args.index(source_hash(VALID))] = "0" * 64
+        output = io.StringIO()
+        with redirect_stdout(output):
+            status = main(args)
+        self.assertEqual(1, status)
+        self.assertEqual("E0501", json.loads(output.getvalue())["diagnostics"][0]["code"])
+
+    def test_cli_required_arguments_and_legacy_check_dispatch(self):
+        error = io.StringIO()
+        with redirect_stderr(error), self.assertRaises(SystemExit) as raised:
+            main(["edit", "validate", str(self.source)])
+        self.assertEqual(2, raised.exception.code)
+        self.assertIn("--candidate", error.getvalue())
+        self.assertIn("--expect-source-hash", error.getvalue())
+        self.assertIn("--expect-compiler-hash", error.getvalue())
+        output = io.StringIO()
+        with redirect_stdout(output):
+            status = main(["check", str(self.source), "--json"])
+        self.assertEqual(0, status)
+        self.assertEqual({"schema": "talven.diagnostics.v1", "ok": True, "diagnostics": []},
+                         json.loads(output.getvalue()))
+
+    def test_candidate_borrow_failure_stays_in_candidate_diagnostics(self):
+        source = "struct P { x: i32 } fn f(p: &P) -> i32 { return p.x; }"
+        candidate = "struct P { x: i32 } fn f(p: &P) -> i32 { p.x = 2; return p.x; }"
+        self.source.write_text(source, encoding="utf-8")
+        self.candidate.write_text(candidate, encoding="utf-8")
+        receipt = validate_edit(self.source, self.candidate, expected_source_hash=source_hash(source),
+                                expected_compiler_hash=compiler_hash())
+        self.assertFalse(receipt["ok"])
+        self.assertEqual("E0303", receipt["candidate"]["diagnostics"][0]["code"])
+        self.assertEqual([], receipt["diagnostics"])
+
+    def test_standalone_declarations_are_added_and_removed(self):
+        source = "fn kept() -> i32 { return 0; } fn removed() -> i32 { return 1; }"
+        candidate = "fn kept() -> i32 { return 0; } struct Added { value: i32 }"
+        self.source.write_text(source, encoding="utf-8")
+        self.candidate.write_text(candidate, encoding="utf-8")
+        receipt = validate_edit(self.source, self.candidate, expected_source_hash=source_hash(source),
+                                expected_compiler_hash=compiler_hash())
+        self.assertEqual([("record", "Added")], [(fact["kind"], fact["name"])
+                                                   for fact in receipt["changes"]["added"]])
+        self.assertEqual([("function", "removed")], [(fact["kind"], fact["name"])
+                                                       for fact in receipt["changes"]["removed"]])
+
+    def test_record_field_order_type_and_borrow_permissions_are_contracts(self):
+        source = ("struct P { x: i32, flag: bool } "
+                  "fn inspect(p: &P) -> i32 { return p.x; }")
+        candidate = ("struct P { flag: i32, x: i32 } "
+                     "fn inspect(p: &mut P) -> i32 { return p.x; }")
+        self.source.write_text(source, encoding="utf-8")
+        self.candidate.write_text(candidate, encoding="utf-8")
+        receipt = validate_edit(self.source, self.candidate, expected_source_hash=source_hash(source),
+                                expected_compiler_hash=compiler_hash())
+        changed = {item["name"]: item for item in receipt["changes"]["contracts_changed"]}
+        self.assertEqual([{"name": "x", "type": "i32"}, {"name": "flag", "type": "bool"}],
+                         changed["P"]["before"]["fields"])
+        self.assertEqual([{"name": "flag", "type": "i32"}, {"name": "x", "type": "i32"}],
+                         changed["P"]["after"]["fields"])
+        parameter = changed["inspect"]["after"]["parameters"][0]
+        self.assertEqual(("borrow-exclusive", True, False),
+                         (parameter["passing"], parameter["may_write"], parameter["escapes"]))
+
+    def test_observed_source_change_fails_and_preserves_concurrent_bytes(self):
+        changed = "fn main() -> i32 { return 2; }\n"
+        calls = 0
+
+        def mutate_source(text):
+            nonlocal calls
+            calls += 1
+            result = frontend_analyze(text)
+            if calls == 1:
+                self.source.write_text(changed, encoding="utf-8")
+            return result
+
+        with patch("talven.edit_validation.analyze", side_effect=mutate_source):
+            receipt = validate_edit(self.source, self.candidate,
+                                    expected_source_hash=source_hash(VALID),
+                                    expected_compiler_hash=compiler_hash())
+        self.assertFalse(receipt["ok"])
+        self.assertEqual(("E0501", "source"),
+                         (receipt["diagnostics"][0]["code"], receipt["diagnostics"][0]["input"]))
+        self.assertEqual(changed, self.source.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":
