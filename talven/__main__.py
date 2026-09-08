@@ -10,6 +10,7 @@ import tempfile
 from . import VERSION
 from .backend import emit_c
 from .context import context, encode, source_hash
+from .edit_validation import snapshot_source, validate_edit
 from .formatter import format_source
 from .frontend import CompileError, MAX_SOURCE_BYTES, Span, analyze
 from .source_edit import replace_source, writable_source
@@ -45,12 +46,35 @@ def main(argv: list[str] | None = None) -> int:
     build.add_argument("-o", "--output", type=Path, required=True)
     build.add_argument("--cc", default="cc", help="Trusted C compiler executable (one path, no shell command)")
     commands.add_parser("lsp", help="Start the read-only LSP server over stdio")
+    edit = commands.add_parser("edit", help="Create revision-checked read-only edit receipts")
+    edit_commands = edit.add_subparsers(dest="edit_command", required=True)
+    snapshot = edit_commands.add_parser("snapshot", help="Snapshot an exact source revision")
+    snapshot.add_argument("source", type=Path)
+    snapshot.add_argument("--include-source", action="store_true")
+    snapshot.add_argument("--max-bytes", type=int, default=16384)
+    validate = edit_commands.add_parser("validate", help="Validate a candidate against pinned revisions")
+    validate.add_argument("source", type=Path)
+    validate.add_argument("--candidate", type=Path, required=True)
+    validate.add_argument("--expect-source-hash", required=True)
+    validate.add_argument("--expect-compiler-hash", required=True)
+    validate.add_argument("--max-bytes", type=int, default=16384)
     args = parser.parse_args(argv)
     if args.command == "fmt" and args.json and not args.check:
         parser.error("fmt --json requires --check")
     if args.command == "lsp":
         from .lsp import serve
         return serve(sys.stdin.buffer, sys.stdout.buffer)
+    if args.command == "edit":
+        if args.edit_command == "snapshot":
+            receipt = snapshot_source(args.source, include_source=args.include_source,
+                                      max_bytes=args.max_bytes)
+        else:
+            receipt = validate_edit(args.source, args.candidate,
+                                    expected_source_hash=args.expect_source_hash,
+                                    expected_compiler_hash=args.expect_compiler_hash,
+                                    max_bytes=args.max_bytes)
+        print(encode(receipt), end="")
+        return 0 if receipt["ok"] else 1
     source = ""
     try:
         if args.command == "fmt" and args.write:
