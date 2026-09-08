@@ -4,6 +4,8 @@ Status: implemented provider-neutral harness, schema `talven.eval.v1`, with two 
 
 Requires Python 3.11+, Git, and a native C11 compiler. Run from the repository root. Compiler and acceptance tests remain separate from model edits. The harness does not change the language or complete the full M1 gate.
 
+For offline compiler/tooling timings and output sizes, use the separate [tooling baseline](../docs/tooling-baseline.md). It does not invoke this agent runner or produce model usage/cost measurements.
+
 ## Run the offline fixture
 
 These commands work without credentials or a network connection after the toolchain is installed:

@@ -101,3 +101,13 @@ jobs:
         env:
           TALVEN_EXPECT_ARCH: ${{ matrix.arch }}
         run: python3 scripts/check-freestanding.py --expect-arch "$TALVEN_EXPECT_ARCH" --out build/freestanding-check
+      - name: Measure offline tooling with correctness gates
+        run: python3 scripts/measure-tooling.py --expect-arch '${{ matrix.arch }}' --out build/tooling-baseline --repetitions 3 --warmups 1 --environment-note 'GitHub Actions shared runner; checkout on runner filesystem'
+      - name: Preserve tooling baseline evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: tooling-baseline-${{ matrix.arch }}-python-${{ matrix.python }}
+          path: build/tooling-baseline/
+          if-no-files-found: error
+          retention-days: 30
