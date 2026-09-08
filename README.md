@@ -66,6 +66,8 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 | [Anthropic adapter validation](docs/anthropic-adapter-validation.md) | Actual offline protocol, native acceptance, and fixture accounting evidence |
 | [Linux execution without libc](docs/freestanding.md) | Bounded freestanding probe, explicit startup/traps, dependency checks, and size reporting |
 | [Freestanding validation](docs/freestanding-validation.md) | Actual Linux ARM64 executions, dependency inspection, measured sizes, and regression evidence |
+| [Read-only edit previews](docs/edit-validation.md) | Exact revision snapshots, checked candidates, structured diagnostics and declaration comparisons |
+| [Edit preview evidence](docs/edit-validation-evidence.md) | Actual revision/repair checks, separate native acceptance and offline regressions |
 | [Requirements](docs/requirements.md) | Traceable record of the product requirements and evidence needed to satisfy them |
 | [Architecture](docs/architecture.md) | Compiler, native core, optional modules, target support, and toolchain |
 | [Architecture diagrams](docs/architecture-diagrams.md) | Agent verification, protected release boundaries, and CPU/GPU resource lifetimes |

@@ -20,6 +20,8 @@ The vector example exits with status zero when its calculation is correct. Progr
 
 `check` and `context` do not invoke a C compiler or execute source programs. `emit-c` writes generated C without invoking another tool. `build` explicitly invokes the executable selected by `--cc` (default `cc`) using an argument array, with a 30-second timeout. It replaces the requested output only after compilation succeeds. The selected C compiler is trusted software; this is not a sandbox.
 
+The [edit preview commands](edit-validation.md) add read-only `edit snapshot` and `edit validate` operations. Snapshots provide exact identities even for broken source; validation checks a separate complete candidate against mandatory source/compiler hashes and reports frontend diagnostics and declaration differences. No source application or native execution occurs.
+
 ## Implemented grammar
 
 ~~~ebnf
@@ -97,7 +99,7 @@ These are **affine stack-value rules with call-scoped borrowing**, not a general
 
 `--symbol` selects a function or record. Omit it to request all declarations, subject to the same budget. `--include-body` adds the selected functions' original text as `untrusted_source_text`; comments in that field are source data and do not authorize tool actions. Comments are omitted from ordinary context facts.
 
-`--expect-source-hash HASH` rejects a context request for a changed revision with `E0501`. It does not implement atomic editing or prevent a later filesystem race. A future edit API needs a separate compare-and-swap operation. Context does not expose ABI layout, infer platform permissions, authenticate its recipient, persist a cache, or control provider prompt caching.
+`--expect-source-hash HASH` rejects a context request for a changed revision with `E0501`. The edit preview uses this source identity plus the compiler hash to validate a separate candidate. Neither operation implements atomic editing or prevents a later filesystem race; file application still needs a separate writer-coordination contract. Context does not expose ABI layout, infer platform permissions, authenticate its recipient, persist a cache, or control provider prompt caching.
 
 ## Structured diagnostics
 
@@ -117,6 +119,7 @@ These are **affine stack-value rules with call-scoped borrowing**, not a general
 | E0401 / E0402 / E0403 | Invalid native entry / C build failure / output would replace source |
 | E0501 / E0502 | Stale source / context byte budget |
 | E0601 / E0602 / E0603 / E0604 | Noncanonical layout / formatting output limit / unsupported in-place target / token-preservation failure; see [formatting](formatting.md) |
+| E0701 / E0702 / E0703 | Invalid edit-preview request / compiler revision mismatch / preview output budget; see [edit previews](edit-validation.md) |
 | E0901 | File, encoding, process-launch, or build-timeout failure |
 
 ## Editor integration
