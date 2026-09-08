@@ -35,3 +35,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0005 | [Borrowing evaluation corpus](0005-borrowing-evaluation-corpus.md) | Draft |
 | 0006 | [Anthropic evaluation adapter](0006-anthropic-evaluation-adapter.md) | Draft |
 | 0007 | [Freestanding Linux execution](0007-freestanding-linux-execution.md) | Draft |
+| 0008 | [Revision-checked edit validation](0008-revision-checked-edit-validation.md) | Draft |

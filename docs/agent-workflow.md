@@ -1,6 +1,6 @@
 # Agent-first workflow
 
-Status: broader proposed interfaces and evaluation plan. [M1a](prototype.md) implements bounded context lookup, structured diagnostics, and basic LSP features through one frontend. [M1b](formatting.md) adds shared CLI/LSP formatting. [M1c](borrowing.md) adds call-scoped borrow contracts to context v2 and matching LSP diagnostics/hover. Provider caching, persistent semantic caches, atomic edit validation, and comparative model evaluations remain future work.
+Status: broader proposed interfaces and evaluation plan. [M1a](prototype.md) implements bounded context lookup, structured diagnostics, and basic LSP features through one frontend. [M1b](formatting.md) adds shared CLI/LSP formatting. [M1c](borrowing.md) adds call-scoped borrow contracts to context v2 and matching LSP diagnostics/hover. [Read-only edit previews](edit-validation.md) add source/compiler revision guards and candidate diagnostics. Provider caching, persistent semantic caches, atomic file application, and comparative model evaluations remain future work.
 
 ## Optimize completed work
 
@@ -28,7 +28,7 @@ Comments and natural-language summaries may supplement these facts. They cannot 
 
 ## Proposed tool operations
 
-These names describe capabilities, not implemented commands:
+These names describe capabilities. The prototype implements context/diagnostic queries and a bounded [edit snapshot/validation interface](edit-validation.md); broad impact analysis and protected execution remain proposals:
 
 | Operation | Purpose |
 | --- | --- |
@@ -42,6 +42,8 @@ These names describe capabilities, not implemented commands:
 A diagnostic should explain why a borrow, capability, type, or task lifetime is invalid. Suggested fixes must themselves be checked; an automatically generated fix is not proof of correctness.
 
 Revision checks must prevent stale edits from overwriting unrelated changes. The same rule applies to multiple agents working concurrently.
+
+The current edit validator is read-only. It checks full candidates against exact source/compiler hashes, permits repairs of invalid source, and compares checked declarations and direct-call sets when both versions are valid. Re-reading input files detects observed changes but is not atomic compare-and-swap. An applying host still needs independently enforced writer coordination, fresh identities and independent task acceptance. An empty declaration comparison does not mean unchanged behavior.
 
 ## Three different caches
 

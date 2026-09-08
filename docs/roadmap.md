@@ -28,6 +28,8 @@ Borrowing evaluation increment: [Proposal 0005](proposals/0005-borrowing-evaluat
 
 The no-heap/freestanding increment, [Proposal 0007](proposals/0007-freestanding-linux-execution.md), adds a [bounded Linux execution probe](freestanding.md): explicit startup/traps, linking without libc or an allocator, artifact dependency checks, and measured file/section sizes. It exercises the existing compiler and keeps Linux process services explicit. Board startup, bounded stack use, and a broader embedded target matrix remain later work; this does not satisfy the separate live-agent gate.
 
+The edit-preview increment, [Proposal 0008](proposals/0008-revision-checked-edit-validation.md), adds [read-only snapshots and candidate validation](edit-validation.md) against exact source/compiler revisions. It supports invalid-source repairs and bounded declaration/direct-call comparisons through the shared frontend. Atomic file application, multi-file transactions, broad impact analysis and controlled model effectiveness remain open; a successful preview does not replace independent correctness checks.
+
 ## M2: Memory and concurrency foundations
 
 Add allocator interfaces, containers, typed failures, structured tasks, cancellation, synchronization, and a selected optional executor.
@@ -82,7 +84,7 @@ No numeric target is claimed until a baseline exists. Report the model, tokenize
 ## Remaining foundation work
 
 1. Evaluate M1c call-scoped borrowing diagnostics and context v2 with controlled agents. Escaping references, heap lifetimes, and field-sensitive borrowing need separate designs.
-2. Evaluate the bounded context and diagnostics with agents, then define atomic edit validation.
+2. Evaluate bounded context, diagnostics and edit previews with agents, then define atomic file application with independently enforced writer coordination.
 3. Review the new native CI evidence on ARM64/x86-64 and measure bootstrap/backend costs before deciding production implementation choices.
 4. Run the initial task corpus with live agents using the implemented harness, then establish equivalent cross-language baselines for agent cost and success. Offline fixture runs are not model measurements.
 5. Specify capability transfer and protected policy enforcement.

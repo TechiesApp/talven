@@ -44,6 +44,7 @@ Status definitions:
 | D30 | Proposed | Preserve the original evaluation corpus and select borrowing repairs separately | [Proposal 0005](proposals/0005-borrowing-evaluation-corpus.md); independent native values, mutation, call order, and return-sensitivity checks; live agent results remain unmeasured |
 | D31 | Proposed | Keep Anthropic Messages integration in an optional command adapter with explicit live/fixture modes | [Proposal 0006](proposals/0006-anthropic-evaluation-adapter.md); owner-selected provider, unchanged acceptance, receipt-aware accounting, and offline verification; live compatibility and model results remain unmeasured |
 | D32 | Proposed | Link and execute a bounded freestanding C probe with explicit Linux startup and traps, without libc or a heap allocator | [Proposal 0007](proposals/0007-freestanding-linux-execution.md); inspect dependencies and target, test values/traps, and record actual file/section sizes; broader runtimes and board support remain open |
+| D33 | Proposed | Preview complete candidate edits against exact source/compiler revisions through the shared frontend | [Proposal 0008](proposals/0008-revision-checked-edit-validation.md); read-only snapshots, invalid-base repairs and bounded declaration comparisons; atomic application and independent task acceptance remain separate |
 
 ## Open decisions
 
