@@ -1,4 +1,4 @@
-"""Independent, finite acceptance checks for the pinned four-task corpus.
+"""Independent, finite acceptance checks for the versioned task corpora.
 
 This module and its generated C harness are trusted runner inputs, outside the
 candidate edit set. Candidates are analyzed by the shared Talven frontend. Native
@@ -21,12 +21,13 @@ from pathlib import Path
 import tempfile
 
 from experiments.process import run_process
+from experiments import borrowing_verifier
 from talven.backend import emit_c
 from talven.frontend import Analysis, CompileError, Expr, Statement, analyze, require_entry
 
 
 C_FLAGS = ("-std=c11", "-O2")
-TASK_IDS = {"move-scalar", "strict-type", "rename-field", "squared-length"}
+TASK_IDS = {"move-scalar", "strict-type", "rename-field", "squared-length"} | borrowing_verifier.TASK_IDS
 
 
 def _expressions(expr: Expr):
@@ -64,6 +65,8 @@ def _contract(analysis: Analysis, name: str, params: list[tuple[str, str]]) -> b
 
 
 def _structure(task: str, analysis: Analysis) -> tuple[bool, str]:
+    if task in borrowing_verifier.TASK_IDS:
+        return borrowing_verifier.structure(task, analysis)
     main = analysis.functions["main"]
     if task in {"move-scalar", "strict-type"}:
         # Bounded shape prevents an unreachable decorative binding/move from
@@ -137,6 +140,8 @@ def _run(argv: list[str], timeout: float, commands: list[dict]) -> dict:
 
 
 def _harness(task: str) -> str:
+    if task in borrowing_verifier.TASK_IDS:
+        return borrowing_verifier.harness(task)
     expected = {"move-scalar": 7, "strict-type": 1}.get(task, 0)
     checks = [f'if (tv_f_main() != INT32_C({expected})) {{ puts("main returned an unexpected i32 value"); return 1; }}']
     if task in {"rename-field", "squared-length"}:
@@ -206,9 +211,12 @@ def verify(task_id: str, source: str, cc: str = "cc", timeout: float = 5.0) -> d
     if not valid:
         return result
 
-    def native(directory: Path, name: str, checked: Analysis, harness: str) -> bool:
+    def native(directory: Path, name: str, checked: Analysis, harness: str, *, trace: bool = False) -> bool:
         c_path, executable = directory / f"{name}.c", directory / name
-        c_path.write_text(emit_c(checked, freestanding=True) +
+        generated = emit_c(checked, freestanding=True)
+        if trace:
+            generated = borrowing_verifier.instrument(checked, generated)
+        c_path.write_text(generated +
                           "\n#include <stdlib.h>\n#include <stdio.h>\n"
                           "_Noreturn void talven_trap(void) { abort(); }\n" + harness, encoding="utf-8")
         compiled = _run([cc, *C_FLAGS, str(c_path), "-o", str(executable)], timeout, result["commands"])
@@ -229,6 +237,10 @@ def verify(task_id: str, source: str, cc: str = "cc", timeout: float = 5.0) -> d
             directory = Path(temporary)
             if not native(directory, "native-values", analysis, _harness(task_id)):
                 return result
+            if task_id in borrowing_verifier.TASK_IDS:
+                if not native(directory, "borrow-call-trace", analysis,
+                              borrowing_verifier.harness(task_id, trace=True), trace=True):
+                    return result
             if task_id in {"rename-field", "squared-length"}:
                 functions = [("dot", 23)]
                 if task_id == "squared-length":
@@ -241,7 +253,7 @@ def verify(task_id: str, source: str, cc: str = "cc", timeout: float = 5.0) -> d
                         if not native(directory, f"main-{function}-sensitivity-{wrong}",
                                       _mutant(task_id, analysis, wrong, function), harness):
                             return result
-    except (OSError, UnicodeError, CompileError) as exc:
+    except (OSError, UnicodeError, CompileError, ValueError) as exc:
         result.update(status="error", feedback=f"verifier infrastructure error: {exc}")
         return result
     result.update(status="passed", feedback="all task acceptance checks passed")

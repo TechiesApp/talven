@@ -69,7 +69,7 @@ jobs:
           PY
       - name: Check example formatting
         run: |
-          for source in examples/*.tal examples/invalid/*.tal tests/fixtures/*.tal; do
+          for source in examples/*.tal examples/invalid/*.tal tests/fixtures/*.tal experiments/corpora/borrowing-v1/*.tal; do
             python3 -m talven fmt "$source" --check --json
           done
       - name: Exercise provider-neutral evaluation without model calls
@@ -77,6 +77,9 @@ jobs:
           python3 tests/fixtures/eval_adapter.py --write-config build/eval-fixture.json
           python3 -m experiments run --adapter build/eval-fixture.json --out build/eval-smoke
           python3 -m experiments reverify build/eval-smoke --out build/eval-reverified.json
+          python3 tests/fixtures/eval_borrow_adapter.py --write-config build/eval-borrow-fixture.json
+          python3 -m experiments run --corpus m1c-borrowing-tasks-v1 --adapter build/eval-borrow-fixture.json --out build/eval-borrow-smoke
+          python3 -m experiments reverify build/eval-borrow-smoke --out build/eval-borrow-reverified.json
       - name: Check native borrow lifetimes and ordering with ASan and UBSan
         env:
           ASAN_OPTIONS: detect_leaks=1:detect_stack_use_after_return=1:halt_on_error=1

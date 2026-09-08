@@ -1,5 +1,9 @@
 """Versioned public task instructions. Acceptance implementation is separate."""
 
+from . import CORPUS_VERSION
+from .borrowing_tasks import BORROWING_TASKS
+
+
 TASKS = {
     "move-scalar": {
         "source": "examples/invalid/moved.tal",
@@ -31,3 +35,15 @@ TASKS = {
                        "verifier will exercise squared_length on multiple positive, negative and zero vectors.",
     },
 }
+
+
+CORPORA = {
+    CORPUS_VERSION: TASKS,
+    "m1c-borrowing-tasks-v1": BORROWING_TASKS,
+}
+
+
+def get_tasks(corpus_version=CORPUS_VERSION):
+    if not isinstance(corpus_version, str) or corpus_version not in CORPORA:
+        raise ValueError(f"Unsupported evaluation corpus: {corpus_version!r}")
+    return CORPORA[corpus_version]

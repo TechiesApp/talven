@@ -1,6 +1,6 @@
 # Reproducible agent evaluation
 
-Status: implemented provider-neutral harness for the four-task corpus, schema `talven.eval.v1`, corpus `m1c-agent-tasks-v1`. No paid model run or comparative token/cost result is supplied. Offline fixtures test the runner and are explicitly **not model measurements**. See [Proposal 0004](../docs/proposals/0004-reproducible-agent-evaluation.md) and [actual validation](../docs/evaluation-validation.md).
+Status: implemented provider-neutral harness, schema `talven.eval.v1`, with two separately versioned four-task corpora. The default remains `m1c-agent-tasks-v1`; borrowing repairs use `m1c-borrowing-tasks-v1`. No paid model run or comparative token/cost result is supplied. Offline fixtures test the runner and are explicitly **not model measurements**. See [Proposal 0004](../docs/proposals/0004-reproducible-agent-evaluation.md), [the borrowing corpus proposal](../docs/proposals/0005-borrowing-evaluation-corpus.md), and [actual validation](../docs/evaluation-validation.md).
 
 Requires Python 3.11+, Git, and a native C11 compiler. Run from the repository root. Compiler and acceptance tests remain separate from model edits. The harness does not change the language or complete the full M1 gate.
 
@@ -21,7 +21,7 @@ Use fresh output/config paths for another run; existing results are never silent
 
 ## Corpus and independent acceptance
 
-Each trial starts with an empty conversation and the exact original source. The default runs all four tasks in both conditions, once, in recorded order. `python3 -m experiments tasks` prints the precise public instructions.
+Each trial starts with an empty conversation and the exact original source. The default runs the original four tasks in both conditions, once, in recorded order. `python3 -m experiments tasks` prints their precise public instructions. Their IDs, instructions, order, and acceptance rules are preserved.
 
 | Task ID | Starting point | Requested change | Independent acceptance |
 | --- | --- | --- | --- |
@@ -33,6 +33,32 @@ Each trial starts with an empty conversation and the exact original source. The 
 Scalar tasks intentionally require straight-line `let` bindings followed by a final binding return. For vector tasks, the verifier changes the required example calculation to several wrong results and checks that main rejects them. It compares full i32 values in reviewer-controlled C, avoiding operating-system exit-code truncation. Comments do not count as field uses. These finite tests catch specific cheats; they do not prove arbitrary program equivalence or prevent overfitting to a public corpus.
 
 The [verifier](verifier.py) imports the shared frontend/backend but owns its acceptance rules and C harness. Model output never selects those rules, compiler flags, or commands. Emitted `tv_f_*` symbols remain a prototype test interface, not a stable foreign ABI.
+
+### Borrowing corpus
+
+Select `m1c-borrowing-tasks-v1` explicitly. This runs a separate four-task suite; it does not extend the default suite or combine denominators. Requests, run archives, reports, and reverification outputs record the selected corpus. A task ID from a different corpus is rejected before an adapter is invoked.
+
+~~~sh
+python3 -m experiments tasks --corpus m1c-borrowing-tasks-v1
+python3 tests/fixtures/eval_borrow_adapter.py --write-config build/eval-borrow-fixture.json
+python3 -m experiments run --corpus m1c-borrowing-tasks-v1 \
+  --adapter build/eval-borrow-fixture.json --out build/eval-borrow-smoke
+python3 -m experiments reverify build/eval-borrow-smoke --out build/eval-borrow-reverified.json
+python3 -m experiments report build/eval-borrow-smoke
+~~~
+
+| Task ID | Starting point | Required repair and helper order |
+| --- | --- | --- |
+| `borrow-overlap` | [overlap.tal](corpora/borrowing-v1/overlap.tal), E0302 | Snapshot with `read` before passing an exclusive reborrow to `with_before`, which calls `add`; return old × 100 + updated |
+| `borrow-permission` | [permission.tal](corpora/borrowing-v1/permission.tal), E0303 | Grant `exercise` an exclusive parameter and make main's owner mutable; `add`, then `read`; return updated |
+| `borrow-reborrow` | [reborrow.tal](corpora/borrowing-v1/reborrow.tal), E0304 | Spell shared/exclusive reborrows explicitly; `read`, `add`, `read`; return old × 100 + updated |
+| `borrow-order` | [order.tal](corpora/borrowing-v1/order.tal), valid but wrong | Snapshot before both mutations; `read`, `add`, `add`; retain their returns and compute old × 10000 + first updated × 100 + second updated |
+
+These bounded tasks preserve `Counter.value:i32`, the function set, helper bodies/signatures, and main's two executable checks. The permission task additionally changes the parameter permission and main's `let mut`. Protected functions are compared as tokens, so comments and layout may change. `exercise(c: &mut Counter, delta: i32) -> i32` allows straight-line bindings and call statements with one final return; record construction, direct field assignment, and branches are outside the task. Local names and expression spelling are not fixed. The public instructions state these constraints before an attempt.
+
+The separate [borrowing verifier](borrowing_verifier.py) first checks native results and mutation of the original record on ten positive, negative, and zero input pairs. A second native build wraps the preserved helpers to observe call order, counts, arguments, and pointee identity. It also varies individual helper return values while preserving their mutations, checking that the candidate uses the required snapshots and update results. This rejects decorative calls whose answers are discarded and reconstructed from fields. Both builds compare full i32 values inside reviewer-controlled C. The frozen main retains checks of both its result and final record value. These are finite public acceptance checks, not a general equivalence proof.
+
+The original corpus, its fixture, and historical reports remain available. Changing the harness changes its pinned hashes: to reverify an archive made with an earlier revision, check out that trusted revision and its matching inputs. The runner never relaxes hashes or executes archived compiler code to make an old run pass. Corpus selection preserves experiment identity; it does not promise bit-identical results across toolchains or revisions. See [borrowing corpus validation](../docs/borrowing-evaluation-validation.md) for actual offline evidence.
 
 ## Context and repair protocol
 
@@ -121,4 +147,4 @@ This creates a new report without altering original run artifacts. Do not double
 
 The model's edit interface is restricted by the runner. The adapter executes in a fresh temporary working directory and receives no verifier files. **The adapter, verifier, C compiler, and host remain trusted.** A temporary directory, hash check, or repository instruction is not a hostile-process sandbox: a same-user executable can access files/network or interfere with other processes. Use an externally protected checkout and OS/container policy for untrusted agents or toolchains. Process time/output limits are resource hygiene, not comprehensive memory/disk/CPU quotas. Public acceptance code is not secret. Keep credentials in adapter-owned secret handling and out of configs, argv, prompts, and archived receipts.
 
-Model experiments, M1c-specific borrowing tasks, cross-language baselines, provider cache comparisons, and statistical significance remain follow-up work. Equivalent Rust/C/TypeScript tasks need independently validated baselines before comparative claims.
+Live model experiments on both corpora, cross-language baselines, provider cache comparisons, and statistical significance remain follow-up work. Equivalent Rust/C/TypeScript tasks need independently validated baselines before comparative claims.
