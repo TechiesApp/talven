@@ -152,3 +152,7 @@ This creates a new report without altering original run artifacts. Do not double
 The model's edit interface is restricted by the runner. The adapter executes in a fresh temporary working directory and receives no verifier files. **The adapter, verifier, C compiler, and host remain trusted.** A temporary directory, hash check, or repository instruction is not a hostile-process sandbox: a same-user executable can access files/network or interfere with other processes. Use an externally protected checkout and OS/container policy for untrusted agents or toolchains. Process time/output limits are resource hygiene, not comprehensive memory/disk/CPU quotas. Public acceptance code is not secret. Keep credentials in adapter-owned secret handling and out of configs, argv, prompts, and archived receipts.
 
 Live model experiments on both corpora, cross-language baselines, provider cache comparisons, and statistical significance remain follow-up work. Equivalent Rust/C/TypeScript tasks need independently validated baselines before comparative claims.
+
+## Separate native compiler experiment
+
+The [native scalar/static-text compiler](native-compiler/README.md) and [comparison evidence](../docs/native-compiler-evidence.md) evaluate a bounded Rust frontend against the reference on explicitly overlapping offline workloads. They do not alter either agent corpus, acceptance rules, provider behavior or M1 model-evaluation gate. No paid model calls are involved.
