@@ -21,6 +21,8 @@ python3 -m talven build examples/hello.tal --console -o build/hello
 
 It prints `Hello, world!` followed by a newline. The [text and console guide](docs/text-console.md) defines UTF-8 literals, output status, dependencies, and limitations. The executable runs natively without Python; the current compiler uses Python and a C11 toolchain.
 
+For automatic refresh while editing, run `python3 -m talven dev examples/hello.tal --console`. The [development guide](docs/development.md) defines full rebuilds, revision tracking, failure recovery, process cleanup, and optional agent receipts. Incremental compilation and state-preserving hot reload remain future work.
+
 The earlier calculation example and analysis tools remain available:
 
 ~~~sh
@@ -67,6 +69,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 | --- | --- |
 | [Prototype guide](docs/prototype.md) | Current implemented grammar, commands, contracts, limits, and design tradeoffs |
 | [Hello World, static text and console output](docs/text-console.md) | Runnable greeting, UTF-8 byte views, explicit POSIX output and error behavior |
+| [Development watch and restart](docs/development.md) | Single-file full rebuilds, safe candidate replacement, cleanup, and revision receipts |
 | [Prototype validation](docs/prototype-validation.md) | Historical M1a tests and initial x86-64 evidence |
 | [Formatting guide](docs/formatting.md) | Canonical CLI/LSP formatting, explicit writes, and cache/target implications |
 | [M1b validation](docs/formatting-validation.md) | Historical formatter checks and native CI evidence |

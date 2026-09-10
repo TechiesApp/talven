@@ -61,7 +61,7 @@ Cache integrity and isolation matter. Do not share secrets across users or proje
 
 ## Development feedback and reload
 
-Fast save-to-diagnostic and save-to-running-code feedback is an explicit requirement for humans and agents. [Proposal 0010](proposals/0010-fast-compiler-and-development-reload.md) stages this as watch/restart, persistent incremental compilation, then restricted state-preserving hot reload. None is implemented today, and the proposed `talven dev` command is illustrative.
+Fast save-to-diagnostic and save-to-running-code feedback is an explicit requirement for humans and agents. [Proposal 0010](proposals/0010-fast-compiler-and-development-reload.md) stages this as watch/restart, persistent incremental compilation, then restricted state-preserving hot reload. The [development command](development.md), `python3 -m talven dev`, implements single-file full-build watch/restart with optional JSONL revision receipts. Persistent incremental compilation and state-preserving hot reload remain unimplemented.
 
 A development session should identify the requested, built and running revisions, reject superseded build results, and preserve a still-running working version when compilation fails. Reports must distinguish restart (state lost and initialization rerun) from hot reload (eligible state retained). Invalid edits should receive the same shared frontend diagnostics as CLI/LSP checks. A successful frontend check or reload is not proof of task correctness; independent acceptance remains necessary.
 

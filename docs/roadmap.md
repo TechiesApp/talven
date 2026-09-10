@@ -34,13 +34,14 @@ The offline tooling increment, [Proposal 0009](proposals/0009-offline-tooling-ba
 
 The static-text increment, [Proposal 0011](proposals/0011-static-text-and-console-output.md), adds [Hello World](text-console.md): immutable UTF-8 literal views, optional POSIX output with explicit error behavior, shared frontend/tooling support, and native exact-output/lifetime/dependency checks. Literal storage and emitted output support do not allocate a heap; the hosted process still uses the host library and OS. This is a small M1 increment, not the completion of M1 or development reload.
 
+The [watch/restart increment](development.md), specified in [Proposal 0012](proposals/0012-development-watch-and-restart.md), adds a single-file development session with full builds, observed revision receipts, failed-edit recovery, stale candidate suppression, and process cleanup. It does not implement incremental compilation or preserve application state.
+
 ### Planned next increments
 
 These are proposed follow-ups, not implemented features or a new claim that M1 is complete. [Proposal 0010](proposals/0010-fast-compiler-and-development-reload.md) records the owner-requested fast compiler and development refresh requirements.
 
-1. Add an explicit watch/restart development session around the runnable greeting, with revision tracking, failed-build handling and process cleanup. Its first implementation may use full builds and must report that honestly.
-2. Prototype a native compiler and persistent dependency-aware compilation before broad runtime expansion. Preserve reference behavior and independent acceptance; evaluate Rust and fast backend candidates such as Cranelift using representative measurements. Neither is selected yet.
-3. Add restricted, opt-in hot reload after module/state contracts and safe execution boundaries are defined. Interface/layout/initialization changes may require restart. Concurrency participation needs the later M2 lifetime rules.
+1. Prototype a native compiler and persistent dependency-aware compilation before broad runtime expansion. Preserve reference behavior and independent acceptance; evaluate Rust and fast backend candidates such as Cranelift using representative measurements. Neither is selected yet.
+2. Add restricted, opt-in hot reload after module/state contracts and safe execution boundaries are defined. Interface/layout/initialization changes may require restart. Concurrency participation needs the later M2 lifetime rules.
 
 Measure actual save-to-diagnostic and save-to-running-revision latency, cache reuse, memory and correctness. Release builds should omit development reload support. This work starts before the broader M5 toolkit; controlled agent evaluation remains a separate M1 gate, with no paid run authorized by this plan.
 

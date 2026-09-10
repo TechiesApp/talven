@@ -70,7 +70,7 @@ A capable development installation does not require a large deployed executable.
 
 The [prototype guide](prototype.md) and [formatting guide](formatting.md) describe the implemented CLI commands. Production installation and the broader toolkit remain open design work.
 
-Design the development loop alongside the compiler: watch/restart first, dependency-aware incremental compilation next, then optional state-preserving reload at defined safe boundaries. The proposed `talven dev` command does not exist today. Initial watch/restart may still perform a full build; later ordinary edits should reuse unaffected work. Keep errors from replacing a working revision, require restart for incompatible state/interface changes, and omit development reload support from release builds. The [reload proposal](proposals/0010-fast-compiler-and-development-reload.md) defines the staged intent and remaining contracts.
+Design the development loop alongside the compiler: watch/restart first, dependency-aware incremental compilation next, then optional state-preserving reload at defined safe boundaries. The experimental [development command](development.md), `python3 -m talven dev`, now watches one file and performs full builds with process restart; later ordinary edits should reuse unaffected work. Keep errors from replacing a working revision, require restart for incompatible state/interface changes, and omit development reload support from release builds. The [reload proposal](proposals/0010-fast-compiler-and-development-reload.md) defines the staged intent and remaining contracts.
 
 ## Targets and ABI
 
