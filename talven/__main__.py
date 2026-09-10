@@ -13,6 +13,7 @@ from .context import context, encode, source_hash
 from .edit_validation import snapshot_source, validate_edit
 from .formatter import format_source
 from .frontend import CompileError, MAX_SOURCE_BYTES, Span, analyze
+from .native import compiler_command
 from .source_edit import replace_source, writable_source
 
 
@@ -47,6 +48,18 @@ def main(argv: list[str] | None = None) -> int:
     build.add_argument("-o", "--output", type=Path, required=True)
     build.add_argument("--cc", default="cc", help="Trusted C compiler executable (one path, no shell command)")
     build.add_argument("--console", action="store_true", help="Enable optional hosted POSIX stdout writes")
+    def interval(value):
+        from .dev import interval as parse_interval
+        return parse_interval(value)
+    dev = commands.add_parser("dev", help="Watch one source, fully rebuild, and restart after successful edits")
+    dev.add_argument("source", type=Path)
+    dev.add_argument("--cc", default="cc", help="Trusted C compiler executable (one path, no shell command)")
+    dev.add_argument("--console", action="store_true")
+    dev.add_argument("--events", type=Path, help="Create a new JSONL session receipt file")
+    dev.add_argument("--poll-interval", type=interval, default=0.05, metavar="SECONDS")
+    dev.add_argument("--debounce", type=interval, default=0.1, metavar="SECONDS")
+    dev.add_argument("--build-timeout", type=interval, default=30.0, metavar="SECONDS")
+    dev.add_argument("--stop-timeout", type=interval, default=1.0, metavar="SECONDS")
     commands.add_parser("lsp", help="Start the read-only LSP server over stdio")
     edit = commands.add_parser("edit", help="Create revision-checked read-only edit receipts")
     edit_commands = edit.add_subparsers(dest="edit_command", required=True)
@@ -63,6 +76,9 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.command == "fmt" and args.json and not args.check:
         parser.error("fmt --json requires --check")
+    if args.command == "dev":
+        from .dev import run_dev
+        return run_dev(args)
     if args.command == "lsp":
         from .lsp import serve
         return serve(sys.stdin.buffer, sys.stdout.buffer)
@@ -131,8 +147,7 @@ def main(argv: list[str] | None = None) -> int:
                     directory = Path(temporary)
                     cfile, executable = directory / "program.c", directory / "program"
                     cfile.write_text(generated, encoding="utf-8")
-                    completed = subprocess.run([args.cc, "-std=c11", "-O2", "-Wall", "-Wextra", "-pedantic-errors",
-                                                str(cfile), "-o", str(executable)], capture_output=True, text=True, timeout=30)
+                    completed = subprocess.run(compiler_command(args.cc, cfile, executable), capture_output=True, text=True, timeout=30)
                     if completed.returncode:
                         raise CompileError("E0402", f"C compiler failed: {completed.stderr.strip()}", Span(0, 0))
                     os.replace(executable, output)

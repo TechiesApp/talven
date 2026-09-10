@@ -10,7 +10,7 @@
 
 Developers and agents need quick feedback after editing code. Fast generated programs alone do not meet that need: compiler startup, repeated checking, code generation, linking and restarting all contribute to the development loop. Ordinary small changes should reuse unaffected work rather than require full compilation every time.
 
-The existing compiler is Talven's own implementation, written in Python with a C11 backend. Python is a bootstrap choice, not a permanent product requirement. It is needed by the compiler, not by the generated executable. A packaged native compiler, incremental compilation, a file watcher, automatic restart and state-preserving hot reload are all **unimplemented**. Existing context hashes and edit previews establish neither incremental dependency tracking nor a safe reload protocol.
+The existing compiler is Talven's own implementation, written in Python with a C11 backend. Python is a bootstrap choice, not a permanent product requirement. It is needed by the compiler, not by the generated executable. A packaged native compiler, incremental compilation and state-preserving hot reload are **unimplemented**. [Proposal 0012](0012-development-watch-and-restart.md) now supplies an experimental [single-file watcher and restart command](../development.md) using full builds. Existing context hashes and edit previews establish neither incremental dependency tracking nor a safe reload protocol.
 
 ## Proposal
 
@@ -109,7 +109,7 @@ Record actual hardware, OS, compiler/backend/toolchain versions, inputs/edits, f
 
 ## Roadmap placement
 
-Keep the first visible console program and watch/restart loop as small early M1 increments. [Proposal 0011](0011-static-text-and-console-output.md) now supplies the first [static-text console implementation](../text-console.md), including encoding, I/O failure behavior and freestanding boundaries. Use it as a concrete refresh workload; automatic watch/restart is still unimplemented.
+Keep the first visible console program and watch/restart loop as small early M1 increments. [Proposal 0011](0011-static-text-and-console-output.md) now supplies the first [static-text console implementation](../text-console.md), including encoding, I/O failure behavior and freestanding boundaries. Use it as a concrete refresh workload; the [development command](../development.md) now supplies full-build watch/restart.
 
 Prototype the native compiler and dependency-aware development architecture before broad M2–M6 expansion. Add persistent incremental operation after demonstrating its invalidation rules. Restricted hot reload follows explicit module/state contracts and safe boundaries; concurrency extensions depend on the M2 lifetime model. Initial development refresh should not wait for M5 or require a general public FFI.
 

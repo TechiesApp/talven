@@ -22,6 +22,8 @@ The vector example exits with status zero when its calculation is correct. For v
 
 `check` and `context` do not invoke a C compiler or execute source programs. `emit-c` writes generated C without invoking another tool. `build` explicitly invokes the executable selected by `--cc` (default `cc`) using an argument array, with a 30-second timeout. It replaces the requested output only after compilation succeeds. The selected C compiler is trusted software; this is not a sandbox.
 
+The [development command](development.md) watches one file, fully rebuilds changed snapshots, and restarts after successful fresh builds. It reuses the same frontend/backend and build flags, with no language-profile change or emitted development runtime.
+
 The [edit preview commands](edit-validation.md) add read-only `edit snapshot` and `edit validate` operations. Snapshots provide exact identities even for broken source; validation checks a separate complete candidate against mandatory source/compiler hashes and reports frontend diagnostics and declaration differences. No source application or native execution occurs.
 
 ## Implemented grammar
