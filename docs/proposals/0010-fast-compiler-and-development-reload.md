@@ -16,7 +16,7 @@ The existing compiler is Talven's own implementation, written in Python with a C
 
 ### Native compiler direction
 
-Treat fast startup, checking, builds and rebuilds after edits as explicit product requirements. Prototype a native compiler early, before broad runtime and ecosystem expansion. Rust is the leading candidate to evaluate, not a selected production dependency. Retain the Python reference and independent behavioral acceptance: a replacement must demonstrate equivalent language semantics, diagnostics, borrowing, context and native results on its declared scope.
+Treat fast startup, checking, builds and rebuilds after edits as explicit product requirements. Prototype a native compiler early, before broad runtime and ecosystem expansion. Rust is the leading candidate to evaluate, not a selected production dependency. [Proposal 0013](0013-native-scalar-compiler.md) now supplies a bounded [scalar/static-text experiment](../../experiments/native-compiler/README.md) through C11; records/borrowing, shared tooling parity and incremental compilation remain open. Retain the Python reference and independent behavioral acceptance: a replacement must demonstrate equivalent language semantics, diagnostics, borrowing, context and native results on its declared scope.
 
 Evaluate frontend implementation and backend separately. Moving the frontend out of Python would not remove the current C compilation/linking stage. A native compiler executable also need not bundle its backend, linker, headers or system libraries; its distribution must disclose these dependencies. Self-hosting in Talven is a separate later choice, not a prerequisite for speed.
 

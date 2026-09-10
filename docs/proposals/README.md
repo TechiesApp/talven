@@ -40,3 +40,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0010 | [Fast compiler and development reload](0010-fast-compiler-and-development-reload.md) | Draft |
 | 0011 | [Static text and optional console output](0011-static-text-and-console-output.md) | Draft |
 | 0012 | [Development watch and restart](0012-development-watch-and-restart.md) | Draft |
+| 0013 | [Native scalar compiler experiment](0013-native-scalar-compiler.md) | Draft |

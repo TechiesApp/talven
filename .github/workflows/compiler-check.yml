@@ -110,6 +110,23 @@ jobs:
         env:
           TALVEN_EXPECT_ARCH: ${{ matrix.arch }}
         run: python3 scripts/check-freestanding.py --expect-arch "$TALVEN_EXPECT_ARCH" --out build/freestanding-check
+      - name: Build and verify the bounded native compiler experiment
+        run: |
+          rustup toolchain install 1.96.0 --profile minimal --component rustfmt
+          cargo +1.96.0 fmt --manifest-path experiments/native-compiler/Cargo.toml --check
+          cargo +1.96.0 build --release --offline --locked --manifest-path experiments/native-compiler/Cargo.toml
+          python3 experiments/native-compiler/tests/conformance.py
+          python3 experiments/native-compiler/tests/comparison.py
+      - name: Compare verified overlapping native and reference workloads
+        run: python3 scripts/measure-native-prototype.py --native experiments/native-compiler/target/release/talven-native --expect-arch '${{ matrix.arch }}' --out build/native-comparison --repetitions 3 --warmups 1 --environment-note 'GitHub Actions shared runner; Rust 1.96.0 Cargo release defaults recorded in manifest'
+      - name: Preserve native comparison evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: native-comparison-${{ matrix.arch }}-python-${{ matrix.python }}
+          path: build/native-comparison/
+          if-no-files-found: error
+          retention-days: 30
       - name: Measure offline tooling with correctness gates
         run: python3 scripts/measure-tooling.py --expect-arch '${{ matrix.arch }}' --out build/tooling-baseline --repetitions 3 --warmups 1 --environment-note 'GitHub Actions shared runner; checkout on runner filesystem'
       - name: Preserve tooling baseline evidence
