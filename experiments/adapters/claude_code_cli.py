@@ -160,6 +160,8 @@ def write_config(args):
     pricing = Path(args.pricing).resolve(strict=True)
     if args.model not in load_pricing(pricing)['models']:
         raise ValueError('model_missing_from_pricing_table')
+    # The resolved CLI path, which includes its version, is recorded in the command.
+    # The binary is not listed as an artifact: archiving it would copy ~200 MB per run.
     executable = shutil.which(args.claude)
     if executable is None:
         raise ValueError('claude_cli_not_found')
@@ -171,7 +173,7 @@ def write_config(args):
                           '--timeout', str(args.timeout), '--pricing', str(pricing)],
               'artifacts': [str(script), str(root / 'experiments/adapters/anthropic_messages.py'),
                             str(root / 'experiments/protocol.py'), str(root / 'experiments/metrics.py'),
-                            str(pricing), str(Path(executable).resolve())]}
+                            str(pricing)]}
     target = Path(args.write_config)
     target.parent.mkdir(parents=True, exist_ok=True)
     with target.open('x', encoding='utf-8') as handle:
