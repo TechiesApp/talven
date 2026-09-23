@@ -53,6 +53,7 @@ EXPECTED_DIVERGENCES = {
     "edge/record-let-mut-scalar": "E0801",
     "edge/record-field-assign": "E0801",
     "edge/record-borrow-before-error": "E0801",
+    "experiments/corpora/hard-v1/reborrow.tal": "E0801",
     "edge/invalid-utf8": "E0901-message",
 }
 

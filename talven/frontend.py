@@ -586,11 +586,13 @@ class Checker:
             if record is None:
                 self.error("E0101", f"Unknown record {value}", expr.span)
             expected = {n.text: t.text for n, t in record.fields}
+            declarations = {n.text: n.span for n, _ in record.fields}
             seen = set()
             for name, child in expr.fields:
                 if name.text in seen or name.text not in expected:
                     self.error("E0203", f"Duplicate or unknown field {name.text}", name.span)
                 seen.add(name.text)
+                self.reference(name.span, declarations[name.text], f"{name.text}: {expected[name.text]}")
                 self.same_type(self.expr(child, state), expected[name.text], child.span)
             if seen != set(expected):
                 self.error("E0203", f"Missing fields: {', '.join(sorted(set(expected) - seen))}", expr.span)

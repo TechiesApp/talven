@@ -34,6 +34,8 @@ EDIT_SCHEMA = {'type': 'object', 'properties': {'edits': {'type': 'object',
 TRANSCRIPT_HEADER = ('Earlier turns of this task, oldest first. "Runner" messages come from the evaluation '
                      'runner; "You" messages are your previous answers.')
 MODEL_FAILURES = {'max_tokens', 'refusal'}
+# Models that reject an effort setting; every other model must pin one.
+NO_EFFORT_MODELS = {'claude-haiku-4-5'}
 
 
 def validate_request(request):
@@ -49,8 +51,9 @@ def validate_request(request):
     if (not isinstance(model, dict) or set(model) != {'provider', 'model', 'tokenizer', 'settings'}
             or model['provider'] != 'anthropic-claude-code-cli' or not identity(model['model'])):
         raise ValueError('invalid_model')
-    if not isinstance(model['settings'], dict) or set(model['settings']) != {'effort'} \
-            or model['settings']['effort'] not in EFFORTS:
+    expected = set() if model['model'] in NO_EFFORT_MODELS else {'effort'}
+    if (not isinstance(model['settings'], dict) or set(model['settings']) != expected
+            or model['settings'].get('effort', EFFORTS[0]) not in EFFORTS):
         raise ValueError('invalid_settings')
     messages = request['messages']
     if not isinstance(messages, list) or len(messages) < 2 or len(messages) % 2:
@@ -73,7 +76,8 @@ def render_prompt(messages):
 
 
 def command(executable, model, effort, system):
-    return [executable, '-p', '--safe-mode', '--model', model, '--effort', effort, '--tools', '',
+    effort_flags = ['--effort', effort] if effort is not None else []
+    return [executable, '-p', '--safe-mode', '--model', model, *effort_flags, '--tools', '',
             '--no-session-persistence', '--system-prompt', system, '--output-format', 'json',
             '--json-schema', json.dumps(EDIT_SCHEMA, separators=(',', ':'))]
 
@@ -134,7 +138,7 @@ def translate_result(data, model, pricing):
 
 def run(request, executable, timeout, pricing):
     model = request['model']['model']
-    argv = command(executable, model, request['model']['settings']['effort'], request['messages'][0]['content'])
+    argv = command(executable, model, request['model']['settings'].get('effort'), request['messages'][0]['content'])
     prompt = render_prompt(request['messages']).encode('utf-8')
     try:
         completed = subprocess.run(argv, input=prompt, capture_output=True, timeout=timeout,
@@ -155,7 +159,10 @@ def run(request, executable, timeout, pricing):
 def write_config(args):
     if not identity(args.model):
         raise ValueError('explicit_model_required')
-    if args.effort not in EFFORTS:
+    if args.model in NO_EFFORT_MODELS:
+        if args.effort is not None:
+            raise ValueError('model_does_not_support_effort')
+    elif args.effort not in EFFORTS:
         raise ValueError('explicit_effort_required')
     pricing = Path(args.pricing).resolve(strict=True)
     if args.model not in load_pricing(pricing)['models']:
@@ -168,7 +175,7 @@ def write_config(args):
     script = Path(__file__).resolve(); root = script.parents[2]
     config = {'schema': 'talven.eval.adapter.v1', 'kind': 'live', 'provider': 'anthropic-claude-code-cli',
               'model': args.model, 'tokenizer': 'unavailable: Claude Code CLI does not expose tokenizer identity',
-              'settings': {'effort': args.effort},
+              'settings': {} if args.effort is None else {'effort': args.effort},
               'command': [str(Path(sys.executable).resolve()), str(script), '--claude', str(Path(executable).resolve()),
                           '--timeout', str(args.timeout), '--pricing', str(pricing)],
               'artifacts': [str(script), str(root / 'experiments/adapters/anthropic_messages.py'),

@@ -4,6 +4,7 @@ from pathlib import Path
 
 from . import CORPUS_VERSION
 from .borrowing_tasks import BORROWING_TASKS
+from .hard_tasks import HARD_CORPUS, HARD_TASKS
 
 
 TASKS = {
@@ -50,6 +51,7 @@ CORPORA = {
     CORPUS_VERSION: TASKS_V2,
     "m1c-agent-tasks-v1": TASKS,
     "m1c-borrowing-tasks-v1": BORROWING_TASKS,
+    HARD_CORPUS: HARD_TASKS,
 }
 
 

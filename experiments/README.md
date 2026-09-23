@@ -62,6 +62,23 @@ The separate [borrowing verifier](borrowing_verifier.py) first checks native res
 
 The original corpus, its fixture, and historical reports remain available. Changing the harness changes its pinned hashes: to reverify an archive made with an earlier revision, check out that trusted revision and its matching inputs. The runner never relaxes hashes or executes archived compiler code to make an old run pass. Corpus selection preserves experiment identity; it does not promise bit-identical results across toolchains or revisions. See [borrowing corpus validation](../docs/borrowing-evaluation-validation.md) for actual offline evidence.
 
+### Hard corpus
+
+`m1-hard-tasks-v1` is a separate eight-task suite built so that habits from other languages fail in Talven. Its starters are in [corpora/hard-v1](corpora/hard-v1/); the multi-error starter sits in `syntax-errors/` because it is deliberately unparseable.
+
+| Task ID | Required work | Habit it tests |
+| --- | --- | --- |
+| `lcm-no-overflow` | `gcd` and `lcm` for every pair whose lcm fits in i32 | `a * b / gcd` overflows while the answer fits; no loops |
+| `digit-sum` | Digit sum of any i32's magnitude | Negating the most negative i32 traps |
+| `pow-mod` | `base^exp mod m` for exponents up to 2³¹−1 | No loops: recursion must halve the exponent; an unreduced base overflows |
+| `grade-bands` | Map a score to a band | `else if` and chained comparisons do not exist |
+| `recursive-reborrow` | Call `add` once per step through a `&mut` parameter | Reborrows must be explicit: `add(&mut c, d)` |
+| `snapshot-before-move` | `total(p) * 10 + p.a` | Arguments evaluate left to right, so `p.a` after `total(p)` is a use after move |
+| `no-shadowing` | Clamp, triple, round to even, and offset | Shadowing, even of parameters, is rejected; so is scalar `let mut` |
+| `multi-error-repair` | Repair a program with six such errors | Diagnostics arrive one at a time |
+
+The [hard verifier](hard_verifier.py) owns the acceptance. It checks exact contracts, keeps protected helpers token-identical, and uses a wrapper that counts `add` calls. C harnesses compute the expected values with 64-bit arithmetic over edge inputs. Tests confirm that every reference solution passes, every starter fails, and one habit mistake per task is rejected for the intended reason. See the [live pilots](../docs/pilot-evidence.md#second-pilot-the-hard-corpus) for results.
+
 ## Context and repair protocol
 
 - `--context source`: the pinned [language reference](../docs/language-reference.md), task instructions, and complete current task source.

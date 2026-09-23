@@ -162,6 +162,56 @@ class LspTests(unittest.TestCase):
         # Python may reject the depth while parsing or leave it to the nesting limit.
         self.assertIn(read_message(io.BytesIO(output.getvalue()))["error"]["code"], (-32700, -32600))
 
+    def position(self, source, offset):
+        prefix = source[:offset]
+        return {"line": prefix.count("\n"), "character": len(prefix.rsplit("\n", 1)[-1].encode("utf-16-le")) // 2}
+
+    def request(self, method, source, offset, **params):
+        self.server.handle({"id": 11, "method": method, "params": {
+            "textDocument": {"uri": URI}, "position": self.position(source, offset), **params}})
+        return self.messages()[-1]
+
+    def test_references_group_by_declaration_and_respect_include_declaration(self):
+        source = ("struct P { x: i32 }\nfn read(p: &P) -> i32 { return p.x; }\n"
+                  "fn main() -> i32 { let p = P { x: 1 }; return read(&p) + p.x; }")
+        self.open(source)
+        field = self.request("textDocument/references", source, source.index("x"), context={"includeDeclaration": True})
+        self.assertEqual(4, len(field["result"]))  # declaration, two reads, one constructor label
+        without = self.request("textDocument/references", source, source.index("x"), context={"includeDeclaration": False})
+        self.assertEqual(3, len(without["result"]))
+        # The parameter p in read and the local p in main are different symbols.
+        param = self.request("textDocument/references", source, source.index("p: &P"), context={"includeDeclaration": True})
+        self.assertEqual(2, len(param["result"]))
+        self.assertIsNone(self.request("textDocument/references", "", 0)["result"])
+
+    def test_rename_edits_every_use_and_keeps_the_program_valid(self):
+        source = ("struct Counter { value: i32 }\nfn add(c: &mut Counter) -> i32 { c.value = c.value + 1; return c.value; }\n"
+                  "fn main() -> i32 { let mut c = Counter { value: 1 }; return add(&mut c); }")
+        self.open(source)
+        for offset, new_name, count in ((source.index("Counter"), "Tally", 3), (source.index("value"), "level", 5)):
+            with self.subTest(new_name=new_name):
+                edits = self.request("textDocument/rename", source, offset, newName=new_name)["result"]["changes"][URI]
+                self.assertEqual(count, len(edits))
+                renamed = source
+                for edit in sorted(edits, key=lambda e: e["range"]["start"]["character"] + 1000 * e["range"]["start"]["line"],
+                                   reverse=True):
+                    lines = renamed.split("\n")
+                    line = edit["range"]["start"]["line"]
+                    start, end = edit["range"]["start"]["character"], edit["range"]["end"]["character"]
+                    lines[line] = lines[line][:start] + edit["newText"] + lines[line][end:]
+                    renamed = "\n".join(lines)
+                analyze(renamed)
+                self.assertIn(new_name, renamed)
+
+    def test_rename_rejects_reserved_invalid_colliding_and_builtin_targets(self):
+        source = "fn add(x: i32) -> i32 { return x; }\nfn main() -> i32 { let y = add(1); return print(\"a\") + y; }"
+        self.open(source)
+        for new_name, code in (("if", -32602), ("i32", -32602), ("9lives", -32602), ("main", -32803)):
+            with self.subTest(new_name=new_name):
+                reply = self.request("textDocument/rename", source, source.index("add"), newName=new_name)
+                self.assertEqual(code, reply["error"]["code"])
+        self.assertEqual(-32803, self.request("textDocument/rename", source, source.index("print"), newName="out")["error"]["code"])
+
     def formatting(self, options=None):
         self.server.handle({"id": 4, "method": "textDocument/formatting", "params": {
             "textDocument": {"uri": URI}, "options": options or {"tabSize": 4, "insertSpaces": True}}})

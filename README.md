@@ -59,13 +59,19 @@ fn main() -> i32 {
 
 | | Result |
 | --- | --- |
-| **Agents** | Claude Opus 5.5 passed **16 of 16** edit and repair tasks on the first attempt, from the one-page reference alone, at about **$0.02 per task** at list price |
+| **Agents** | Claude Opus 5.5 passed **80 of 80** trials on the first attempt from the one-page reference alone, including tasks built to trip up habits from Rust, C, and TypeScript, at **$0.02–0.03 per task** at list price |
 | **Context** | Compiler context for one symbol stayed at **~1.5 KB** while the source grew 4× |
-| **Speed** | The native checker handles a **2,400-line** program in **4.1 ms**, including process start-up |
-| **Size** | A program with no libc links to **2,800 bytes** |
-| **Correctness** | 270+ tests, a 548-case differential suite between two independent compilers, and sanitizers, with CI on Linux x86-64 and ARM64 |
+| **Speed** | The native checker handles a **2,400-line** program in about **4–7 ms**, including process start-up. That is faster than `clang`, `go`, `rustc`, `javac`, and `tsc` checking the same program |
+| **Run time** | Compiled programs run at native speed with overflow checks: level with Go on recursive `fib(35)`, ahead of Java and TypeScript |
+| **Size** | Hello World is a **33 KB** executable with no runtime to install; a program with no libc links to **2,800 bytes** |
+| **Correctness** | 270+ tests, a 651-case differential suite between two independent compilers, and sanitizers, with CI on Linux x86-64 and ARM64 |
 
-Every number links to a reproducible record, along with its limits, in [Benchmarks and evidence](docs/benchmarks.md).
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/benchmarks/check-dark.svg">
+  <img alt="Bar chart: time to type-check or compile a 2,400-line program. Talven native 6.5 ms, C 21.0 ms, Go 33.9 ms, Rust 71.0 ms, Talven Python reference 101.6 ms, TypeScript 431.5 ms, Java 482.1 ms." src="docs/assets/benchmarks/check-light.svg" width="760">
+</picture>
+
+Every number links to a reproducible record, along with its limits, in [Benchmarks and evidence](docs/benchmarks.md). That page also compares run time and footprint with C, Rust, Go, Java, and TypeScript.
 
 ## Quick start
 
@@ -114,7 +120,7 @@ Talven is at the stage where one contribution can shape the language. Good place
 
 - **Harder agent tasks.** The first pilot hit a ceiling; the harness needs tasks that models fail without compiler help. See [experiments](experiments/README.md).
 - **The native compiler.** Port records and borrowing to the [Rust prototype](experiments/native-compiler/README.md). The differential suite tells you when it matches the reference.
-- **Editor support.** Completion, references, and rename in the LSP.
+- **Editor support.** Completion, semantic tokens, and incremental parsing in the LSP.
 - **Language design.** Loops, allocation, and error handling go through [design proposals](docs/proposals/README.md).
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) for setup, checks, and the pull-request process. The [documentation index](docs/README.md) lists every guide, design document, and evidence record.
