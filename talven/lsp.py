@@ -1,4 +1,4 @@
-"""Bounded stdio LSP: sync, diagnostics, navigation, symbols, formatting edits.
+"""Bounded stdio LSP: sync, diagnostics, navigation, references, rename, symbols, formatting.
 
 Documents are analyzed from editor-supplied text. The server never opens a URI,
 executes a compiler subprocess, installs a dependency, or runs source programs.
@@ -12,7 +12,8 @@ from typing import BinaryIO
 
 from . import VERSION
 from .formatter import format_source
-from .frontend import Analysis, CompileError, Span, analyze, source_range
+from .frontend import BUILTINS, KEYWORDS, SCALARS, Analysis, CompileError, Span, analyze, source_range
+import re
 
 MAX_MESSAGE_BYTES = 1024 * 1024
 MAX_DOCUMENTS = 32
@@ -74,6 +75,50 @@ def read_message(stream: BinaryIO) -> dict | None:
     except UnicodeEncodeError:
         raise MessageError(-32600, "LSP message contains an unpaired UTF-16 surrogate") from None
     return message
+
+
+IDENTIFIER = re.compile(r"[A-Za-z_][A-Za-z_0-9]*\Z")
+RESERVED = KEYWORDS | SCALARS | BUILTINS | {"str"}
+
+
+def symbol_occurrences(doc: Document, point: dict) -> list[tuple[Span, bool]] | None:
+    """Name spans of every use of the user-defined symbol at point, declaration flagged.
+
+    Occurrences are grouped by the declaration the checker resolved them to,
+    so a local and a same-named symbol elsewhere stay separate. Reference
+    spans can include a borrow prefix (`&mut Counter`); only the trailing
+    name is returned.
+    """
+    offset = offset_at(doc.source, point)
+    refs = [r for r in doc.analysis.references if offset is not None and r.span.start <= offset < r.span.end]
+    if not refs:
+        return None
+    target = min(refs, key=lambda r: r.span.end - r.span.start).definition
+    if target is None:
+        return None  # Builtins such as print have no source declaration.
+    name = doc.source[target.start:target.end]
+    spans = {Span(r.span.end - len(name), r.span.end) for r in doc.analysis.references if r.definition == target}
+    spans.add(target)
+    if any(doc.source[span.start:span.end] != name for span in spans):
+        return None
+    return [(span, span == target) for span in sorted(spans, key=lambda span: span.start)]
+
+
+def rename_edits(doc: Document | None, uri: str, occurrences, new_name) -> dict:
+    """A workspace edit, or an error when the rename would not check."""
+    if occurrences is None:
+        return {"error": {"code": -32803, "message": "No renameable symbol at this position"}}
+    if not isinstance(new_name, str) or not IDENTIFIER.match(new_name) or new_name in RESERVED:
+        return {"error": {"code": -32602, "message": "New name must be an ASCII identifier that is not reserved"}}
+    source = doc.source
+    for span, _ in reversed(occurrences):
+        source = source[:span.start] + new_name + source[span.end:]
+    try:
+        analyze(source)
+    except CompileError as error:
+        return {"error": {"code": -32803, "message": f"Rename would not check: {error.code}: {error.message}"}}
+    edits = [{"range": source_range(doc.source, span), "newText": new_name} for span, _ in occurrences]
+    return {"result": {"changes": {uri: edits}}}
 
 
 def write_message(stream: BinaryIO, message: dict):
@@ -152,7 +197,7 @@ class Server:
                 self.send(id=identity, result={"capabilities": {
                     "positionEncoding": "utf-16", "textDocumentSync": {"openClose": True, "change": 1},
                     "hoverProvider": True, "definitionProvider": True, "documentSymbolProvider": True,
-                    "documentFormattingProvider": True},
+                    "documentFormattingProvider": True, "referencesProvider": True, "renameProvider": True},
                     "serverInfo": {"name": "talven", "version": VERSION}})
                 return None
             if not self.initialized:
@@ -221,6 +266,18 @@ class Server:
                                             "range": source_range(doc.source, ref.definition)}
                                       if ref.definition is not None else None)
                 self.send(id=identity, result=result)
+            elif method in ("textDocument/references", "textDocument/rename"):
+                uri = params["textDocument"]["uri"]
+                doc = self.documents.get(uri)
+                occurrences = symbol_occurrences(doc, params["position"]) if doc and doc.analysis else None
+                if method.endswith("references"):
+                    include = (params.get("context") or {}).get("includeDeclaration", True)
+                    result = None if occurrences is None else [
+                        {"uri": uri, "range": source_range(doc.source, span)}
+                        for span, declaration in occurrences if include or not declaration]
+                    self.send(id=identity, result=result)
+                else:
+                    self.send(id=identity, **rename_edits(doc, uri, occurrences, params["newName"]))
             elif request:
                 self.send(id=identity, error={"code": -32601, "message": "Method not supported"})
         except (KeyError, TypeError, ValueError, UnicodeError) as error:

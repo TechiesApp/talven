@@ -114,7 +114,7 @@ Talven is at the stage where one contribution can shape the language. Good place
 
 - **Harder agent tasks.** The first pilot hit a ceiling; the harness needs tasks that models fail without compiler help. See [experiments](experiments/README.md).
 - **The native compiler.** Port records and borrowing to the [Rust prototype](experiments/native-compiler/README.md). The differential suite tells you when it matches the reference.
-- **Editor support.** Completion, references, and rename in the LSP.
+- **Editor support.** Completion, semantic tokens, and incremental parsing in the LSP.
 - **Language design.** Loops, allocation, and error handling go through [design proposals](docs/proposals/README.md).
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) for setup, checks, and the pull-request process. The [documentation index](docs/README.md) lists every guide, design document, and evidence record.
