@@ -1,130 +1,124 @@
-# Talven
+<p align="center">
+  <img src="docs/assets/talven-logo.png" alt="Talven logo" width="120">
+</p>
 
-*Clarity down to the machine.*
+<h1 align="center">Talven</h1>
 
-Pronounced **TAL-ven**.
+<p align="center"><em>Clarity down to the machine.</em></p>
 
-A proposal for a native programming language designed first for LLM coding agents, with a clear source language for humans, strong safety, and explicit control over hardware and resources.
+<p align="center">
+  <a href="https://github.com/TechiesApp/talven/actions/workflows/compiler-check.yml"><img src="https://github.com/TechiesApp/talven/actions/workflows/compiler-check.yml/badge.svg" alt="Compiler checks"></a>
+  <a href="https://github.com/TechiesApp/talven/actions/workflows/docs-check.yml"><img src="https://github.com/TechiesApp/talven/actions/workflows/docs-check.yml/badge.svg" alt="Docs check"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" alt="License: Apache-2.0"></a>
+</p>
 
-**Status: experimental compiler with static text, optional console output, and M1c call-scoped borrowing.** The repository contains a small working reference compiler alongside the broader language proposal. It checks types, moves, shared/exclusive borrows, and scalar-field mutation; emits native programs through C11; returns structured agent context; and shares a canonical formatter between CLI and LSP. It is not a production language release or completion of the full M1 milestone. The language name was selected on 7 September 2026.
+Talven (pronounced **TAL-ven**) is an experimental native programming language designed first for **AI coding agents**, while staying clear for humans. It aims for the safety of Rust, the control of C, and a small, regular syntax that a model can learn from one page, with a compiler that hands agents exactly the context they need.
 
-## Try the prototype
+> **Status: early prototype.** A working reference compiler implements a small subset: types, moves, borrowing, text output, a formatter, an LSP, and native builds through C11. It is not ready for production use. [What works today](#what-works-today) lists exactly what exists.
 
-From the repository root, use Python 3.11+ and a C11 compiler named `cc` for native builds. Analysis uses only the Python standard library.
+## Why Talven
 
-Build the first visible program with the optional POSIX console support:
+AI agents now write a large share of systems code, but today's languages were designed for people reading on screens. Agents pay for every token of documentation, every unclear error, and every failed repair. Talven's goal is to **lower the total cost of a correctly completed coding task**, measured in tokens, repairs, and verification, without giving up native performance or memory safety.
+
+That means:
+
+- **A language small enough to learn from one page.** The entire implemented language fits in a [one-page reference](docs/language-reference.md).
+- **Compiler output built for agents.** The compiler returns structured diagnostics, bounded context for one symbol at a time, and edit previews checked against an exact source revision.
+- **Safety without a garbage collector.** Values move, borrows are checked, and arithmetic overflow traps instead of silently wrapping.
+- **Native and small.** Programs compile ahead of time, and a freestanding program can be under 3 KB.
+
+## A taste
+
+~~~text
+struct Counter {
+    value: i32
+}
+
+fn read(c: &Counter) -> i32 {
+    return c.value;
+}
+
+fn add(c: &mut Counter, amount: i32) -> i32 {
+    c.value = c.value + amount;
+    return c.value;
+}
+
+fn main() -> i32 {
+    let mut counter = Counter { value: 40 };
+    add(&mut counter, 2);
+    if (read(&counter) == 42) {
+        return print("ok\n");
+    }
+    return 1;
+}
+~~~
+
+`&` lends read access and `&mut` lends exclusive write access, each only for the duration of a call. The compiler rejects overlapping loans, use after a move, and implicit conversions, and it reports each rejection with a stable error code and an exact source range.
+
+## Evidence so far
+
+| | Result |
+| --- | --- |
+| **Agents** | Claude Opus 5.5 passed **16 of 16** edit and repair tasks on the first attempt, from the one-page reference alone, at about **$0.02 per task** at list price |
+| **Context** | Compiler context for one symbol stayed at **~1.5 KB** while the source grew 4× |
+| **Speed** | The native checker handles a **2,400-line** program in **4.1 ms**, including process start-up |
+| **Size** | A program with no libc links to **2,800 bytes** |
+| **Correctness** | 270+ tests, a 548-case differential suite between two independent compilers, and sanitizers, with CI on Linux x86-64 and ARM64 |
+
+Every number links to a reproducible record, along with its limits, in [Benchmarks and evidence](docs/benchmarks.md).
+
+## Quick start
+
+You need Python 3.11+ and a C11 compiler available as `cc`. There is nothing to install.
 
 ~~~sh
+git clone https://github.com/TechiesApp/talven.git && cd talven
+
 python3 -m talven build examples/hello.tal --console -o build/hello
-./build/hello
+./build/hello                                    # Hello, world!
+
+python3 -m talven check examples/borrowing.tal   # type, move and borrow checking
+python3 -m talven fmt examples/vectors.tal --check
+python3 -m talven context examples/vectors.tal --symbol dot   # agent context for one function
+python3 -m talven dev examples/hello.tal --console            # rebuild and restart on save
 ~~~
 
-It prints `Hello, world!` followed by a newline. The [text and console guide](docs/text-console.md) defines UTF-8 literals, output status, dependencies, and limitations. The executable runs natively without Python; the current compiler uses Python and a C11 toolchain.
+Run the test suite with `python3 -m unittest discover -s tests`. For editor support, point an LSP client at `python3 -m talven lsp`.
 
-For automatic refresh while editing, run `python3 -m talven dev examples/hello.tal --console`. The [development guide](docs/development.md) defines full rebuilds, revision tracking, failure recovery, process cleanup, and optional agent receipts. Incremental compilation and state-preserving hot reload remain future work.
+## What works today
 
-The earlier calculation example and analysis tools remain available:
-
-~~~sh
-python3 -m talven check examples/vectors.tal --json
-python3 -m talven fmt examples/vectors.tal --check --json
-python3 -m talven context examples/vectors.tal --symbol dot --include-body
-python3 -m talven build examples/vectors.tal -o build/vectors
-./build/vectors
-python3 -m unittest discover -s tests -v
-~~~
-
-The vector example exits zero when its calculation is correct. See the [prototype guide](docs/prototype.md) for grammar, ownership rules, diagnostics, context/cache identity, LSP integration, and freestanding emission. See the [validation record](docs/prototype-validation.md) for actual target evidence.
-
-Native CI runs the full test suite on Linux x86-64 and ARM64 with no skips allowed, plus ASan/UBSan borrowing executions, the three CLI examples, the no-libc probe, offline evaluation fixtures, and the tooling baseline. The suite also passes on macOS with Apple clang, where one Linux-only sanitizer test is skipped. The validation records linked below hold the evidence for each increment.
-
-The implemented subset has `i32`, `bool`, static immutable `str` values, functions, conditionals, and move-only records containing scalars. [M1c borrowing](docs/borrowing.md) adds `let mut` record owners, shared `&Record` and exclusive `&mut Record` call arguments, and field assignment. Borrowed references cannot be stored or returned; static text views are copyable and can be returned. Escaping borrows, heap/resource cleanup, full LSP features, concurrency, GPU backends, package adapters, and comparative model benchmarks remain future work.
-
-Try `python3 -m talven build examples/borrowing.tal -o build/borrowing`, then `./build/borrowing`. The example updates a record through an exclusive borrow and then reads it through a shared borrow.
-
-A separate [native compiler experiment](experiments/native-compiler/README.md) implements a narrower scalar/static-text subset in Rust, with no Python delegation. It retains the C11 backend and measures selected frontend operations. Records/borrowing and the full tooling remain in the reference compiler.
-
-## Product goal
-
-Make it cheaper and more reliable for current open and proprietary LLMs to understand, change, check, and maintain systems software. Preserve native performance, a small deployment footprint, and direct control over CPU memory, GPU resources, concurrency, and platform capabilities.
-
-The primary measure is **total cost per correctly completed coding task**, including context, generated tokens, repair attempts, tool calls, and verification. Shorter source text is useful only when it improves that result.
-
-## Requirements at a glance
-
-| Requirement | Intended direction |
+| Area | Implemented |
 | --- | --- |
-| LLM and agentic coding first | A small regular grammar, compiler-generated context, structured diagnostics, precise edits, and reproducible verification |
-| Human usability | Familiar syntax inspired by TypeScript, strict static types, predictable behavior, excellent LSP |
-| Native systems programming | Ahead-of-time compilation, explicit layouts and allocation, safe ownership, controlled unsafe operations |
-| Small default footprint | A freestanding core; allocation, OS services, async execution, networking, foreign runtimes, and GPU backends are optional |
-| Rich developer experience | A coherent Bun-like toolkit for builds, tests, formatting, documentation, packages, and editor support |
-| Fast development feedback | Fast compilation, incremental rebuilds, live reload and eligible state-preserving hot reload, with explicit restart boundaries and optional development support |
-| Existing ecosystems | Incremental adapters for native libraries and established language runtimes, with explicit compatibility and cost boundaries |
-| CPU and GPU work | Structured concurrency, bounded CPU parallelism, synchronous and asynchronous APIs, explicit device memory and transfers |
-| Broad deployment | ARM64 and x86-64 first; more operating systems, boards, and freestanding targets through declared support profiles |
-| Security | Memory safety, least privilege, protected agent policy, trustworthy builds, and platform-specific integrity protections |
+| Language | `i32`, `bool`, static UTF-8 `str`, functions, `let`, `if`/`else`, records of scalars, checked arithmetic |
+| Safety | Affine moves, call-scoped `&`/`&mut` borrows, field mutation, strict types, overflow and division traps |
+| Tooling | `check`, `fmt`, `context`, `build`, `emit-c`, `dev` (watch and restart), `edit` previews, and an LSP |
+| Targets | Native executables through C11 on Linux x86-64 and ARM64 (in CI) and macOS; a no-libc Linux mode |
+| Agent evaluation | A reproducible harness with paired source-only and compiler-context conditions, independent native acceptance, and priced token accounting |
+| Native compiler | A Rust prototype of the scalar subset, kept identical to the reference by a differential suite |
 
-## Read the design
+Not built yet: loops, heap allocation, generics, modules, concurrency, a package manager, and GPU backends. See the [roadmap](docs/roadmap.md).
 
-| Document | Purpose |
-| --- | --- |
-| [Language reference](docs/language-reference.md) | Short, complete rules of the implemented language profile; the text given to evaluated models |
-| [Prototype guide](docs/prototype.md) | Current implemented grammar, commands, contracts, limits, and design tradeoffs |
-| [Hello World, static text and console output](docs/text-console.md) | Runnable greeting, UTF-8 byte views, explicit POSIX output and error behavior |
-| [Development watch and restart](docs/development.md) | Single-file full rebuilds, safe candidate replacement, cleanup, and revision receipts |
-| [Prototype validation](docs/prototype-validation.md) | Historical M1a tests and initial x86-64 evidence |
-| [Formatting guide](docs/formatting.md) | Canonical CLI/LSP formatting, explicit writes, and cache/target implications |
-| [M1b validation](docs/formatting-validation.md) | Historical formatter checks and native CI evidence |
-| [Borrowing guide](docs/borrowing.md) | Call-scoped loans, mutation, evaluation order, and context v2 migration |
-| [M1c validation](docs/borrowing-validation.md) | Borrow rejection, native ordering/lifetimes, LSP/context, and sanitizer evidence |
-| [Agent experiments](experiments/README.md) | Reproducible evaluation harness, independent acceptance, adapter protocol, and measurement accounting |
-| [First live pilot](docs/pilot-evidence.md) | Opus 5.5 on both corpora: 16/16 first-attempt passes, list-price cost, and why it cannot yet compare conditions |
-| [Evaluation validation](docs/evaluation-validation.md) | Actual harness test and offline fixture evidence, with unmeasured model metrics explicit |
-| [Borrowing evaluation validation](docs/borrowing-evaluation-validation.md) | Separate borrowing corpus, independent acceptance, and actual offline execution evidence |
-| [Provider adapter guide](experiments/adapters/README.md) | Optional Anthropic Messages adapter, offline fixtures, explicit live configuration, and usage accounting |
-| [Anthropic adapter validation](docs/anthropic-adapter-validation.md) | Actual offline protocol, native acceptance, and fixture accounting evidence |
-| [Linux execution without libc](docs/freestanding.md) | Bounded freestanding probe, explicit startup/traps, dependency checks, and size reporting |
-| [Freestanding validation](docs/freestanding-validation.md) | Actual Linux ARM64 executions, dependency inspection, measured sizes, and regression evidence |
-| [Read-only edit previews](docs/edit-validation.md) | Exact revision snapshots, checked candidates, structured diagnostics and declaration comparisons |
-| [Edit preview evidence](docs/edit-validation-evidence.md) | Actual revision/repair checks, separate native acceptance and offline regressions |
-| [Offline tooling baseline](docs/tooling-baseline.md) | Reproducible CLI/build timings, output sizes, native acceptance and archived measurements |
-| [Tooling baseline evidence](docs/tooling-baseline-evidence.md) | Actual sample ranges and byte sizes, with host conditions and measurement limits |
-| [Fast compiler and development reload](docs/proposals/0010-fast-compiler-and-development-reload.md) | Native compiler evaluation, incremental builds, watch/restart and restricted hot reload; watch/restart is implemented, the rest is proposed |
-| [Requirements](docs/requirements.md) | Traceable record of the product requirements and evidence needed to satisfy them |
-| [Architecture](docs/architecture.md) | Compiler, native core, optional modules, target support, and toolchain |
-| [Architecture diagrams](docs/architecture-diagrams.md) | Agent verification, protected release boundaries, and CPU/GPU resource lifetimes |
-| [Agent workflow](docs/agent-workflow.md) | Context, LSP, diagnostics, caching, edits, and model evaluation |
-| [Language, memory, and concurrency](docs/language-memory-concurrency.md) | Proposed syntax principles, ownership, allocation, tasks, and error handling |
-| [GPU and platforms](docs/gpu-platforms.md) | Host/device boundaries, vendor backends, tiny systems, and portability |
-| [Package interoperability](docs/package-interoperability.md) | Reusing existing packages and understanding the cost of integration |
-| [Security](docs/security.md) | Threat model, enforcement boundaries, data integrity, and maintenance |
-| [Roadmap](docs/roadmap.md) | Staged experiments and evidence gates |
-| [Decision register](docs/decisions.md) | Requirements, proposals, unresolved decisions, and limits |
-| [References](docs/references.md) | Primary guidance supporting the security discussion |
-| [Design proposals](docs/proposals/README.md) | How a design change is written, discussed, and accepted |
-| [Contributing](CONTRIBUTING.md) | How to propose and evaluate design changes |
-| [Governance](GOVERNANCE.md) | Roles and how decisions are made |
-| [Security policy](SECURITY.md) | How to report a security concern privately |
-| [Code of conduct](CODE_OF_CONDUCT.md) | Expected behavior in project spaces |
+## Where it is going
 
-## Scope and limits
+The [requirements](docs/requirements.md) set the long-term direction, and the [roadmap](docs/roadmap.md) stages it behind evidence gates:
 
-- The prototype guide identifies implemented behavior; broader architecture features remain requirements or proposals.
-- High-level convenience must have visible dependencies and costs.
-- A universal translator cannot be assumed to remove every foreign runtime, garbage collector, or semantic difference.
-- A language cannot guarantee integrity after every possible kernel, firmware, hardware, or key compromise.
-- GPU portability requires a supported subset and explicit access to vendor-specific functionality.
-- Provider prompt caching and local compiler/context caching are different mechanisms.
+- **Agent-first tooling:** precise edits, cached context, and an excellent LSP, all driven by one compiler model.
+- **Memory and concurrency:** explicit allocators, structured tasks, and cancellation, with no mandatory garbage collector.
+- **A fast native compiler:** incremental builds and hot reload during development.
+- **Interoperability:** C libraries first, then selected managed ecosystems, with the cost of each bridge made explicit.
+- **Hardware:** ARM64 and x86-64 first, then explicit GPU memory and one GPU backend.
 
-## First implementation objective
+## Contributing
 
-M1a starts the agent workflow and native subset; M1b adds canonical formatting and native CI; M1c adds a defined call-scoped borrowing subset. The [evaluation harness](experiments/README.md) runs the original corpus and a separately selected borrowing corpus with independent native acceptance, source-only/compiler-context conditions, bounded repairs, and provenance-aware token/cost reporting. Borrowing tasks cover loan conflicts, permissions, reborrowing, and evaluation order. Offline fixtures validate the harness. A [first live pilot](docs/pilot-evidence.md) passed every task in both conditions, so no condition comparison or token saving is claimed yet. Consult the validation records for successful target runs. Completing M1 still requires controlled agent task evaluations and review of the implemented rules. Expand the runtime and ecosystem after these foundations have evidence.
+Talven is at the stage where one contribution can shape the language. Good places to start:
 
-## Project status
+- **Harder agent tasks.** The first pilot hit a ceiling; the harness needs tasks that models fail without compiler help. See [experiments](experiments/README.md).
+- **The native compiler.** Port records and borrowing to the [Rust prototype](experiments/native-compiler/README.md). The differential suite tells you when it matches the reference.
+- **Editor support.** Completion, references, and rename in the LSP.
+- **Language design.** Loops, allocation, and error handling go through [design proposals](docs/proposals/README.md).
 
-The language is named **Talven**. Its public repository is [TechiesApp/talven](https://github.com/TechiesApp/talven). M1a uses Python and C11 as an experimental bootstrap; the production compiler implementation and final grammar remain open decisions. Design work proceeds through [design proposals](docs/proposals/README.md) and GitHub Discussions.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for setup, checks, and the pull-request process. The [documentation index](docs/README.md) lists every guide, design document, and evidence record.
 
 ## License
 
-Talven is licensed under the [Apache License, Version 2.0](LICENSE). Contributions are accepted under the same license and must be signed off under the [Developer Certificate of Origin](https://developercertificate.org/); see [CONTRIBUTING.md](CONTRIBUTING.md).
+Talven is licensed under the [Apache License 2.0](LICENSE). Contributions are accepted under the same license with a [DCO](https://developercertificate.org/) sign-off (`git commit -s`). Copyright is held by the company named in [NOTICE](NOTICE).

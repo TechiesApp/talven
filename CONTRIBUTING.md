@@ -1,45 +1,95 @@
 # Contributing to Talven
 
-This repository contains a reference compiler prototype and the broader language proposal. Work should preserve the primary objective: reliable, economical coding by LLM agents while retaining human clarity, native control, and strong safety.
+Thank you for helping. Talven is early, so a well-placed contribution can shape the language. This guide covers setup, the checks to run, and how changes get merged.
 
-Start with the [requirements](docs/requirements.md), [decision register](docs/decisions.md), and [roadmap](docs/roadmap.md).
+The goal behind every change is the same: make coding by AI agents more reliable and economical, while keeping the language clear for humans, native, and safe.
 
-## Proposals
+## Ways to contribute
 
-Substantial design changes go through the [design proposal process](docs/proposals/README.md): copy the template, fill every section, and open a pull request. Ideas that are not ready for a proposal can start in GitHub Discussions. Decisions are made as described in [GOVERNANCE.md](GOVERNANCE.md).
+| If you want to… | Start here |
+| --- | --- |
+| Improve the compiler or tools | [Prototype guide](docs/prototype.md), then `talven/` |
+| Extend the native compiler | [Native compiler prototype](experiments/native-compiler/README.md) |
+| Build harder agent tasks or run evaluations | [Evaluation harness](experiments/README.md) |
+| Propose a language feature or design change | [Design proposals](docs/proposals/README.md) |
+| Fix or clarify documentation | [Documentation index](docs/README.md) |
+| Ask a question or float an idea | GitHub Discussions |
 
-Describe the problem and the requirement IDs it affects. Include the proposed semantics or behavior, examples, alternatives, agent-context implications, runtime and memory costs, security boundaries, target constraints, and a concrete way to evaluate the claim.
+## Set up
 
-Label illustrative syntax and hypothetical APIs. Only the subset in [the prototype guide](docs/prototype.md) has implementation evidence.
+You need **Python 3.11+** and a **C11 compiler available as `cc`**. The reference compiler uses only the Python standard library, so there is nothing to install. The optional extras are:
 
-Prefer primary references for factual technical claims. Distinguish a draft standard from finalized guidance and a prototype measurement from a released guarantee.
+- **Node 18+** for the documentation check.
+- **Rust 1.96** through rustup, for the native compiler in `experiments/native-compiler/`.
 
-## Documentation changes
+~~~sh
+git clone https://github.com/TechiesApp/talven.git && cd talven
+python3 -m unittest discover -s tests     # should end with OK
+~~~
 
-Keep the README navigation and relative links correct. Update the relevant decision status and requirement mapping when a proposal changes.
+## Find your way around
 
-Run `node scripts/check-docs.mjs` before opening a pull request. It verifies every relative link and renders every Mermaid diagram; the same check runs in CI. Simple prose edits need this check and a consistency read rather than tests that merely restate the text. Implementation changes will need checks appropriate to their actual risk and behavior.
+| Path | Contents |
+| --- | --- |
+| `talven/` | Reference compiler: `frontend.py` (lexer, parser, checker), `backend.py` (C11), `formatter.py`, `lsp.py`, `context.py`, `dev.py`, `edit_validation.py` |
+| `tests/` | Unit, native, LSP, formatter, and evaluation tests |
+| `examples/` | Runnable programs; `examples/invalid/` holds programs that must be rejected |
+| `experiments/` | Agent-evaluation harness, corpora, adapters, results, and the Rust native compiler |
+| `scripts/` | CI helpers: docs check, sanitizers, freestanding probe, benchmarks |
+| `docs/` | Language reference, guides, design documents, proposals, and evidence records |
 
-## Compiler changes
+## Run the checks for your change
 
-Run `python3 -m unittest discover -s tests -v` from the repository root. A C11 compiler named `cc` is needed for native tests; the native conformance tests also require its undefined-behavior sanitizer support. Run `python3 scripts/check-borrow-sanitizers.py` on a supported host for the separate required CI address/undefined-behavior sanitizer check; see [borrowing validation](docs/borrowing-validation.md) for runtime prerequisites and coverage. Report skipped tests or unsupported toolchains explicitly.
+CI runs all of these on Linux x86-64 and ARM64. Run the ones that match your change before opening a pull request:
 
-Run `python3 -m talven fmt FILE --check` for changed `.tal` files. Use `fmt --write` explicitly to apply the canonical layout in a coordinated workspace. See [formatting](docs/formatting.md) for comment preservation and write limits. The native CI matrix checks Linux x86-64 and ARM64, rejects skipped tests, and records each actual compiler/host environment.
+| You changed | Run |
+| --- | --- |
+| Anything in `talven/` or `experiments/` | `python3 -m unittest discover -s tests` |
+| A `.tal` file | `python3 -m talven fmt FILE --check` |
+| Borrowing or lowering | `python3 scripts/check-borrow-sanitizers.py` (Linux or a host with ASan/UBSan) |
+| The Rust native compiler | `cargo fmt --check`, `cargo clippy -- -D warnings`, `cargo test`, then `python3 experiments/native-compiler/tests/differential.py` |
+| Documentation | `node scripts/check-docs.mjs` (checks relative links and renders Mermaid diagrams) |
 
-Add semantic acceptance/rejection cases for changed language rules and execution tests for changed lowering. Keep the compiler context schema, diagnostics, and editor behavior consistent. Version the profile/schema when compatibility changes; never reuse cached success as a replacement for checking changed source.
+If a check is skipped or unsupported on your machine, say so in the pull request rather than reporting it as passed.
 
-## Public contributions
+When you change a language rule:
+- Add both acceptance and rejection tests, plus an execution test if lowering changes.
+- Update the [language reference](docs/language-reference.md).
+- If the rule is part of the scalar subset, keep the Rust port in step; the differential suite fails when the two compilers disagree.
+- Keep diagnostics, compiler context, and editor behavior consistent, and version the profile or schema when compatibility changes.
 
-Keep private credentials, personal information, unpublished customer material, and sensitive deployment data out of public files and discussions.
+## Open a pull request
 
-## License and sign-off
+1. Create a branch from `main`.
+2. Sign off every commit with `git commit -s`. This certifies the [Developer Certificate of Origin](https://developercertificate.org/), and CI rejects unsigned commits.
+3. Open a pull request and fill in the template. Explain what changed and why, and link the issue, proposal, or discussion.
+4. All required checks must pass. A code owner must approve (see [CODEOWNERS](.github/CODEOWNERS)), and the branch must be up to date with `main`.
 
-Talven is licensed under the [Apache License, Version 2.0](LICENSE). By contributing you agree that your contribution is licensed under the same terms.
+Keep pull requests focused, and avoid unrelated rewrites.
 
-Every commit must carry a `Signed-off-by` trailer certifying the [Developer Certificate of Origin](https://developercertificate.org/). Use `git commit -s`; CI rejects pull requests with unsigned commits. Do not submit code or text you do not have the right to license under Apache-2.0.
+## Propose a design change
 
-Third-party material with a different license needs an explicit review before it is redistributed from this repository.
+Substantial changes to language semantics, tooling contracts, or architecture go through the [design proposal process](docs/proposals/README.md). Copy the template, fill in every section, and open a pull request. The proposal names:
+- the problem and the requirement IDs it affects;
+- the proposed behavior, with examples;
+- the alternatives you considered;
+- the cost to agents and at runtime, and the security implications;
+- how the claim will be evaluated.
 
-Report security concerns privately as described in [SECURITY.md](SECURITY.md). Before runtime releases, a supported-version policy and named response ownership must be established; no such operational process exists yet.
+Label illustrative syntax as a proposal; only what the [language reference](docs/language-reference.md) describes is implemented. [GOVERNANCE.md](GOVERNANCE.md) explains how proposals are decided.
 
-All participation is subject to the [code of conduct](CODE_OF_CONDUCT.md).
+## Report measurements honestly
+
+Benchmarks and evaluations are only useful if they can be trusted:
+- Record the inputs, the model and tokenizer versions, the host, the compiler settings, and the correctness criteria.
+- Keep every sample, including failures.
+- Never present a skipped check or a fixture run as a measurement.
+
+[AGENTS.md](AGENTS.md) spells out these rules; they apply to human contributors too.
+
+## Security, conduct, and licensing
+
+- Report security concerns privately, as described in [SECURITY.md](SECURITY.md), not in public issues.
+- Keep credentials, personal information, and private customer material out of the repository.
+- All participation is subject to the [code of conduct](CODE_OF_CONDUCT.md).
+- Talven is licensed under [Apache-2.0](LICENSE), and your contributions are licensed under the same terms. Third-party material under a different license needs review before it can be included.
