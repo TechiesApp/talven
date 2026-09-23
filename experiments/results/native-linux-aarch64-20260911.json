@@ -1,0 +1,1743 @@
+{
+  "archive_kind": "compact observations; full local/CI archives retain exact inputs, binaries, argv and streams",
+  "c_executable": {
+    "bytes": 1319624,
+    "sha256": "dc53dbc5a583d03ae8ed6272ca9afc0f58873f9f9b86dd7d448b17fb3f88a8d0"
+  },
+  "c_flags": [
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-pedantic-errors"
+  ],
+  "c_target": "aarch64-linux-gnu",
+  "c_version": "cc (Debian 12.2.0-14+deb12u1) 12.2.0\nCopyright (C) 2022 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+  "clock": {
+    "implementation": "clock_gettime(CLOCK_MONOTONIC)",
+    "resolution_seconds": 0.001
+  },
+  "compiler_hash": "791c630edb1d6d93e41a53d7ace71ffe903a57d6cc2ce962a59f7a33a4d0a515",
+  "complete": true,
+  "cpu_model": null,
+  "environment_note": "Local Docker Desktop Linux ARM64; Python image python:3.11-bookworm; native compiler built with rust:1.96.0-bookworm digest sha256:5e2214abe154fe26e39f64488952e5c991eeed1d6d6da7cc8381ae83927f0cfc using cargo build --release --offline --locked; host-mounted checkout; background host load uncontrolled",
+  "environment_overrides": {
+    "LC_ALL": "C",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0"
+  },
+  "finished_at": "2026-09-10T17:06:43.445901+00:00",
+  "input_fingerprints": {
+    "examples/hello.tal": {
+      "bytes": 58,
+      "sha256": "20492c7108b5976576bed9b19ab1630c2f8de21000b512e28ee1813b9492169e"
+    },
+    "experiments/native-compiler/Cargo.lock": {
+      "bytes": 157,
+      "sha256": "bd1a00b885ea7bc4cc0e38e9705cefcc83b606be0ad406ddc56c64179fa22943"
+    },
+    "experiments/native-compiler/Cargo.toml": {
+      "bytes": 186,
+      "sha256": "967bc2329abce937c2a9f76a4fdf0b4bb48332896997a6ff8bc4903572ca180a"
+    },
+    "experiments/native-compiler/build.rs": {
+      "bytes": 1691,
+      "sha256": "39f05083ee47c9fbab3b2251b45d9a8c7cf7f52ea828fd780efb4ad561c9d7cb"
+    },
+    "experiments/native-compiler/src/console.c": {
+      "bytes": 611,
+      "sha256": "fb36e23b9924e6b782ed6ec9212ea6e413bcc0c544e6febca6dc5127abfa7258"
+    },
+    "experiments/native-compiler/src/lib.rs": {
+      "bytes": 29275,
+      "sha256": "ed93cbb2c3329b0ed91a6a310d716d88d3690ed482c38e8feed0ea5a4d4bff0e"
+    },
+    "experiments/native-compiler/src/main.rs": {
+      "bytes": 4750,
+      "sha256": "382e9091e915ce8e92ddf5ffa299f64d60ea457dbdabbf898fd2ee9c0cf737e5"
+    },
+    "experiments/native-compiler/src/runtime.c": {
+      "bytes": 1141,
+      "sha256": "aea3dfc916b330f5f5a70727b01ee58d1b73cb816d3b98c065a2a4d2a812a6f9"
+    },
+    "experiments/native-compiler/tests/comparison.py": {
+      "bytes": 4651,
+      "sha256": "070720e650082f5b83721113728999e178e19b20ad9098775d322bcdb0fc7df5"
+    },
+    "experiments/native-compiler/tests/conformance.py": {
+      "bytes": 9648,
+      "sha256": "9d0e3dddd8459619c5df52441af2a492b485bcb9adbb47333bc6986b66e64408"
+    },
+    "experiments/tooling_workloads.py": {
+      "bytes": 3599,
+      "sha256": "3596d3f588f3d384f180d1acec5b357cfa239029db46ccb02351a3020c9a72ad"
+    },
+    "scripts/measure-native-prototype.py": {
+      "bytes": 11540,
+      "sha256": "cb58baa7d2c3a996a06004e7ac8a65271ec454e538d79eb1e610e20321b53c63"
+    },
+    "scripts/measure-tooling.py": {
+      "bytes": 18290,
+      "sha256": "b37aaff3df4ab583f30dd2224673bf037c9f0265dd053b87323a9e7319588354"
+    },
+    "talven/__init__.py": {
+      "bytes": 172,
+      "sha256": "65192d65e17da43bd792c72941e917c26c6ff19327a8f2d66e9c4e25d6ddbb7a"
+    },
+    "talven/__main__.py": {
+      "bytes": 9727,
+      "sha256": "35c2641c3591ea20500f43142cc1ed1fae310ebce137a321606af1b58c2a12a6"
+    },
+    "talven/backend.py": {
+      "bytes": 8670,
+      "sha256": "0202e38cd34ba53d43b0cf3de715b011768acc06b58d68592835a280837b9df8"
+    },
+    "talven/context.py": {
+      "bytes": 6747,
+      "sha256": "acf4e2a0670548254690112227bf6edbe70580c51b9213eb228cb0c801551303"
+    },
+    "talven/dev.py": {
+      "bytes": 11215,
+      "sha256": "3ee09b23924926c147f6b13c52d567b581317c28906333b5063708a829d18596"
+    },
+    "talven/edit_validation.py": {
+      "bytes": 11206,
+      "sha256": "84d7196107248ce424c09cb3332ccb27fcb9b18446ec85719f8d379db81b5905"
+    },
+    "talven/formatter.py": {
+      "bytes": 5934,
+      "sha256": "f4238109ff03e13cb95928856ee6646dac87b9311dc06e5ab11ab278c42e3650"
+    },
+    "talven/frontend.py": {
+      "bytes": 28663,
+      "sha256": "2b05e95b263adbce3804e7398b0ab3341ba2597ed7f238451dd5a6c44c616eba"
+    },
+    "talven/lsp.py": {
+      "bytes": 10579,
+      "sha256": "e1f153e7ff0913caf4011596b0173b4443ffa15a1373dfff05538ad14bee2932"
+    },
+    "talven/native.py": {
+      "bytes": 224,
+      "sha256": "cca4f6d74fbcd407fd90a1a63ce0e78716e5dda2d1bae92a5546bd4a4ec18688"
+    },
+    "talven/source_edit.py": {
+      "bytes": 1770,
+      "sha256": "fc4e1b355ac0db9f985c312cbe5c35a148c1840bfa8f8f9e7f993b21584275c2"
+    }
+  },
+  "machine": "aarch64",
+  "measurement_base_commit": "055cc734e599015efe1e3480d612196f01ce5fee",
+  "measurement_checkout_dirty": true,
+  "native": {
+    "bytes": 625472,
+    "sha256": "daa86d31b017e918aa8d1e00fceede1ced26164637a32b54237a18319cdd846b"
+  },
+  "native_build_info": {
+    "cargo_profile": "release",
+    "opt_level": "3",
+    "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)",
+    "settings": {
+      "CARGO_CFG_TARGET_FEATURE": "neon",
+      "CARGO_ENCODED_RUSTFLAGS": "",
+      "DEBUG": "false",
+      "RUSTFLAGS": ""
+    },
+    "target": "aarch64-unknown-linux-gnu"
+  },
+  "native_build_sources_verified": true,
+  "os_release": "6.12.76-linuxkit",
+  "passed": true,
+  "python": "3.11.16",
+  "python_executable": {
+    "bytes": 73408,
+    "sha256": "de76f306d201c6d88e9c779cb10315930d3723cd621ff6d091a60e343d56ba64"
+  },
+  "repetitions": 5,
+  "samples": [
+    {
+      "elapsed_ns": 38606750,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "warmup",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 1306167,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "warmup",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 36277375,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "warmup",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2015,
+        "sha256": "a8f5212f8b4651074ea040c593cf848a8eda51fa2f5b93da7b735af092223bf4"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 1147792,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "warmup",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2064,
+        "sha256": "93aa838654d2a22d699c250437283ed31b7499a0df1bf5d0186c67edc9a17f34"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 91337541,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 5396875,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 103113125,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2015,
+        "sha256": "a8f5212f8b4651074ea040c593cf848a8eda51fa2f5b93da7b735af092223bf4"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 1317792,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2064,
+        "sha256": "93aa838654d2a22d699c250437283ed31b7499a0df1bf5d0186c67edc9a17f34"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 1133709,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 2,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 38679625,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 2,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 1145750,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 2,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2064,
+        "sha256": "93aa838654d2a22d699c250437283ed31b7499a0df1bf5d0186c67edc9a17f34"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 36770125,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 2,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2015,
+        "sha256": "a8f5212f8b4651074ea040c593cf848a8eda51fa2f5b93da7b735af092223bf4"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 34113167,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 3,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 1330416,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 3,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 38159000,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 3,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2015,
+        "sha256": "a8f5212f8b4651074ea040c593cf848a8eda51fa2f5b93da7b735af092223bf4"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 1222792,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 3,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2064,
+        "sha256": "93aa838654d2a22d699c250437283ed31b7499a0df1bf5d0186c67edc9a17f34"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 1137083,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 4,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 32308958,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 4,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 1191083,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 4,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2064,
+        "sha256": "93aa838654d2a22d699c250437283ed31b7499a0df1bf5d0186c67edc9a17f34"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 29914916,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 4,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2015,
+        "sha256": "a8f5212f8b4651074ea040c593cf848a8eda51fa2f5b93da7b735af092223bf4"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 30688417,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 5,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 1072667,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 5,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 35763958,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 5,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2015,
+        "sha256": "a8f5212f8b4651074ea040c593cf848a8eda51fa2f5b93da7b735af092223bf4"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 951834,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 5,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2064,
+        "sha256": "93aa838654d2a22d699c250437283ed31b7499a0df1bf5d0186c67edc9a17f34"
+      },
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "elapsed_ns": 35495709,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "warmup",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 2719125,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "warmup",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 31433291,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "warmup",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 9987,
+        "sha256": "dd390f0dde41196de1253f29fbcf53f6d335007a55a9d8d55005ae19a8698215"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 925375,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "warmup",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 9304,
+        "sha256": "4fd8ab0cc48035aee878a7b0ff168aa2ea418a8566e89ed6dc1b34949a4a7465"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 33638875,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 2962834,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 33107125,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 9987,
+        "sha256": "dd390f0dde41196de1253f29fbcf53f6d335007a55a9d8d55005ae19a8698215"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 1297041,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 9304,
+        "sha256": "4fd8ab0cc48035aee878a7b0ff168aa2ea418a8566e89ed6dc1b34949a4a7465"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 1014042,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 2,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 30944667,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 2,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 2026291,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 2,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 9304,
+        "sha256": "4fd8ab0cc48035aee878a7b0ff168aa2ea418a8566e89ed6dc1b34949a4a7465"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 34554375,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 2,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 9987,
+        "sha256": "dd390f0dde41196de1253f29fbcf53f6d335007a55a9d8d55005ae19a8698215"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 29598917,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 3,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 1126875,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 3,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 31814292,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 3,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 9987,
+        "sha256": "dd390f0dde41196de1253f29fbcf53f6d335007a55a9d8d55005ae19a8698215"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 1142417,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 3,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 9304,
+        "sha256": "4fd8ab0cc48035aee878a7b0ff168aa2ea418a8566e89ed6dc1b34949a4a7465"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 889125,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 4,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 35498167,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 4,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 1239334,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 4,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 9304,
+        "sha256": "4fd8ab0cc48035aee878a7b0ff168aa2ea418a8566e89ed6dc1b34949a4a7465"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 46032834,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 4,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 9987,
+        "sha256": "dd390f0dde41196de1253f29fbcf53f6d335007a55a9d8d55005ae19a8698215"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 42338250,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 5,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 1175667,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 5,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 43280750,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 5,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 9987,
+        "sha256": "dd390f0dde41196de1253f29fbcf53f6d335007a55a9d8d55005ae19a8698215"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 1168625,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 5,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 9304,
+        "sha256": "4fd8ab0cc48035aee878a7b0ff168aa2ea418a8566e89ed6dc1b34949a4a7465"
+      },
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "elapsed_ns": 77253500,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "warmup",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 2510459,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "warmup",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 44330250,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "warmup",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 36660,
+        "sha256": "5f3484254994b2dfcab3b2bf6ff911d4dbb611f3a989cee1bd1ff6c67fce199c"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 3441875,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "warmup",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 33961,
+        "sha256": "f13faa4484a958b8a2fe5f38bfae74219da10eaad2168f3a54e194e205e5ae14"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 42705834,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 1245417,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 37219416,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 36660,
+        "sha256": "5f3484254994b2dfcab3b2bf6ff911d4dbb611f3a989cee1bd1ff6c67fce199c"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 1350250,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 1,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 33961,
+        "sha256": "f13faa4484a958b8a2fe5f38bfae74219da10eaad2168f3a54e194e205e5ae14"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 2113459,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 2,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 37683708,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 2,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 1296417,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 2,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 33961,
+        "sha256": "f13faa4484a958b8a2fe5f38bfae74219da10eaad2168f3a54e194e205e5ae14"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 60294334,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 2,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 36660,
+        "sha256": "5f3484254994b2dfcab3b2bf6ff911d4dbb611f3a989cee1bd1ff6c67fce199c"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 49534000,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 3,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 1786250,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 3,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 40566041,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 3,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 36660,
+        "sha256": "5f3484254994b2dfcab3b2bf6ff911d4dbb611f3a989cee1bd1ff6c67fce199c"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 1407583,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 3,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 33961,
+        "sha256": "f13faa4484a958b8a2fe5f38bfae74219da10eaad2168f3a54e194e205e5ae14"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 1168500,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 4,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 37327791,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 4,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 1511041,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 4,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 33961,
+        "sha256": "f13faa4484a958b8a2fe5f38bfae74219da10eaad2168f3a54e194e205e5ae14"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 47253958,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 4,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 36660,
+        "sha256": "5f3484254994b2dfcab3b2bf6ff911d4dbb611f3a989cee1bd1ff6c67fce199c"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 60498583,
+      "error": null,
+      "implementation": "reference",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 5,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 62,
+        "sha256": "1f732533b0bb8eea694fc22707cac1a29143e17aa5544d1b363faa873ea8a8b2"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 2121125,
+      "error": null,
+      "implementation": "native",
+      "operation": "check",
+      "phase": "measured",
+      "repetition": 5,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 96,
+        "sha256": "7d2316f3cb91bdd19f4f500e8084e98863f848f7b5e5fb80a9e3843241904af4"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 51623458,
+      "error": null,
+      "implementation": "reference",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 5,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 36660,
+        "sha256": "5f3484254994b2dfcab3b2bf6ff911d4dbb611f3a989cee1bd1ff6c67fce199c"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "elapsed_ns": 1803084,
+      "error": null,
+      "implementation": "native",
+      "operation": "emit-c",
+      "phase": "measured",
+      "repetition": 5,
+      "returncode": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 33961,
+        "sha256": "f13faa4484a958b8a2fe5f38bfae74219da10eaad2168f3a54e194e205e5ae14"
+      },
+      "verified": true,
+      "workload": "chain-128"
+    }
+  ],
+  "schema": "talven.native-comparison.v1",
+  "started_at": "2026-09-10T17:06:39.984504+00:00",
+  "summary": [
+    {
+      "implementation": "reference",
+      "max_ns": 91337541,
+      "median_ns": 34113167,
+      "min_ns": 30688417,
+      "operation": "check",
+      "samples": 5,
+      "workload": "hello"
+    },
+    {
+      "implementation": "reference",
+      "max_ns": 103113125,
+      "median_ns": 36770125,
+      "min_ns": 29914916,
+      "operation": "emit-c",
+      "samples": 5,
+      "workload": "hello"
+    },
+    {
+      "implementation": "native",
+      "max_ns": 5396875,
+      "median_ns": 1137083,
+      "min_ns": 1072667,
+      "operation": "check",
+      "samples": 5,
+      "workload": "hello"
+    },
+    {
+      "implementation": "native",
+      "max_ns": 1317792,
+      "median_ns": 1191083,
+      "min_ns": 951834,
+      "operation": "emit-c",
+      "samples": 5,
+      "workload": "hello"
+    },
+    {
+      "implementation": "reference",
+      "max_ns": 42338250,
+      "median_ns": 33638875,
+      "min_ns": 29598917,
+      "operation": "check",
+      "samples": 5,
+      "workload": "chain-32"
+    },
+    {
+      "implementation": "reference",
+      "max_ns": 46032834,
+      "median_ns": 34554375,
+      "min_ns": 31814292,
+      "operation": "emit-c",
+      "samples": 5,
+      "workload": "chain-32"
+    },
+    {
+      "implementation": "native",
+      "max_ns": 2962834,
+      "median_ns": 1126875,
+      "min_ns": 889125,
+      "operation": "check",
+      "samples": 5,
+      "workload": "chain-32"
+    },
+    {
+      "implementation": "native",
+      "max_ns": 2026291,
+      "median_ns": 1239334,
+      "min_ns": 1142417,
+      "operation": "emit-c",
+      "samples": 5,
+      "workload": "chain-32"
+    },
+    {
+      "implementation": "reference",
+      "max_ns": 60498583,
+      "median_ns": 42705834,
+      "min_ns": 37327791,
+      "operation": "check",
+      "samples": 5,
+      "workload": "chain-128"
+    },
+    {
+      "implementation": "reference",
+      "max_ns": 60294334,
+      "median_ns": 47253958,
+      "min_ns": 37219416,
+      "operation": "emit-c",
+      "samples": 5,
+      "workload": "chain-128"
+    },
+    {
+      "implementation": "native",
+      "max_ns": 2121125,
+      "median_ns": 1786250,
+      "min_ns": 1168500,
+      "operation": "check",
+      "samples": 5,
+      "workload": "chain-128"
+    },
+    {
+      "implementation": "native",
+      "max_ns": 1803084,
+      "median_ns": 1407583,
+      "min_ns": 1296417,
+      "operation": "emit-c",
+      "samples": 5,
+      "workload": "chain-128"
+    }
+  ],
+  "system": "Linux",
+  "unmeasured": [
+    "incremental compilation",
+    "full build comparison",
+    "cold caches",
+    "memory",
+    "tokens",
+    "dollar cost"
+  ],
+  "warmups": 1,
+  "workloads": [
+    {
+      "criteria": "Exact greeting stdout, empty stderr, exit zero.",
+      "id": "hello",
+      "native_acceptance": {
+        "native": {
+          "executable": {
+            "bytes": 70600,
+            "sha256": "902eaa3bafa94e9c976ee4070c13653dd34f7d0e0aa6040b58bf4de0967db8c5"
+          },
+          "generated_c": {
+            "bytes": 2064,
+            "sha256": "93aa838654d2a22d699c250437283ed31b7499a0df1bf5d0186c67edc9a17f34"
+          }
+        },
+        "reference": {
+          "executable": {
+            "bytes": 70600,
+            "sha256": "902eaa3bafa94e9c976ee4070c13653dd34f7d0e0aa6040b58bf4de0967db8c5"
+          },
+          "generated_c": {
+            "bytes": 2015,
+            "sha256": "a8f5212f8b4651074ea040c593cf848a8eda51fa2f5b93da7b735af092223bf4"
+          }
+        }
+      },
+      "origin": "examples/hello.tal",
+      "source": {
+        "bytes": 58,
+        "sha256": "20492c7108b5976576bed9b19ab1630c2f8de21000b512e28ee1813b9492169e"
+      }
+    },
+    {
+      "criteria": "32-helper chain returns input + 32 for three full-i32 inputs; main returns zero.",
+      "id": "chain-32",
+      "native_acceptance": {
+        "native": {
+          "executable": {
+            "bytes": 71704,
+            "sha256": "774436a894ced5e3075885e75af859038d142022461e231e75f09a42e9fb470c"
+          },
+          "generated_c": {
+            "bytes": 9304,
+            "sha256": "4fd8ab0cc48035aee878a7b0ff168aa2ea418a8566e89ed6dc1b34949a4a7465"
+          }
+        },
+        "reference": {
+          "executable": {
+            "bytes": 71704,
+            "sha256": "774436a894ced5e3075885e75af859038d142022461e231e75f09a42e9fb470c"
+          },
+          "generated_c": {
+            "bytes": 9987,
+            "sha256": "dd390f0dde41196de1253f29fbcf53f6d335007a55a9d8d55005ae19a8698215"
+          }
+        }
+      },
+      "origin": "generated: 32 helpers plus main",
+      "source": {
+        "bytes": 2170,
+        "sha256": "90d4ddf2d2cecde01d170ccb7e223eceafff14cb48df0b4fdf3e20a62143823b"
+      }
+    },
+    {
+      "criteria": "128-helper chain returns input + 128 for three full-i32 inputs; main returns zero.",
+      "id": "chain-128",
+      "native_acceptance": {
+        "native": {
+          "executable": {
+            "bytes": 75288,
+            "sha256": "09182d7fbfda7d4f0dd6faee8c1e3ef164dd56cbc94e77e0e059a3e925bf2af3"
+          },
+          "generated_c": {
+            "bytes": 33961,
+            "sha256": "f13faa4484a958b8a2fe5f38bfae74219da10eaad2168f3a54e194e205e5ae14"
+          }
+        },
+        "reference": {
+          "executable": {
+            "bytes": 75288,
+            "sha256": "09182d7fbfda7d4f0dd6faee8c1e3ef164dd56cbc94e77e0e059a3e925bf2af3"
+          },
+          "generated_c": {
+            "bytes": 36660,
+            "sha256": "5f3484254994b2dfcab3b2bf6ff911d4dbb611f3a989cee1bd1ff6c67fce199c"
+          }
+        }
+      },
+      "origin": "generated: 128 helpers plus main",
+      "source": {
+        "bytes": 8563,
+        "sha256": "c507333baed34f93c849a66db1428a21d9319b1ce62f1eef2daa332c7e5980a4"
+      }
+    }
+  ]
+}
