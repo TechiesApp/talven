@@ -1,5 +1,7 @@
 """C11 lowering with checked i32 arithmetic and explicit evaluation order."""
 
+import re
+
 from .frontend import Analysis, CompileError, Expr, Function, Span, Statement, base_type, borrow_mode, require_entry
 
 
@@ -10,24 +12,35 @@ def ctype(typ: str) -> str:
     return {"i32": "int32_t", "bool": "bool", "str": "tv_str"}.get(typ, f"struct tv_s_{typ}")
 
 
-HELPERS = """
-static inline int32_t tv_narrow(int64_t value) {
+# Emitted only when referenced, so generated C stays warning-free on compilers
+# that report unused static functions (clang -Wunused-function).
+HELPERS = {
+    "tv_narrow": """static inline int32_t tv_narrow(int64_t value) {
     if (value < INT32_MIN || value > INT32_MAX) { talven_trap(); }
     return (int32_t)value;
-}
-static inline int32_t tv_add(int32_t a, int32_t b) { return tv_narrow((int64_t)a + b); }
-static inline int32_t tv_sub(int32_t a, int32_t b) { return tv_narrow((int64_t)a - b); }
-static inline int32_t tv_mul(int32_t a, int32_t b) { return tv_narrow((int64_t)a * b); }
-static inline int32_t tv_neg(int32_t a) { return tv_narrow(-(int64_t)a); }
-static inline int32_t tv_div(int32_t a, int32_t b) {
+}""",
+    "tv_add": "static inline int32_t tv_add(int32_t a, int32_t b) { return tv_narrow((int64_t)a + b); }",
+    "tv_sub": "static inline int32_t tv_sub(int32_t a, int32_t b) { return tv_narrow((int64_t)a - b); }",
+    "tv_mul": "static inline int32_t tv_mul(int32_t a, int32_t b) { return tv_narrow((int64_t)a * b); }",
+    "tv_neg": "static inline int32_t tv_neg(int32_t a) { return tv_narrow(-(int64_t)a); }",
+    "tv_div": """static inline int32_t tv_div(int32_t a, int32_t b) {
     if (b == 0 || (a == INT32_MIN && b == -1)) { talven_trap(); }
     return a / b;
-}
-static inline int32_t tv_mod(int32_t a, int32_t b) {
+}""",
+    "tv_mod": """static inline int32_t tv_mod(int32_t a, int32_t b) {
     if (b == 0 || (a == INT32_MIN && b == -1)) { talven_trap(); }
     return a % b;
+}""",
 }
-"""
+HOSTED_TRAP = "static _Noreturn void talven_trap(void) { abort(); }"
+
+
+def used_helpers(code: str) -> list[str]:
+    """Referenced helpers plus their dependencies, in definition order."""
+    used = {name for name in HELPERS if re.search(rf"\b{name}\(", code)}
+    if used & {"tv_add", "tv_sub", "tv_mul", "tv_neg"}:
+        used.add("tv_narrow")
+    return [name for name in HELPERS if name in used]
 
 
 CONSOLE = """
@@ -181,10 +194,9 @@ def emit_c(analysis: Analysis, freestanding: bool = False, *, console: bool = Fa
         emitter.line("#include <stdlib.h>")
         emitter.line("#include <limits.h>")
         emitter.line('_Static_assert(INT_MAX >= INT32_MAX, "Talven hosted entry requires at least 32-bit int");')
-        emitter.line("static _Noreturn void talven_trap(void) { abort(); }")
     if needs_console:
         emitter.lines.append(CONSOLE)
-    emitter.lines.append(HELPERS)
+    helpers_at = len(emitter.lines)
     for record in analysis.program.records:
         emitter.line(f"struct tv_s_{record.name.text} {{")
         for name, typ in record.fields:
@@ -202,4 +214,8 @@ def emit_c(analysis: Analysis, freestanding: bool = False, *, console: bool = Fa
         emitter.line("}")
     if not freestanding:
         emitter.line("int main(void) { return (int)tv_f_main(); }")
+    helpers = [HELPERS[name] for name in used_helpers("\n".join(emitter.lines[helpers_at:]))]
+    if helpers and not freestanding:
+        helpers.insert(0, HOSTED_TRAP)
+    emitter.lines[helpers_at:helpers_at] = helpers
     return "\n".join(emitter.lines) + "\n"
