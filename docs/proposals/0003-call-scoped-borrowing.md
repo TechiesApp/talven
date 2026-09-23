@@ -1,6 +1,6 @@
 # Proposal 0003: Call-scoped borrowing
 
-- Status: Draft
+- Status: Accepted by the project owner on 24 September 2026
 - Author(s): Codex, implementing the project owner's request to continue Talven
 - Requirements affected: R01, R03-R12, R15, R21 from [requirements.md](../requirements.md)
 - Decisions affected: proposed D27 and D28 in [decisions.md](../decisions.md)

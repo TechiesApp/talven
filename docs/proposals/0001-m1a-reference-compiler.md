@@ -1,6 +1,6 @@
 # Proposal 0001: M1a reference compiler and agent interface
 
-- Status: Draft
+- Status: Accepted by the project owner on 24 September 2026
 - Author(s): Codex, implementing the project owner's request to begin the next stage
 - Requirements affected: R01-R12, R15-R16, R21-R23 from [requirements.md](../requirements.md), with partial evidence only
 - Decisions affected: proposed D22, D23, D24 in [decisions.md](../decisions.md)

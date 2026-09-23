@@ -1,6 +1,6 @@
 # Proposal 0008: Revision-checked edit validation
 
-- Status: Draft
+- Status: Accepted by the project owner on 24 September 2026
 - Author(s): Talven contributors
 - Requirements affected: R01, R03, R04, R05, R08, R12
 - Decisions affected: D04, D24, new D33
