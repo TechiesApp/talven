@@ -22,6 +22,20 @@ Use fresh config/output paths. The [fixture](../../tests/fixtures/anthropic_mess
 
 The fixture runs the same request/response translation as live mode, but never reads an API key or opens HTTP. Its metadata says `synthetic:true`, its envelope usage is null, and the runner records `measurement_kind:fixture`. Numeric examples inside the synthetic receipt test parsing only; **they are not measured token usage**. Fixture completion counts describe scripted harness behavior.
 
+## Claude Code CLI transport (subscription)
+
+[`claude_code_cli.py`](claude_code_cli.py) runs each attempt through the signed-in Claude Code CLI (`claude -p`), so a Claude subscription such as Max can be used instead of an API key. It removes `ANTHROPIC_API_KEY` from the CLI's environment so the subscription login is used.
+
+~~~sh
+python3 experiments/adapters/claude_code_cli.py --write-config build/cli-live.json \
+  --model claude-opus-5-5 --effort high
+python3 -m experiments run --adapter build/cli-live.json --max-cost-usd 10 --out build/cli-pilot
+~~~
+
+Each attempt is one headless session with `--safe-mode` (no CLAUDE.md, skills, plugins, hooks, or MCP servers), `--tools ""`, `--no-session-persistence`, the pinned `--model` and `--effort`, the runner's system prompt, and the edit JSON schema. The CLI cannot inject earlier assistant turns, so repair attempts render the conversation, oldest first, into one user message with labeled runner and model turns; both conditions receive the same framing. The CLI's own system prompt, structured-output mechanism and retries are part of this transport, so results are **not interchangeable with raw Messages API runs**; archives record `transport: claude-code-cli`.
+
+Usage comes from the CLI's result record and is priced with the same [pricing table](anthropic-pricing.json); the CLI's own list-price estimate is kept as `cli_list_cost_usd` for cross-checking. Under a subscription these are **API-equivalent list-price figures, not charges**; the spend cap then limits API-equivalent usage, and subscription rate limits still apply. A response from a different model than requested is an error.
+
 ## Preparing a future live run
 
 Configuration creation does not call the API or read credentials. A real run requires a separately selected model, explicit effort, declared tokenizer identity or unavailable reason, a verified pricing entry, and an approved spend cap. For example, this creates a configuration only:

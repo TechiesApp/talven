@@ -89,7 +89,7 @@ The verifier, C compiler and candidate programs run with an allow-listed environ
 
 ## Trusted adapter contract
 
-The optional [Anthropic Messages adapter](adapters/README.md) implements this contract with explicit live/fixture modes, a single HTTP call per attempt, and receipt-aware token accounting. Its synthetic fixtures exercise translation and independent acceptance offline. Live API/model compatibility and paid task results remain unmeasured.
+The optional [Anthropic Messages adapter and Claude Code CLI transport](adapters/README.md) implement this contract. The Messages adapter has explicit live/fixture modes, one streamed HTTP call per attempt with bounded retries, and receipt-aware token accounting; the CLI transport uses a signed-in Claude Code subscription. Its synthetic fixtures exercise translation and independent acceptance offline. Live API/model compatibility and paid task results remain unmeasured.
 
 Supply an adapter config matching `talven.eval.adapter.v1`. The offline config generator demonstrates a complete executable example. To connect a provider, replace its command with your trusted adapter and set `kind` to `live`, with explicit provider, exact model/version, tokenizer/version (or an explicit unavailable reason), and all sampling/output-limit settings. `command` is an argv array, with no shell expansion; use absolute paths for file arguments. `artifacts` lists adapter scripts/configuration/dependency locks to archive and hash, relative to the config directory or absolute. The executable is also fingerprinted. Transitive dependencies must be pinned by the operator.
 
