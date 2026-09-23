@@ -1,6 +1,6 @@
-# First live pilot: Claude Opus 5.5 on both corpora
+# Live pilots: Claude Opus 5.5
 
-Status: actual results of one controlled pilot run on 24 September 2026. This is the first live model evidence for the [evaluation harness](../experiments/README.md). It validates the pipeline end to end; it is **not** a comparison of the source-only and compiler-context conditions, which these results cannot distinguish.
+Status: actual results of two controlled pilot runs on 24 September 2026, the first live model evidence for the [evaluation harness](../experiments/README.md). They validate the pipeline end to end and show that a frontier model learns Talven's rules from one page. They are **not** a comparison of the source-only and compiler-context conditions: every trial passed in both, so there is nothing to separate them.
 
 ## Setup
 
@@ -40,6 +40,36 @@ Both archives reverified on the same host: all 16 fresh verdicts matched the arc
 - **Costs are list-price equivalents.** The subscription is not billed per token. `cost_per_correct_task_usd` stays null in the reports because verification cost was not supplied. Model-only cost per correct task was $0.0182 (agent) and $0.0230 (borrowing).
 - **This transport is not the raw Messages API.** The CLI adds its own system prompt and structured-output mechanism, and repairs would be rendered into one message; results are not interchangeable with API-adapter runs.
 
+## Second pilot: the hard corpus
+
+To get below the ceiling, the [hard corpus](../experiments/README.md#hard-corpus) (`m1-hard-tasks-v1`) asks for eight tasks where habits from other languages fail in Talven:
+- loops, which do not exist;
+- shadowing, including of parameters;
+- `else if`;
+- `let mut` on a scalar;
+- implicit reborrows;
+- reading a field after moving its record;
+- intermediate `i32` overflow: `a * b / gcd`, negating the most negative value, and squaring an unreduced base.
+
+One task repairs a program containing six such errors at once.
+
+The run used Claude Opus 5.5 through the same transport, from clean revision `6314fee`: both conditions, 2 repetitions, up to 2 repairs, at efforts `low` and `high`. Records are in [`experiments/results/pilot-hard-opus-5-5-20260924`](../experiments/results/pilot-hard-opus-5-5-20260924/).
+
+| Effort | Condition | Passed | First-attempt passes | Input tokens | Output tokens | List-price cost (USD) |
+| --- | --- | --- | --- | --- | --- | --- |
+| low | source | 16 / 16 | 16 | 80,509 | 9,589 | 0.313756 |
+| low | compiler | 16 / 16 | 16 | 96,269 | 10,314 | 0.478937 |
+| high | source | 16 / 16 | 16 | 92,025 | 14,243 | 0.425752 |
+| high | compiler | 16 / 16 | 16 | 110,223 | 15,299 | 0.571373 |
+
+All 64 trials passed on the first attempt. This includes the six-error repair in the source-only condition, where the model saw no diagnostic at all. Both archives reverified with matching verdicts and toolchain. The total was $1.79 at list-price equivalent: $0.025 per task at `low` and $0.031 at `high`.
+
+What this shows:
+
+- **The one-page reference is enough for this model to avoid other languages' habits.** It never produced shadowing, `else if`, a scalar `let mut`, an implicit reborrow, or an overflowing intermediate. It also recursed by halving where a loop is impossible.
+- **Compiler context was pure overhead here.** It cost about 20% more input tokens at both effort levels, with no correctness difference. For a frontier model on programs this small, the source and the reference already carry the information the context adds.
+- **The comparison still has no discordant pairs.** Separating the conditions needs weaker models, larger programs, or tasks whose facts are only in compiler output. The corpus stays in the repository for exactly those runs.
+
 ## Next steps
 
-To make the comparison informative, the corpus needs tasks that current models fail without help: larger programs, multi-function borrow errors, and edits that need information only the compiler context provides. It also needs more repetitions and lower effort levels to move below the ceiling. Choose repetition counts from the variance observed there.
+For a frontier model, neither corpus is hard enough to separate the conditions. The next runs should use smaller or cheaper models (for example Claude Haiku 4.5 or Sonnet 5) on the hard corpus. They should also use tasks whose needed facts live across many functions or only in compiler output, such as larger multi-file programs once modules exist. Choose repetition counts from the variance those runs show.

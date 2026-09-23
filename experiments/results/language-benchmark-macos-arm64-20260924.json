@@ -1,0 +1,187 @@
+{
+  "schema": "talven.language-benchmark.v1",
+  "host": {
+    "system": "Darwin",
+    "release": "27.0.0",
+    "machine": "arm64",
+    "logical_cpus": 10,
+    "python": "3.14.7"
+  },
+  "tools": {
+    "cc": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+    "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)",
+    "go": "go version go1.27.1 darwin/arm64",
+    "javac": "javac 17.0.12",
+    "java": "java version \"17.0.12\" 2024-07-16 LTS",
+    "node": "v22.18.0",
+    "tsc": "Version 5.9.3"
+  },
+  "settings": {
+    "repetitions": 15,
+    "check_program_functions": 300,
+    "check_program_source_bytes": {
+      "talven": 43932,
+      "c": 40953,
+      "rust": 33434,
+      "go": 34354,
+      "java": 36178,
+      "typescript": 44868
+    },
+    "fib_n": 35,
+    "release_flags": {
+      "talven": "talven build (C11, cc -O2)",
+      "c": "-O2",
+      "rust": "-O",
+      "go": "go build (default)",
+      "java": "javac; java (default JIT)",
+      "typescript": "tsc --target es2022; node"
+    }
+  },
+  "note": "Wall-clock medians after one warm-up, including process start-up. Languages do different work; treat as scale, not a like-for-like race.",
+  "results": {
+    "check": {
+      "Talven (native check)": {
+        "median_ms": 6.45,
+        "min_ms": 4.233,
+        "max_ms": 9.696,
+        "samples": 15
+      },
+      "Talven (Python reference check)": {
+        "median_ms": 101.638,
+        "min_ms": 85.456,
+        "max_ms": 170.579,
+        "samples": 15
+      },
+      "C (clang -fsyntax-only)": {
+        "median_ms": 21.036,
+        "min_ms": 19.966,
+        "max_ms": 25.893,
+        "samples": 15
+      },
+      "Rust (rustc --emit=metadata)": {
+        "median_ms": 70.958,
+        "min_ms": 56.659,
+        "max_ms": 86.856,
+        "samples": 15
+      },
+      "Go (go tool compile)": {
+        "median_ms": 33.93,
+        "min_ms": 29.041,
+        "max_ms": 60.352,
+        "samples": 15
+      },
+      "Java (javac)": {
+        "median_ms": 482.096,
+        "min_ms": 296.676,
+        "max_ms": 879.835,
+        "samples": 15
+      },
+      "TypeScript (tsc --noEmit)": {
+        "median_ms": 431.485,
+        "min_ms": 412.145,
+        "max_ms": 521.756,
+        "samples": 15
+      }
+    },
+    "hello": {
+      "talven": {
+        "median_ms": 2.661,
+        "min_ms": 2.095,
+        "max_ms": 3.819,
+        "samples": 15,
+        "artifact_bytes": 33560,
+        "runtime_required": "none (native executable)"
+      },
+      "c": {
+        "median_ms": 2.0,
+        "min_ms": 1.788,
+        "max_ms": 2.402,
+        "samples": 15,
+        "artifact_bytes": 33480,
+        "runtime_required": "none (native executable)"
+      },
+      "rust": {
+        "median_ms": 2.178,
+        "min_ms": 1.863,
+        "max_ms": 2.521,
+        "samples": 15,
+        "artifact_bytes": 465832,
+        "runtime_required": "none (native executable)"
+      },
+      "go": {
+        "median_ms": 3.899,
+        "min_ms": 3.061,
+        "max_ms": 6.926,
+        "samples": 15,
+        "artifact_bytes": 2114930,
+        "runtime_required": "none (native executable)"
+      },
+      "java": {
+        "median_ms": 29.983,
+        "min_ms": 28.722,
+        "max_ms": 34.832,
+        "samples": 15,
+        "artifact_bytes": 412,
+        "runtime_required": "Java runtime (JVM)"
+      },
+      "typescript": {
+        "median_ms": 22.861,
+        "min_ms": 22.469,
+        "max_ms": 24.16,
+        "samples": 15,
+        "artifact_bytes": 41,
+        "runtime_required": "Node.js runtime"
+      }
+    },
+    "fib": {
+      "talven": {
+        "median_ms": 24.098,
+        "min_ms": 22.467,
+        "max_ms": 28.941,
+        "samples": 15,
+        "artifact_bytes": 33544,
+        "runtime_required": "none (native executable)"
+      },
+      "c": {
+        "median_ms": 18.383,
+        "min_ms": 17.813,
+        "max_ms": 20.442,
+        "samples": 15,
+        "artifact_bytes": 16872,
+        "runtime_required": "none (native executable)"
+      },
+      "rust": {
+        "median_ms": 17.946,
+        "min_ms": 17.258,
+        "max_ms": 20.359,
+        "samples": 15,
+        "artifact_bytes": 462136,
+        "runtime_required": "none (native executable)"
+      },
+      "go": {
+        "median_ms": 24.1,
+        "min_ms": 23.324,
+        "max_ms": 31.891,
+        "samples": 15,
+        "artifact_bytes": 2097826,
+        "runtime_required": "none (native executable)"
+      },
+      "java": {
+        "median_ms": 44.182,
+        "min_ms": 42.389,
+        "max_ms": 48.595,
+        "samples": 15,
+        "artifact_bytes": 442,
+        "runtime_required": "Java runtime (JVM)"
+      },
+      "typescript": {
+        "median_ms": 71.137,
+        "min_ms": 67.015,
+        "max_ms": 80.529,
+        "samples": 15,
+        "artifact_bytes": 107,
+        "runtime_required": "Node.js runtime"
+      }
+    }
+  }
+}
