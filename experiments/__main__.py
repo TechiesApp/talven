@@ -41,11 +41,17 @@ def main(argv=None):
     run.add_argument("--repetitions", type=bounded_int(1, 100), default=1)
     run.add_argument("--max-repairs", type=bounded_int(0, 20), default=2)
     run.add_argument("--context-bytes", type=bounded_int(1, 1048576), default=16384)
-    run.add_argument("--adapter-timeout", type=positive_seconds, default=60)
+    run.add_argument("--adapter-timeout", type=positive_seconds, default=900)
     run.add_argument("--native-timeout", type=positive_seconds, default=5)
     run.add_argument("--verification-timeout", type=positive_seconds, default=60)
-    run.add_argument("--task-timeout", type=positive_seconds, default=300)
+    run.add_argument("--task-timeout", type=positive_seconds, default=3600)
     run.add_argument("--cc", default="cc")
+    run.add_argument("--seed", type=bounded_int(0, 2**31 - 1), default=0,
+                     help="Seed for interleaving trials; recorded in run.json")
+    run.add_argument("--fixed-order", action="store_true",
+                     help="Run repetition/task/condition in declaration order instead of seeded order")
+    run.add_argument("--max-cost-usd", help="Stop before a call could exceed this spend; required for live runs")
+    run.add_argument("--allow-dirty", action="store_true", help="Permit a live run from an uncommitted tree")
     report = commands.add_parser("report", help="Recompute accounting, optionally adding measured cost receipts")
     report.add_argument("directory", type=Path)
     report.add_argument("--verification-costs", type=Path)
@@ -66,8 +72,11 @@ def main(argv=None):
             limits = {key: getattr(args, key) for key in ("max_repairs", "context_bytes", "adapter_timeout",
                       "native_timeout", "verification_timeout", "task_timeout")}
             value = run_experiment(args.adapter, args.out, tasks, modes, args.repetitions, args.cc, limits,
-                                   corpus_version=args.corpus)
+                                   corpus_version=args.corpus, seed=None if args.fixed_order else args.seed,
+                                   max_cost_usd=args.max_cost_usd, allow_dirty=args.allow_dirty)
             print(encode({"output": str(args.out.resolve()), **make_report(value)}), end="")
+            if not value["complete"]:
+                return 2
             return 2 if value["summary"]["error_tasks"] else 1 if value["summary"]["failed_tasks"] else 0
         elif args.command == "report":
             costs = strict_json(args.verification_costs.read_text(encoding="utf-8")) if args.verification_costs else None
@@ -81,7 +90,8 @@ def main(argv=None):
                 file.write(encode(value))
         print(encode(value), end="")
         if args.command == "reverify":
-            return 0 if value["trials"] and all(t["status"] == "passed" for t in value["trials"]) else 1
+            # Success means the archive reproduces, including recorded failures.
+            return 0 if value["trials"] and value["matches_archive"] else 1
         return 0
     except (ValueError, OSError, KeyError, TypeError) as error:
         print(f"evaluation error: {error}", file=sys.stderr)

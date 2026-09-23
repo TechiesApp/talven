@@ -27,10 +27,22 @@ def archive(corpus_version=CORPUS_VERSION, **changes):
 
 
 class CorpusTests(unittest.TestCase):
+    def test_default_v2_corpus_starts_without_diagnostic_hints(self):
+        self.assertEqual("m1-agent-tasks-v2", CORPUS_VERSION)
+        current = get_tasks()
+        self.assertEqual(list(TASKS), list(current))
+        for task, spec in current.items():
+            with self.subTest(task=task):
+                self.assertEqual(TASKS[task]["instruction"], spec["instruction"])
+                source = Path(spec["source"]).read_text(encoding="utf-8")
+                self.assertNotRegex(source, r"E0\d{3}")
+                original = Path(TASKS[task]["source"]).read_text(encoding="utf-8")
+                strip = lambda text: [line for line in text.splitlines() if "// E0" not in line]
+                self.assertEqual(strip(original), source.splitlines())
+
     def test_original_public_corpus_and_order_are_unchanged(self):
-        self.assertEqual("m1c-agent-tasks-v1", CORPUS_VERSION)
-        self.assertIs(TASKS, get_tasks())
-        self.assertIs(TASKS, CORPORA[CORPUS_VERSION])
+        self.assertIs(TASKS, get_tasks("m1c-agent-tasks-v1"))
+        self.assertIs(TASKS, CORPORA["m1c-agent-tasks-v1"])
         self.assertEqual(["move-scalar", "strict-type", "rename-field", "squared-length"], list(TASKS))
         # Pin the existing version's exact public source paths and instructions.
         serialized = json.dumps(TASKS, sort_keys=True, separators=(",", ":")).encode()
@@ -184,7 +196,7 @@ class CorpusTests(unittest.TestCase):
                 original = {name: digest(data) for name, data in runner.pinned_files().items()}
                 borrowing = {name: digest(data) for name, data in runner.pinned_files(BORROWING_CORPUS).items()}
                 self.assertNotEqual(original, borrowing)
-                original_sources = {task["source"] for task in TASKS.values()}
+                original_sources = {task["source"] for task in get_tasks().values()}
                 borrowing_sources = {task["source"] for task in get_tasks(BORROWING_CORPUS).values()}
                 self.assertEqual(original_sources - borrowing_sources, original.keys() - borrowing.keys())
                 self.assertEqual(borrowing_sources - original_sources, borrowing.keys() - original.keys())

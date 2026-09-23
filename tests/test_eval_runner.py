@@ -48,12 +48,28 @@ if behavior == "billed-error": sys.exit(1)
             self.assertEqual(4, run["summary"]["repair_attempts"])
             self.assertIsNone(run["summary"]["input_tokens"])
             self.assertEqual("fixture", run["measurement_kind"])
-            first = run["trials"][0]
+            self.assertEqual(0, run["order_seed"])
+            self.assertEqual(sorted(run["trial_order"]), sorted(t["id"] for t in run["trials"]))
+            self.assertEqual(run["trial_order"], [t["id"] for t in run["trials"]])
+            first = next(t for t in run["trials"] if t["context_mode"] == "source")
             request = json.loads((directory / "run" / first["id"] / "attempt-000/request.json").read_text())
             self.assertEqual(["task.tal"], request["allowed_files"])
             self.assertEqual("source", request["context_mode"])
             self.assertNotIn("compiler_context", json.loads(request["messages"][-1]["content"]))
-            compiler_trial = run["trials"][1]
+            compiler_trial = next(t for t in run["trials"] if t["context_mode"] == "compiler")
+            # Repairs: only the compiler condition receives diagnostic text.
+            def repair_feedback(trial):
+                repair = json.loads((directory / "run" / trial["id"] / "attempt-001/request.json").read_text())
+                return json.loads(repair["messages"][-1]["content"])["feedback"]
+            self.assertNotIn("E0201", repair_feedback(first))
+            self.assertIn("rejected by the language checks", repair_feedback(first))
+            self.assertIn("E0201", repair_feedback(compiler_trial))
+            report = json.loads((directory / "run/report.json").read_text())
+            self.assertEqual({"conditions": ["source", "compiler"], "pairs": 2, "excluded_error_pairs": 0,
+                              "both_passed": 2, "only_source": 0, "only_compiler": 0, "neither": 0,
+                              "exact_mcnemar_p": None}, report["paired"])
+            self.assertEqual(1.0, report["summary"]["correctness_rate_excluding_errors"])
+            self.assertEqual(2, len(report["summary"]["correctness_interval_95_excluding_errors"]))
             compiler_request = json.loads((directory / "run" / compiler_trial["id"] / "attempt-000/request.json").read_text())
             context = json.loads(json.loads(compiler_request["messages"][-1]["content"])["compiler_context"])
             self.assertEqual("E0201", context["diagnostics"][0]["code"])
@@ -80,6 +96,10 @@ if behavior == "billed-error": sys.exit(1)
                 self.assertEqual(2, len(run["trials"][0]["attempts"]))
                 self.assertEqual(0, run["summary"]["correct_tasks"])
                 self.assertFalse((directory / "marker").exists())
+                # Reverification succeeds when the archived failure reproduces.
+                verified = self.command("reverify", directory / "run", "--out", directory / "reverified.json")
+                self.assertEqual(0, verified.returncode, verified.stderr + verified.stdout)
+                self.assertTrue(json.loads((directory / "reverified.json").read_text())["matches_archive"])
 
     def test_adapter_error_is_recorded_with_unknown_usage(self):
         for behavior in ("invalid", "timeout"):
@@ -117,13 +137,24 @@ if behavior == "billed-error": sys.exit(1)
             # Synthetic live-protocol accounting regression, not a model run.
             config["kind"] = "live"
             config_path.write_text(json.dumps(config))
+            refused = self.command("run", "--adapter", config_path, "--out", directory / "uncapped",
+                                   "--task", "strict-type", "--context", "source")
+            self.assertEqual(2, refused.returncode)
+            self.assertIn("--max-cost-usd", refused.stderr)
+            self.assertFalse((directory / "uncapped").exists())
             result = self.command("run", "--adapter", config_path, "--out", directory / "run",
-                                  "--task", "strict-type", "--context", "source")
+                                  "--task", "strict-type", "--context", "both", "--max-cost-usd", "1",
+                                  "--allow-dirty")
             self.assertEqual(2, result.returncode)
             run = json.loads((directory / "run/run.json").read_text())
             self.assertEqual(17, run["summary"]["input_tokens"])
             self.assertEqual(3, run["summary"]["output_tokens"])
             self.assertEqual(0, run["summary"]["correct_tasks"])
+            # A call with unknown cost stops the run: the cap can no longer be enforced.
+            self.assertFalse(run["complete"])
+            self.assertEqual({"cap_usd": "1", "spent_usd": "0", "largest_call_usd": "0", "calls": 1,
+                              "stopped": "unknown_call_cost"}, run["budget"])
+            self.assertEqual(1, len(run["trials"]))
 
     def test_reverification_never_executes_an_archived_compiler_path(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -163,3 +194,41 @@ if behavior == "billed-error": sys.exit(1)
         interrupted = make_report(run)
         self.assertIsNone(interrupted["summary"]["correctness_rate"])
         self.assertEqual(4, interrupted["planned_trials"])
+
+
+class HarnessUnitTests(unittest.TestCase):
+    def test_trial_plan_is_complete_and_seed_deterministic(self):
+        from experiments.runner import trial_plan
+        fixed = trial_plan(["a", "b"], ["source", "compiler"], 2, None)
+        self.assertEqual((1, "a", "source"), fixed[0])
+        shuffled = trial_plan(["a", "b"], ["source", "compiler"], 2, 7)
+        self.assertEqual(sorted(fixed), sorted(shuffled))
+        self.assertEqual(shuffled, trial_plan(["a", "b"], ["source", "compiler"], 2, 7))
+        self.assertNotEqual(fixed, shuffled)
+
+    def test_child_environments_exclude_credentials_and_limit_cpu(self):
+        from unittest.mock import patch
+        from experiments.process import TOOL_ENVIRONMENT, environment_subset, run_process
+        with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "sentinel-key", "PATH": "/usr/bin:/bin"}):
+            env = environment_subset(TOOL_ENVIRONMENT)
+            self.assertNotIn("ANTHROPIC_API_KEY", env)
+            result = run_process([sys.executable, "-c", "import os; print(os.environ.get('ANTHROPIC_API_KEY'))"],
+                                 cwd=ROOT, timeout=10, env=env)
+            self.assertEqual("None", result["stdout"].strip())
+        if sys.platform != "win32":
+            spin = run_process([sys.executable, "-c", "while True: pass"], cwd=ROOT, timeout=20,
+                               cpu_seconds=1, file_bytes=1024)
+            self.assertIsNone(spin["error"])
+            self.assertLess(spin["elapsed_seconds"], 15)
+            self.assertNotEqual(0, spin["returncode"])
+
+    def test_budget_stops_before_a_call_could_exceed_the_cap(self):
+        from experiments.runner import Budget, BudgetExhausted
+        budget = Budget("1")
+        budget.before_call()
+        budget.after_call({"model_cost_usd": "0.4", "model_cost_source": "test"})
+        budget.before_call()
+        budget.after_call({"model_cost_usd": "0.4", "model_cost_source": "test"})
+        with self.assertRaises(BudgetExhausted):
+            budget.before_call()  # 0.8 spent + 0.4 largest call > 1.
+        self.assertEqual("spend_cap", budget.record()["stopped"])

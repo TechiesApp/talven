@@ -1,5 +1,7 @@
 """Versioned public task instructions. Acceptance implementation is separate."""
 
+from pathlib import Path
+
 from . import CORPUS_VERSION
 from .borrowing_tasks import BORROWING_TASKS
 
@@ -37,8 +39,16 @@ TASKS = {
 }
 
 
+# v1 starts from examples/invalid, whose comments name the expected diagnostic.
+# v2 uses the same instructions and acceptance with hint-free starting sources,
+# so the source-only condition does not receive compiler diagnostics.
+TASKS_V2 = {task: {**spec, "source": "experiments/corpora/agent-v2/" + Path(spec["source"]).name}
+            for task, spec in TASKS.items()}
+
+
 CORPORA = {
-    CORPUS_VERSION: TASKS,
+    CORPUS_VERSION: TASKS_V2,
+    "m1c-agent-tasks-v1": TASKS,
     "m1c-borrowing-tasks-v1": BORROWING_TASKS,
 }
 

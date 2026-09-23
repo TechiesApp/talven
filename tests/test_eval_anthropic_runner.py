@@ -127,19 +127,23 @@ class AnthropicRunnerTests(unittest.TestCase):
         self.assertEqual({}, response["edits"])
         self.assertIn("candidate_error", response["provider_metadata"])
 
-    def test_incomplete_or_refused_response_stops_without_accepting_an_edit(self):
+    def test_cut_off_or_refused_response_is_a_repairable_model_failure(self):
         for reason in ("max_tokens", "refusal"):
             with self.subTest(reason=reason):
                 def modify(entries):
-                    entries[0] = entries[1]  # Even a correct edit is invalid on a failed response.
-                    entries[0]["body"]["stop_reason"] = reason
+                    entries[0] = json.loads(json.dumps(entries[1]))
+                    entries[0]["body"]["stop_reason"] = reason  # Even a correct edit is not accepted.
                 fixture = self.changed_fixture(reason, modify)
                 result, run, output = self.run_fixture(reason, self.configure(f"adapter-{reason}", fixture))
-                self.assertEqual(2, result.returncode)
-                self.assertEqual(1, run["summary"]["error_tasks"])
-                self.assertEqual(1, run["summary"]["attempts"])
-                self.assertEqual(0, run["summary"]["repair_attempts"])
-                self.assertFalse((output / run["trials"][0]["id"] / "attempt-000/task.tal").exists())
+                self.assertEqual(0, result.returncode, result.stderr + result.stdout)
+                attempts = run["trials"][0]["attempts"]
+                self.assertEqual(["failed", "passed"], [a["status"] for a in attempts])
+                self.assertEqual(reason, attempts[0]["model_failure"])
+                self.assertEqual(0, run["summary"]["error_tasks"])
+                trial = output / run["trials"][0]["id"]
+                self.assertFalse((trial / "attempt-000/task.tal").exists())
+                repair = json.loads((trial / "attempt-001/request.json").read_text())
+                self.assertIn(f"stop reason {reason}", json.loads(repair["messages"][-1]["content"])["feedback"])
 
     def test_fixture_exhaustion_is_an_error_without_repeating_a_response(self):
         fixture = self.changed_fixture("exhausted", lambda entries: entries.pop())
