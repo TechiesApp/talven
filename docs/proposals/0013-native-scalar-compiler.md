@@ -1,6 +1,6 @@
 # Proposal 0013: Native scalar compiler experiment
 
-- Status: Draft; bounded experimental implementation
+- Status: Accepted by the project owner on 24 September 2026; bounded experimental implementation
 - Author(s): Talven contributors
 - Requirements affected: R01, R08, R09, R11, R15, R24; see [requirements](../requirements.md)
 - Decisions affected: D37, new D41; see [decisions](../decisions.md)

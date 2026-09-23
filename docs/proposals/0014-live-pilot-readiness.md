@@ -1,6 +1,6 @@
 # Proposal 0014: Live pilot readiness for agent evaluation
 
-- Status: Draft; implemented in the evaluation harness
+- Status: Accepted by the project owner on 24 September 2026; implemented in the evaluation harness
 - Author(s): Talven contributors
 - Requirements affected: R01, R02, R05; see [requirements](../requirements.md)
 - Decisions affected: D29–D31, new D42; see [decisions](../decisions.md)

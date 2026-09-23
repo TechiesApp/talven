@@ -1,6 +1,6 @@
 # Proposal 0004: Reproducible agent evaluation
 
-- Status: Draft
+- Status: Accepted by the project owner on 24 September 2026
 - Author(s): Talven contributors
 - Requirements affected: R01, R02, R04, R05, R06, R08, R09
 - Decisions affected: D01, D03, D15, D17, new D29

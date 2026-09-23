@@ -1,6 +1,6 @@
 # Proposal 0002: Canonical formatting and native checks
 
-- Status: Draft
+- Status: Accepted by the project owner on 24 September 2026
 - Author(s): Codex, implementing the project owner's request to continue the next increment
 - Requirements affected: R01, R03-R08, R12, R15, R21-R22 from [requirements.md](../requirements.md)
 - Decisions affected: proposed D25 and D26 in [decisions.md](../decisions.md)

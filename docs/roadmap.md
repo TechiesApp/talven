@@ -107,8 +107,8 @@ No numeric target is claimed until a baseline exists. Report the model, tokenize
 4. Run the initial task corpus with live agents using the implemented harness, then establish equivalent cross-language baselines for agent cost and success. Offline fixture runs are not model measurements.
 5. Specify capability transfer and protected policy enforcement.
 6. Choose the first foreign library and first GPU experiment from concrete workloads.
-7. Review [Proposal 0001](proposals/0001-m1a-reference-compiler.md), [Proposal 0002](proposals/0002-canonical-formatting-and-native-checks.md), [Proposal 0003](proposals/0003-call-scoped-borrowing.md), and [Proposal 0004](proposals/0004-reproducible-agent-evaluation.md), recording decisions from the grammar, ownership, context, formatting, and evaluation experiments. The language name and Apache-2.0 license are already selected.
-8. Review [Proposal 0005](proposals/0005-borrowing-evaluation-corpus.md) and evaluate the borrowing corpus with live agents; fixtures establish harness behavior only.
-9. Review [Proposal 0006](proposals/0006-anthropic-evaluation-adapter.md), validate its live API compatibility under an approved budget, and capture actual provider usage and billing evidence.
+7. Proposals 0001–0014 were accepted by the project owner on 24 September 2026; acceptance adopts their direction, and the open questions they list remain open.
+8. Evaluate the [borrowing corpus](proposals/0005-borrowing-evaluation-corpus.md) with live agents; fixtures establish harness behavior only.
+9. Validate the [Anthropic Messages adapter](proposals/0006-anthropic-evaluation-adapter.md)'s live API compatibility under an approved budget, and capture actual provider usage and billing evidence.
 
 These are planning items, not automatically created issues or assigned commitments.

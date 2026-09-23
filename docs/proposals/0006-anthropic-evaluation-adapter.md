@@ -1,6 +1,6 @@
 # Proposal 0006: Anthropic evaluation adapter
 
-- Status: Draft
+- Status: Accepted by the project owner on 24 September 2026
 - Author(s): Talven contributors
 - Requirements affected: R01, R02, R04, R05, R06
 - Decisions affected: D01, D03, D17, D29, new D31
