@@ -46,6 +46,8 @@ EXPECTED_DIVERGENCES = {
     "experiments/corpora/borrowing-v1/overlap.tal": "E0801",
     "experiments/corpora/borrowing-v1/permission.tal": "E0801",
     "experiments/corpora/borrowing-v1/reborrow.tal": "E0801",
+    "experiments/corpora/hard-v1/reborrow.tal": "E0801",
+    "experiments/corpora/hard-v1/snapshot.tal": "E0801",
     "edge/struct-only": "E0801",
     "edge/struct-after-function": "E0801",
     "edge/invalid-utf8": "E0901-message",

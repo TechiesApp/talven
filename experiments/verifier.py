@@ -21,13 +21,14 @@ from pathlib import Path
 import tempfile
 
 from experiments.process import TOOL_ENVIRONMENT, environment_subset, run_process
-from experiments import borrowing_verifier
+from experiments import borrowing_verifier, hard_verifier
 from talven.backend import emit_c
 from talven.frontend import Analysis, CompileError, Expr, Statement, analyze, require_entry
 
 
 C_FLAGS = ("-std=c11", "-O2")
-TASK_IDS = {"move-scalar", "strict-type", "rename-field", "squared-length"} | borrowing_verifier.TASK_IDS
+TASK_IDS = ({"move-scalar", "strict-type", "rename-field", "squared-length"} | borrowing_verifier.TASK_IDS |
+            hard_verifier.TASK_IDS)
 
 
 def _expressions(expr: Expr):
@@ -67,6 +68,8 @@ def _contract(analysis: Analysis, name: str, params: list[tuple[str, str]]) -> b
 def _structure(task: str, analysis: Analysis) -> tuple[bool, str]:
     if task in borrowing_verifier.TASK_IDS:
         return borrowing_verifier.structure(task, analysis)
+    if task in hard_verifier.TASK_IDS:
+        return hard_verifier.structure(task, analysis)
     main = analysis.functions["main"]
     if task in {"move-scalar", "strict-type"}:
         # Bounded shape prevents an unreachable decorative binding/move from
@@ -145,6 +148,8 @@ def _run(argv: list[str], timeout: float, commands: list[dict], *, candidate: bo
 def _harness(task: str) -> str:
     if task in borrowing_verifier.TASK_IDS:
         return borrowing_verifier.harness(task)
+    if task in hard_verifier.TASK_IDS:
+        return hard_verifier.harness(task)
     expected = {"move-scalar": 7, "strict-type": 1}.get(task, 0)
     checks = [f'if (tv_f_main() != INT32_C({expected})) {{ puts("main returned an unexpected i32 value"); return 1; }}']
     if task in {"rename-field", "squared-length"}:
@@ -219,6 +224,8 @@ def verify(task_id: str, source: str, cc: str = "cc", timeout: float = 5.0) -> d
         generated = emit_c(checked, freestanding=True)
         if trace:
             generated = borrowing_verifier.instrument(checked, generated)
+        if task_id in hard_verifier.TASK_IDS:
+            generated = hard_verifier.prepare(task_id, checked, generated)
         c_path.write_text(generated +
                           "\n#include <stdlib.h>\n#include <stdio.h>\n"
                           "_Noreturn void talven_trap(void) { abort(); }\n" + harness, encoding="utf-8")

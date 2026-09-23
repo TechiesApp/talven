@@ -1,0 +1,14 @@
+fn gcd(a: i32, b: i32) -> i32 {
+    return 0;
+}
+
+fn lcm(a: i32, b: i32) -> i32 {
+    return 0;
+}
+
+fn main() -> i32 {
+    if (lcm(4, 6) != 12) {
+        return 1;
+    }
+    return 0;
+}
