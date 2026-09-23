@@ -52,6 +52,7 @@ Status definitions:
 | D38 | Proposed | Stage development tooling as watch/restart, persistent incremental compilation, then restricted hot reload | Proposal 0010; revision-aware publication, defined state/lifetime boundaries and development-only loader; watch/restart is implemented as a bounded experiment; persistent compilation and hot reload remain unimplemented |
 | D39 | Proposed | Start visible output with immutable static UTF-8 views and an explicitly selected POSIX print builtin | [Proposal 0011](proposals/0011-static-text-and-console-output.md); exact bytes, output failures, static lifetimes, optional dependencies and shared tooling; dynamic text, general I/O, and reload remain separate |
 | D40 | Proposed | Start development refresh with single-file snapshot builds and revision-aware process restart | [Proposal 0012](proposals/0012-development-watch-and-restart.md); shared full-build semantics, failed-edit recovery, process cleanup, and actual event timing; no incremental compilation, readiness, or state-preservation claim |
+| D42 | Proposed | Before a paid pilot, keep the source-only control free of compiler diagnostics, price calls from a pinned table, stream with explicit effort, cap spend, interleave trials, and report paired results | [Proposal 0014](proposals/0014-live-pilot-readiness.md); default corpus `m1-agent-tasks-v2`; list-price cost is labeled estimate provenance, not a billing receipt; no live result claimed |
 
 ## Open decisions
 

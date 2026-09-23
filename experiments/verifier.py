@@ -20,7 +20,7 @@ import math
 from pathlib import Path
 import tempfile
 
-from experiments.process import run_process
+from experiments.process import TOOL_ENVIRONMENT, environment_subset, run_process
 from experiments import borrowing_verifier
 from talven.backend import emit_c
 from talven.frontend import Analysis, CompileError, Expr, Statement, analyze, require_entry
@@ -124,10 +124,13 @@ def _structure(task: str, analysis: Analysis) -> tuple[bool, str]:
     return valid, "require fn squared_length(value: Vec2) -> i32"
 
 
-def _run(argv: list[str], timeout: float, commands: list[dict]) -> dict:
+def _run(argv: list[str], timeout: float, commands: list[dict], *, candidate: bool = False) -> dict:
     # Keep children in the outer verifier's group. The runner owns that group
     # and kills it on total timeout or completion, including any grandchildren.
-    command = run_process(argv, cwd=Path.cwd(), timeout=timeout, start_new_session=False)
+    # Candidate programs also get CPU and file-size limits and no credentials.
+    limits = {"cpu_seconds": max(1, math.ceil(timeout)), "file_bytes": 16 * 1024 * 1024} if candidate else {}
+    command = run_process(argv, cwd=Path.cwd(), timeout=timeout, start_new_session=False,
+                          env=environment_subset(TOOL_ENVIRONMENT), **limits)
     error = command.get("error")
     if error == "timeout":
         command["timed_out"] = True
@@ -224,7 +227,7 @@ def verify(task_id: str, source: str, cc: str = "cc", timeout: float = 5.0) -> d
             result["status"] = "error"
             check(name, False, "native C compilation failed, timed out, or could not launch; inspect command evidence")
             return False
-        executed = _run([str(executable)], timeout, result["commands"])
+        executed = _run([str(executable)], timeout, result["commands"], candidate=True)
         passed = executed["returncode"] == 0 and not executed.get("error")
         if "launch_error" in executed:
             result["status"] = "error"
