@@ -18,6 +18,14 @@ MAX_MESSAGE_BYTES = 1024 * 1024
 MAX_DOCUMENTS = 32
 
 
+class MessageError(ValueError):
+    """A complete but invalid message; the stream remains synchronized."""
+
+    def __init__(self, code: int, message: str):
+        super().__init__(message)
+        self.code = code
+
+
 def read_message(stream: BinaryIO) -> dict | None:
     size = None
     header_size = 0
@@ -43,16 +51,28 @@ def read_message(stream: BinaryIO) -> dict | None:
     body = stream.read(size)
     if len(body) != size:
         raise ValueError("Incomplete LSP message")
-    message = json.loads(body)
+    # The whole body was consumed, so framing is intact and the session can
+    # continue after rejecting it.
+    try:
+        message = json.loads(body)
+    except (ValueError, RecursionError) as error:
+        raise MessageError(-32700, str(error)) from None
     if not isinstance(message, dict) or message.get("jsonrpc") != "2.0":
-        raise ValueError("Expected a JSON-RPC 2.0 object")
+        raise MessageError(-32600, "Expected a JSON-RPC 2.0 object")
+    identity = message.get("id")
+    if isinstance(identity, bool) or not isinstance(identity, (str, int, type(None))):
+        raise MessageError(-32600, "Request id must be a string, integer, or null")
     pending = [(message, 1)]
     while pending:
         value, depth = pending.pop()
         if depth > 128:
-            raise ValueError("LSP JSON nesting exceeds limit")
+            raise MessageError(-32600, "LSP JSON nesting exceeds limit")
         children = value.values() if isinstance(value, dict) else value if isinstance(value, list) else ()
         pending.extend((child, depth + 1) for child in children)
+    try:
+        json.dumps(message, ensure_ascii=False).encode("utf-8")
+    except UnicodeEncodeError:
+        raise MessageError(-32600, "LSP message contains an unpaired UTF-16 surrogate") from None
     return message
 
 
@@ -117,7 +137,9 @@ class Server:
                   params={"uri": uri, "version": version, "diagnostics": diagnostics})
 
     def handle(self, message: dict) -> int | None:
-        method, params = message.get("method"), message.get("params", {})
+        method, params = message.get("method"), message.get("params")
+        if params is None:
+            params = {}
         request = "id" in message
         identity = message.get("id")
         if method == "exit":
@@ -214,6 +236,9 @@ def serve(input_stream: BinaryIO, output_stream: BinaryIO) -> int:
     while True:
         try:
             message = read_message(input_stream)
+        except MessageError as error:
+            server.send(id=None, error={"code": error.code, "message": str(error)})
+            continue
         except (ValueError, UnicodeError, RecursionError) as error:
             server.send(id=None, error={"code": -32700, "message": str(error)})
             return 1

@@ -14,7 +14,7 @@ from .edit_validation import snapshot_source, validate_edit
 from .formatter import format_source
 from .frontend import CompileError, MAX_SOURCE_BYTES, Span, analyze
 from .native import compiler_command
-from .source_edit import replace_source, writable_source
+from .source_edit import read_regular, replace_source, writable_source
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -97,9 +97,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.command == "fmt" and args.write:
             writable_source(args.source)
-        with args.source.open("rb") as stream:
-            snapshot = os.fstat(stream.fileno())
-            data = stream.read(MAX_SOURCE_BYTES + 1)
+        data, snapshot = read_regular(args.source)
         if len(data) > MAX_SOURCE_BYTES:
             raise CompileError("E0005", "Source exceeds the 256 KiB prototype limit", Span(0, 0))
         source = data.decode("utf-8")
@@ -120,6 +118,8 @@ def main(argv: list[str] | None = None) -> int:
             else:
                 sys.stdout.write(formatted)
             return 0
+        if args.command == "context" and args.expect_source_hash not in (None, source_hash(source)):
+            raise CompileError("E0501", "Source revision changed; request fresh context before editing", Span(0, 0))
         result = analyze(source)
         if args.command == "check":
             if args.json:
@@ -149,7 +149,8 @@ def main(argv: list[str] | None = None) -> int:
                     cfile.write_text(generated, encoding="utf-8")
                     completed = subprocess.run(compiler_command(args.cc, cfile, executable), capture_output=True, text=True, timeout=30)
                     if completed.returncode:
-                        raise CompileError("E0402", f"C compiler failed: {completed.stderr.strip()}", Span(0, 0))
+                        detail = (completed.stderr or completed.stdout).strip()
+                        raise CompileError("E0402", f"C compiler failed: {detail}", Span(0, 0))
                     os.replace(executable, output)
                 print(f"Built {output}")
         return 0

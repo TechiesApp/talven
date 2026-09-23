@@ -93,7 +93,12 @@ def text_literal(source: str, start: int) -> tuple[int, str]:
 def lex(source: str, *, include_comments: bool = False) -> list[Token]:
     if len(source.encode("utf-8")) > MAX_SOURCE_BYTES:
         raise CompileError("E0005", "Source exceeds the 256 KiB prototype limit", Span(0, 0))
-    pattern = re.compile(r"(?P<skip>\s+)|(?P<comment>//[^\n]*)|(?P<int>[0-9]+)|"
+    # Bidirectional controls can make displayed code differ from compiled code.
+    hidden = re.search(r"[\u202a-\u202e\u2066-\u2069]", source)
+    if hidden:
+        raise CompileError("E0001", "Bidirectional control characters are not allowed in source",
+                           Span(hidden.start(), hidden.end()))
+    pattern = re.compile(r"(?P<skip>(?:[ \t\n]|\r\n)+)|(?P<comment>//[^\r\n]*)|(?P<int>[0-9]+)|"
                          r"(?P<id>[A-Za-z_][A-Za-z_0-9]*)|"
                          r"(?P<op>->|==|!=|<=|>=|&&|\|\||[{}():;,.+*/%<>=!&\-])")
     tokens = []
@@ -108,7 +113,11 @@ def lex(source: str, *, include_comments: bool = False) -> list[Token]:
             continue
         match = pattern.match(source, offset)
         if not match:
-            raise CompileError("E0001", "Unexpected character", Span(offset, offset + 1))
+            # Comments stop at any CR, so a lone CR (a line break to editors and
+            # LSP) cannot hide the code after it inside a comment.
+            message = ("Carriage return must be followed by a line feed" if source[offset] == "\r"
+                       else "Unexpected character")
+            raise CompileError("E0001", message, Span(offset, offset + 1))
         if match.lastgroup != "skip" and (include_comments or match.lastgroup != "comment"):
             text = match.group()
             kind = match.lastgroup if match.lastgroup != "op" else text
@@ -325,6 +334,9 @@ class Parser:
             self.index += 1
             right = self.expression(priority + 1)
             left = Expr("binary", Span(left.span.start, right.span.end), op.text, [left, right])
+            if priority in (3, 4) and self.PRECEDENCE.get(self.current.kind) == priority:
+                raise CompileError("E0002", "Comparisons do not chain; add parentheses",
+                                   Span(left.span.start, self.current.span.end))
         return left
 
 
@@ -418,7 +430,7 @@ class Checker:
     def access(self, expr: Expr, state: State, action: str = "read"):
         held = state.loans.get(expr.value)
         if held == "exclusive" or (held and action != "read"):
-            self.error("E0302", f"Cannot {action} {expr.value}: an earlier argument holds a {held} borrow until its call returns", expr.span)
+            self.error("E0302", f"Cannot {action} {expr.value}: an earlier argument holds {'an' if held == 'exclusive' else 'a'} {held} borrow until its call returns", expr.span)
 
     def require_mutable(self, expr: Expr, binding: Binding):
         if borrow_mode(binding.typ) != "exclusive" and not binding.mutable:

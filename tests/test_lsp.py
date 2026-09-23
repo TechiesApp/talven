@@ -105,13 +105,45 @@ class LspTests(unittest.TestCase):
 
     def test_invalid_and_oversized_messages_fail_cleanly(self):
         cases = [b"Content-Length: 999999999\r\n\r\n", b"Content-Length: 2\r\n\r\nx",
-                 b"Content-Length: 2\r\nContent-Length: 2\r\n\r\n{}",
-                 b"Content-Length: 2\r\n\r\n{}"]
+                 b"Content-Length: 2\r\nContent-Length: 2\r\n\r\n{}"]
         for raw in cases:
             with self.subTest(raw=raw):
                 output = io.BytesIO()
                 self.assertEqual(1, serve(io.BytesIO(raw), output))
                 self.assertEqual(-32700, read_message(io.BytesIO(output.getvalue()))["error"]["code"])
+
+    def framed(self, *bodies):
+        return b"".join(f"Content-Length: {len(body)}\r\n\r\n".encode() + body for body in bodies)
+
+    def test_complete_invalid_bodies_are_rejected_and_session_continues(self):
+        initialize = b'{"jsonrpc":"2.0","id":7,"method":"initialize"}'
+        cases = [(b"{}", -32600), (b'{"jsonrpc":"2.0",', -32700),
+                 (b'{"jsonrpc":"2.0","id":"\\ud800","method":"x"}', -32600),
+                 (b'{"jsonrpc":"2.0","id":{"a":1},"method":"x"}', -32600),
+                 (b'{"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":'
+                  b'{"uri":"file:///a.tal","version":1,"text":"\\udc00"}}}', -32600)]
+        for body, code in cases:
+            with self.subTest(body=body):
+                output = io.BytesIO()
+                self.assertEqual(1, serve(io.BytesIO(self.framed(body, initialize)), output))
+                stream = io.BytesIO(output.getvalue())
+                rejected, answered = read_message(stream), read_message(stream)
+                self.assertEqual(code, rejected["error"]["code"])
+                self.assertIsNone(rejected["id"])
+                self.assertEqual(7, answered["id"])
+                self.assertIn("capabilities", answered["result"])
+
+    def test_null_params_are_treated_as_empty(self):
+        self.server.handle({"id": 5, "method": "shutdown", "params": None})
+        self.assertEqual(5, self.messages()[-1]["id"])
+        self.assertNotIn("error", self.messages()[-1])
+        self.assertEqual(0, self.server.handle({"method": "exit", "params": None}))
+
+    def test_bare_carriage_return_is_diagnosed_on_its_own_line(self):
+        self.open("fn main() -> i32 {\n    // note\r    return 7;\n}\n")
+        diagnostic = self.messages()[-1]["params"]["diagnostics"][0]
+        self.assertEqual("E0001", diagnostic["code"])
+        self.assertEqual({"line": 1, "character": 11}, diagnostic["range"]["start"])
 
     def test_unknown_request_and_shutdown_behavior(self):
         self.assertEqual(-32601, self.query("workspace/executeCommand")["error"]["code"])
@@ -127,7 +159,8 @@ class LspTests(unittest.TestCase):
         raw = f"Content-Length: {len(body)}\r\n\r\n".encode() + body
         output = io.BytesIO()
         self.assertEqual(1, serve(io.BytesIO(raw), output))
-        self.assertEqual(-32700, read_message(io.BytesIO(output.getvalue()))["error"]["code"])
+        # Python may reject the depth while parsing or leave it to the nesting limit.
+        self.assertIn(read_message(io.BytesIO(output.getvalue()))["error"]["code"], (-32700, -32600))
 
     def formatting(self, options=None):
         self.server.handle({"id": 4, "method": "textDocument/formatting", "params": {
