@@ -4,6 +4,8 @@ Status: experimental implementation of `m1-static-text-v1`, building on M1a/M1b/
 
 [M1b](formatting.md) introduced canonical formatting and native CI. [M1c](borrowing.md) extends the grammar below with call-scoped borrowing and record-field mutation, with a new context schema. See the [M1c validation record](borrowing-validation.md); earlier M1a/M1b records remain historical evidence.
 
+The [language reference](language-reference.md) states the implemented language rules on one page, without tooling or evidence; this guide covers commands, contracts, and design tradeoffs.
+
 ## Run it
 
 The [static text and console increment](text-console.md) adds immutable `str` values and an optional POSIX `print` builtin while preserving M1c borrowing rules. It does not add a general string library, allocator, module system, or managed runtime.

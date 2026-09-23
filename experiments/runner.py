@@ -20,7 +20,7 @@ from .tasks import get_tasks
 
 
 ROOT = Path(__file__).resolve().parents[1]
-GUIDES = ("docs/prototype.md", "docs/borrowing.md")
+GUIDES = ("docs/language-reference.md",)
 
 
 def write_json(path, value):
@@ -119,7 +119,8 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
     started = time.monotonic()
     result = {"id": identifier, "task": task_id, "context_mode": mode, "repetition": repetition,
               "status": "error", "attempts": [], "elapsed_seconds": 0.0}
-    system = ("You are editing a Talven M1c program. Follow the task and the pinned guides. "
+    system = (f"You are editing a Talven program in language profile {PROFILE}. Follow the task and the "
+              "pinned language reference. "
               "Independent tests are controlled by the runner. Return a JSON object with an edits "
               "object containing exactly one key, task.tal, whose value is the complete replacement "
               "source. Do not request tools or edit any other file.\n\n" +

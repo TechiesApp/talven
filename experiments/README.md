@@ -64,7 +64,7 @@ The original corpus, its fixture, and historical reports remain available. Chang
 
 ## Context and repair protocol
 
-- `--context source`: pinned prototype/borrowing guides, task instructions, and complete current task source.
+- `--context source`: the pinned [language reference](../docs/language-reference.md), task instructions, and complete current task source.
 - `--context compiler`: the same input plus compiler context v2. Invalid source receives structured frontend diagnostics instead of fabricated context. Context is recomputed for each repair.
 - `--context both` (default): separate trials for both conditions; no conversation or candidate is shared.
 
