@@ -101,6 +101,17 @@ class ClaudeCodeAdapterTests(unittest.TestCase):
         code, envelope = self.invoke(mode='other-model')
         self.assertEqual((2, 'unexpected_model'), (code, envelope['provider_metadata']['error']))
 
+    def test_models_without_effort_omit_the_flag(self):
+        req = request(model=dict(provider='anthropic-claude-code-cli', model='claude-haiku-4-5',
+                                 tokenizer='unavailable: test', settings={}))
+        code, envelope = self.invoke(req)
+        self.assertEqual(0, code)
+        self.assertNotIn('--effort', json.loads(self.log.read_text())['args'])
+        self.log.unlink()
+        req['model']['settings'] = {'effort': 'low'}
+        self.assertEqual(2, self.invoke(req)[0])
+        self.assertFalse(self.log.exists())
+
     def test_invalid_requests_never_launch_the_cli(self):
         for req in (request(model=dict(provider='anthropic', model='m', tokenizer='t', settings={'effort': 'high'})),
                     request(model=dict(provider='anthropic-claude-code-cli', model='m', tokenizer='t', settings={})),
@@ -112,7 +123,8 @@ class ClaudeCodeAdapterTests(unittest.TestCase):
     def test_config_requires_model_effort_and_pricing(self):
         target = self.directory / 'config.json'
         base = ['--write-config', str(target), '--claude', str(self.cli)]
-        for args in ([], ['--model', 'claude-opus-5-5'], ['--model', 'unpriced', '--effort', 'high']):
+        for args in ([], ['--model', 'claude-opus-5-5'], ['--model', 'unpriced', '--effort', 'high'],
+                     ['--model', 'claude-haiku-4-5', '--effort', 'low']):
             with patch.object(adapter.sys, 'stdout', io.StringIO()):
                 self.assertEqual(2, adapter.main(base + args))
             self.assertFalse(target.exists())
