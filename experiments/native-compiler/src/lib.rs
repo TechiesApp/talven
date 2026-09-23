@@ -11,11 +11,8 @@ pub const PROFILE: &str = "native-scalar-text-v1";
 pub const MAX_SOURCE: usize = 256 * 1024;
 const MAX_TOKENS: usize = 16384;
 const MAX_AST_DEPTH: usize = 128;
-/// The reference parser is recursive and reports Python's `RecursionError` as `E0005`. This is
-/// the deepest Python-equivalent parser call (function body block = 0) that CPython 3.12 and
-/// 3.13 complete from the reference CLI; within a frame or two the boundary is interpreter
-/// dependent (3.11 and 3.14 differ by one level).
-const MAX_PARSER_FRAMES: usize = 992;
+/// Active block/expression parses, counting a function body as 1, as in the reference.
+const MAX_NESTING: usize = 256;
 const KEYWORDS: [&str; 9] = [
     "fn", "struct", "let", "mut", "return", "if", "else", "true", "false",
 ];
@@ -383,13 +380,15 @@ impl Parser {
             false
         }
     }
-    /// Mirror the point where the reference's recursive parser would exhaust Python's stack.
-    fn guard(peak: usize) -> Result<()> {
-        if peak > MAX_PARSER_FRAMES {
+    /// The reference's explicit nesting limit; `frame` is 0 for a function body block.
+    fn guard(&self, frame: usize) -> Result<()> {
+        if frame + 1 > MAX_NESTING {
             Err(error(
                 "E0005",
-                "Expression or block nesting exceeds the prototype limit",
-                0..0,
+                format!(
+                    "Expression or block nesting exceeds the {MAX_NESTING}-level prototype limit"
+                ),
+                self.current().span.clone(),
             ))
         } else {
             Ok(())
@@ -450,7 +449,7 @@ impl Parser {
         Ok((functions, record))
     }
     fn block(&mut self, frame: usize) -> Result<Vec<Stmt>> {
-        Self::guard(frame + 2)?;
+        self.guard(frame)?;
         self.take("{")?;
         let mut statements = Vec::new();
         while self.current().kind() != "}" {
@@ -471,7 +470,6 @@ impl Parser {
                 stmt.mutable = self.accept("mut");
                 stmt.name = Some(self.take("id")?);
                 if self.accept(":") {
-                    Self::guard(frame + 3)?;
                     stmt.annotation = Some(self.type_token()?);
                 }
                 self.take("=")?;
@@ -516,7 +514,7 @@ impl Parser {
         self.expressions.len() - 1
     }
     fn expression(&mut self, minimum: u8, frame: usize) -> Result<usize> {
-        Self::guard(frame + 2)?;
+        self.guard(frame)?;
         let token = self.current().clone();
         let mut left;
         if self.accept("&") {
@@ -1311,6 +1309,23 @@ mod tests {
         assert!(analyze(&nested).is_ok());
         let chain = format!("fn f() -> i32 {{ return {}; }}", ["1"; 200].join("+"));
         assert_eq!("E0005", failure(&chain).0);
+    }
+
+    #[test]
+    fn nesting_limit_is_defined_not_interpreter_dependent() {
+        let parens = |n: usize| {
+            format!(
+                "fn f() -> i32 {{ return {}1{}; }}",
+                "(".repeat(n),
+                ")".repeat(n)
+            )
+        };
+        // Body block 1 + return expression 2 + one level per parenthesis.
+        assert!(analyze(&parens(254)).is_ok());
+        let (code, message, span) = failure(&parens(255));
+        assert_eq!("E0005", code);
+        assert!(message.contains("256-level"));
+        assert_eq!(278..279, span);
     }
 
     #[test]

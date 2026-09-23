@@ -14,6 +14,10 @@ import re
 MAX_SOURCE_BYTES = 256 * 1024
 MAX_TOKENS = 16384
 MAX_AST_DEPTH = 128
+# Active block/expression parses, counting a function body as 1. Parentheses
+# count here but not in the syntax tree. Keeping this well below Python's
+# recursion limit makes the diagnostic independent of the interpreter version.
+MAX_NESTING = 256
 SCALARS = {"i32", "bool"}
 COPY_TYPES = SCALARS | {"str"}
 BUILTINS = {"print"}
@@ -186,7 +190,13 @@ class Parser:
                   "<=": 4, ">=": 4, "+": 5, "-": 5, "*": 6, "/": 6, "%": 6}
 
     def __init__(self, tokens: list[Token]):
-        self.tokens, self.index = tokens, 0
+        self.tokens, self.index, self.nesting = tokens, 0, 0
+
+    def enter(self):
+        self.nesting += 1
+        if self.nesting > MAX_NESTING:
+            raise CompileError("E0005", f"Expression or block nesting exceeds the {MAX_NESTING}-level prototype limit",
+                               self.current.span)
 
     @property
     def current(self) -> Token:
@@ -246,6 +256,13 @@ class Parser:
         return Program(records, functions)
 
     def block(self) -> list[Statement]:
+        self.enter()
+        try:
+            return self.block_body()
+        finally:
+            self.nesting -= 1
+
+    def block_body(self) -> list[Statement]:
         self.take("{")
         statements = []
         while self.current.kind != "}":
@@ -281,6 +298,13 @@ class Parser:
         return statements
 
     def expression(self, minimum: int = 0) -> Expr:
+        self.enter()
+        try:
+            return self.expression_body(minimum)
+        finally:
+            self.nesting -= 1
+
+    def expression_body(self, minimum: int) -> Expr:
         token = self.current
         if self.accept("&"):
             mode = "exclusive" if self.accept("mut") else "shared"
