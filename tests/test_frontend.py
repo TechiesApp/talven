@@ -67,6 +67,28 @@ class FrontendTests(unittest.TestCase):
             with self.subTest(code=code, program=program):
                 self.assert_error(code, program)
 
+    def test_comparisons_do_not_chain(self):
+        for chained in ("false == false == false", "1 < 2 < 3", "false == false != true", "1 <= 2 >= 0"):
+            with self.subTest(chained=chained):
+                error = self.assert_error("E0002", f"fn main() -> i32 {{ if ({chained}) {{ return 1; }} return 0; }}")
+                self.assertIn("do not chain", error.message)
+        for grouped in ("(false == false) == false", "1 < 2 == true", "true == 1 < 2"):
+            with self.subTest(grouped=grouped):
+                analyze(f"fn main() -> i32 {{ if ({grouped}) {{ return 1; }} return 0; }}")
+
+    def test_line_endings_whitespace_and_hidden_text(self):
+        analyze("fn main() -> i32 {\r\n    // CRLF comment\r\n    return 0;\r\n}\r\n")
+        error = self.assert_error("E0001", "fn main() -> i32 {\n    // note\r    if (true) { return 7; }\n    return 0;\n}")
+        self.assertEqual(30, error.span.start)
+        self.assertIn("Carriage return", error.message)
+        for space in ("\u00a0", "\u2028", "\u3000", "\x85", "\x0c", "\x1f"):
+            with self.subTest(space=repr(space)):
+                self.assert_error("E0001", f"fn main(){space}-> i32 {{ return 0; }}")
+        for text in ("// \u202e hidden", 'let s = "\u2066";'):
+            with self.subTest(text=repr(text)):
+                error = self.assert_error("E0001", f"fn main() -> i32 {{ {text}\n return 0; }}")
+                self.assertIn("Bidirectional", error.message)
+
     def test_moves_for_binding_call_and_return(self):
         for body in (
             "let moved = p; return p.value;",

@@ -8,6 +8,7 @@ import unicodedata
 from . import PROFILE
 from .context import compiler_hash, encode, function_fact, source_hash
 from .frontend import Analysis, CompileError, MAX_SOURCE_BYTES, Span, analyze
+from .source_edit import read_regular
 
 SNAPSHOT_SCHEMA = "talven.edit-snapshot.v1"
 VALIDATION_SCHEMA = "talven.edit-validation.v1"
@@ -28,8 +29,7 @@ def _diagnostic(code: str, message: str, input_name: str, source: str = "") -> d
 
 def _read(path: Path, input_name: str) -> tuple[bytes | None, str | None, dict | None]:
     try:
-        with path.open("rb") as stream:
-            data = stream.read(MAX_SOURCE_BYTES + 1)
+        data, _ = read_regular(path)
         if len(data) > MAX_SOURCE_BYTES:
             return None, None, _diagnostic("E0005", "Source exceeds the 256 KiB prototype limit", input_name)
         try:
@@ -37,6 +37,8 @@ def _read(path: Path, input_name: str) -> tuple[bytes | None, str | None, dict |
         except UnicodeDecodeError:
             return None, None, _diagnostic("E0901", f"{input_name.capitalize()} is not valid UTF-8", input_name)
         return data, text, None
+    except CompileError as error:
+        return None, None, _diagnostic(error.code, error.message, input_name)
     except OSError as error:
         message = str(error)
         if len(message) > 240:

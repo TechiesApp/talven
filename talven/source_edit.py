@@ -12,6 +12,19 @@ import tempfile
 from .frontend import CompileError, MAX_SOURCE_BYTES, Span
 
 
+def read_regular(path: Path) -> tuple[bytes, os.stat_result]:
+    """Read up to one byte past the source limit from a regular file.
+
+    The nonblocking open keeps a FIFO or device path from hanging the caller.
+    """
+    descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_NONBLOCK", 0))
+    with os.fdopen(descriptor, "rb") as stream:
+        metadata = os.fstat(stream.fileno())
+        if not stat.S_ISREG(metadata.st_mode):
+            raise CompileError("E0901", "Source must be a regular file", Span(0, 0))
+        return stream.read(MAX_SOURCE_BYTES + 1), metadata
+
+
 def writable_source(path: Path) -> os.stat_result:
     metadata = path.lstat()
     if not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1:

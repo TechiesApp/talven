@@ -112,7 +112,9 @@ class NativeTests(unittest.TestCase):
             self.assertEqual(0, result.returncode, result.stderr)
             if shutil.which("nm"):
                 symbols = subprocess.check_output(["nm", "-u", str(obj)], text=True)
-                self.assertEqual({"talven_trap"}, {line.split()[-1] for line in symbols.splitlines()})
+                # Mach-O prefixes C symbols with an underscore.
+                prefix = "_" if sys.platform == "darwin" else ""
+                self.assertEqual({prefix + "talven_trap"}, {line.split()[-1] for line in symbols.splitlines()})
 
 
 class CommandTests(unittest.TestCase):
@@ -137,6 +139,41 @@ class CommandTests(unittest.TestCase):
             self.assertEqual(1, result.returncode)
             self.assertEqual("keep existing artifact", output.read_text())
             self.assertFalse((Path.cwd() / "marker").exists())
+
+    @unittest.skipUnless(hasattr(os, "mkfifo"), "FIFO paths require POSIX mkfifo")
+    def test_fifo_source_is_rejected_without_blocking(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            fifo = Path(temporary) / "source.tal"
+            os.mkfifo(fifo)
+            source = Path("examples/vectors.tal")
+            snapshot = json.loads(self.command("edit", "snapshot", source).stdout)
+            for args in (("check", fifo, "--json"), ("context", fifo), ("fmt", fifo, "--check", "--json"),
+                         ("edit", "snapshot", fifo),
+                         ("edit", "validate", source, "--candidate", fifo,
+                          "--expect-source-hash", snapshot["source_hash"],
+                          "--expect-compiler-hash", snapshot["compiler_hash"])):
+                with self.subTest(args=args[:2]):
+                    result = self.command(*args)
+                    self.assertEqual(1, result.returncode)
+                    self.assertIn("E0901", result.stdout + result.stderr)
+
+    def test_stale_context_hash_is_rejected_before_analysis(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "broken.tal"
+            source.write_text("fn main() -> i32 { return missing; }")
+            result = self.command("context", source, "--expect-source-hash", "0" * 64)
+            self.assertEqual(1, result.returncode)
+            self.assertEqual("E0501", json.loads(result.stdout)["diagnostics"][0]["code"])
+
+    def test_emitted_c_includes_only_referenced_helpers(self):
+        generated = emit_c(analyze("fn main() -> i32 { return 7 / 7 - 1; }"))
+        for name in ("tv_div", "tv_sub", "tv_narrow", "talven_trap"):
+            self.assertIn(name, generated)
+        for name in ("tv_add", "tv_mul", "tv_neg", "tv_mod"):
+            self.assertNotIn(name, generated)
+        plain = emit_c(analyze("fn main() -> i32 { return 0; }"))
+        self.assertNotIn("static inline", plain)
+        self.assertNotIn("talven_trap", plain)
 
     def test_output_cannot_overwrite_source(self):
         result = self.command("emit-c", "examples/vectors.tal", "-o", "examples/vectors.tal")
