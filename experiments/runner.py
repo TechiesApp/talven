@@ -1,7 +1,9 @@
 """Run bounded source-edit experiments and retain auditable artifacts."""
 
 from datetime import datetime, timezone
+from decimal import Decimal
 import os
+import random
 from pathlib import Path
 import platform
 import shutil
@@ -12,15 +14,15 @@ import time
 from talven import VERSION, PROFILE
 from talven.context import compiler_hash, context
 from talven.frontend import CompileError, analyze
-from . import CORPUS_VERSION, SCHEMA
-from .metrics import aggregate, summarize_trial
-from .process import run_process
+from . import CORPUS_VERSION, SCHEMA, SUPPORTED_SCHEMAS
+from .metrics import aggregate, money, paired_comparison, summarize_trial
+from .process import ADAPTER_ENVIRONMENT, TOOL_ENVIRONMENT, environment_subset, run_process
 from .protocol import candidate_source, digest, encode, parse_response, read_config, strict_json
 from .tasks import get_tasks
 
 
 ROOT = Path(__file__).resolve().parents[1]
-GUIDES = ("docs/prototype.md", "docs/borrowing.md")
+GUIDES = ("docs/language-reference.md",)
 
 
 def write_json(path, value):
@@ -88,7 +90,7 @@ def compiler_context(source, budget):
 def verify_candidate(task_id, candidate, env, timeout, native_timeout):
     command = [sys.executable, "-m", "experiments.verifier", "--task", task_id,
                "--source", str(candidate), "--cc", env["cc"], "--timeout", str(native_timeout)]
-    process = run_process(command, cwd=ROOT, timeout=timeout)
+    process = run_process(command, cwd=ROOT, timeout=timeout, env=environment_subset(TOOL_ENVIRONMENT))
     if process["error"]:
         return {"status": "error", "feedback": "Verifier process failed: " + process["error"], "process": process}
     try:
@@ -107,11 +109,66 @@ def trial_id(task, mode, repetition):
     return f"{task}-{mode}-{repetition:03d}"
 
 
+def repair_feedback(verification, mode):
+    """Feedback for the next attempt.
+
+    Source-only trials learn that the language checks rejected a candidate,
+    but never receive compiler diagnostic text; that is the compiler condition.
+    """
+    rejected = any(check.get("name") == "frontend" and not check.get("passed")
+                   for check in verification.get("checks") or [])
+    if mode == "source" and rejected:
+        return "The candidate was rejected by the language checks before native acceptance."
+    return verification.get("feedback") or "Independent acceptance failed"
+
+
+class BudgetExhausted(Exception):
+    """A live run stops before a call that could exceed its spend cap."""
+
+
+class Budget:
+    """Spend guard for live runs.
+
+    Before each call, the recorded spend plus the most expensive call so far
+    must stay within the cap. A call without a known cost stops the run,
+    because the cap can no longer be enforced.
+    """
+
+    def __init__(self, cap_usd):
+        self.cap = money(cap_usd)
+        self.spent = Decimal(0)
+        self.largest = Decimal(0)
+        self.calls = 0
+        self.stopped = None
+
+    def before_call(self):
+        if self.stopped is None and self.spent + self.largest > self.cap:
+            self.stopped = "spend_cap"
+        if self.stopped is not None:
+            raise BudgetExhausted(self.stopped)
+
+    def after_call(self, usage):
+        self.calls += 1
+        cost = None if usage is None else usage.get("model_cost_usd")
+        if cost is None:
+            self.stopped = "unknown_call_cost"
+            return
+        amount = money(cost) + money(usage.get("tool_cost_usd") or "0")
+        self.spent += amount
+        self.largest = max(self.largest, amount)
+
+    def record(self):
+        return {"cap_usd": str(self.cap), "spent_usd": str(self.spent), "largest_call_usd": str(self.largest),
+                "calls": self.calls, "stopped": self.stopped}
+
+
 def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, limits, checkpoint,
-              corpus_version=CORPUS_VERSION):
+              corpus_version=CORPUS_VERSION, budget=None):
     tasks = get_tasks(corpus_version)
     if task_id not in tasks:
         raise ValueError(f"Task {task_id!r} is not in corpus {corpus_version!r}")
+    if budget is not None:
+        budget.before_call()  # A trial that cannot start leaves no record.
     identifier = trial_id(task_id, mode, repetition)
     directory = run_dir / identifier
     directory.mkdir()
@@ -119,7 +176,8 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
     started = time.monotonic()
     result = {"id": identifier, "task": task_id, "context_mode": mode, "repetition": repetition,
               "status": "error", "attempts": [], "elapsed_seconds": 0.0}
-    system = ("You are editing a Talven M1c program. Follow the task and the pinned guides. "
+    system = (f"You are editing a Talven program in language profile {PROFILE}. Follow the task and the "
+              "pinned language reference. "
               "Independent tests are controlled by the runner. Return a JSON object with an edits "
               "object containing exactly one key, task.tal, whose value is the complete replacement "
               "source. Do not request tools or edit any other file.\n\n" +
@@ -147,6 +205,13 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
         except (ValueError, OSError, UnicodeError) as error:
             result.update(status="error", error=str(error))
             break
+        if budget is not None:
+            try:
+                budget.before_call()
+            except BudgetExhausted as stop:
+                result.update(status="error", error=f"budget_stop: {stop}")
+                save()
+                raise
         attempt_dir = directory / f"attempt-{attempt_index:03d}"
         attempt_dir.mkdir()
         request = {"schema": "talven.eval.request.v1", "corpus_version": corpus_version,
@@ -162,7 +227,8 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
         save()  # Preserve the in-flight attempt before invoking a possibly billable adapter.
         with tempfile.TemporaryDirectory(prefix="talven-adapter-") as isolated:
             process = run_process(config["command"], cwd=isolated,
-                                  timeout=min(remaining, limits["adapter_timeout"]), stdin=request_bytes)
+                                  timeout=min(remaining, limits["adapter_timeout"]), stdin=request_bytes,
+                                  env=environment_subset(ADAPTER_ENVIRONMENT))
         attempt["adapter_process"] = process
         (attempt_dir / "response.txt").write_text(process["stdout"], encoding="utf-8")
         attempt["response_sha256"] = digest(process["stdout"].encode("utf-8"))
@@ -172,19 +238,31 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
             # that observed usage even though no candidate will be accepted.
             response, usage = parse_response(process["stdout"])
             attempt["usage"] = usage
+            if budget is not None:
+                budget.after_call(usage)
             if process["error"] or process["returncode"] != 0:
                 raise ValueError(f"Adapter failed: {process['error'] or process['returncode']}")
         except (ValueError, OSError) as error:
+            if budget is not None and attempt["usage"] is None:
+                budget.after_call(None)
             attempt["error"] = str(error)
             result.update(status="error", error=str(error))
             save()
             break
-        messages.append({"role": "assistant", "content": encode({"edits": response.get("edits")})})
+        # Replay the model's own text when the adapter reports it, so repairs
+        # see what was actually written rather than a re-encoding.
+        metadata = response.get("provider_metadata") or {}
+        text = metadata.get("candidate_text")
+        messages.append({"role": "assistant", "content": text if isinstance(text, str) and text
+                         else encode({"edits": response.get("edits")})})
+        if isinstance(metadata.get("model_failure"), str):
+            attempt["model_failure"] = metadata["model_failure"]
         try:
             candidate = candidate_source(response)
         except ValueError as error:
             attempt.update(status="failed", error=str(error))
-            feedback = str(error)
+            feedback = (f"The response ended with stop reason {attempt['model_failure']} before a complete edit."
+                        if "model_failure" in attempt else str(error))
             result["status"] = "failed"
             save()
             continue
@@ -202,7 +280,7 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
         attempt["status"] = verification["status"]
         write_json(attempt_dir / "verification.json", verification)
         result["status"] = verification["status"]
-        feedback = verification.get("feedback", "Independent acceptance failed")
+        feedback = repair_feedback(verification, mode)
         save()
         if result["status"] != "failed":
             break
@@ -224,19 +302,33 @@ def make_report(run, costs=None):
             "summary": aggregate(trials),
             "by_context": {mode: aggregate([t for t in trials if t["context_mode"] == mode])
                            for mode in sorted({t["context_mode"] for t in trials})},
+            "paired": (paired_comparison(trials)
+                       if {t["context_mode"] for t in trials} == {"source", "compiler"} and run["complete"] else None),
             "trials": [{key: t[key] for key in ("id", "status", "metrics", "elapsed_seconds")} for t in trials],
             "verification_cost_receipts": costs}
     # An interrupted suite must not masquerade as a smaller successful one.
     if not run["complete"]:
         for summary in [report["summary"], *report["by_context"].values()]:
             summary["correctness_rate"] = None
+            summary["correctness_rate_excluding_errors"] = None
+            summary["correctness_interval_95_excluding_errors"] = None
             summary["total_task_cost_usd"] = None
             summary["cost_per_correct_task_usd"] = None
     return report
 
 
+def trial_plan(tasks, modes, repetitions, seed):
+    """Every (repetition, task, mode) once; seeded shuffling interleaves
+    conditions so time-varying provider behavior is not confounded with them."""
+    plan = [(repetition, task, mode) for repetition in range(1, repetitions + 1)
+            for task in tasks for mode in modes]
+    if seed is not None:
+        random.Random(seed).shuffle(plan)
+    return plan
+
+
 def run_experiment(adapter_path, output, tasks, modes, repetitions, cc, limits,
-                   corpus_version=CORPUS_VERSION):
+                   corpus_version=CORPUS_VERSION, seed=None, max_cost_usd=None, allow_dirty=False):
     corpus = get_tasks(corpus_version)
     for task in tasks:
         if task not in corpus:
@@ -245,6 +337,13 @@ def run_experiment(adapter_path, output, tasks, modes, repetitions, cc, limits,
         raise ValueError("Duplicate task selection; use --repetitions instead")
     config = read_config(adapter_path)
     env = environment(cc)
+    if config["kind"] == "live":
+        if max_cost_usd is None:
+            raise ValueError("Live runs require --max-cost-usd")
+        if env["repository_dirty"] and not allow_dirty:
+            raise ValueError("Live runs require a clean working tree; commit or pass --allow-dirty")
+    budget = Budget(max_cost_usd) if max_cost_usd is not None else None
+    plan = trial_plan(tasks, modes, repetitions, seed)
     inputs = pinned_files(corpus_version)
     hashes = {name: digest(data) for name, data in inputs.items()}
     run_dir = Path(output).resolve()
@@ -266,6 +365,8 @@ def run_experiment(adapter_path, output, tasks, modes, repetitions, cc, limits,
            "planned_trials": len(tasks) * len(modes) * repetitions,
            "environment": env, "adapter": config, "input_hashes": hashes,
            "limits": limits, "task_order": tasks, "context_order": modes, "repetitions": repetitions,
+           "order_seed": seed, "trial_order": [trial_id(task, mode, rep) for rep, task, mode in plan],
+           "budget": budget.record() if budget else None,
            "tool_permissions": "source replacement only; no model tools; trusted adapter command",
            "trials": []}
 
@@ -277,18 +378,22 @@ def run_experiment(adapter_path, output, tasks, modes, repetitions, cc, limits,
                     break
             else:
                 run["trials"].append(trial)
+        if budget is not None:
+            run["budget"] = budget.record()
         report = make_report(run)
         run["summary"] = report["summary"]
         write_json(run_dir / "run.json", run)
         write_json(run_dir / "report.json", report)
 
     checkpoint()
-    for repetition in range(1, repetitions + 1):
-        for task in tasks:
-            for mode in modes:
-                run_trial(task, mode, repetition, run_dir, config, env, inputs, hashes, limits, checkpoint,
-                          corpus_version)
-                assert_unchanged(hashes, config, corpus_version)
+    try:
+        for repetition, task, mode in plan:
+            run_trial(task, mode, repetition, run_dir, config, env, inputs, hashes, limits, checkpoint,
+                      corpus_version, budget)
+            assert_unchanged(hashes, config, corpus_version)
+    except BudgetExhausted:
+        checkpoint()  # An interrupted run stays incomplete; its rates are withheld.
+        return run
     run["complete"] = True
     checkpoint()
     return run
@@ -296,7 +401,7 @@ def run_experiment(adapter_path, output, tasks, modes, repetitions, cc, limits,
 
 def load_run(directory):
     run = strict_json((Path(directory) / "run.json").read_text(encoding="utf-8"))
-    if not isinstance(run, dict) or run.get("schema") != SCHEMA:
+    if not isinstance(run, dict) or run.get("schema") not in SUPPORTED_SCHEMAS:
         raise ValueError("Unsupported evaluation run schema or corpus")
     get_tasks(run.get("corpus_version"))
     return run
@@ -330,7 +435,8 @@ def reverify(directory, cc=None):
         attempts = trial["attempts"]
         last = attempts[-1] if attempts else {}
         if "source_sha256" not in last:
-            results.append({"id": trial["id"], "status": "error", "feedback": "No final candidate to reverify"})
+            results.append({"id": trial["id"], "status": "error", "reverifiable": False,
+                            "feedback": "No final candidate to reverify"})
             continue
         index = last["index"]
         if type(index) is not int or not 0 <= index <= 20:
@@ -340,6 +446,18 @@ def reverify(directory, cc=None):
             raise ValueError("Candidate artifact changed or escaped the run directory")
         result = verify_candidate(task, candidate, env, run["limits"]["verification_timeout"], run["limits"]["native_timeout"])
         results.append({"id": trial["id"], **result})
-    return {"schema": "talven.eval.reverification.v1", "corpus_version": corpus_version,
+    # Compare fresh verdicts with the archive: drift, not failure, is the signal.
+    archived = {trial["id"]: trial["status"] for trial in run["trials"]}
+    for result in results:
+        result["archived_status"] = archived[result["id"]]
+        if result.get("reverifiable", True):
+            result["matches_archive"] = result["status"] == result["archived_status"]
+        else:
+            # Without a candidate there is nothing to recheck; a recorded pass would be inconsistent.
+            result["matches_archive"] = result["archived_status"] != "passed"
+    archived_cc = run.get("environment", {}).get("cc_sha256")
+    return {"schema": "talven.eval.reverification.v2", "corpus_version": corpus_version,
             "environment": env, "trials": results,
+            "matches_archive": all(result["matches_archive"] for result in results),
+            "toolchain_matches_archive": archived_cc is not None and archived_cc == env.get("cc_sha256"),
             "note": "Fresh correctness checks only; no new model usage or billing measurements"}

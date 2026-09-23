@@ -73,7 +73,7 @@ jobs:
           PY
       - name: Check example formatting
         run: |
-          for source in examples/*.tal examples/invalid/*.tal tests/fixtures/*.tal experiments/corpora/borrowing-v1/*.tal experiments/freestanding/*.tal; do
+          for source in examples/*.tal examples/invalid/*.tal tests/fixtures/*.tal experiments/corpora/*/*.tal experiments/freestanding/*.tal; do
             python3 -m talven fmt "$source" --check --json
           done
       - name: Exercise provider-neutral evaluation without model calls

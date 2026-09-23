@@ -1,6 +1,6 @@
 # Reproducible agent evaluation
 
-Status: implemented provider-neutral harness, schema `talven.eval.v1`, with two separately versioned four-task corpora. The default remains `m1c-agent-tasks-v1`; borrowing repairs use `m1c-borrowing-tasks-v1`. No paid model run or comparative token/cost result is supplied. Offline fixtures test the runner and are explicitly **not model measurements**. See [Proposal 0004](../docs/proposals/0004-reproducible-agent-evaluation.md), [the borrowing corpus proposal](../docs/proposals/0005-borrowing-evaluation-corpus.md), and [actual validation](../docs/evaluation-validation.md).
+Status: implemented provider-neutral harness, schema `talven.eval.v2` (v1 archives remain readable), with separately versioned four-task corpora. The default is `m1-agent-tasks-v2`; borrowing repairs use `m1c-borrowing-tasks-v1`. [Proposal 0014](../docs/proposals/0014-live-pilot-readiness.md) describes the pilot-readiness changes. No paid model run or comparative token/cost result is supplied. Offline fixtures test the runner and are explicitly **not model measurements**. See [Proposal 0004](../docs/proposals/0004-reproducible-agent-evaluation.md), [the borrowing corpus proposal](../docs/proposals/0005-borrowing-evaluation-corpus.md), and [actual validation](../docs/evaluation-validation.md).
 
 Requires Python 3.11+, Git, and a native C11 compiler. Run from the repository root. Compiler and acceptance tests remain separate from model edits. The harness does not change the language or complete the full M1 gate.
 
@@ -23,7 +23,7 @@ Use fresh output/config paths for another run; existing results are never silent
 
 ## Corpus and independent acceptance
 
-Each trial starts with an empty conversation and the exact original source. The default runs the original four tasks in both conditions, once, in recorded order. `python3 -m experiments tasks` prints their precise public instructions. Their IDs, instructions, order, and acceptance rules are preserved.
+Each trial starts with an empty conversation and the exact original source. The default runs the original four tasks in both conditions, once, in a seeded order recorded as `trial_order`. `m1-agent-tasks-v2` keeps v1's IDs, instructions and acceptance but starts from [copies](corpora/agent-v2/) without the `// E0…` comments that name the expected diagnostic; `m1c-agent-tasks-v1` remains selectable to reverify earlier archives. `python3 -m experiments tasks` prints their precise public instructions. Their IDs, instructions, order, and acceptance rules are preserved.
 
 | Task ID | Starting point | Requested change | Independent acceptance |
 | --- | --- | --- | --- |
@@ -64,24 +64,28 @@ The original corpus, its fixture, and historical reports remain available. Chang
 
 ## Context and repair protocol
 
-- `--context source`: pinned prototype/borrowing guides, task instructions, and complete current task source.
+- `--context source`: the pinned [language reference](../docs/language-reference.md), task instructions, and complete current task source.
 - `--context compiler`: the same input plus compiler context v2. Invalid source receives structured frontend diagnostics instead of fabricated context. Context is recomputed for each repair.
 - `--context both` (default): separate trials for both conditions; no conversation or candidate is shared.
 
-The default additional compiler-context budget is **16384 UTF-8 bytes**, including the newline. Guides, source, task text, and prior conversation are outside this byte cap and still count toward actual provider input usage. This is not a token budget. Oversized context fails explicitly instead of truncating facts. Both conditions receive acceptance feedback after failed attempts; native test source is not inserted into prompts.
+The default additional compiler-context budget is **16384 UTF-8 bytes**, including the newline. Guides, source, task text, and prior conversation are outside this byte cap and still count toward actual provider input usage. This is not a token budget. Oversized context fails explicitly instead of truncating facts. Both conditions receive acceptance feedback after failed attempts; native test source is not inserted into prompts. **Compiler diagnostics reach only the compiler condition:** when the language checks reject a source-only candidate, its repair feedback says so without the diagnostic text. A `max_tokens` cut-off or refusal reported by the adapter is a failed attempt whose feedback names the stop reason. Repair turns replay the model's own text when the adapter reports it.
 
-Each adapter call is one attempt. Attempt 0 is the initial solution; every subsequent call is a repair, even if the output is identical or invalid. `--max-repairs 2` therefore permits three calls. Malformed protocol output, adapter launch/exit failure, and adapter timeout end the trial as an error; there are no hidden runner retries. Candidate scope/syntax/acceptance failures permit repair. Infrastructure failures cannot become successful or skipped evidence.
+Each adapter call is one attempt. Attempt 0 is the initial solution; every subsequent call is a repair, even if the output is identical or invalid. `--max-repairs 2` therefore permits three calls. Malformed protocol output, adapter launch/exit failure, and adapter timeout end the trial as an error; the runner adds no hidden retries (an adapter may retry unbilled transport failures and must record them). Candidate scope/syntax/acceptance failures permit repair. Infrastructure failures cannot become successful or skipped evidence.
 
 Useful controls:
 
 ~~~sh
 python3 -m experiments run --adapter build/eval-fixture.json --out build/eval-repeat \
   --task strict-type --task move-scalar --context both --repetitions 3 \
-  --max-repairs 2 --context-bytes 16384 --adapter-timeout 60 \
-  --native-timeout 5 --verification-timeout 60 --task-timeout 300 --cc cc
+  --max-repairs 2 --context-bytes 16384 --adapter-timeout 900 \
+  --native-timeout 5 --verification-timeout 60 --task-timeout 3600 --cc cc
 ~~~
 
-Repetitions run sequentially, then tasks and context conditions in recorded order. Vector verification makes multiple compiler/native calls; each has the native timeout and the verifier has a separate total timeout. Cross-run experimental ordering, model seeds/settings, and enough repetitions to support conclusions are the operator's responsibility. Identical prompts do not guarantee deterministic model sampling.
+By default every (repetition, task, condition) trial runs once in an order shuffled by `--seed` (default 0), so time-varying provider behavior is not confounded with a condition; `--fixed-order` restores declaration order. Vector verification makes multiple compiler/native calls; each has the native timeout and the verifier has a separate total timeout. Identical prompts do not guarantee deterministic model sampling.
+
+**Live runs** (adapter `kind: live`) require `--max-cost-usd` and a clean working tree (`--allow-dirty` overrides and is recorded). Before each call the runner checks that recorded spend plus the most expensive call so far stays within the cap; a call whose cost is unknown stops the run because the cap can no longer be enforced. A stopped run stays `complete:false`, and its rates and totals are withheld. The cap bounds planning, not billing: one unusually expensive call can still exceed it.
+
+The verifier, C compiler and candidate programs run with an allow-listed environment (toolchain paths and locale, no credentials); candidate programs also get CPU-time and file-size limits on POSIX. The adapter receives the same list plus `ANTHROPIC_API_KEY` and proxy/certificate variables.
 
 ## Trusted adapter contract
 
@@ -94,7 +98,7 @@ The adapter receives one UTF-8 JSON request on stdin:
 ~~~json
 {
   "schema": "talven.eval.request.v1",
-  "corpus_version": "m1c-agent-tasks-v1",
+  "corpus_version": "m1-agent-tasks-v2",
   "task_id": "strict-type",
   "context_mode": "source",
   "repetition": 1,
@@ -123,9 +127,10 @@ For live observations, the trusted adapter may supply any of these nullable `usa
 | Field | Contract |
 | --- | --- |
 | `input_tokens`, `output_tokens` | Actual nonnegative integer counts from the provider, including all charged retries/internal work performed by the adapter |
-| `cached_input_tokens` | Provider-reported subset of input tokens; never subtracted from total input or added again |
+| `cached_input_tokens` | Provider-reported cache reads, a subset of input tokens; never subtracted from total input or added again |
+| `cache_write_input_tokens` | Provider-reported cache writes, a separate subset of input tokens |
 | `usage_source` | Required provenance when any token count is present; identify receipt/provider response(s) |
-| `model_cost_usd`, `tool_cost_usd` | Actual recorded nonnegative decimal strings, not API list-price estimates or subscription conversions |
+| `model_cost_usd`, `tool_cost_usd` | Nonnegative decimal strings computed from a provider receipt, either billing evidence or a pinned list-price table whose provenance is recorded; never subscription conversions |
 | `model_cost_source`, `tool_cost_source` | Required provenance for each present cost; explicit zero also needs a basis, such as no adapter tools used |
 
 Put sanitized provider response IDs, raw usage/billing receipts, returned model version, and cache details in `provider_metadata`. This evidence must come from trusted adapter/provider instrumentation, not a model-generated usage claim. The runner can validate shapes and provenance presence, not independently authenticate a provider's bill. If a call may have been charged but no receipt is available, leave its usage unknown. Do not silently omit internal retries, extra context, or charged failures; include them and describe them in metadata, or treat the trial as noncomparable.
@@ -145,13 +150,13 @@ python3 -m experiments report build/live-run --verification-costs build/verifica
 
 This creates a new report without altering original run artifacts. Do not double-count verification already included in a receipt. Shared infrastructure allocation belongs in the receipt's provenance. **Cost per correct task divides cost of all trials, including failures/errors, by the number of correct trials.** It remains null if any cost is missing, the suite is incomplete, or no task succeeds. This metric is not an assertion about subscription usage.
 
-`reverify` uses the current trusted compiler/harness only when pinned input hashes match, checks candidate hashes, and writes fresh correctness evidence. It does not import/execute compiler code from an untrusted run archive or replay model requests. It defaults to the current `cc`, never an executable path selected by archived metadata. An alternative trusted C toolchain may be selected explicitly with `--cc`; the new environment is recorded. Compare host/settings before treating it as a repeat of the same experiment.
+`reverify` uses the current trusted compiler/harness only when pinned input hashes match, checks candidate hashes, and writes fresh correctness evidence. Each result records its archived status and whether it matches; `matches_archive` and `toolchain_matches_archive` summarize the run, and the command succeeds when the archive reproduces, including recorded failures. It does not import/execute compiler code from an untrusted run archive or replay model requests. It defaults to the current `cc`, never an executable path selected by archived metadata. An alternative trusted C toolchain may be selected explicitly with `--cc`; the new environment is recorded. Compare host/settings before treating it as a repeat of the same experiment.
 
 ## Boundaries and remaining evidence
 
 The model's edit interface is restricted by the runner. The adapter executes in a fresh temporary working directory and receives no verifier files. **The adapter, verifier, C compiler, and host remain trusted.** A temporary directory, hash check, or repository instruction is not a hostile-process sandbox: a same-user executable can access files/network or interfere with other processes. Use an externally protected checkout and OS/container policy for untrusted agents or toolchains. Process time/output limits are resource hygiene, not comprehensive memory/disk/CPU quotas. Public acceptance code is not secret. Keep credentials in adapter-owned secret handling and out of configs, argv, prompts, and archived receipts.
 
-Live model experiments on both corpora, cross-language baselines, provider cache comparisons, and statistical significance remain follow-up work. Equivalent Rust/C/TypeScript tasks need independently validated baselines before comparative claims.
+Reports include correctness excluding infrastructure errors with a 95% Wilson interval, and, for complete runs with both conditions, a paired comparison by task and repetition with an exact McNemar p-value; pairs with an infrastructure error are excluded and counted. Eight tasks cannot support comparative conclusions; choose repetitions and corpus growth from pilot variance. Live model experiments on both corpora, cross-language baselines, and provider cache comparisons remain follow-up work. Equivalent Rust/C/TypeScript tasks need independently validated baselines before comparative claims.
 
 ## Separate native compiler experiment
 

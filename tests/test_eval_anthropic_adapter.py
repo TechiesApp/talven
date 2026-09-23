@@ -29,6 +29,27 @@ def response():
                            output_tokens=40, thinking_tokens=999))
 
 
+def sse(*events):
+    return [line for event in events
+            for line in (f"event: {event['type']}\n".encode(), f"data: {json.dumps(event)}\n".encode(), b"\n")] + [b""]
+
+
+def streamed(text='{"edits":{"task.tal":"source"}}', stop='end_turn'):
+    return sse({'type': 'message_start', 'message': {'id': 'msg_live', 'type': 'message', 'role': 'assistant',
+                'model': 'fixture-messages-v1', 'content': [], 'usage': {'input_tokens': 10,
+                'cache_creation_input_tokens': 0, 'cache_read_input_tokens': 0, 'output_tokens': 1}}},
+               {'type': 'ping'},
+               {'type': 'content_block_start', 'index': 0, 'content_block': {'type': 'thinking', 'thinking': '', 'signature': ''}},
+               {'type': 'content_block_delta', 'index': 0, 'delta': {'type': 'signature_delta', 'signature': 'sig'}},
+               {'type': 'content_block_stop', 'index': 0},
+               {'type': 'content_block_start', 'index': 1, 'content_block': {'type': 'text', 'text': ''}},
+               {'type': 'content_block_delta', 'index': 1, 'delta': {'type': 'text_delta', 'text': text[:9]}},
+               {'type': 'content_block_delta', 'index': 1, 'delta': {'type': 'text_delta', 'text': text[9:]}},
+               {'type': 'content_block_stop', 'index': 1},
+               {'type': 'message_delta', 'delta': {'stop_reason': stop}, 'usage': {'output_tokens': 40}},
+               {'type': 'message_stop'})
+
+
 class AdapterTests(unittest.TestCase):
     def translate(self, body=None, **kwargs):
         return adapter.translate_response(encode(body if body is not None else response()).encode(), **kwargs)
@@ -52,14 +73,46 @@ class AdapterTests(unittest.TestCase):
         schema = payload['output_config']['format']['schema']
         self.assertFalse(schema['additionalProperties'])
         self.assertEqual(schema['properties']['edits']['required'], ['task.tal'])
-        self.assertFalse(payload['stream'])
+        self.assertTrue(payload['stream'])
+        req = request(); req['model']['settings'].update(effort='high', thinking='adaptive')
+        payload = adapter.build_request(req)
+        self.assertEqual('high', payload['output_config']['effort'])
+        self.assertEqual({'type': 'adaptive'}, payload['thinking'])
+
+    def test_current_models_reject_sampling_and_accept_effort(self):
+        for model in ('claude-opus-5-5', 'claude-opus-5', 'claude-sonnet-5', 'claude-fable-5-1', 'claude-opus-4-8'):
+            req = request(); req['model']['model'] = model
+            req['model']['settings'] = {'max_tokens': 1000, 'temperature': 0}
+            with self.subTest(model=model), self.assertRaisesRegex(ValueError, 'sampling_unsupported'):
+                adapter.build_request(req)
+        req = request(); req['model']['settings'] = {'max_tokens': 1000, 'effort': 'extreme'}
+        with self.assertRaisesRegex(ValueError, 'invalid_effort'):
+            adapter.build_request(req)
+
+    def test_pricing_table_prices_each_token_class(self):
+        pricing = adapter.load_pricing()
+        pricing['provenance'] = 'test'
+        receipt = dict(input_tokens=1_000_000, cache_creation_input_tokens=3_000_000,
+                       cache_read_input_tokens=1_000_000, output_tokens=1_000_000,
+                       cache_creation={'ephemeral_5m_input_tokens': 2_000_000, 'ephemeral_1h_input_tokens': 1_000_000})
+        # Opus 5.5: 4 input + 2*5 + 1*8 writes + 0.2 read + 20 output.
+        self.assertEqual('42.2', adapter.model_cost(receipt, 'claude-opus-5-5', pricing))
+        self.assertIsNone(adapter.model_cost(receipt, 'unpriced-model', pricing))
+        receipt['cache_creation'] = {}
+        self.assertIsNone(adapter.model_cost(receipt, 'claude-opus-5-5', pricing))
+        usage, malformed = adapter.receipt_usage(dict(input_tokens=10, cache_creation_input_tokens=0,
+                                                      cache_read_input_tokens=5, output_tokens=7),
+                                                 False, {}, 'claude-haiku-4-5', pricing)
+        self.assertFalse(malformed)
+        self.assertEqual(('0.0000455', 'test', 0, 5, 15), (usage['model_cost_usd'], usage['model_cost_source'],
+                         usage['cache_write_input_tokens'], usage['cached_input_tokens'], usage['input_tokens']))
 
     def test_invalid_request_never_reads_key_or_connects(self):
         cases = []
         for key, value in [('attempt', True), ('attempt', 21), ('repetition', 0), ('context_mode', 'other'),
                            ('task_id', 'absent'), ('allowed_files', ['other']), ('extra', 0)]:
             req = request(); req[key] = value; cases.append(req)
-        for settings in [{'max_tokens': True}, {'max_tokens': 0}, {'max_tokens': 32769},
+        for settings in [{'max_tokens': True}, {'max_tokens': 0}, {'max_tokens': 128001},
                          {'max_tokens': 1, 'temperature': float('inf')}, {'max_tokens': 1, 'top_p': -1},
                          {'max_tokens': 1, 'temperature': 0, 'top_p': 1}, {'max_tokens': 1, 'tools': []}]:
             req = request(); req['model']['settings'] = settings; cases.append(req)
@@ -115,7 +168,7 @@ class AdapterTests(unittest.TestCase):
 
     def test_provider_failures_keep_receipt(self):
         cases = []
-        for reason in ['max_tokens', 'tool_use', 'pause_turn', 'refusal', 'model_context_window_exceeded', 'stop_sequence', None]:
+        for reason in ['tool_use', 'pause_turn', 'model_context_window_exceeded', 'stop_sequence', None]:
             body = response(); body['stop_reason'] = reason; cases.append(body)
         for block in [dict(type='tool_use'), dict(type='server_tool_use'), dict(type='refusal'), dict(type='unknown'), dict(type='text', text=1)]:
             body = response(); body['content'] = [block]; cases.append(body)
@@ -128,6 +181,18 @@ class AdapterTests(unittest.TestCase):
         env, code = self.translate(http_status=401)
         self.assertEqual(code, 2); self.assertEqual(env['usage']['input_tokens'], 60)
 
+    def test_cut_off_or_refused_answers_are_repairable_model_failures(self):
+        for reason in adapter.MODEL_FAILURES:
+            body = response(); body['stop_reason'] = reason
+            if reason == 'refusal':
+                body['stop_details'] = {'type': 'refusal', 'category': None, 'explanation': None}
+            env, code = self.translate(body)
+            self.assertEqual((0, {}), (code, env['edits']))
+            self.assertEqual(reason, env['provider_metadata']['model_failure'])
+            self.assertEqual(40, env['usage']['output_tokens'])
+        body = response(); body['stop_details'] = {'type': 'refusal'}
+        self.assertEqual(2, self.translate(body)[1])
+
     def test_candidate_failure_repairable_and_cannot_forge_usage(self):
         for candidate in ['not json', '{"edits":{},"usage":{"output_tokens":999}}', '{"edits":{"task.tal":1}}',
                           '{"edits":{"other":"x"}}', '{"edits":{},"edits":{}}']:
@@ -139,7 +204,7 @@ class AdapterTests(unittest.TestCase):
 
     def test_fixed_transport_and_http_errors_sanitized(self):
         connection = Mock(); result = connection.getresponse.return_value
-        result.status = 200; result.getheader.return_value = 'req_test'; result.read.return_value = encode(response()).encode()
+        result.status = 200; result.getheader.return_value = 'req_test'; result.readline.side_effect = streamed()
         with patch.object(adapter.http.client, 'HTTPSConnection', return_value=connection) as factory, \
              patch.object(adapter.os, 'getenv', return_value='fake-test-key'):
             code, env = self.invoke(['--live', '--timeout', '12'])
@@ -147,10 +212,18 @@ class AdapterTests(unittest.TestCase):
             factory.assert_called_once_with('api.anthropic.com', timeout=12.0)
             args, kwargs = connection.request.call_args
             self.assertEqual(args[:2], ('POST', '/v1/messages'))
+            self.assertTrue(json.loads(kwargs['body'])['stream'])
             self.assertEqual(kwargs['headers'], {'x-api-key': 'fake-test-key', 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json'})
             connection.request.assert_called_once(); connection.close.assert_called_once()
-            result.read.assert_called_once_with(adapter.MAX_RESPONSE_BYTES + 1)
+            self.assertEqual({'task.tal': 'source'}, env['edits'])
+            self.assertEqual((10, 40, 'msg_live', 'req_test'), (env['usage']['input_tokens'], env['usage']['output_tokens'],
+                             env['provider_metadata']['response_id'], env['provider_metadata']['request_id']))
             self.assertIn('request_sha256', env['provider_metadata'])
+        result.readline.side_effect = streamed()[:-3] + [b""]  # Ends before message_stop.
+        with patch.object(adapter.http.client, 'HTTPSConnection', return_value=connection), \
+             patch.object(adapter.os, 'getenv', return_value='fake-test-key'):
+            code, env = self.invoke(['--live'])
+            self.assertEqual((2, 'stream_error'), (code, env['provider_metadata']['error']))
         connection.reset_mock(); result.status = 401
         result.read.return_value = b'{"type":"error","error":{"message":"fake-test-key"}}'
         with patch.object(adapter.http.client, 'HTTPSConnection', return_value=connection), patch.object(adapter.os, 'getenv', return_value='fake-test-key'):
@@ -160,15 +233,34 @@ class AdapterTests(unittest.TestCase):
 
     def test_network_errors_bounds_and_key_validation(self):
         with patch.object(adapter.http.client, 'HTTPSConnection', side_effect=OSError('fake-secret')) as factory, \
-             patch.object(adapter.os, 'getenv', return_value='fake-test-key'):
+             patch.object(adapter.os, 'getenv', return_value='fake-test-key'), \
+             patch.object(adapter.time, 'sleep') as sleep:
             code, env = self.invoke(['--live'])
-            self.assertEqual(code, 2); self.assertNotIn('fake-secret', encode(env)); factory.assert_called_once()
+            self.assertEqual(code, 2); self.assertNotIn('fake-secret', encode(env))
+            # Connection failures send nothing billable, so they are retried with backoff.
+            self.assertEqual(adapter.MAX_RETRIES + 1, factory.call_count)
+            self.assertEqual([1.0, 2.0, 4.0], [call.args[0] for call in sleep.call_args_list])
+            self.assertEqual(adapter.MAX_RETRIES, len(env['provider_metadata']['retries']))
         for key in ['', ' ', 'bad key', 'bad\nkey', 'é']:
             with patch.object(adapter.os, 'getenv', return_value=key), patch.object(adapter.http.client, 'HTTPSConnection') as factory:
                 self.assertEqual(self.invoke(['--live'])[0], 2); factory.assert_not_called()
         self.assertEqual(adapter.translate_response(b'x' * (adapter.MAX_RESPONSE_BYTES + 1))[1], 2)
         req = request(); req['messages'][1]['content'] = 'x' * adapter.MAX_REQUEST_BYTES
         with self.assertRaises(ValueError): adapter.build_request(req)
+
+    def test_overload_is_retried_after_the_server_delay(self):
+        overloaded, ok = Mock(), Mock()
+        overloaded.status = 529; overloaded.read.return_value = b'{"type":"error"}'
+        overloaded.getheader.side_effect = lambda name: {'retry-after': '7'}.get(name)
+        ok.status = 200; ok.getheader.return_value = 'req_ok'; ok.readline.side_effect = streamed()
+        connection = Mock(); connection.getresponse.side_effect = [overloaded, ok]
+        with patch.object(adapter.http.client, 'HTTPSConnection', return_value=connection), \
+             patch.object(adapter.os, 'getenv', return_value='fake-key'), \
+             patch.object(adapter.time, 'sleep') as sleep:
+            code, env = self.invoke(['--live'])
+        self.assertEqual(0, code)
+        sleep.assert_called_once_with(7.0)
+        self.assertEqual([{'http_status': 529}], env['provider_metadata']['retries'])
 
     def test_redirect_read_error_and_response_cap_never_retry(self):
         for status, data, error in [(302, encode(response()).encode(), None),
@@ -192,7 +284,7 @@ class AdapterTests(unittest.TestCase):
             for args in [[], ['--live', '--fixture', 'unused']]:
                 with patch.object(adapter.sys, 'stderr', io.StringIO()), self.assertRaises(SystemExit):
                     adapter.main(args)
-            for timeout in ['nan', 'inf', '0', '-1', '301']:
+            for timeout in ['nan', 'inf', '0', '-1', '601']:
                 self.assertEqual(self.invoke(['--live', '--timeout', timeout])[0], 2)
             stdin = Mock(buffer=io.BytesIO(b'x' * (adapter.MAX_REQUEST_BYTES + 1)))
             with patch.object(adapter.sys, 'stdin', stdin), patch.object(adapter.sys, 'stdout', io.StringIO()):
@@ -240,11 +332,16 @@ class AdapterTests(unittest.TestCase):
             fixture.write_text('{"schema":"invalid"}')
             with patch.object(adapter.os, 'getenv', side_effect=AssertionError('key')), \
                  patch.object(adapter.http.client, 'HTTPSConnection', side_effect=AssertionError('network')):
-                args = ['--live', '--write-config', str(target), '--model', 'explicit-model-version',
-                        '--tokenizer', 'unavailable:test', '--top-p', '0.5']
-                self.assertEqual(self.invoke(args)[0], 0)
+                base = ['--live', '--write-config', str(target), '--tokenizer', 'unavailable:test']
+                for extra in (['--model', 'claude-opus-5-5'],  # Live runs pin effort explicitly.
+                              ['--model', 'claude-opus-5-5', '--effort', 'high', '--top-p', '0.5'],
+                              ['--model', 'unpriced-model', '--effort', 'high']):
+                    self.assertEqual(self.invoke(base + extra)[0], 2)
+                    self.assertFalse(target.exists())
+                self.assertEqual(self.invoke(base + ['--model', 'claude-opus-5-5', '--effort', 'high'])[0], 0)
                 config = json.loads(target.read_text())
-                self.assertEqual(config['settings'], {'max_tokens': 2048, 'top_p': 0.5})
+                self.assertEqual(config['settings'], {'max_tokens': 32000, 'effort': 'high'})
+                self.assertIn(str(adapter.PRICING_PATH), config['artifacts'])
                 self.assertEqual(config['provider'], 'anthropic'); self.assertEqual(config['kind'], 'live')
                 self.assertEqual(self.invoke(['--fixture', str(fixture)])[0], 2)
                 fixture.write_bytes(b'x' * (adapter.MAX_REQUEST_BYTES + 1))

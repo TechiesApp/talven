@@ -69,6 +69,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 
 | Document | Purpose |
 | --- | --- |
+| [Language reference](docs/language-reference.md) | Short, complete rules of the implemented language profile; the text given to evaluated models |
 | [Prototype guide](docs/prototype.md) | Current implemented grammar, commands, contracts, limits, and design tradeoffs |
 | [Hello World, static text and console output](docs/text-console.md) | Runnable greeting, UTF-8 byte views, explicit POSIX output and error behavior |
 | [Development watch and restart](docs/development.md) | Single-file full rebuilds, safe candidate replacement, cleanup, and revision receipts |

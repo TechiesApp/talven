@@ -1,6 +1,6 @@
 # Repository guidance for coding agents
 
-This repository contains the reference compiler with M1c borrowing, formatting tools, and broader design proposals for Talven, an LLM-first native systems language. Read README.md, docs/prototype.md, docs/borrowing.md, and the relevant design documents before making changes.
+This repository contains the reference compiler with M1c borrowing, formatting tools, and broader design proposals for Talven, an LLM-first native systems language. Read README.md, docs/language-reference.md (the implemented language rules), docs/prototype.md, docs/borrowing.md, and the relevant design documents before making changes.
 
 ## Preserve the product intent
 
