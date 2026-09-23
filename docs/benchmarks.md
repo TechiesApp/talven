@@ -12,7 +12,7 @@ Talven is early. This page gathers the measurements it has so far, so you can ju
 | Does compiler context stay small as programs grow? | Selected-symbol context stayed at **~1.5 KB** while source grew **4×** (2.2 KB to 8.6 KB) | [Bounded context](#compiler-context-stays-bounded) |
 | How fast is the native checker? | Checks a **2,400-line** program in **4.1 ms** end to end, start-up included | [Checker speed](#native-checker-speed) |
 | How small can programs be? | A no-libc Linux program links to **2,800 bytes** with **1,072 bytes** of code | [Footprint](#small-freestanding-programs) |
-| Is the implementation trustworthy? | 270+ tests, a **548-case** differential suite between two independent compilers, sanitizers, and CI on Linux x86-64 and ARM64 | [Correctness](#correctness-investment) |
+| Is the implementation trustworthy? | 270+ tests, a **651-case** differential suite between two independent compilers, sanitizers, and CI on Linux x86-64 and ARM64 | [Correctness](#correctness-investment) |
 
 ## Agents can use it today
 
@@ -59,7 +59,7 @@ Source grew about four times; the context an agent needs for the edit did not. T
 
 The native time is almost entirely process start-up: it barely changes between 83 and 2,403 lines. The Python reference is the specification-grade implementation; it scales linearly and is fine for today's program sizes.
 
-**Limits.** Clang and rustc do more work for richer languages, include standard-library or header processing, and start larger processes, so their columns give scale rather than a like-for-like race. The native prototype covers scalars and text only, not records or borrowing. One host, one run.
+**Limits.** Clang and rustc do more work for richer languages, include standard-library or header processing, and start larger processes, so their columns give scale rather than a like-for-like race. The measured native prototype covered scalars and text only; it has since gained by-value records (not borrowing), which these scalar-only workloads do not exercise and which were not re-measured. One host, one run.
 
 ## Small freestanding programs
 
@@ -135,7 +135,7 @@ Read the table as the scale of each toolchain on small programs, not as a rankin
 
 ## Correctness investment
 
-- **Two compilers, one behavior.** The Python reference and the Rust prototype are compared on 548 cases (examples, 116 hand-written edge cases, 160 random programs, 260 mutations): diagnostics must match code, message, and range, and emitted C must be byte-identical and run identically.
+- **Two compilers, one behavior.** The Python reference and the Rust prototype are compared on 651 cases (22 example, fixture, and corpus files, 209 hand-written edge cases, 160 random programs, 260 mutations): diagnostics must match code, message, and range, and emitted C must be byte-identical and run identically.
 - **Sanitizers.** Borrowing and text lifetimes run under ASan and UBSan.
 - **Test coverage.** The reference suite has 270+ tests and runs in CI on Linux x86-64 and ARM64 with no skips allowed.
 

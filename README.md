@@ -64,7 +64,7 @@ fn main() -> i32 {
 | **Speed** | The native checker handles a **2,400-line** program in about **4–7 ms**, including process start-up. That is faster than `clang`, `go`, `rustc`, `javac`, and `tsc` checking the same program |
 | **Run time** | Compiled programs run at native speed with overflow checks: level with Go on recursive `fib(35)`, ahead of Java and TypeScript |
 | **Size** | Hello World is a **33 KB** executable with no runtime to install; a program with no libc links to **2,800 bytes** |
-| **Correctness** | 270+ tests, a 548-case differential suite between two independent compilers, and sanitizers, with CI on Linux x86-64 and ARM64 |
+| **Correctness** | 270+ tests, a 651-case differential suite between two independent compilers, and sanitizers, with CI on Linux x86-64 and ARM64 |
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/benchmarks/check-dark.svg">
@@ -100,7 +100,7 @@ Run the test suite with `python3 -m unittest discover -s tests`. For editor supp
 | Tooling | `check`, `fmt`, `context`, `build`, `emit-c`, `dev` (watch and restart), `edit` previews, and an LSP |
 | Targets | Native executables through C11 on Linux x86-64 and ARM64 (in CI) and macOS; a no-libc Linux mode |
 | Agent evaluation | A reproducible harness with paired source-only and compiler-context conditions, independent native acceptance, and priced token accounting |
-| Native compiler | A Rust prototype of the scalar subset, kept identical to the reference by a differential suite |
+| Native compiler | A Rust prototype of the scalar, text, and by-value record subset (no borrowing yet), kept identical to the reference by a differential suite |
 
 Not built yet: loops, heap allocation, generics, modules, concurrency, a package manager, and GPU backends. See the [roadmap](docs/roadmap.md).
 

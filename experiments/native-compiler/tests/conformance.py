@@ -111,8 +111,44 @@ fn main() -> i32 {
                 diagnostic = json.loads(result.stdout)["diagnostics"][0]
                 self.assertEqual(caught.exception.code, diagnostic["code"])
 
-    def test_records_are_unsupported_and_record_free_syntax_matches_reference(self):
-        for source in ["struct A { x: i32 }", "fn main() -> i32 { return 0; } struct A { x: i32 }"]:
+    def test_by_value_records_run_with_independent_results(self):
+        vectors = self.run_native((ROOT / "examples/vectors.tal").read_text(), sanitizer=True)
+        self.assertEqual((0, b"", b""), (vectors.returncode, vectors.stdout, vectors.stderr))
+        source = '''struct P { x: i32, ok: bool }
+fn mark(s: str) -> i32 { return print(s); }
+fn make(v: i32) -> P { return P { ok: mark("m") == 0, x: v }; }
+fn step(p: P) -> P { if (p.ok) { return P { x: p.x * 3, ok: false }; } return p; }
+fn main() -> i32 {
+    let p = P { x: mark("a") + 5, ok: mark("b") == 0, };
+    let q = step(p);
+    return q.x + step(make(2)).x + P { ok: true, x: 1 }.x;
+}'''
+        # 15 + 6 + 1, with record initializers and calls evaluated in source order.
+        result = self.run_native(source, console=True, sanitizer=True)
+        self.assertEqual((22, b"abm", b""), (result.returncode, result.stdout, result.stderr))
+        trap = self.run_native("struct P { x: i32 } fn main() -> i32 { return P { x: 2147483647 + 1 }.x; }",
+                               sanitizer=True)
+        self.assertLess(trap.returncode, 0)
+
+    def test_record_moves_and_fields_agree_with_reference(self):
+        prelude = "struct P { x: i32 } fn take(p: P) -> bool { return p.x > 0; } "
+        for body in ["let q = p; return p.x;", "if (c) { take(p); } return p.x;",
+                     "if (false && take(p)) { return 1; } return p.x;", "if (c) { let q = p; return q.x; } return p.x;",
+                     "return P { x: 1, x: 2 }.x;", "return P { }.x;", "return p.y;", "if (p == p) { return 1; } return 0;"]:
+            source = prelude + "fn f(p: P, c: bool) -> i32 { " + body + " }"
+            with self.subTest(source=source):
+                try:
+                    analyze(source)
+                    expected = None
+                except CompileError as caught:
+                    expected = caught.diagnostic(source)
+                diagnostics = json.loads(self.command(source).stdout)["diagnostics"]
+                self.assertEqual(expected, {**diagnostics[0], "source": "talven"} if diagnostics else None)
+
+    def test_borrowing_and_mutation_are_unsupported_only_with_records(self):
+        for source in ["struct A { x: i32 } fn f(a: &A) -> i32 { return a.x; }",
+                       "struct A { x: i32 } fn f() -> i32 { let mut a = A { x: 1 }; a.x = 2; return a.x; }",
+                       (ROOT / "examples/borrowing.tal").read_text()]:
             result = self.command(source)
             self.assertEqual(1, result.returncode)
             self.assertEqual("E0801", json.loads(result.stdout)["diagnostics"][0]["code"])
