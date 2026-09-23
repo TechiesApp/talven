@@ -2,7 +2,9 @@ use std::ffi::OsString;
 use std::fs::File;
 use std::io::{self, Read, Write};
 use std::path::Path;
-use talven_native::{Error, MAX_SOURCE, PROFILE, analyze, emit_c, receipt};
+use talven_native::{
+    Error, MAX_SOURCE, PROFILE, analyze, emit_c, line_character, receipt, size_error,
+};
 fn main() {
     std::process::exit(run());
 }
@@ -67,11 +69,7 @@ fn run() -> i32 {
             .read_to_end(&mut bytes)
             .map_err(io_error)?;
         if bytes.len() > MAX_SOURCE {
-            return Err(Error {
-                code: "E0005",
-                message: "Source exceeds 256 KiB".into(),
-                span: 0..0,
-            });
+            return Err(size_error());
         }
         source = String::from_utf8(bytes).map_err(io_error)?;
         let program = analyze(&source)?;
@@ -97,9 +95,13 @@ fn run() -> i32 {
                     .lock()
                     .write_all(receipt(&source, Some(&error)).as_bytes());
             } else {
+                // The reference CLI's one-based line:character prefix.
+                let (line, character) = line_character(&source, error.span.start);
                 eprintln!(
-                    "{}: {}: {}",
+                    "{}:{}:{}: {}: {}",
                     Path::new(&args[1]).display(),
+                    line + 1,
+                    character + 1,
                     error.code,
                     error.message
                 );
@@ -116,23 +118,37 @@ fn io_error(error: impl std::fmt::Display) -> Error {
     }
 }
 
-// O_NONBLOCK values for the two inspected host ABIs. Other OSes fail explicitly.
-#[cfg(any(target_os = "linux", target_os = "macos"))]
+// O_NONBLOCK differs by OS and, on Linux, by architecture (for example 0x80 on MIPS and
+// 0x4000 on Alpha/SPARC). Only the inspected ABIs are enabled; every other target fails
+// explicitly instead of guessing a flag value.
+#[cfg(any(
+    all(
+        target_os = "linux",
+        any(target_arch = "x86_64", target_arch = "aarch64")
+    ),
+    target_os = "macos"
+))]
 fn open_source(path: &Path) -> io::Result<File> {
     use std::os::unix::fs::OpenOptionsExt;
     #[cfg(target_os = "linux")]
-    let nonblocking = 0x800;
+    const O_NONBLOCK: i32 = 0x800;
     #[cfg(target_os = "macos")]
-    let nonblocking = 0x4;
+    const O_NONBLOCK: i32 = 0x4;
     File::options()
         .read(true)
-        .custom_flags(nonblocking)
+        .custom_flags(O_NONBLOCK)
         .open(path)
 }
-#[cfg(not(any(target_os = "linux", target_os = "macos")))]
+#[cfg(not(any(
+    all(
+        target_os = "linux",
+        any(target_arch = "x86_64", target_arch = "aarch64")
+    ),
+    target_os = "macos"
+)))]
 fn open_source(_: &Path) -> io::Result<File> {
     Err(io::Error::new(
         io::ErrorKind::Unsupported,
-        "Native experiment requires Linux or macOS file opening",
+        "Native experiment opens sources only on Linux x86-64/aarch64 and macOS",
     ))
 }

@@ -17,15 +17,19 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # The Rust experiment builds and runs once per architecture.
           - runner: ubuntu-24.04
             arch: x86_64
             python: '3.11'
+            native: false
           - runner: ubuntu-24.04
             arch: x86_64
             python: '3.12'
+            native: true
           - runner: ubuntu-24.04-arm
             arch: aarch64
             python: '3.12'
+            native: true
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -111,16 +115,21 @@ jobs:
           TALVEN_EXPECT_ARCH: ${{ matrix.arch }}
         run: python3 scripts/check-freestanding.py --expect-arch "$TALVEN_EXPECT_ARCH" --out build/freestanding-check
       - name: Build and verify the bounded native compiler experiment
+        if: matrix.native
         run: |
-          rustup toolchain install 1.96.0 --profile minimal --component rustfmt
+          rustup toolchain install 1.96.0 --profile minimal --component rustfmt,clippy
           cargo +1.96.0 fmt --manifest-path experiments/native-compiler/Cargo.toml --check
+          cargo +1.96.0 clippy --locked --offline --all-targets --manifest-path experiments/native-compiler/Cargo.toml -- -D warnings
+          cargo +1.96.0 test --locked --offline --manifest-path experiments/native-compiler/Cargo.toml
           cargo +1.96.0 build --release --offline --locked --manifest-path experiments/native-compiler/Cargo.toml
           python3 experiments/native-compiler/tests/conformance.py
+          python3 experiments/native-compiler/tests/differential.py
           python3 experiments/native-compiler/tests/comparison.py
       - name: Compare verified overlapping native and reference workloads
+        if: matrix.native
         run: python3 scripts/measure-native-prototype.py --native experiments/native-compiler/target/release/talven-native --expect-arch '${{ matrix.arch }}' --out build/native-comparison --repetitions 3 --warmups 1 --environment-note 'GitHub Actions shared runner; Rust 1.96.0 Cargo release defaults recorded in manifest'
       - name: Preserve native comparison evidence
-        if: always()
+        if: always() && matrix.native
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: native-comparison-${{ matrix.arch }}-python-${{ matrix.python }}

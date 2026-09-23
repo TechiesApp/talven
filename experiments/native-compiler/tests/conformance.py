@@ -111,12 +111,24 @@ fn main() -> i32 {
                 diagnostic = json.loads(result.stdout)["diagnostics"][0]
                 self.assertEqual(caught.exception.code, diagnostic["code"])
 
-    def test_unsupported_records_and_borrowing_never_fall_back(self):
-        for source in ["struct A { x: i32 }", "fn f(x: &A) -> i32 { return 0; }",
-                       "fn f() -> i32 { let mut x = 0; return x; }"]:
+    def test_records_are_unsupported_and_record_free_syntax_matches_reference(self):
+        for source in ["struct A { x: i32 }", "fn main() -> i32 { return 0; } struct A { x: i32 }"]:
             result = self.command(source)
             self.assertEqual(1, result.returncode)
             self.assertEqual("E0801", json.loads(result.stdout)["diagnostics"][0]["code"])
+        # Without records, borrow/field/mutation syntax always fails with the reference diagnostic.
+        for source in ["fn f(x: &A) -> i32 { return 0; }", "fn f(x: &i32) -> i32 { return 0; }",
+                       "fn f() -> i32 { let mut x = 0; return x; }", "fn f(x: i32) -> i32 { return x.y; }",
+                       "fn f() -> i32 { return P { x: 1 }; }"]:
+            with self.subTest(source=source):
+                with self.assertRaises(CompileError) as caught:
+                    analyze(source)
+                result = self.command(source)
+                self.assertEqual(1, result.returncode)
+                self.assertEqual(caught.exception.diagnostic(source)["range"],
+                                 json.loads(result.stdout)["diagnostics"][0]["range"])
+                self.assertEqual((caught.exception.code, caught.exception.message),
+                                 tuple(json.loads(result.stdout)["diagnostics"][0][k] for k in ("code", "message")))
 
     def test_entry_console_and_no_implicit_output(self):
         hello = (ROOT / "examples/hello.tal").read_text()
@@ -130,7 +142,7 @@ fn main() -> i32 {
 
     def test_limits_and_invalid_utf8_report_without_crashing(self):
         for source in [b"\xff", b" " * (256 * 1024 + 1),
-                       "fn f() -> i32 { return " + "("*300 + "1" + ")"*300 + "; }",
+                       "fn f() -> i32 { return " + "("*2000 + "1" + ")"*2000 + "; }",
                        "fn f() -> i32 { return " + "+".join(["1"] * 10000) + "; }"]:
             result = self.command(source)
             self.assertEqual(1, result.returncode, result.stderr)

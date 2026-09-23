@@ -1,6 +1,6 @@
 # Native scalar compiler experiment
 
-Status: bounded Rust prototype, `native-scalar-text-v1`. This is an implementation experiment under [Proposal 0013](../../docs/proposals/0013-native-scalar-compiler.md), not a replacement for the full Python reference or a production toolchain selection. It directly parses, checks, and emits C11; it never launches Python, a shell, or another compiler.
+Status: bounded Rust prototype, `native-scalar-text-v1`. This is an implementation experiment under [Proposal 0013](../../docs/proposals/0013-native-scalar-compiler.md), not a replacement for the full Python reference or a production toolchain selection. It directly parses, checks, and emits C11; it never launches Python, a shell, or another compiler. The lexer, parser, checker and hosted emitter are a hand-written port of `talven/frontend.py` and `talven/backend.py`, kept in step by a shared differential corpus.
 
 ## Build and run
 
@@ -17,7 +17,7 @@ cc -std=c11 -O2 -Wall -Wextra -pedantic-errors build/native-hello.c -o build/nat
 
 Install the pinned Rust toolchain first if absent. This does not provide a native `build` driver, formatter, context API, LSP, watch integration, installer, freestanding backend, or incremental compiler. `emit-c` writes to stdout without modifying source. The shell/C compiler steps above remain explicit. Redirect to a separate output path: shell redirection can truncate a source before the compiler starts.
 
-The current hosted experiment targets Linux aarch64 and x86-64, exercised by the repository CI. macOS has an input-opening implementation and local tests, not a complete supported target profile. Other operating systems reject source opening. Both the compiler and generated executable may depend on host libraries; neither is a statically linked or single-dependency distribution claim. The compiler uses Rust's heap and standard library; emitted Talven text/arithmetic introduces no new language allocator or managed runtime.
+The current hosted experiment targets Linux aarch64 and x86-64, exercised by the repository CI. macOS has an input-opening implementation and local tests, not a complete supported target profile. Other operating systems and other Linux architectures reject source opening rather than guess their `O_NONBLOCK` value. Both the compiler and generated executable may depend on host libraries; neither is a statically linked or single-dependency distribution claim. The compiler uses Rust's heap and standard library; emitted Talven text/arithmetic introduces no new language allocator or managed runtime.
 
 ## Declared subset
 
@@ -25,27 +25,32 @@ The current hosted experiment targets Linux aarch64 and x86-64, exercised by the
 - Named functions, forward calls, recursion, `if`/`else`, return-path checking, and discarded expression statements. Local shadowing and duplicate/reserved global declarations are rejected.
 - Checked i32 arithmetic, signed division/remainder semantics, comparisons, scalar equality, short-circuit booleans, and source-order calls. There are no text operators or implicit conversions.
 - [Static UTF-8 text and optional `print`](../../docs/text-console.md), including static storage after returning a view, embedded NUL, empty text, output status, short writes, and EINTR handling. `--console` is required for C emission using `print`, even in an uncalled function. Checking itself does not grant console access or require a native entry point.
-- Hosted emission requires `fn main() -> i32`. C helpers retain the reference's checked arithmetic and POSIX output contract in inspected source files; no Python generation occurs during Cargo builds.
+- Hosted emission requires `fn main() -> i32`. C helpers retain the reference's checked arithmetic and POSIX output contract in inspected source files (`src/runtime.c`, `src/console.c`); like the reference, only referenced helpers, and the trap only when a helper is emitted, appear in the output. For accepted programs the emitted C is byte-identical to the reference's hosted output. No Python generation occurs during Cargo builds.
 
-Records, owned/moved records, borrowing, field access, and mutation are explicitly unsupported (`E0801`); there is no fallback to the reference. A named type outside the three supported types also receives `E0801`, so an unknown-type diagnostic is not reference-compatible. Existing vectors/borrowing examples require the reference compiler. Unsupported CLI commands/options fail with status 2.
+Struct declarations, and therefore records, moves, borrowing of records, field access and mutation, are unsupported: a program the reference parses successfully that declares a `struct` receives `E0801` after the syntax-tree depth check. There is no fallback to the reference. Without records, borrow, field, record-literal, assignment and `let mut` syntax is always an error in the reference too, and the native checker reports the same diagnostic (for example `E0305` at the name for `let mut x = 1`, or `E0101 Unknown type` for an unknown type name). Existing vectors/borrowing examples require the reference compiler. Unsupported CLI commands/options fail with status 2.
 
-The arena-based expression representation avoids recursively dropping an unbounded expression tree. Limits are 256 KiB source and 16384 tokens, with conservative parser/tree nesting guards of 128; nesting guard boundaries are not identical to Python's parser/AST limits. These are resource guards, not host CPU/memory quotas. Input uses nonblocking opened-descriptor checks to reject FIFOs/nonregular files; paths use OS strings, and source contents require UTF-8.
+The arena-based expression representation avoids recursively dropping an unbounded expression tree. Limits are 256 KiB source and 16384 tokens. The reference's 128-level syntax-tree walk is reproduced exactly, including its traversal order, so the reported node for a long `+` chain matches; parentheses add no level. The reference parser is recursive and reports Python's recursion limit as `E0005` at 0:0; the native parser counts the equivalent Python call depth and matches the reference CLI under CPython 3.12 and 3.13 (for example 989 nested parentheses pass and 990 fail). Under CPython 3.11 and 3.14 that boundary moves by one level, so results within a level or two of it are interpreter-dependent. These are resource guards, not host CPU/memory quotas. Input uses nonblocking opened-descriptor checks to reject FIFOs/nonregular files; paths use OS strings, and source contents require UTF-8.
 
 ## Diagnostics and identity
 
-`check SOURCE --json` returns a `talven.diagnostics.v1` envelope with an additional mandatory `profile: native-scalar-text-v1`. This profile is narrower than the reference language. Diagnostics carry familiar codes, native messages, `source: talven-native`, and zero-based UTF-16 ranges. Selected supported error codes/ranges are tested against the reference; complete wording, error-priority, context-schema, and limit-boundary equivalence are not claimed. Success exits 0, a source/I/O/emission diagnostic exits 1, and usage errors exit 2.
+`check SOURCE --json` returns a `talven.diagnostics.v1` envelope with an additional mandatory `profile: native-scalar-text-v1`. This profile is narrower than the reference language. Diagnostics carry the reference's codes, messages and zero-based UTF-16 ranges, with `source: talven-native`; human-readable errors use the reference's `PATH:LINE:COLUMN: CODE: MESSAGE` form. Parity is tested on the differential corpus below, not proven for all inputs. Known differences: `E0801` for struct programs, the wording of `E0901` I/O and invalid-UTF-8 errors (host library text), and the interpreter-dependent recursion boundary above. Context/LSP schemas are not implemented. Success exits 0, a source/I/O/emission diagnostic exits 1, and usage errors exit 2.
 
 `--version` identifies the experimental CLI/profile. `--build-info` reports the Rust version, target, Cargo profile/optimization level, effective encoded Rust flags, target features/debug setting, present profile environment overrides, and exact compiler source/Cargo input text embedded at build time. The comparison requires those source bytes to match the archived checkout; a stale native executable is rejected. This adds embedded source bytes to the experimental binary size. The metadata and executable hashes are provenance data, not authenticated attestations; system linkers/libraries and complete external Cargo configuration are not bundled.
 
 ## Verify and measure
 
 ~~~sh
+cargo +1.96.0 clippy --locked --offline --all-targets --manifest-path experiments/native-compiler/Cargo.toml -- -D warnings
+cargo +1.96.0 test --locked --offline --manifest-path experiments/native-compiler/Cargo.toml
 python3 experiments/native-compiler/tests/conformance.py
+python3 experiments/native-compiler/tests/differential.py
 python3 experiments/native-compiler/tests/comparison.py
 python3 scripts/measure-native-prototype.py --native experiments/native-compiler/target/release/talven-native --out build/native-comparison --repetitions 5 --warmups 1
 ~~~
 
 Set `TALVEN_NATIVE` to a different already-built executable for the tests. The comparison command requires `--native`. Native acceptance needs `cc` with ASan/UBSan; failures are not skipped. The original reference suite still runs separately through `python3 -m unittest discover -s tests -v`.
+
+The differential suite (`tests/differential.py`) runs both CLIs on every example, invalid example, test fixture and borrowing corpus source, 116 hand-written lexer/parser/checker/limit edge cases, 160 seeded random well-typed scalar programs, and 260 seeded token mutations. It compares ok/failure, diagnostic code, message, severity and range; requires byte-identical `emit-c` output (with and without `--console`) or identical failures; and compiles and runs both C outputs with `-Werror`, comparing exit status and stdout with each other and, for generated programs, with an independent Python evaluator of Talven scalar semantics. Its allowlist names each expected divergence explicitly (`E0801` for struct programs the reference parses; `E0901` message text for invalid UTF-8), and any other difference fails.
 
 The conformance suite checks actual greeting bytes, static text lifetimes, ordered console calls, short-circuit traps, independently computed integer results, overflow/division traps, declared unsupported features, limits, input paths, and selected diagnostic parity. Comparison tests check failure retention, immutable run destinations, complete verified sample counts, and that the unchanged chain oracle rejects an implementation which always returns zero.
 
