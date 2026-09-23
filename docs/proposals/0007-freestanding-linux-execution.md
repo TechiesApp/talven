@@ -1,6 +1,6 @@
 # Proposal 0007: Freestanding Linux execution
 
-- Status: Draft
+- Status: Accepted by the project owner on 24 September 2026
 - Author(s): Talven contributors
 - Requirements affected: R09, R10, R11, R15, R16
 - Decisions affected: D07, D09, D10, new D32

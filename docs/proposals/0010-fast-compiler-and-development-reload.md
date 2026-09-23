@@ -1,6 +1,6 @@
 # Proposal 0010: Fast compiler and development reload
 
-- Status: Draft; records owner-requested performance and reload requirements. Implementation choices below remain proposals.
+- Status: Accepted by the project owner on 24 September 2026; records owner-requested performance and reload requirements. Implementation choices below remain proposals.
 - Author(s): Talven contributors
 - Requirements affected: R01, R03, R04, R08, R11, R12, R15, new R24 and R25
 - Decisions affected: D08, D22, D24, D33, D34, new D35 through D38

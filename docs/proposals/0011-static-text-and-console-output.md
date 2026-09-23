@@ -1,6 +1,6 @@
 # Proposal 0011: Static text and optional console output
 
-- Status: Draft
+- Status: Accepted by the project owner on 24 September 2026
 - Author(s): Talven contributors, following the owner's Hello World request
 - Requirements affected: R01, R07, R08, R10, R11, R12, R15, R24, R25
 - Decisions affected: D07, D09, D28, D39

@@ -1,6 +1,6 @@
 # Proposal 0009: Offline compiler and tooling baseline
 
-- Status: Draft
+- Status: Accepted by the project owner on 24 September 2026
 - Author(s): Talven contributors
 - Requirements affected: R01, R04, R09, R11, R12, R15
 - Decisions affected: D08, D22, D24, new D34

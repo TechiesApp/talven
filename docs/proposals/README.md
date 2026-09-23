@@ -28,17 +28,17 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | Number | Title | Status |
 | --- | --- | --- |
 | 0000 | [Template](0000-template.md) | Template |
-| 0001 | [M1a reference compiler and agent interface](0001-m1a-reference-compiler.md) | Draft |
-| 0002 | [Canonical formatting and native checks](0002-canonical-formatting-and-native-checks.md) | Draft |
-| 0003 | [Call-scoped borrowing](0003-call-scoped-borrowing.md) | Draft |
-| 0004 | [Reproducible agent evaluation](0004-reproducible-agent-evaluation.md) | Draft |
-| 0005 | [Borrowing evaluation corpus](0005-borrowing-evaluation-corpus.md) | Draft |
-| 0006 | [Anthropic evaluation adapter](0006-anthropic-evaluation-adapter.md) | Draft |
-| 0007 | [Freestanding Linux execution](0007-freestanding-linux-execution.md) | Draft |
-| 0008 | [Revision-checked edit validation](0008-revision-checked-edit-validation.md) | Draft |
-| 0009 | [Offline compiler and tooling baseline](0009-offline-tooling-baseline.md) | Draft |
-| 0010 | [Fast compiler and development reload](0010-fast-compiler-and-development-reload.md) | Draft |
-| 0011 | [Static text and optional console output](0011-static-text-and-console-output.md) | Draft |
-| 0012 | [Development watch and restart](0012-development-watch-and-restart.md) | Draft |
-| 0013 | [Native scalar compiler experiment](0013-native-scalar-compiler.md) | Draft |
-| 0014 | [Live pilot readiness for agent evaluation](0014-live-pilot-readiness.md) | Draft |
+| 0001 | [M1a reference compiler and agent interface](0001-m1a-reference-compiler.md) | Accepted |
+| 0002 | [Canonical formatting and native checks](0002-canonical-formatting-and-native-checks.md) | Accepted |
+| 0003 | [Call-scoped borrowing](0003-call-scoped-borrowing.md) | Accepted |
+| 0004 | [Reproducible agent evaluation](0004-reproducible-agent-evaluation.md) | Accepted |
+| 0005 | [Borrowing evaluation corpus](0005-borrowing-evaluation-corpus.md) | Accepted |
+| 0006 | [Anthropic evaluation adapter](0006-anthropic-evaluation-adapter.md) | Accepted |
+| 0007 | [Freestanding Linux execution](0007-freestanding-linux-execution.md) | Accepted |
+| 0008 | [Revision-checked edit validation](0008-revision-checked-edit-validation.md) | Accepted |
+| 0009 | [Offline compiler and tooling baseline](0009-offline-tooling-baseline.md) | Accepted |
+| 0010 | [Fast compiler and development reload](0010-fast-compiler-and-development-reload.md) | Accepted |
+| 0011 | [Static text and optional console output](0011-static-text-and-console-output.md) | Accepted |
+| 0012 | [Development watch and restart](0012-development-watch-and-restart.md) | Accepted |
+| 0013 | [Native scalar compiler experiment](0013-native-scalar-compiler.md) | Accepted |
+| 0014 | [Live pilot readiness for agent evaluation](0014-live-pilot-readiness.md) | Accepted |

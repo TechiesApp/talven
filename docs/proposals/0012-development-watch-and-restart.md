@@ -1,6 +1,6 @@
 # Proposal 0012: Development watch and restart
 
-- Status: Draft; bounded experimental implementation
+- Status: Accepted by the project owner on 24 September 2026; bounded experimental implementation
 - Author(s): Talven contributors
 - Requirements affected: R01, R08, R10, R24, R25; see [requirements](../requirements.md)
 - Decisions affected: D38, new D40; see [decisions](../decisions.md)
