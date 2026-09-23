@@ -8,8 +8,8 @@ The priority order is agent effectiveness, semantic clarity and safety, native c
 
 | ID | Requirement from the design discussion | Proposed evidence | Current evidence |
 | --- | --- | --- | --- |
-| R01 | LLM and agentic coding is the primary focus | Controlled coding tasks measuring correctness, context size, repairs, and total tokens | Partial: evaluation harness with priced, paired conditions ([experiments](../experiments/README.md)); no live model result |
-| R02 | Reduce token use | Compare total task tokens across tokenizers and models, including specification and repair overhead | None measured: no model token results yet |
+| R01 | LLM and agentic coding is the primary focus | Controlled coding tasks measuring correctness, context size, repairs, and total tokens | Partial: evaluation harness with priced, paired conditions; [first live pilot](pilot-evidence.md) 16/16 at a ceiling, no condition effect measurable yet |
+| R02 | Reduce token use | Compare total task tokens across tokenizers and models, including specification and repair overhead | Partial: pilot token counts per condition recorded ([pilot](pilot-evidence.md)); no cross-language baseline |
 | R03 | Excellent LSP | Incremental diagnostics, completion, definition, references, rename, ownership and effect information | Partial: diagnostics, hover, definition, symbols, formatting over full sync ([prototype](prototype.md#editor-integration)); no completion, references, or rename |
 | R04 | Make context easy to cache and reuse | Deterministic context records, versioned keys, precise invalidation, and measured cache behavior | Partial: deterministic context v2 with versioned cache keys; cache behavior not measured |
 | R05 | Be context-driven | Compiler-generated task context; program semantics remain defined by source and dependencies | Partial: compiler context and [edit previews](edit-validation.md) |

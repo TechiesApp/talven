@@ -79,6 +79,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 | [Borrowing guide](docs/borrowing.md) | Call-scoped loans, mutation, evaluation order, and context v2 migration |
 | [M1c validation](docs/borrowing-validation.md) | Borrow rejection, native ordering/lifetimes, LSP/context, and sanitizer evidence |
 | [Agent experiments](experiments/README.md) | Reproducible evaluation harness, independent acceptance, adapter protocol, and measurement accounting |
+| [First live pilot](docs/pilot-evidence.md) | Opus 5.5 on both corpora: 16/16 first-attempt passes, list-price cost, and why it cannot yet compare conditions |
 | [Evaluation validation](docs/evaluation-validation.md) | Actual harness test and offline fixture evidence, with unmeasured model metrics explicit |
 | [Borrowing evaluation validation](docs/borrowing-evaluation-validation.md) | Separate borrowing corpus, independent acceptance, and actual offline execution evidence |
 | [Provider adapter guide](experiments/adapters/README.md) | Optional Anthropic Messages adapter, offline fixtures, explicit live configuration, and usage accounting |
@@ -118,7 +119,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 
 ## First implementation objective
 
-M1a starts the agent workflow and native subset; M1b adds canonical formatting and native CI; M1c adds a defined call-scoped borrowing subset. The [evaluation harness](experiments/README.md) runs the original corpus and a separately selected borrowing corpus with independent native acceptance, source-only/compiler-context conditions, bounded repairs, and provenance-aware token/cost reporting. Borrowing tasks cover loan conflicts, permissions, reborrowing, and evaluation order. Offline fixtures validate the harness; no live model comparison or token savings is claimed. Consult the validation records for successful target runs. Completing M1 still requires controlled agent task evaluations and review of the implemented rules. Expand the runtime and ecosystem after these foundations have evidence.
+M1a starts the agent workflow and native subset; M1b adds canonical formatting and native CI; M1c adds a defined call-scoped borrowing subset. The [evaluation harness](experiments/README.md) runs the original corpus and a separately selected borrowing corpus with independent native acceptance, source-only/compiler-context conditions, bounded repairs, and provenance-aware token/cost reporting. Borrowing tasks cover loan conflicts, permissions, reborrowing, and evaluation order. Offline fixtures validate the harness. A [first live pilot](docs/pilot-evidence.md) passed every task in both conditions, so no condition comparison or token saving is claimed yet. Consult the validation records for successful target runs. Completing M1 still requires controlled agent task evaluations and review of the implemented rules. Expand the runtime and ecosystem after these foundations have evidence.
 
 ## Project status
 

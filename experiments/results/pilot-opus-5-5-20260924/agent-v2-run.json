@@ -1,0 +1,1842 @@
+{
+  "adapter": {
+    "artifact_hashes": {
+      "~/.local/share/claude/versions/2.1.280": "387a5c5dcdbb815085edf0baf79591f9d8894efe922bceaf3d75b1b08055229d",
+      "~/Documents/project/talven/experiments/adapters/anthropic-pricing.json": "33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798",
+      "~/Documents/project/talven/experiments/adapters/anthropic_messages.py": "0fe0bd56cfed0b80c14fc2076cddae640343555799bb40961d369dcb6d353563",
+      "~/Documents/project/talven/experiments/adapters/claude_code_cli.py": "a9c3ea4b9e28049897fb6fbd6debe2452217e748a2219f88b122179f95d824e1",
+      "~/Documents/project/talven/experiments/metrics.py": "b907deec882e9fb8c6c1a7c6d9c1a4dc88cebc495f1ac506276aae8e23edf47f",
+      "~/Documents/project/talven/experiments/protocol.py": "efa2ef0d8224a517bb571a27b478b67f03855b0b5c95145644e80e2bb6c6cf6e",
+      "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/bin/python3.14": "87d4df53fd91304be5bac391fb204643c36b7df2023c04a0953bcbc7d4fdf634"
+    },
+    "artifacts": [
+      "~/Documents/project/talven/experiments/adapters/claude_code_cli.py",
+      "~/Documents/project/talven/experiments/adapters/anthropic_messages.py",
+      "~/Documents/project/talven/experiments/protocol.py",
+      "~/Documents/project/talven/experiments/metrics.py",
+      "~/Documents/project/talven/experiments/adapters/anthropic-pricing.json",
+      "~/.local/share/claude/versions/2.1.280"
+    ],
+    "command": [
+      "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+      "~/Documents/project/talven/experiments/adapters/claude_code_cli.py",
+      "--claude",
+      "~/.local/share/claude/versions/2.1.280",
+      "--timeout",
+      "900",
+      "--pricing",
+      "~/Documents/project/talven/experiments/adapters/anthropic-pricing.json"
+    ],
+    "config_sha256": "4e81df8bcaf773697aeb02614408895dd459850965faa99f32de7b6837eadad5",
+    "kind": "live",
+    "model": "claude-opus-5-5",
+    "provider": "anthropic-claude-code-cli",
+    "schema": "talven.eval.adapter.v1",
+    "settings": {
+      "effort": "high"
+    },
+    "tokenizer": "unavailable: Claude Code CLI does not expose tokenizer identity"
+  },
+  "budget": {
+    "calls": 8,
+    "cap_usd": "10",
+    "largest_call_usd": "0.035083",
+    "spent_usd": "0.145756",
+    "stopped": null
+  },
+  "complete": true,
+  "context_order": [
+    "source",
+    "compiler"
+  ],
+  "corpus_version": "m1-agent-tasks-v2",
+  "environment": {
+    "c_flags": [
+      "-std=c11",
+      "-O2"
+    ],
+    "cc": "/usr/bin/cc",
+    "cc_sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+    "cc_target": "arm64-apple-darwin27.0.0",
+    "cc_version": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+    "compiler_hash": "29c3a47047884211022dc7e6cecad5cd0013ffd7cd93803bc4cb490758d5591e",
+    "compiler_version": "0.4.0-dev",
+    "language_profile": "m1-static-text-v1",
+    "logical_cpus": 10,
+    "machine": "arm64",
+    "processor": "arm",
+    "python": "3.14.7",
+    "python_implementation": "CPython",
+    "release": "27.0.0",
+    "repository_dirty": false,
+    "repository_revision": "b0b5f045b97c1c365ab9fee312484fb8308a2114",
+    "system": "Darwin"
+  },
+  "input_hashes": {
+    "docs/language-reference.md": "87716ee8f02c7bc0bce74caf04be788a4e20423c4eff3b02e229e7718c497299",
+    "experiments/__init__.py": "992f30680275133f63f852a2098a47df022a4b7fbe0121f71dae440b0c626c08",
+    "experiments/__main__.py": "a69811e4f8845c9b14712dc0554c082e70c41899d5ee9f97bb9b2a6e93f4b043",
+    "experiments/adapters/__init__.py": "f44760a4ebff4a6dd697b52fb8d13653167de7e2eaac34604f5e7e40035d8d8c",
+    "experiments/adapters/anthropic_messages.py": "0fe0bd56cfed0b80c14fc2076cddae640343555799bb40961d369dcb6d353563",
+    "experiments/adapters/claude_code_cli.py": "a9c3ea4b9e28049897fb6fbd6debe2452217e748a2219f88b122179f95d824e1",
+    "experiments/borrowing_tasks.py": "cc5458b28f6c89dd3bb8945696b6751b15f709b2641e5da63f8f86b23c85c8ed",
+    "experiments/borrowing_verifier.py": "80ff8a2dd988e866b3d831eb9d849be5e71690fcff6bd37a998c3487ade9f251",
+    "experiments/corpora/agent-v2/moved.tal": "5edc389128b92c7940dca5b82746ae83020919e8dbd476ecdfd5cc0c90ac2b0e",
+    "experiments/corpora/agent-v2/type.tal": "20a8456cdccd58c45ace0308eb8982479a94d4011f8bfdea155b893dab458cf7",
+    "experiments/corpora/agent-v2/vectors.tal": "769fc486140c54f44da5295921748f30b30e0ef8ecaccdca6a9de3800661f725",
+    "experiments/metrics.py": "b907deec882e9fb8c6c1a7c6d9c1a4dc88cebc495f1ac506276aae8e23edf47f",
+    "experiments/native-compiler/tests/comparison.py": "070720e650082f5b83721113728999e178e19b20ad9098775d322bcdb0fc7df5",
+    "experiments/native-compiler/tests/conformance.py": "2da53af97ea40de9d31ea56b3859b2091e4147559d4a59955807af0eb70005fa",
+    "experiments/native-compiler/tests/differential.py": "cc126ed95b94a072f9941a0a051a6622aac3d30479109b8fae84b3c2ff2e1ee0",
+    "experiments/process.py": "4b3b94c70d59d4cc889237de73d3e097ae3f5c0709e39d73352fbdf788591ed8",
+    "experiments/protocol.py": "efa2ef0d8224a517bb571a27b478b67f03855b0b5c95145644e80e2bb6c6cf6e",
+    "experiments/runner.py": "13a8e4d67ea5475a24793d4e1c58be9245bcf71414fae7370dbcd551dd9ea9f9",
+    "experiments/tasks.py": "19c54be03fdad88c4b54295c246fe4afdee74005bd0f77301cc1c6588a573665",
+    "experiments/tooling_workloads.py": "3596d3f588f3d384f180d1acec5b357cfa239029db46ccb02351a3020c9a72ad",
+    "experiments/verifier.py": "396d796dfc78bc9cfcf4ac44a21ba716768592bd3492e8157c9fe4df3cbf2a1d",
+    "talven/__init__.py": "65192d65e17da43bd792c72941e917c26c6ff19327a8f2d66e9c4e25d6ddbb7a",
+    "talven/__main__.py": "5280c5159fa961d54cf6e74598e2158213b3e1e82efe5d806421bb6af5c493c9",
+    "talven/backend.py": "0de8622757f9cb451eada1abec510849bcc921b9bc231582bd821075cf005b63",
+    "talven/context.py": "acf4e2a0670548254690112227bf6edbe70580c51b9213eb228cb0c801551303",
+    "talven/dev.py": "2ac4200293ff88eae1ee8d28004f9bfb847e5f3adf32d57c3f5e1c8097844c80",
+    "talven/edit_validation.py": "4e6faf4e6d1f85a5e1642bf9a9a0480dd415b1cc1ec1d654623f4c50bf9ff4d3",
+    "talven/formatter.py": "f4238109ff03e13cb95928856ee6646dac87b9311dc06e5ab11ab278c42e3650",
+    "talven/frontend.py": "156e14761b5af111f1083ce05da908cdd24d88bc4cae1a5c69d15802d8690aa1",
+    "talven/lsp.py": "64520edd105694e283e4ed807c32d155504a5d21e123b46d617b26430e3f4a92",
+    "talven/native.py": "cca4f6d74fbcd407fd90a1a63ce0e78716e5dda2d1bae92a5546bd4a4ec18688",
+    "talven/source_edit.py": "c98344818be1685774b95bca6ae61462064733d80f1e99b950152df4011066f9"
+  },
+  "limits": {
+    "adapter_timeout": 900,
+    "context_bytes": 16384,
+    "max_repairs": 2,
+    "native_timeout": 5,
+    "task_timeout": 3600,
+    "verification_timeout": 60
+  },
+  "measurement_kind": "live",
+  "order_seed": 0,
+  "planned_trials": 8,
+  "repetitions": 1,
+  "schema": "talven.eval.v2",
+  "started_at": "2026-09-23T17:16:45.669371+00:00",
+  "summary": {
+    "attempts": 8,
+    "cache_write_input_tokens": 8370,
+    "cached_input_tokens": 31160,
+    "complete_cost_tasks": 0,
+    "correct_tasks": 8,
+    "correctness_interval_95_excluding_errors": [
+      0.6755924351161198,
+      1.0
+    ],
+    "correctness_rate": 1.0,
+    "correctness_rate_excluding_errors": 1.0,
+    "cost_per_correct_task_usd": null,
+    "error_tasks": 0,
+    "failed_tasks": 0,
+    "input_tokens": 39546,
+    "model_cost_usd": "0.145756",
+    "output_tokens": 3625,
+    "repair_attempts": 0,
+    "tasks": 8,
+    "tool_cost_usd": null,
+    "total_task_cost_usd": null,
+    "verification_cost_usd": null
+  },
+  "task_order": [
+    "move-scalar",
+    "strict-type",
+    "rename-field",
+    "squared-length"
+  ],
+  "tool_permissions": "source replacement only; no model tools; trusted adapter command",
+  "trial_order": [
+    "rename-field-source-001",
+    "move-scalar-compiler-001",
+    "rename-field-compiler-001",
+    "strict-type-source-001",
+    "move-scalar-source-001",
+    "strict-type-compiler-001",
+    "squared-length-compiler-001",
+    "squared-length-source-001"
+  ],
+  "trials": [
+    {
+      "attempts": [
+        {
+          "adapter_process": {
+            "argv": [
+              "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+              "~/Documents/project/talven/experiments/adapters/claude_code_cli.py",
+              "--claude",
+              "~/.local/share/claude/versions/2.1.280",
+              "--timeout",
+              "900",
+              "--pricing",
+              "~/Documents/project/talven/experiments/adapters/anthropic-pricing.json"
+            ],
+            "elapsed_seconds": 4.56157649999659,
+            "error": null,
+            "returncode": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "{\n  \"edits\": {\n    \"task.tal\": \"// Records are stack values with move-only language semantics.\\nstruct Vec2 {\\n    horizontal: i32,\\n    y: i32\\n}\\n\\nfn dot(a: Vec2, b: Vec2) -> i32 {\\n    return a.horizontal * b.horizontal + a.y * b.y;\\n}\\n\\nfn main() -> i32 {\\n    let left = Vec2 { horizontal: 2, y: 3 };\\n    let right = Vec2 { horizontal: 4, y: 5 };\\n    let result = dot(left, right);\\n    if (result == 23) {\\n        return 0;\\n    } else {\\n        return 1;\\n    }\\n}\\n\"\n  },\n  \"provider_metadata\": {\n    \"api_version\": \"2023-06-01\",\n    \"candidate_text\": \"{\\\"edits\\\":{\\\"task.tal\\\":\\\"// Records are stack values with move-only language semantics.\\\\nstruct Vec2 {\\\\n    horizontal: i32,\\\\n    y: i32\\\\n}\\\\n\\\\nfn dot(a: Vec2, b: Vec2) -> i32 {\\\\n    return a.horizontal * b.horizontal + a.y * b.y;\\\\n}\\\\n\\\\nfn main() -> i32 {\\\\n    let left = Vec2 { horizontal: 2, y: 3 };\\\\n    let right = Vec2 { horizontal: 4, y: 5 };\\\\n    let result = dot(left, right);\\\\n    if (result == 23) {\\\\n        return 0;\\\\n    } else {\\\\n        return 1;\\\\n    }\\\\n}\\\\n\\\"}}\",\n    \"cli_list_cost_usd\": 0.013083000000000001,\n    \"provider\": \"anthropic\",\n    \"request_sha256\": \"4dffc034fc664638ed7377aa2c379cb64e76b2d9d22966d0971282812639e007\",\n    \"response_models\": [\n      \"claude-opus-5-5\"\n    ],\n    \"response_session_id\": \"7b6fae23-b1f6-45c6-be0d-f85a4a7c5e7e\",\n    \"response_sha256\": \"f85b7f06cd744ea6108931f6832c36e7e27926b2f8559c1df40e7e24775efa59\",\n    \"response_stop_reason\": \"tool_use\",\n    \"response_subtype\": \"success\",\n    \"response_terminal_reason\": \"completed\",\n    \"synthetic\": false,\n    \"transport\": \"claude-code-cli\",\n    \"usage_receipt\": {\n      \"cache_creation\": {\n        \"ephemeral_1h_input_tokens\": 822,\n        \"ephemeral_5m_input_tokens\": 0\n      },\n      \"cache_creation_input_tokens\": 822,\n      \"cache_read_input_tokens\": 3895,\n      \"input_tokens\": 2,\n      \"output_tokens\": 286,\n      \"output_tokens_details\": {\n        \"thinking_tokens\": 0\n      }\n    },\n    \"usage_source\": \"Anthropic Messages API response usage\"\n  },\n  \"schema\": \"talven.eval.response.v1\",\n  \"usage\": {\n    \"cache_write_input_tokens\": 822,\n    \"cached_input_tokens\": 3895,\n    \"input_tokens\": 4719,\n    \"model_cost_source\": \"anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription\",\n    \"model_cost_usd\": \"0.013083\",\n    \"output_tokens\": 286,\n    \"tool_cost_usd\": null,\n    \"usage_source\": \"Claude Code CLI result usage\"\n  }\n}\n",
+            "stdout_sha256": "80e7b440ce0331d91eca0ae587ebb6d9e13582dca592ef35174dd297fa1359e7"
+          },
+          "index": 0,
+          "request_sha256": "91cc38d2748b07ced5d718fd6406b5791da62c603cbb8a6c94e8b69d419636f3",
+          "response_sha256": "80e7b440ce0331d91eca0ae587ebb6d9e13582dca592ef35174dd297fa1359e7",
+          "source_sha256": "133e0c0b3a204a6e5cd603424394f810eaa7d8081e7f9c2ddb4caa2c494f8847",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": 822,
+            "cached_input_tokens": 3895,
+            "input_tokens": 4719,
+            "model_cost_source": "anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription",
+            "model_cost_usd": "0.013083",
+            "output_tokens": 286,
+            "tool_cost_usd": null,
+            "usage_source": "Claude Code CLI result usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "renamed record and dot contracts preserved; no old field remains",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-dot-sensitivity-0",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-dot-sensitivity-22",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-dot-sensitivity-24",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/native-values.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/native-values"
+                ],
+                "elapsed_seconds": 0.21561470899905544,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/native-values"
+                ],
+                "elapsed_seconds": 0.3326705840008799,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-0.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-0"
+                ],
+                "elapsed_seconds": 0.06891870799881872,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-0"
+                ],
+                "elapsed_seconds": 0.3169441249992815,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-22.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-22"
+                ],
+                "elapsed_seconds": 0.0643477499979781,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-22"
+                ],
+                "elapsed_seconds": 0.26639895900007105,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-24.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-24"
+                ],
+                "elapsed_seconds": 0.06252441599644953,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-24"
+                ],
+                "elapsed_seconds": 0.26696979199914495,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "process": {
+              "argv": [
+                "/opt/homebrew/opt/python@3.14/bin/python3.14",
+                "-m",
+                "experiments.verifier",
+                "--task",
+                "rename-field",
+                "--source",
+                "<scratch>/agent-v2/rename-field-source-001/attempt-000/task.tal",
+                "--cc",
+                "/usr/bin/cc",
+                "--timeout",
+                "5"
+              ],
+              "elapsed_seconds": 1.664045042001817,
+              "error": null,
+              "returncode": 0,
+              "stderr": "",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"renamed record and dot contracts preserved; no old field remains\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-dot-sensitivity-0\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-dot-sensitivity-22\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-dot-sensitivity-24\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.21561470899905544}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.3326705840008799}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-0.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-0\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06891870799881872}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-0\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.3169441249992815}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-22.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-22\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.0643477499979781}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-22\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.26639895900007105}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-24.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-24\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06252441599644953}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z55ex5_g/main-dot-sensitivity-24\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.26696979199914495}]}\n",
+              "stdout_sha256": "cd50a6fb1bb5397bac1970444bd569b76fcefb0673ad298c66878fa1fc727ff0"
+            },
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "source",
+      "elapsed_seconds": 6.401391209001304,
+      "id": "rename-field-source-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": 822,
+        "cached_input_tokens": 3895,
+        "input_tokens": 4719,
+        "model_cost_usd": "0.013083",
+        "output_tokens": 286,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "rename-field"
+    },
+    {
+      "attempts": [
+        {
+          "adapter_process": {
+            "argv": [
+              "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+              "~/Documents/project/talven/experiments/adapters/claude_code_cli.py",
+              "--claude",
+              "~/.local/share/claude/versions/2.1.280",
+              "--timeout",
+              "900",
+              "--pricing",
+              "~/Documents/project/talven/experiments/adapters/anthropic-pricing.json"
+            ],
+            "elapsed_seconds": 6.086930542005575,
+            "error": null,
+            "returncode": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "{\n  \"edits\": {\n    \"task.tal\": \"struct Item {\\n    value: i32\\n}\\n\\nfn main() -> i32 {\\n    let original = Item { value: 7 };\\n    let saved = original.value;\\n    let transferred = original;\\n    return saved;\\n}\\n\"\n  },\n  \"provider_metadata\": {\n    \"api_version\": \"2023-06-01\",\n    \"candidate_text\": \"{\\\"edits\\\":{\\\"task.tal\\\":\\\"struct Item {\\\\n    value: i32\\\\n}\\\\n\\\\nfn main() -> i32 {\\\\n    let original = Item { value: 7 };\\\\n    let saved = original.value;\\\\n    let transferred = original;\\\\n    return saved;\\\\n}\\\\n\\\"}}\",\n    \"cli_list_cost_usd\": 0.016603,\n    \"provider\": \"anthropic\",\n    \"request_sha256\": \"bf429632a38495652088bfe7974a5d007b6fda8c1c892710f40a114fac0c47e2\",\n    \"response_models\": [\n      \"claude-opus-5-5\"\n    ],\n    \"response_session_id\": \"cdf43c72-e77c-44b1-bab6-edea3225482c\",\n    \"response_sha256\": \"2bc520e1d957ab2e9c39887b28c52fed504858a5fa0e06f7152a6f74382b1e2e\",\n    \"response_stop_reason\": \"tool_use\",\n    \"response_subtype\": \"success\",\n    \"response_terminal_reason\": \"completed\",\n    \"synthetic\": false,\n    \"transport\": \"claude-code-cli\",\n    \"usage_receipt\": {\n      \"cache_creation\": {\n        \"ephemeral_1h_input_tokens\": 907,\n        \"ephemeral_5m_input_tokens\": 0\n      },\n      \"cache_creation_input_tokens\": 907,\n      \"cache_read_input_tokens\": 3895,\n      \"input_tokens\": 2,\n      \"output_tokens\": 428,\n      \"output_tokens_details\": {\n        \"thinking_tokens\": 43\n      }\n    },\n    \"usage_source\": \"Anthropic Messages API response usage\"\n  },\n  \"schema\": \"talven.eval.response.v1\",\n  \"usage\": {\n    \"cache_write_input_tokens\": 907,\n    \"cached_input_tokens\": 3895,\n    \"input_tokens\": 4804,\n    \"model_cost_source\": \"anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription\",\n    \"model_cost_usd\": \"0.016603\",\n    \"output_tokens\": 428,\n    \"tool_cost_usd\": null,\n    \"usage_source\": \"Claude Code CLI result usage\"\n  }\n}\n",
+            "stdout_sha256": "ac1307443e4ca510708153dd8ec68dadd2cb95113e7480e8b1b61ea868bf9bef"
+          },
+          "index": 0,
+          "request_sha256": "2b3eeda3a9517f47c1e0133f4db058264ece47d4132560fb39274f5f79b63df0",
+          "response_sha256": "ac1307443e4ca510708153dd8ec68dadd2cb95113e7480e8b1b61ea868bf9bef",
+          "source_sha256": "87a7a4e843a1ea8f158d249236c853459ab0f4e679c2388739f36aed0cdfed38",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": 907,
+            "cached_input_tokens": 3895,
+            "input_tokens": 4804,
+            "model_cost_source": "anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription",
+            "model_cost_usd": "0.016603",
+            "output_tokens": 428,
+            "tool_cost_usd": null,
+            "usage_source": "Claude Code CLI result usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "original scalar is copied before the direct record move and returned through bindings",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-4fx9hklm/native-values.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-4fx9hklm/native-values"
+                ],
+                "elapsed_seconds": 0.061057582999637816,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-4fx9hklm/native-values"
+                ],
+                "elapsed_seconds": 0.2763433750005788,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "process": {
+              "argv": [
+                "/opt/homebrew/opt/python@3.14/bin/python3.14",
+                "-m",
+                "experiments.verifier",
+                "--task",
+                "move-scalar",
+                "--source",
+                "<scratch>/agent-v2/move-scalar-compiler-001/attempt-000/task.tal",
+                "--cc",
+                "/usr/bin/cc",
+                "--timeout",
+                "5"
+              ],
+              "elapsed_seconds": 0.40541975000087405,
+              "error": null,
+              "returncode": 0,
+              "stderr": "",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"original scalar is copied before the direct record move and returned through bindings\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-4fx9hklm/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-4fx9hklm/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.061057582999637816}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-4fx9hklm/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.2763433750005788}]}\n",
+              "stdout_sha256": "7278b78debbd003deabd0073a91c3cb9242a5533df3392ee60ed08d970d13342"
+            },
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "compiler",
+      "elapsed_seconds": 6.677963082998758,
+      "id": "move-scalar-compiler-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": 907,
+        "cached_input_tokens": 3895,
+        "input_tokens": 4804,
+        "model_cost_usd": "0.016603",
+        "output_tokens": 428,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "move-scalar"
+    },
+    {
+      "attempts": [
+        {
+          "adapter_process": {
+            "argv": [
+              "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+              "~/Documents/project/talven/experiments/adapters/claude_code_cli.py",
+              "--claude",
+              "~/.local/share/claude/versions/2.1.280",
+              "--timeout",
+              "900",
+              "--pricing",
+              "~/Documents/project/talven/experiments/adapters/anthropic-pricing.json"
+            ],
+            "elapsed_seconds": 5.095697333999851,
+            "error": null,
+            "returncode": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "{\n  \"edits\": {\n    \"task.tal\": \"// Records are stack values with move-only language semantics.\\nstruct Vec2 {\\n    horizontal: i32,\\n    y: i32\\n}\\n\\nfn dot(a: Vec2, b: Vec2) -> i32 {\\n    return a.horizontal * b.horizontal + a.y * b.y;\\n}\\n\\nfn main() -> i32 {\\n    let left = Vec2 { horizontal: 2, y: 3 };\\n    let right = Vec2 { horizontal: 4, y: 5 };\\n    let result = dot(left, right);\\n    if (result == 23) {\\n        return 0;\\n    } else {\\n        return 1;\\n    }\\n}\\n\"\n  },\n  \"provider_metadata\": {\n    \"api_version\": \"2023-06-01\",\n    \"candidate_text\": \"{\\\"edits\\\":{\\\"task.tal\\\":\\\"// Records are stack values with move-only language semantics.\\\\nstruct Vec2 {\\\\n    horizontal: i32,\\\\n    y: i32\\\\n}\\\\n\\\\nfn dot(a: Vec2, b: Vec2) -> i32 {\\\\n    return a.horizontal * b.horizontal + a.y * b.y;\\\\n}\\\\n\\\\nfn main() -> i32 {\\\\n    let left = Vec2 { horizontal: 2, y: 3 };\\\\n    let right = Vec2 { horizontal: 4, y: 5 };\\\\n    let result = dot(left, right);\\\\n    if (result == 23) {\\\\n        return 0;\\\\n    } else {\\\\n        return 1;\\\\n    }\\\\n}\\\\n\\\"}}\",\n    \"cli_list_cost_usd\": 0.021163,\n    \"provider\": \"anthropic\",\n    \"request_sha256\": \"2f055c4437c57717c5cc78ea0031a891fe3f6bece3aaaf626dd979d138cbc88d\",\n    \"response_models\": [\n      \"claude-opus-5-5\"\n    ],\n    \"response_session_id\": \"40221ae9-473c-40bc-8863-c36686c29d93\",\n    \"response_sha256\": \"26d126006e1aea0e48bc0bad216984f1f01a9b1b5250468d3ce6054e56e1e289\",\n    \"response_stop_reason\": \"tool_use\",\n    \"response_subtype\": \"success\",\n    \"response_terminal_reason\": \"completed\",\n    \"synthetic\": false,\n    \"transport\": \"claude-code-cli\",\n    \"usage_receipt\": {\n      \"cache_creation\": {\n        \"ephemeral_1h_input_tokens\": 1832,\n        \"ephemeral_5m_input_tokens\": 0\n      },\n      \"cache_creation_input_tokens\": 1832,\n      \"cache_read_input_tokens\": 3895,\n      \"input_tokens\": 2,\n      \"output_tokens\": 286,\n      \"output_tokens_details\": {\n        \"thinking_tokens\": 0\n      }\n    },\n    \"usage_source\": \"Anthropic Messages API response usage\"\n  },\n  \"schema\": \"talven.eval.response.v1\",\n  \"usage\": {\n    \"cache_write_input_tokens\": 1832,\n    \"cached_input_tokens\": 3895,\n    \"input_tokens\": 5729,\n    \"model_cost_source\": \"anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription\",\n    \"model_cost_usd\": \"0.021163\",\n    \"output_tokens\": 286,\n    \"tool_cost_usd\": null,\n    \"usage_source\": \"Claude Code CLI result usage\"\n  }\n}\n",
+            "stdout_sha256": "9216cbe4c4eeb8408db81422bdbb0deb9bd273515e18416e521c2577cf256963"
+          },
+          "index": 0,
+          "request_sha256": "bf4a2e543eba81dff07d735c6e0864ac8dc20cc690f6515cc95ffcc221c73366",
+          "response_sha256": "9216cbe4c4eeb8408db81422bdbb0deb9bd273515e18416e521c2577cf256963",
+          "source_sha256": "133e0c0b3a204a6e5cd603424394f810eaa7d8081e7f9c2ddb4caa2c494f8847",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": 1832,
+            "cached_input_tokens": 3895,
+            "input_tokens": 5729,
+            "model_cost_source": "anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription",
+            "model_cost_usd": "0.021163",
+            "output_tokens": 286,
+            "tool_cost_usd": null,
+            "usage_source": "Claude Code CLI result usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "renamed record and dot contracts preserved; no old field remains",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-dot-sensitivity-0",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-dot-sensitivity-22",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-dot-sensitivity-24",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/native-values.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/native-values"
+                ],
+                "elapsed_seconds": 0.06241487499937648,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/native-values"
+                ],
+                "elapsed_seconds": 0.04071612499683397,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-0.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-0"
+                ],
+                "elapsed_seconds": 0.04901245899964124,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-0"
+                ],
+                "elapsed_seconds": 0.040267624994157813,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-22.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-22"
+                ],
+                "elapsed_seconds": 0.058942458003002685,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-22"
+                ],
+                "elapsed_seconds": 0.040849666998838075,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-24.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-24"
+                ],
+                "elapsed_seconds": 0.051863458000298124,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-24"
+                ],
+                "elapsed_seconds": 0.03977320899866754,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "process": {
+              "argv": [
+                "/opt/homebrew/opt/python@3.14/bin/python3.14",
+                "-m",
+                "experiments.verifier",
+                "--task",
+                "rename-field",
+                "--source",
+                "<scratch>/agent-v2/rename-field-compiler-001/attempt-000/task.tal",
+                "--cc",
+                "/usr/bin/cc",
+                "--timeout",
+                "5"
+              ],
+              "elapsed_seconds": 0.43997220800520154,
+              "error": null,
+              "returncode": 0,
+              "stderr": "",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"renamed record and dot contracts preserved; no old field remains\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-dot-sensitivity-0\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-dot-sensitivity-22\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-dot-sensitivity-24\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06241487499937648}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04071612499683397}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-0.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-0\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04901245899964124}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-0\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.040267624994157813}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-22.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-22\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.058942458003002685}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-22\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.040849666998838075}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-24.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-24\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.051863458000298124}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-594fn_p9/main-dot-sensitivity-24\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.03977320899866754}]}\n",
+              "stdout_sha256": "d6de9f7c579dc2bf186d042c508f2f12520693686b851ddd7c0583c2eb45ca2c"
+            },
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "compiler",
+      "elapsed_seconds": 5.714340459002415,
+      "id": "rename-field-compiler-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": 1832,
+        "cached_input_tokens": 3895,
+        "input_tokens": 5729,
+        "model_cost_usd": "0.021163",
+        "output_tokens": 286,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "rename-field"
+    },
+    {
+      "attempts": [
+        {
+          "adapter_process": {
+            "argv": [
+              "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+              "~/Documents/project/talven/experiments/adapters/claude_code_cli.py",
+              "--claude",
+              "~/.local/share/claude/versions/2.1.280",
+              "--timeout",
+              "900",
+              "--pricing",
+              "~/Documents/project/talven/experiments/adapters/anthropic-pricing.json"
+            ],
+            "elapsed_seconds": 3.610832874997868,
+            "error": null,
+            "returncode": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "{\n  \"edits\": {\n    \"task.tal\": \"fn main() -> i32 {\\n    let count: i32 = 1;\\n    return count;\\n}\\n\"\n  },\n  \"provider_metadata\": {\n    \"api_version\": \"2023-06-01\",\n    \"candidate_text\": \"{\\\"edits\\\":{\\\"task.tal\\\":\\\"fn main() -> i32 {\\\\n    let count: i32 = 1;\\\\n    return count;\\\\n}\\\\n\\\"}}\",\n    \"cli_list_cost_usd\": 0.007431,\n    \"provider\": \"anthropic\",\n    \"request_sha256\": \"e338d60b90ac5d26c9bd67e706b2568e1c88852f76221f4a64cd0738f014490c\",\n    \"response_models\": [\n      \"claude-opus-5-5\"\n    ],\n    \"response_session_id\": \"2430bf71-6fb1-411b-a74a-993c5d477a82\",\n    \"response_sha256\": \"fe8708389a3338654570fb09ad6a13f201dbdf4b912670a66bc67d1459494ee9\",\n    \"response_stop_reason\": \"tool_use\",\n    \"response_subtype\": \"success\",\n    \"response_terminal_reason\": \"completed\",\n    \"synthetic\": false,\n    \"transport\": \"claude-code-cli\",\n    \"usage_receipt\": {\n      \"cache_creation\": {\n        \"ephemeral_1h_input_tokens\": 593,\n        \"ephemeral_5m_input_tokens\": 0\n      },\n      \"cache_creation_input_tokens\": 593,\n      \"cache_read_input_tokens\": 3895,\n      \"input_tokens\": 2,\n      \"output_tokens\": 95,\n      \"output_tokens_details\": {\n        \"thinking_tokens\": 0\n      }\n    },\n    \"usage_source\": \"Anthropic Messages API response usage\"\n  },\n  \"schema\": \"talven.eval.response.v1\",\n  \"usage\": {\n    \"cache_write_input_tokens\": 593,\n    \"cached_input_tokens\": 3895,\n    \"input_tokens\": 4490,\n    \"model_cost_source\": \"anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription\",\n    \"model_cost_usd\": \"0.007431\",\n    \"output_tokens\": 95,\n    \"tool_cost_usd\": null,\n    \"usage_source\": \"Claude Code CLI result usage\"\n  }\n}\n",
+            "stdout_sha256": "e6d07140e70b754ba0c8ff029b11eb8ed94fab567db55eb7f87a9bbc02866b97"
+          },
+          "index": 0,
+          "request_sha256": "692c21de3c251a1d1c6c6f05d9a96f5c35ab78658e50d84d2f8d86e9e059c05a",
+          "response_sha256": "e6d07140e70b754ba0c8ff029b11eb8ed94fab567db55eb7f87a9bbc02866b97",
+          "source_sha256": "ee00a73c8ee0cc441a9a46142be8b97e6200951c9bdf704aaa15739c4ea5b395",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": 593,
+            "cached_input_tokens": 3895,
+            "input_tokens": 4490,
+            "model_cost_source": "anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription",
+            "model_cost_usd": "0.007431",
+            "output_tokens": 95,
+            "tool_cost_usd": null,
+            "usage_source": "Claude Code CLI result usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "main must return the explicitly annotated count: i32 binding",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-kkn1f1_2/native-values.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-kkn1f1_2/native-values"
+                ],
+                "elapsed_seconds": 0.04936745799932396,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-kkn1f1_2/native-values"
+                ],
+                "elapsed_seconds": 0.32458158300141804,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "process": {
+              "argv": [
+                "/opt/homebrew/opt/python@3.14/bin/python3.14",
+                "-m",
+                "experiments.verifier",
+                "--task",
+                "strict-type",
+                "--source",
+                "<scratch>/agent-v2/strict-type-source-001/attempt-000/task.tal",
+                "--cc",
+                "/usr/bin/cc",
+                "--timeout",
+                "5"
+              ],
+              "elapsed_seconds": 0.4343637080019107,
+              "error": null,
+              "returncode": 0,
+              "stderr": "",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"main must return the explicitly annotated count: i32 binding\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-kkn1f1_2/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-kkn1f1_2/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04936745799932396}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-kkn1f1_2/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.32458158300141804}]}\n",
+              "stdout_sha256": "d82aa1510c45d0debd72727ace4217e1d7d34d7559d6c861fcb6e79c29ace97c"
+            },
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "source",
+      "elapsed_seconds": 4.234561833000043,
+      "id": "strict-type-source-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": 593,
+        "cached_input_tokens": 3895,
+        "input_tokens": 4490,
+        "model_cost_usd": "0.007431",
+        "output_tokens": 95,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "strict-type"
+    },
+    {
+      "attempts": [
+        {
+          "adapter_process": {
+            "argv": [
+              "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+              "~/Documents/project/talven/experiments/adapters/claude_code_cli.py",
+              "--claude",
+              "~/.local/share/claude/versions/2.1.280",
+              "--timeout",
+              "900",
+              "--pricing",
+              "~/Documents/project/talven/experiments/adapters/anthropic-pricing.json"
+            ],
+            "elapsed_seconds": 6.0899409580015345,
+            "error": null,
+            "returncode": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "{\n  \"edits\": {\n    \"task.tal\": \"struct Item {\\n    value: i32\\n}\\n\\nfn main() -> i32 {\\n    let original = Item { value: 7 };\\n    let saved = original.value;\\n    let transferred = original;\\n    return saved;\\n}\\n\"\n  },\n  \"provider_metadata\": {\n    \"api_version\": \"2023-06-01\",\n    \"candidate_text\": \"{\\\"edits\\\":{\\\"task.tal\\\":\\\"struct Item {\\\\n    value: i32\\\\n}\\\\n\\\\nfn main() -> i32 {\\\\n    let original = Item { value: 7 };\\\\n    let saved = original.value;\\\\n    let transferred = original;\\\\n    return saved;\\\\n}\\\\n\\\"}}\",\n    \"cli_list_cost_usd\": 0.014447,\n    \"provider\": \"anthropic\",\n    \"request_sha256\": \"e1c1900a32990988711ea12a79e5931babc3f4a20cf5d9691388bf16c7f823df\",\n    \"response_models\": [\n      \"claude-opus-5-5\"\n    ],\n    \"response_session_id\": \"0d3b8a94-7679-47fc-b3db-1147782c6657\",\n    \"response_sha256\": \"d8f0ac647e47236b08fd5b0205fe3a8987004ba56e0750d5666885e2ef4989d8\",\n    \"response_stop_reason\": \"tool_use\",\n    \"response_subtype\": \"success\",\n    \"response_terminal_reason\": \"completed\",\n    \"synthetic\": false,\n    \"transport\": \"claude-code-cli\",\n    \"usage_receipt\": {\n      \"cache_creation\": {\n        \"ephemeral_1h_input_tokens\": 680,\n        \"ephemeral_5m_input_tokens\": 0\n      },\n      \"cache_creation_input_tokens\": 680,\n      \"cache_read_input_tokens\": 3895,\n      \"input_tokens\": 2,\n      \"output_tokens\": 411,\n      \"output_tokens_details\": {\n        \"thinking_tokens\": 26\n      }\n    },\n    \"usage_source\": \"Anthropic Messages API response usage\"\n  },\n  \"schema\": \"talven.eval.response.v1\",\n  \"usage\": {\n    \"cache_write_input_tokens\": 680,\n    \"cached_input_tokens\": 3895,\n    \"input_tokens\": 4577,\n    \"model_cost_source\": \"anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription\",\n    \"model_cost_usd\": \"0.014447\",\n    \"output_tokens\": 411,\n    \"tool_cost_usd\": null,\n    \"usage_source\": \"Claude Code CLI result usage\"\n  }\n}\n",
+            "stdout_sha256": "b266ac254c8dea5dfec4b6b93a5d8da13c77d1bbfa46a99483ee03a84730c3a3"
+          },
+          "index": 0,
+          "request_sha256": "cb9bd950790ec6cb579b7082459c95f1687c13c89915feec2ecb1e1ab0f6cace",
+          "response_sha256": "b266ac254c8dea5dfec4b6b93a5d8da13c77d1bbfa46a99483ee03a84730c3a3",
+          "source_sha256": "87a7a4e843a1ea8f158d249236c853459ab0f4e679c2388739f36aed0cdfed38",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": 680,
+            "cached_input_tokens": 3895,
+            "input_tokens": 4577,
+            "model_cost_source": "anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription",
+            "model_cost_usd": "0.014447",
+            "output_tokens": 411,
+            "tool_cost_usd": null,
+            "usage_source": "Claude Code CLI result usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "original scalar is copied before the direct record move and returned through bindings",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-fd7y9ho8/native-values.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-fd7y9ho8/native-values"
+                ],
+                "elapsed_seconds": 0.060315583999908995,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-fd7y9ho8/native-values"
+                ],
+                "elapsed_seconds": 0.03997166699991794,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "process": {
+              "argv": [
+                "/opt/homebrew/opt/python@3.14/bin/python3.14",
+                "-m",
+                "experiments.verifier",
+                "--task",
+                "move-scalar",
+                "--source",
+                "<scratch>/agent-v2/move-scalar-source-001/attempt-000/task.tal",
+                "--cc",
+                "/usr/bin/cc",
+                "--timeout",
+                "5"
+              ],
+              "elapsed_seconds": 0.16275179099466186,
+              "error": null,
+              "returncode": 0,
+              "stderr": "",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"original scalar is copied before the direct record move and returned through bindings\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-fd7y9ho8/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-fd7y9ho8/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.060315583999908995}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-fd7y9ho8/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.03997166699991794}]}\n",
+              "stdout_sha256": "b4110a72d729d3ccba492b7c6359263c7b811df82e12d51cc8b12e7aec8d5b96"
+            },
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "source",
+      "elapsed_seconds": 6.450517124998441,
+      "id": "move-scalar-source-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": 680,
+        "cached_input_tokens": 3895,
+        "input_tokens": 4577,
+        "model_cost_usd": "0.014447",
+        "output_tokens": 411,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "move-scalar"
+    },
+    {
+      "attempts": [
+        {
+          "adapter_process": {
+            "argv": [
+              "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+              "~/Documents/project/talven/experiments/adapters/claude_code_cli.py",
+              "--claude",
+              "~/.local/share/claude/versions/2.1.280",
+              "--timeout",
+              "900",
+              "--pricing",
+              "~/Documents/project/talven/experiments/adapters/anthropic-pricing.json"
+            ],
+            "elapsed_seconds": 3.5703904170004535,
+            "error": null,
+            "returncode": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "{\n  \"edits\": {\n    \"task.tal\": \"fn main() -> i32 {\\n    let count: i32 = 1;\\n    return count;\\n}\\n\"\n  },\n  \"provider_metadata\": {\n    \"api_version\": \"2023-06-01\",\n    \"candidate_text\": \"{\\\"edits\\\":{\\\"task.tal\\\":\\\"fn main() -> i32 {\\\\n    let count: i32 = 1;\\\\n    return count;\\\\n}\\\\n\\\"}}\",\n    \"cli_list_cost_usd\": 0.009278999999999999,\n    \"provider\": \"anthropic\",\n    \"request_sha256\": \"a189aacd943c43f36a281b0c3d89c4bcecce086d4b10195a353a9a1021a55419\",\n    \"response_models\": [\n      \"claude-opus-5-5\"\n    ],\n    \"response_session_id\": \"9036bc11-d8fe-40d2-85ad-edf14eb88452\",\n    \"response_sha256\": \"2e47e11c236ee5cb32fe45f40729a4cc7022b904b77fd353c491964fbb87a2da\",\n    \"response_stop_reason\": \"tool_use\",\n    \"response_subtype\": \"success\",\n    \"response_terminal_reason\": \"completed\",\n    \"synthetic\": false,\n    \"transport\": \"claude-code-cli\",\n    \"usage_receipt\": {\n      \"cache_creation\": {\n        \"ephemeral_1h_input_tokens\": 824,\n        \"ephemeral_5m_input_tokens\": 0\n      },\n      \"cache_creation_input_tokens\": 824,\n      \"cache_read_input_tokens\": 3895,\n      \"input_tokens\": 2,\n      \"output_tokens\": 95,\n      \"output_tokens_details\": {\n        \"thinking_tokens\": 0\n      }\n    },\n    \"usage_source\": \"Anthropic Messages API response usage\"\n  },\n  \"schema\": \"talven.eval.response.v1\",\n  \"usage\": {\n    \"cache_write_input_tokens\": 824,\n    \"cached_input_tokens\": 3895,\n    \"input_tokens\": 4721,\n    \"model_cost_source\": \"anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription\",\n    \"model_cost_usd\": \"0.009279\",\n    \"output_tokens\": 95,\n    \"tool_cost_usd\": null,\n    \"usage_source\": \"Claude Code CLI result usage\"\n  }\n}\n",
+            "stdout_sha256": "50e193f1c282f4365bdf5ae73dc71b119fe3b6b9e8b7f6259aaccb086788998f"
+          },
+          "index": 0,
+          "request_sha256": "fcc821a64327c72b008f9bef0aa133850f35adc40272c6da93c268a3ef8084e1",
+          "response_sha256": "50e193f1c282f4365bdf5ae73dc71b119fe3b6b9e8b7f6259aaccb086788998f",
+          "source_sha256": "ee00a73c8ee0cc441a9a46142be8b97e6200951c9bdf704aaa15739c4ea5b395",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": 824,
+            "cached_input_tokens": 3895,
+            "input_tokens": 4721,
+            "model_cost_source": "anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription",
+            "model_cost_usd": "0.009279",
+            "output_tokens": 95,
+            "tool_cost_usd": null,
+            "usage_source": "Claude Code CLI result usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "main must return the explicitly annotated count: i32 binding",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mamufbl_/native-values.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mamufbl_/native-values"
+                ],
+                "elapsed_seconds": 0.059897084000112955,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mamufbl_/native-values"
+                ],
+                "elapsed_seconds": 0.03944249999767635,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "process": {
+              "argv": [
+                "/opt/homebrew/opt/python@3.14/bin/python3.14",
+                "-m",
+                "experiments.verifier",
+                "--task",
+                "strict-type",
+                "--source",
+                "<scratch>/agent-v2/strict-type-compiler-001/attempt-000/task.tal",
+                "--cc",
+                "/usr/bin/cc",
+                "--timeout",
+                "5"
+              ],
+              "elapsed_seconds": 0.15402816699497635,
+              "error": null,
+              "returncode": 0,
+              "stderr": "",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"main must return the explicitly annotated count: i32 binding\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mamufbl_/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mamufbl_/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.059897084000112955}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mamufbl_/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.03944249999767635}]}\n",
+              "stdout_sha256": "92b1080e856c2d44addfc50b999e5ea8d11b18e2a1b5b9eca66dbb85464f7072"
+            },
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "compiler",
+      "elapsed_seconds": 3.91310683300253,
+      "id": "strict-type-compiler-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": 824,
+        "cached_input_tokens": 3895,
+        "input_tokens": 4721,
+        "model_cost_usd": "0.009279",
+        "output_tokens": 95,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "strict-type"
+    },
+    {
+      "attempts": [
+        {
+          "adapter_process": {
+            "argv": [
+              "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+              "~/Documents/project/talven/experiments/adapters/claude_code_cli.py",
+              "--claude",
+              "~/.local/share/claude/versions/2.1.280",
+              "--timeout",
+              "900",
+              "--pricing",
+              "~/Documents/project/talven/experiments/adapters/anthropic-pricing.json"
+            ],
+            "elapsed_seconds": 10.548837915994227,
+            "error": null,
+            "returncode": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "{\n  \"edits\": {\n    \"task.tal\": \"// Records are stack values with move-only language semantics.\\nstruct Vec2 {\\n    x: i32,\\n    y: i32\\n}\\n\\nfn dot(a: Vec2, b: Vec2) -> i32 {\\n    return a.x * b.x + a.y * b.y;\\n}\\n\\nfn squared_length(value: Vec2) -> i32 {\\n    return value.x * value.x + value.y * value.y;\\n}\\n\\nfn main() -> i32 {\\n    let left = Vec2 { x: 2, y: 3 };\\n    let right = Vec2 { x: 4, y: 5 };\\n    let result = dot(left, right);\\n    if (result == 23) {\\n        let length = squared_length(Vec2 { x: 3, y: 4 });\\n        if (length == 25) {\\n            return 0;\\n        } else {\\n            return 2;\\n        }\\n    } else {\\n        return 1;\\n    }\\n}\\n\"\n  },\n  \"provider_metadata\": {\n    \"api_version\": \"2023-06-01\",\n    \"candidate_text\": \"{\\\"edits\\\":{\\\"task.tal\\\":\\\"// Records are stack values with move-only language semantics.\\\\nstruct Vec2 {\\\\n    x: i32,\\\\n    y: i32\\\\n}\\\\n\\\\nfn dot(a: Vec2, b: Vec2) -> i32 {\\\\n    return a.x * b.x + a.y * b.y;\\\\n}\\\\n\\\\nfn squared_length(value: Vec2) -> i32 {\\\\n    return value.x * value.x + value.y * value.y;\\\\n}\\\\n\\\\nfn main() -> i32 {\\\\n    let left = Vec2 { x: 2, y: 3 };\\\\n    let right = Vec2 { x: 4, y: 5 };\\\\n    let result = dot(left, right);\\\\n    if (result == 23) {\\\\n        let length = squared_length(Vec2 { x: 3, y: 4 });\\\\n        if (length == 25) {\\\\n            return 0;\\\\n        } else {\\\\n            return 2;\\\\n        }\\\\n    } else {\\\\n        return 1;\\\\n    }\\\\n}\\\\n\\\"}}\",\n    \"cli_list_cost_usd\": 0.035083,\n    \"provider\": \"anthropic\",\n    \"request_sha256\": \"72a02a59d71951046e469c5af0ec42e6cb011a550a428fb8f11f7a6a5215e900\",\n    \"response_models\": [\n      \"claude-opus-5-5\"\n    ],\n    \"response_session_id\": \"a5cab098-04f7-4f95-be49-9fe8f38e8bd4\",\n    \"response_sha256\": \"e46f6ba0e8656dda34ef70cc621cbc33c4e1700b8ce7a8dfcbbfea441700a5a1\",\n    \"response_stop_reason\": \"tool_use\",\n    \"response_subtype\": \"success\",\n    \"response_terminal_reason\": \"completed\",\n    \"synthetic\": false,\n    \"transport\": \"claude-code-cli\",\n    \"usage_receipt\": {\n      \"cache_creation\": {\n        \"ephemeral_1h_input_tokens\": 1862,\n        \"ephemeral_5m_input_tokens\": 0\n      },\n      \"cache_creation_input_tokens\": 1862,\n      \"cache_read_input_tokens\": 3895,\n      \"input_tokens\": 2,\n      \"output_tokens\": 970,\n      \"output_tokens_details\": {\n        \"thinking_tokens\": 279\n      }\n    },\n    \"usage_source\": \"Anthropic Messages API response usage\"\n  },\n  \"schema\": \"talven.eval.response.v1\",\n  \"usage\": {\n    \"cache_write_input_tokens\": 1862,\n    \"cached_input_tokens\": 3895,\n    \"input_tokens\": 5759,\n    \"model_cost_source\": \"anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription\",\n    \"model_cost_usd\": \"0.035083\",\n    \"output_tokens\": 970,\n    \"tool_cost_usd\": null,\n    \"usage_source\": \"Claude Code CLI result usage\"\n  }\n}\n",
+            "stdout_sha256": "18c2640c0485baaafc3a51196ce29405fb4c3022ca2d7123a06fdad29cb7010c"
+          },
+          "index": 0,
+          "request_sha256": "47ff9f2b453f7cf099619f6eae3320dd466c4638c45ec249644928304379a5ea",
+          "response_sha256": "18c2640c0485baaafc3a51196ce29405fb4c3022ca2d7123a06fdad29cb7010c",
+          "source_sha256": "290d887af6da4a253b5f8fa4cf05221a4e70f70decf218c74dc34d00423b295c",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": 1862,
+            "cached_input_tokens": 3895,
+            "input_tokens": 5759,
+            "model_cost_source": "anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription",
+            "model_cost_usd": "0.035083",
+            "output_tokens": 970,
+            "tool_cost_usd": null,
+            "usage_source": "Claude Code CLI result usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "require fn squared_length(value: Vec2) -> i32",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-dot-sensitivity-0",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-dot-sensitivity-22",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-dot-sensitivity-24",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-squared_length-sensitivity-0",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-squared_length-sensitivity-24",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-squared_length-sensitivity-26",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/native-values.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/native-values"
+                ],
+                "elapsed_seconds": 0.06473150000238093,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/native-values"
+                ],
+                "elapsed_seconds": 0.27977275000012014,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-0.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-0"
+                ],
+                "elapsed_seconds": 0.06129612500080839,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-0"
+                ],
+                "elapsed_seconds": 0.2646009160016547,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-22.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-22"
+                ],
+                "elapsed_seconds": 0.0711280839968822,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-22"
+                ],
+                "elapsed_seconds": 0.3372313329964527,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-24.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-24"
+                ],
+                "elapsed_seconds": 0.06055345899949316,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-24"
+                ],
+                "elapsed_seconds": 0.26924670900189085,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-0.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-0"
+                ],
+                "elapsed_seconds": 0.06410374999541091,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-0"
+                ],
+                "elapsed_seconds": 0.2640291249990696,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-24.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-24"
+                ],
+                "elapsed_seconds": 0.051535874998080544,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-24"
+                ],
+                "elapsed_seconds": 0.3300687079972704,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-26.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-26"
+                ],
+                "elapsed_seconds": 0.04852391700114822,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-26"
+                ],
+                "elapsed_seconds": 0.28296779199445155,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "process": {
+              "argv": [
+                "/opt/homebrew/opt/python@3.14/bin/python3.14",
+                "-m",
+                "experiments.verifier",
+                "--task",
+                "squared-length",
+                "--source",
+                "<scratch>/agent-v2/squared-length-compiler-001/attempt-000/task.tal",
+                "--cc",
+                "/usr/bin/cc",
+                "--timeout",
+                "5"
+              ],
+              "elapsed_seconds": 2.535147209004208,
+              "error": null,
+              "returncode": 0,
+              "stderr": "",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"require fn squared_length(value: Vec2) -> i32\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-dot-sensitivity-0\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-dot-sensitivity-22\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-dot-sensitivity-24\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-squared_length-sensitivity-0\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-squared_length-sensitivity-24\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-squared_length-sensitivity-26\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06473150000238093}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.27977275000012014}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-0.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-0\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06129612500080839}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-0\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.2646009160016547}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-22.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-22\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.0711280839968822}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-22\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.3372313329964527}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-24.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-24\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06055345899949316}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-dot-sensitivity-24\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.26924670900189085}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-0.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-0\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06410374999541091}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-0\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.2640291249990696}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-24.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-24\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.051535874998080544}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-24\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.3300687079972704}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-26.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-26\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04852391700114822}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-34y50oww/main-squared_length-sensitivity-26\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.28296779199445155}]}\n",
+              "stdout_sha256": "daf65e40dcaf41fd39c99036ba013ac40f62f6e15f045c8a2fb36690bd2abe09"
+            },
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "compiler",
+      "elapsed_seconds": 13.27479504099756,
+      "id": "squared-length-compiler-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": 1862,
+        "cached_input_tokens": 3895,
+        "input_tokens": 5759,
+        "model_cost_usd": "0.035083",
+        "output_tokens": 970,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "squared-length"
+    },
+    {
+      "attempts": [
+        {
+          "adapter_process": {
+            "argv": [
+              "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+              "~/Documents/project/talven/experiments/adapters/claude_code_cli.py",
+              "--claude",
+              "~/.local/share/claude/versions/2.1.280",
+              "--timeout",
+              "900",
+              "--pricing",
+              "~/Documents/project/talven/experiments/adapters/anthropic-pricing.json"
+            ],
+            "elapsed_seconds": 11.531386333001137,
+            "error": null,
+            "returncode": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "{\n  \"edits\": {\n    \"task.tal\": \"// Records are stack values with move-only language semantics.\\nstruct Vec2 {\\n    x: i32,\\n    y: i32\\n}\\n\\nfn dot(a: Vec2, b: Vec2) -> i32 {\\n    return a.x * b.x + a.y * b.y;\\n}\\n\\n// Both squares are non-negative, so no intermediate step overflows unless\\n// the mathematical result itself exceeds the i32 range.\\nfn squared_length(value: Vec2) -> i32 {\\n    return value.x * value.x + value.y * value.y;\\n}\\n\\nfn main() -> i32 {\\n    let left = Vec2 { x: 2, y: 3 };\\n    let right = Vec2 { x: 4, y: 5 };\\n    let result = dot(left, right);\\n    if (result == 23) {\\n        let len = squared_length(Vec2 { x: 3, y: 4 });\\n        if (len == 25) {\\n            return 0;\\n        } else {\\n            return 2;\\n        }\\n    } else {\\n        return 1;\\n    }\\n}\\n\"\n  },\n  \"provider_metadata\": {\n    \"api_version\": \"2023-06-01\",\n    \"candidate_text\": \"{\\\"edits\\\":{\\\"task.tal\\\":\\\"// Records are stack values with move-only language semantics.\\\\nstruct Vec2 {\\\\n    x: i32,\\\\n    y: i32\\\\n}\\\\n\\\\nfn dot(a: Vec2, b: Vec2) -> i32 {\\\\n    return a.x * b.x + a.y * b.y;\\\\n}\\\\n\\\\n// Both squares are non-negative, so no intermediate step overflows unless\\\\n// the mathematical result itself exceeds the i32 range.\\\\nfn squared_length(value: Vec2) -> i32 {\\\\n    return value.x * value.x + value.y * value.y;\\\\n}\\\\n\\\\nfn main() -> i32 {\\\\n    let left = Vec2 { x: 2, y: 3 };\\\\n    let right = Vec2 { x: 4, y: 5 };\\\\n    let result = dot(left, right);\\\\n    if (result == 23) {\\\\n        let len = squared_length(Vec2 { x: 3, y: 4 });\\\\n        if (len == 25) {\\\\n            return 0;\\\\n        } else {\\\\n            return 2;\\\\n        }\\\\n    } else {\\\\n        return 1;\\\\n    }\\\\n}\\\\n\\\"}}\",\n    \"cli_list_cost_usd\": 0.028667,\n    \"provider\": \"anthropic\",\n    \"request_sha256\": \"6e6ab3a5062fc3205b038b66a1ade951bd894f3a94969a178780598cc9f73500\",\n    \"response_models\": [\n      \"claude-opus-5-5\"\n    ],\n    \"response_session_id\": \"4d6cca6b-aa16-4eb6-a8f3-62ab2ae8ffaa\",\n    \"response_sha256\": \"f2c68817a70440aa6cce9fa32153ce7f8f12dd5d9c5c69d19676f66e7cc3706d\",\n    \"response_stop_reason\": \"tool_use\",\n    \"response_subtype\": \"success\",\n    \"response_terminal_reason\": \"completed\",\n    \"synthetic\": false,\n    \"transport\": \"claude-code-cli\",\n    \"usage_receipt\": {\n      \"cache_creation\": {\n        \"ephemeral_1h_input_tokens\": 850,\n        \"ephemeral_5m_input_tokens\": 0\n      },\n      \"cache_creation_input_tokens\": 850,\n      \"cache_read_input_tokens\": 3895,\n      \"input_tokens\": 2,\n      \"output_tokens\": 1054,\n      \"output_tokens_details\": {\n        \"thinking_tokens\": 269\n      }\n    },\n    \"usage_source\": \"Anthropic Messages API response usage\"\n  },\n  \"schema\": \"talven.eval.response.v1\",\n  \"usage\": {\n    \"cache_write_input_tokens\": 850,\n    \"cached_input_tokens\": 3895,\n    \"input_tokens\": 4747,\n    \"model_cost_source\": \"anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription\",\n    \"model_cost_usd\": \"0.028667\",\n    \"output_tokens\": 1054,\n    \"tool_cost_usd\": null,\n    \"usage_source\": \"Claude Code CLI result usage\"\n  }\n}\n",
+            "stdout_sha256": "482b99779bb3e7f2c6c934d8a927f9da6e652944f855812b7cfaaade82112f01"
+          },
+          "index": 0,
+          "request_sha256": "d07ae1a76563913f32fe37f0e205d293e650da285fa628ea20ee4534104e1b5e",
+          "response_sha256": "482b99779bb3e7f2c6c934d8a927f9da6e652944f855812b7cfaaade82112f01",
+          "source_sha256": "06cf0bcd2a7e876d55e9f464b8fb856c8c5472a32d14babbb1e6f5bb9255ba17",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": 850,
+            "cached_input_tokens": 3895,
+            "input_tokens": 4747,
+            "model_cost_source": "anthropic-pricing.json sha256:33dd75f74c8fd14be798410869141d0890903da912ac260ba5446406fe0e4798; Anthropic first-party API list prices in USD per million tokens, as documented on 2026-09-24: base input/output per model; cache writes 1.25x (5-minute) and 2x (1-hour) input; cache reads 0.1x input except where a model lists its own rate (Opus 5.5 $0.20, Fable 5.1 $0.25). Verify against https://www.anthropic.com/pricing before any paid run.; list-price equivalent, billed through the Claude Code subscription",
+            "model_cost_usd": "0.028667",
+            "output_tokens": 1054,
+            "tool_cost_usd": null,
+            "usage_source": "Claude Code CLI result usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "require fn squared_length(value: Vec2) -> i32",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-dot-sensitivity-0",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-dot-sensitivity-22",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-dot-sensitivity-24",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-squared_length-sensitivity-0",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-squared_length-sensitivity-24",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "main-squared_length-sensitivity-26",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/native-values.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/native-values"
+                ],
+                "elapsed_seconds": 0.0758019159984542,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/native-values"
+                ],
+                "elapsed_seconds": 0.040635666999151,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-0.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-0"
+                ],
+                "elapsed_seconds": 0.04937854099989636,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-0"
+                ],
+                "elapsed_seconds": 0.027545291995920707,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-22.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-22"
+                ],
+                "elapsed_seconds": 0.051621457998408005,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-22"
+                ],
+                "elapsed_seconds": 0.1274098329959088,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-24.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-24"
+                ],
+                "elapsed_seconds": 0.07040054100070847,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-24"
+                ],
+                "elapsed_seconds": 0.039626916994166095,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-0.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-0"
+                ],
+                "elapsed_seconds": 0.04779995799617609,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-0"
+                ],
+                "elapsed_seconds": 0.03896350000286475,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-24.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-24"
+                ],
+                "elapsed_seconds": 0.0481905420019757,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-24"
+                ],
+                "elapsed_seconds": 0.04007908300263807,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              },
+              {
+                "argv": [
+                  "/usr/bin/cc",
+                  "-std=c11",
+                  "-O2",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-26.c",
+                  "-o",
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-26"
+                ],
+                "elapsed_seconds": 0.048353250000218395,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "argv": [
+                  "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-26"
+                ],
+                "elapsed_seconds": 0.027974249998806044,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "main rejected the wrong example result\n",
+                "stdout_sha256": "8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "process": {
+              "argv": [
+                "/opt/homebrew/opt/python@3.14/bin/python3.14",
+                "-m",
+                "experiments.verifier",
+                "--task",
+                "squared-length",
+                "--source",
+                "<scratch>/agent-v2/squared-length-source-001/attempt-000/task.tal",
+                "--cc",
+                "/usr/bin/cc",
+                "--timeout",
+                "5"
+              ],
+              "elapsed_seconds": 0.8016290000014124,
+              "error": null,
+              "returncode": 0,
+              "stderr": "",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"require fn squared_length(value: Vec2) -> i32\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-dot-sensitivity-0\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-dot-sensitivity-22\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-dot-sensitivity-24\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-squared_length-sensitivity-0\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-squared_length-sensitivity-24\", \"passed\": true, \"message\": \"native check passed\"}, {\"name\": \"main-squared_length-sensitivity-26\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.0758019159984542}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.040635666999151}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-0.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-0\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04937854099989636}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-0\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.027545291995920707}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-22.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-22\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.051621457998408005}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-22\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.1274098329959088}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-24.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-24\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07040054100070847}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-dot-sensitivity-24\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.039626916994166095}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-0.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-0\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04779995799617609}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-0\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.03896350000286475}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-24.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-24\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.0481905420019757}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-24\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04007908300263807}, {\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-26.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-26\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.048353250000218395}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-iqe3ps87/main-squared_length-sensitivity-26\"], \"returncode\": 0, \"stdout\": \"main rejected the wrong example result\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"8c3b09a24de39f21c67503dc1027dd31759da0d253258d4dc7311e7be5469845\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.027974249998806044}]}\n",
+              "stdout_sha256": "f1070422026ab9903b9c9dbda883afa0f78b11b2341ca277fc8f4f824fcb80da"
+            },
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "source",
+      "elapsed_seconds": 12.514796540999669,
+      "id": "squared-length-source-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": 850,
+        "cached_input_tokens": 3895,
+        "input_tokens": 4747,
+        "model_cost_usd": "0.028667",
+        "output_tokens": 1054,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "squared-length"
+    }
+  ]
+}
