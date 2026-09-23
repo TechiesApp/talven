@@ -1,0 +1,127 @@
+{
+  "schema": "talven.frontend-benchmark.v1",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64",
+    "processor": "arm",
+    "logical_cpus": 10,
+    "python": "3.14.7"
+  },
+  "tools": {
+    "native": "talven-native",
+    "cc": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+    "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)"
+  },
+  "repetitions": 9,
+  "note": "Wall-clock medians after one warm-up. Python in-process excludes interpreter start-up; all CLI rows include process start-up. Other languages' checkers do different work.",
+  "results": [
+    {
+      "functions": 10,
+      "lines": 83,
+      "bytes": 1480,
+      "talven_tokens": 550,
+      "python_in_process": {
+        "median_ms": 0.8705840009497479,
+        "min_ms": 0.8632090030005202,
+        "max_ms": 0.8893330013961531,
+        "samples": 9
+      },
+      "python_cli": {
+        "median_ms": 46.27283300214913,
+        "min_ms": 44.170375003886875,
+        "max_ms": 56.77320900576888,
+        "samples": 9
+      },
+      "native_cli": {
+        "median_ms": 4.4167919986648485,
+        "min_ms": 3.8081669990788214,
+        "max_ms": 10.04345800174633,
+        "samples": 9
+      },
+      "cc_syntax_only": {
+        "median_ms": 15.44487500359537,
+        "min_ms": 15.135624998947605,
+        "max_ms": 20.065374999830965,
+        "samples": 9
+      },
+      "rustc_metadata": {
+        "median_ms": 25.822957999480423,
+        "min_ms": 25.27258299960522,
+        "max_ms": 26.95629200024996,
+        "samples": 9
+      }
+    },
+    {
+      "functions": 100,
+      "lines": 803,
+      "bytes": 14531,
+      "talven_tokens": 5320,
+      "python_in_process": {
+        "median_ms": 8.54454100044677,
+        "min_ms": 8.347416995093226,
+        "max_ms": 10.690834002161864,
+        "samples": 9
+      },
+      "python_cli": {
+        "median_ms": 52.51004199817544,
+        "min_ms": 51.348083004995715,
+        "max_ms": 53.34825000318233,
+        "samples": 9
+      },
+      "native_cli": {
+        "median_ms": 4.0866659983294085,
+        "min_ms": 3.0357920040842146,
+        "max_ms": 5.211582996707875,
+        "samples": 9
+      },
+      "cc_syntax_only": {
+        "median_ms": 16.02070800436195,
+        "min_ms": 15.447958998265676,
+        "max_ms": 17.414292000466958,
+        "samples": 9
+      },
+      "rustc_metadata": {
+        "median_ms": 35.48725000291597,
+        "min_ms": 34.33033300098032,
+        "max_ms": 42.35687499749474,
+        "samples": 9
+      }
+    },
+    {
+      "functions": 300,
+      "lines": 2403,
+      "bytes": 43932,
+      "talven_tokens": 15920,
+      "python_in_process": {
+        "median_ms": 26.783291999890935,
+        "min_ms": 26.285708998329937,
+        "max_ms": 29.722958999627735,
+        "samples": 9
+      },
+      "python_cli": {
+        "median_ms": 72.53004200174473,
+        "min_ms": 70.44041699555237,
+        "max_ms": 80.4434579986264,
+        "samples": 9
+      },
+      "native_cli": {
+        "median_ms": 4.1112920007435605,
+        "min_ms": 3.6316659970907494,
+        "max_ms": 4.438165997271426,
+        "samples": 9
+      },
+      "cc_syntax_only": {
+        "median_ms": 18.873166998673696,
+        "min_ms": 18.06850000139093,
+        "max_ms": 24.799124999844935,
+        "samples": 9
+      },
+      "rustc_metadata": {
+        "median_ms": 54.80525000166381,
+        "min_ms": 53.93262500001583,
+        "max_ms": 60.163374997500796,
+        "samples": 9
+      }
+    }
+  ]
+}
