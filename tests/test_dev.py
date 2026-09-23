@@ -237,6 +237,20 @@ class DevelopmentTests(unittest.TestCase):
         self.assert_not_executing(build["pid"])
         self.assert_not_executing(child_pid)
 
+    @unittest.skipUnless(hasattr(os, "waitid"), "Non-reaping exit checks require waitid")
+    def test_exit_check_keeps_the_process_group_reserved_until_cleanup(self):
+        from talven.dev import exit_status, stop_group
+        process = subprocess.Popen([sys.executable, "-c", "raise SystemExit(3)"], start_new_session=True)
+        deadline = time.monotonic() + 10
+        while exit_status(process) is None and time.monotonic() < deadline:
+            time.sleep(0.01)
+        self.assertEqual(3, exit_status(process))
+        # Still unreaped: the PID and group ID cannot have been reused yet.
+        self.assertIsNone(process.returncode)
+        self.assertIsNotNone(os.waitid(os.P_PID, process.pid, os.WEXITED | os.WNOHANG | os.WNOWAIT))
+        stop_group(process, 1)
+        self.assertEqual(3, process.returncode)
+
     def test_program_descendant_is_stopped_after_leader_exits(self):
         child = ("import os,pathlib,signal,time; signal.signal(signal.SIGTERM, signal.SIG_IGN); "
                  f"pathlib.Path({str(self.directory / 'child-pid')!r}).write_text(str(os.getpid())); "

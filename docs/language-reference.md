@@ -102,7 +102,7 @@ Mutation:
 
 - Operands, call arguments, and record initializers evaluate left to right.
 - A loan starts when its argument is evaluated. It stays active while later arguments evaluate and ends when the call returns, so `f(&mut r, r.x)` is E0302 but `f(r.x, g(&mut r))` is allowed.
-- In a field assignment, the right side is evaluated first, then stored.
+- In a field assignment, the right side is evaluated first, then stored. Parentheses around the target are transparent; the target must still be a field of a named record (E0305).
 - `+ - * unary-` trap on overflow. `/` and `%` trap on a zero divisor and on `-2147483648 / -1` or `% -1`. Division truncates toward zero; `%` takes the dividend's sign.
 - Hosted traps abort the process. Recursion depth is not bounded.
 

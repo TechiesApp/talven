@@ -157,6 +157,14 @@ class CommandTests(unittest.TestCase):
                     self.assertEqual(1, result.returncode)
                     self.assertIn("E0901", result.stdout + result.stderr)
 
+    def test_malformed_expected_hash_is_a_usage_error(self):
+        for command in ("fmt", "context"):
+            with self.subTest(command=command):
+                args = ["--check"] if command == "fmt" else []
+                result = self.command(command, "examples/vectors.tal", *args, "--expect-source-hash", "abc")
+                self.assertEqual(2, result.returncode)
+                self.assertIn("64-character", result.stderr)
+
     def test_stale_context_hash_is_rejected_before_analysis(self):
         with tempfile.TemporaryDirectory() as temporary:
             source = Path(temporary) / "broken.tal"

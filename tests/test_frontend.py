@@ -67,6 +67,11 @@ class FrontendTests(unittest.TestCase):
             with self.subTest(code=code, program=program):
                 self.assert_error(code, program)
 
+    def test_parentheses_around_an_assignment_target_are_transparent(self):
+        record = "struct R { v: i32 } fn main() -> i32 { let mut r = R { v: 1 }; "
+        analyze(record + "(r.v) = 0; return r.v; }")
+        self.assert_error("E0305", record + "(R { v: 1 }).v = 0; return r.v; }")
+
     def test_comparisons_do_not_chain(self):
         for chained in ("false == false == false", "1 < 2 < 3", "false == false != true", "1 <= 2 >= 0"):
             with self.subTest(chained=chained):

@@ -183,7 +183,7 @@ class FormatCommandTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / "source.tal"
             for original, arguments, code in [
-                ("fn f()->i32{return 0;}", ["--expect-source-hash", "stale"], "E0501"),
+                ("fn f()->i32{return 0;}", ["--expect-source-hash", "0" * 64], "E0501"),
                 ("fn f()->i32{return 0}", [], "E0002"),
             ]:
                 path.write_text(original)
