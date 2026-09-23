@@ -1,6 +1,6 @@
 # GPU and platform design
 
-Status: long-term requirements with staged proposed backends. No platform support is implemented yet.
+Status: long-term requirements with staged proposed backends. No GPU support is implemented. The reference compiler's native output is checked in CI on Linux x86-64 and ARM64; its test suite also passes on macOS ARM64, which has no support statement.
 
 ## Host and device responsibilities
 
