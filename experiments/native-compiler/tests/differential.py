@@ -40,6 +40,8 @@ EXPECTED_DIVERGENCES = {
     "examples/invalid/moved.tal": "E0801",
     "tests/fixtures/borrowing-order.tal": "E0801",
     "tests/fixtures/borrowing-reborrow.tal": "E0801",
+    "experiments/corpora/agent-v2/moved.tal": "E0801",
+    "experiments/corpora/agent-v2/vectors.tal": "E0801",
     "experiments/corpora/borrowing-v1/order.tal": "E0801",
     "experiments/corpora/borrowing-v1/overlap.tal": "E0801",
     "experiments/corpora/borrowing-v1/permission.tal": "E0801",
