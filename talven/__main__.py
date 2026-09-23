@@ -10,11 +10,19 @@ import tempfile
 from . import VERSION
 from .backend import emit_c
 from .context import context, encode, source_hash
-from .edit_validation import snapshot_source, validate_edit
+from .edit_validation import HASH_PATTERN, snapshot_source, validate_edit
 from .formatter import format_source
 from .frontend import CompileError, MAX_SOURCE_BYTES, Span, analyze
 from .native import compiler_command
 from .source_edit import read_regular, replace_source, writable_source
+
+
+def revision_hash(value: str) -> str:
+    # A malformed hash can never match, so reject it as a usage error rather
+    # than reporting a changed revision.
+    if not HASH_PATTERN.fullmatch(value):
+        raise argparse.ArgumentTypeError("expected a 64-character lowercase hexadecimal SHA-256")
+    return value
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -30,12 +38,12 @@ def main(argv: list[str] | None = None) -> int:
     mode.add_argument("--check", action="store_true", help="Check formatting without writing source")
     mode.add_argument("--write", action="store_true", help="Explicitly replace the source file after freshness checks")
     fmt.add_argument("--json", action="store_true", help="Use structured diagnostics with --check")
-    fmt.add_argument("--expect-source-hash", help="Reject an unexpected source revision")
+    fmt.add_argument("--expect-source-hash", type=revision_hash, help="Reject an unexpected source revision")
     ctx = commands.add_parser("context", help="Return bounded, deterministic compiler-derived JSON")
     ctx.add_argument("source", type=Path)
     ctx.add_argument("--symbol")
     ctx.add_argument("--max-bytes", type=int, default=16384)
-    ctx.add_argument("--expect-source-hash")
+    ctx.add_argument("--expect-source-hash", type=revision_hash)
     ctx.add_argument("--freestanding", action="store_true")
     ctx.add_argument("--include-body", action="store_true", help="Include selected source as untrusted text data")
     emit = commands.add_parser("emit-c", help="Emit checked C11 without executing a C compiler")

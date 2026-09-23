@@ -56,11 +56,30 @@ def read_source(path):
         return Snapshot(code="E0901", error=str(error))
 
 
+def exit_status(process):
+    """Return the exit code without reaping, or None while running.
+
+    An unreaped child keeps its PID, and therefore its process-group ID,
+    reserved, so stop_group can still signal lingering descendants without
+    reaching an unrelated group that reused the number.
+    """
+    if process.returncode is not None:
+        return process.returncode
+    try:
+        info = os.waitid(os.P_PID, process.pid, os.WEXITED | os.WNOHANG | os.WNOWAIT)
+    except ChildProcessError:
+        return process.poll()
+    if info is None:
+        return None
+    return info.si_status if info.si_code == os.CLD_EXITED else -info.si_status
+
+
 def stop_group(process, timeout):
     """Reap our child and signal its group, even if the group leader exited."""
+    # macOS reports EPERM for a group whose only member is an unreaped zombie.
     try:
         os.killpg(process.pid, signal.SIGTERM)
-    except ProcessLookupError:
+    except (ProcessLookupError, PermissionError):
         pass
     try:
         process.wait(timeout=timeout)
@@ -70,7 +89,7 @@ def stop_group(process, timeout):
         # Descendants may retain descriptors after their parent exits.
         try:
             os.killpg(process.pid, signal.SIGKILL)
-        except ProcessLookupError:
+        except (ProcessLookupError, PermissionError):
             pass
         process.wait()
 
@@ -193,7 +212,7 @@ class Session:
             failure = "C compiler exceeded the 64 KiB output limit"
         elif time.monotonic() - job.started > self.args.build_timeout:
             failure = "Full build timed out"
-        status = job.process.poll()
+        status = exit_status(job.process)
         # Drain until EOF: a process can exit with more than one pipe buffer pending.
         if not failure and (status is None or chunk):
             return
@@ -239,7 +258,7 @@ class Session:
                        build_timeout_seconds=self.args.build_timeout, stop_timeout_seconds=self.args.stop_timeout)
             while not self.cancelled:
                 self.observe()
-                if self.program and self.program.process.poll() is not None:
+                if self.program and exit_status(self.program.process) is not None:
                     job, self.program = self.program, None
                     self.discard(job)
                     self.event("exited", job, returncode=job.process.returncode)
