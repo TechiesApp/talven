@@ -6,8 +6,10 @@ must be byte-identical, and each C output is compiled and executed. Generated pr
 also carry an independent Python oracle for exit status and stdout.
 
 The only accepted divergences are listed in EXPECTED_DIVERGENCES (fixed cases) or follow
-the documented rule that a program which the reference parses successfully and which
-declares a struct receives native E0801. Any other difference fails. No provider calls.
+the documented rule: a program which the reference parses successfully, which declares a
+struct, and which uses borrowing or mutation (a borrowed parameter type, a borrow
+expression, `let mut`, or a field assignment) receives native E0801. Every other program,
+including by-value record programs, must match exactly. No provider calls.
 """
 from concurrent.futures import ThreadPoolExecutor
 import json
@@ -22,7 +24,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
-from talven.frontend import CompileError, Expr, MAX_SOURCE_BYTES, analyze, parse
+from talven.frontend import CompileError, Expr, MAX_SOURCE_BYTES, Program, analyze, parse
 
 BINARY = Path(os.environ.get("TALVEN_NATIVE", ROOT / "experiments/native-compiler/target/release/talven-native")).resolve()
 REFERENCE = [sys.executable, "-B", "-m", "talven"]
@@ -35,25 +37,46 @@ CC = ["cc", "-std=c11", "-O2", "-Wall", "-Wextra", "-pedantic-errors", "-Werror"
 # "E0901-message" means the code matches but the host decoder's error text differs.
 EXPECTED_DIVERGENCES = {
     "examples/borrowing.tal": "E0801",
-    "examples/vectors.tal": "E0801",
     "examples/invalid/borrow-conflict.tal": "E0801",
-    "examples/invalid/moved.tal": "E0801",
     "tests/fixtures/borrowing-order.tal": "E0801",
     "tests/fixtures/borrowing-reborrow.tal": "E0801",
-    "experiments/corpora/agent-v2/moved.tal": "E0801",
-    "experiments/corpora/agent-v2/vectors.tal": "E0801",
     "experiments/corpora/borrowing-v1/order.tal": "E0801",
     "experiments/corpora/borrowing-v1/overlap.tal": "E0801",
     "experiments/corpora/borrowing-v1/permission.tal": "E0801",
     "experiments/corpora/borrowing-v1/reborrow.tal": "E0801",
-    "edge/struct-only": "E0801",
-    "edge/struct-after-function": "E0801",
+    "edge/record-borrow-param": "E0801",
+    "edge/record-borrow-mut-param": "E0801",
+    "edge/record-borrow-scalar-param": "E0801",
+    "edge/record-borrow-argument": "E0801",
+    "edge/record-borrow-let": "E0801",
+    "edge/record-let-mut": "E0801",
+    "edge/record-let-mut-scalar": "E0801",
+    "edge/record-field-assign": "E0801",
+    "edge/record-borrow-before-error": "E0801",
     "edge/invalid-utf8": "E0901-message",
 }
 
 
+def uses_borrow_or_mutation(program: Program) -> bool:
+    """A borrowed parameter type, a borrow expression, `let mut`, or a field assignment."""
+    if any(typ.text.startswith("&") for fn in program.functions for _, typ in fn.params):
+        return True
+    pending = [stmt for fn in program.functions for stmt in fn.body]
+    while pending:
+        node = pending.pop()
+        if isinstance(node, Expr):
+            if node.kind == "borrow":
+                return True
+            pending.extend([*node.args, *(child for _, child in node.fields)])
+            continue
+        if node.mutable or node.kind == "assign":
+            return True
+        pending.extend([node.expr, *node.then, *node.otherwise])
+    return False
+
+
 def rule_divergence(source: bytes):
-    """The documented rule for generated cases: reference-parseable struct programs get E0801."""
+    """The documented rule: reference-parseable struct programs that borrow or mutate get E0801."""
     try:
         text = source.decode("utf-8")
     except UnicodeDecodeError:
@@ -61,9 +84,10 @@ def rule_divergence(source: bytes):
     if len(source) > MAX_SOURCE_BYTES:
         return None
     try:
-        return "E0801" if parse(text).records else None
+        program = parse(text)
     except CompileError:
         return None
+    return "E0801" if program.records and uses_borrow_or_mutation(program) else None
 
 
 def fn(body: str, result: str = "i32", params: str = "") -> str:
@@ -193,9 +217,123 @@ def edge_cases():
         "edge/division-trap": "fn main() -> i32 { return -2147483648 / -1; }",
         "edge/remainder": "fn main() -> i32 { return (-7 % 3) + (7 / -2) + 100; }",
     }
+    cases.update(record_cases())
     encoded = {name: source.encode() for name, source in cases.items()}
     encoded["edge/invalid-utf8"] = b"fn main() -> i32 { return 0; } \xff"
     return encoded
+
+
+def record_cases():
+    """By-value records, moves, and the borrow/mutation boundary of the native profile."""
+    point = "struct P { x: i32, y: bool }\n"
+    take = "fn take(p: P) -> bool { return p.y; }\n"
+    make = "fn make(v: i32) -> P { return P { y: v > 0, x: v }; }\n"
+    main = lambda body: point + take + make + "fn main() -> i32 { " + body + " }\n"
+    nested = lambda n: "struct R { x: i32 }\n" + fn("return " + "R { x: " * n + "1" + " }.x" * n + ";")
+    record_parens = lambda n: point + fn("return P { x: " + "(" * n + "1" + ")" * n + ", y: true }.x;")
+    return {
+        "edge/record-basic": main("let p = P { y: true, x: 3, }; if (p.y) { return p.x; } return 0;"),
+        "edge/record-annotated": main("let p: P = make(4); let q: P = p; return q.x;"),
+        "edge/record-returned-field": main("return make(5).x + make(-6).x + 50;"),
+        "edge/record-literal-field": main("return P { x: 7, y: true }.x + (P { x: 1, y: false }).x;"),
+        "edge/record-by-value-args": point + "fn sum(a: P, b: P) -> i32 { return a.x + b.x; }\n"
+                                     "fn main() -> i32 { let a = P { x: 2, y: true }; let b = P { x: 3, y: false }; return sum(a, b); }",
+        "edge/record-discard-moves": main("let p = make(1); p; return p.x;"),
+        "edge/record-discard": main("let p = make(9); p; make(2); return 0;"),
+        "edge/record-move-then-use": main("let p = make(1); let q = p; return p.x;"),
+        "edge/record-read-then-move": point + "fn both(v: i32, p: P) -> i32 { return v + p.x; }\n"
+                                      "fn main() -> i32 { let p = P { x: 4, y: true }; return both(p.x, p); }",
+        "edge/record-move-then-read-arg": point + "fn both(p: P, v: i32) -> i32 { return v + p.x; }\n"
+                                          "fn main() -> i32 { let p = P { x: 4, y: true }; return both(p, p.x); }",
+        "edge/record-move-twice-in-call": point + "fn sum(a: P, b: P) -> i32 { return a.x + b.x; }\n"
+                                          "fn main() -> i32 { let p = P { x: 1, y: true }; return sum(p, p); }",
+        "edge/record-move-param": point + "fn f(p: P) -> i32 { let q = p; return p.x; }",
+        "edge/record-move-returning-branch": main("let p = make(3); if (p.x > 1) { let q = p; return q.x; } return p.x;"),
+        "edge/record-move-else-returning": main("let p = make(3); if (p.x > 9) { return 1; } else { let q = p; return q.x; }"),
+        "edge/record-move-fallthrough-then": main("let p = make(3); if (true) { let q = p; } return p.x;"),
+        "edge/record-move-fallthrough-else": main("let p = make(3); if (false) { return 1; } else { take(p); } return p.x;"),
+        "edge/record-move-both-branches": main("let p = make(3); if (true) { take(p); } else { take(p); } return p.x;"),
+        "edge/record-move-unused-after": main("let p = make(3); if (true) { take(p); } return 4;"),
+        "edge/record-move-nested-branch": main("let p = make(3); if (true) { if (false) { take(p); } } return p.x;"),
+        "edge/record-move-branch-local": main("if (true) { let q = make(1); let r = q; } return 0;"),
+        "edge/record-move-in-condition": main("let p = make(3); if (take(p)) { return 1; } return p.x;"),
+        "edge/record-move-and-right": main("let p = make(3); if (false && take(p)) { return 1; } return p.x;"),
+        "edge/record-move-or-right": main("let p = make(3); if (true || take(p)) { return 1; } return p.x;"),
+        "edge/record-move-and-left-reuse": main("let p = make(3); if (take(p) && p.y) { return 1; } return 0;"),
+        "edge/record-move-or-same-expression": main("let p = make(3); return (take(p) || take(p)) == true;"),
+        "edge/record-move-and-ok": main("let p = make(3); let q = make(4); if (take(p) && take(q)) { return 1; } return 0;"),
+        "edge/record-move-print-arg": main("let p = make(1); return print(p);"),
+        "edge/record-move-equality-self": main("let p = make(1); if (p == p) { return 1; } return 0;"),
+        "edge/record-equality": main("let p = make(1); let q = make(1); if (p == q) { return 1; } return 0;"),
+        "edge/record-inequality-left-scalar": main("let p = make(1); if (1 != p) { return 1; } return 0;"),
+        "edge/record-arith": main("let p = make(1); return p + 1;"),
+        "edge/record-negate": main("let p = make(1); return -p;"),
+        "edge/record-not": main("let p = make(1); if (!p) { return 1; } return 0;"),
+        "edge/record-condition": main("let p = make(1); if (p) { return 1; } return 0;"),
+        "edge/record-return-mismatch": point + "fn f() -> P { return 1; }",
+        "edge/record-let-mismatch": main("let p: P = 1; return 0;"),
+        "edge/record-wrong-record": point + "struct Q { x: i32, y: bool }\nfn f(p: P) -> i32 { return p.x; }\n"
+                                    "fn main() -> i32 { return f(Q { x: 1, y: true }); }",
+        "edge/record-no-field": main("let p = make(1); return p.z;"),
+        "edge/record-field-of-scalar": main("let p = make(1); return p.x.y;"),
+        "edge/record-field-of-call-scalar": main("return make(1).x.y;"),
+        "edge/record-field-of-text": point + fn('return "t".x;'),
+        "edge/record-duplicate-literal-field": main("return P { x: 1, x: 2, y: true }.x;"),
+        "edge/record-unknown-literal-field": main("return P { x: 1, z: 2, y: true }.x;"),
+        "edge/record-literal-field-type": main("return P { x: true, y: true }.x;"),
+        "edge/record-missing-fields": main("return P { }.x;"),
+        "edge/record-missing-sorted": "struct Q { b: i32, a: i32, c: bool }\n" + fn("return Q { c: true }.a;"),
+        "edge/record-literal-error-order": main("return P { z: missing, x: 1 }.x;"),
+        "edge/record-unknown-record": point + fn("return Nope { x: 1 }.x;"),
+        "edge/record-literal-of-function": point + "fn g() -> i32 { return 0; }\n" + fn("return g { x: 1 }.x;"),
+        "edge/record-call-of-record": point + fn("return P(1);"),
+        "edge/record-named-like-function": "struct f { x: i32 }\n" + fn("return 0;"),
+        "edge/record-function-before-record": fn("return 0;") + "\nstruct f { x: i32 }",
+        "edge/record-duplicate-struct": "struct P { x: i32 }\nstruct P { y: i32 }",
+        "edge/record-reserved-i32": "struct i32 { x: i32 }",
+        "edge/record-reserved-print": "struct print { x: i32 }",
+        "edge/record-empty": "struct E {}",
+        "edge/record-empty-after-error-free": "struct A { x: i32 }\nstruct E { }\nfn main() -> i32 { return 0; }",
+        "edge/record-duplicate-field": "struct P { x: i32, x: bool }",
+        "edge/record-duplicate-then-bad-type": "struct P { x: i32, x: str }",
+        "edge/record-str-field": "struct P { x: str }",
+        "edge/record-record-field": "struct P { x: i32 }\nstruct Q { p: P }",
+        "edge/record-unknown-field-type": "struct P { x: u8 }",
+        "edge/record-borrow-field-type": "struct P { x: i32 }\nstruct Q { p: &P }",
+        "edge/record-trailing-comma-decl": "struct P { x: i32, y: bool, }\nfn main() -> i32 { return P { x: 2, y: true }.x; }",
+        "edge/record-unknown-param-type": point + "fn f(q: Q) -> i32 { return 0; }",
+        "edge/record-borrow-result": point + "fn f(p: P) -> &P { return p; }",
+        "edge/record-borrow-annotation": main("let p = make(1); let q: &P = p; return 0;"),
+        "edge/record-shadow-record-name": main("let P = 4; return P + P { x: 1, y: true }.x;"),
+        "edge/record-main-returns-record": point + "fn main() -> P { return P { x: 0, y: true }; }",
+        "edge/record-evaluation-order": point + 'fn mark(s: str) -> i32 { return print(s); }\n'
+                                        'fn main() -> i32 { let p = P { y: mark("b") == 0, x: mark("a") + 3 }; '
+                                        'return p.x + P { x: mark("c"), y: true }.x; }',
+        "edge/record-field-trap": main("return P { x: 2147483647 + 1, y: true }.x;"),
+        "edge/record-trap-order": point + 'fn main() -> i32 { return P { y: print("before") == 0, x: 1 / 0 }.x; }',
+        "edge/record-two-structs-same-field": "struct A { v: i32 }\nstruct B { v: bool }\n"
+                                              "fn main() -> i32 { if (B { v: true }.v) { return A { v: 6 }.v; } return 1; }",
+        "edge/record-recursive": point + "fn count(p: P) -> P { if (p.x == 0) { return p; } return count(P { x: p.x - 1, y: !p.y }); }\n"
+                                 "fn main() -> i32 { let r = count(P { x: 5, y: true }); if (r.y) { return 1; } return 2; }",
+        "edge/record-forward-use": "fn main() -> i32 { return later().x; }\nfn later() -> Late { return Late { x: 8 }; }\nstruct Late { x: i32 }",
+        "edge/record-missing-return": point + "fn f(p: P) -> P { if (p.y) { return p; } }",
+        "edge/record-nested-60": nested(60),
+        "edge/record-nested-63": nested(63),
+        "edge/record-nested-64": nested(64),
+        "edge/record-nested-70": nested(70),
+        "edge/record-parens-253": record_parens(253),
+        "edge/record-parens-254": record_parens(254),
+        # Borrowing and mutation in a struct program: the native profile's documented E0801.
+        "edge/record-borrow-param": point + "fn r(p: &P) -> i32 { return p.x; }",
+        "edge/record-borrow-mut-param": point + "fn r(p: &mut P) -> i32 { return p.x; }",
+        "edge/record-borrow-scalar-param": point + "fn r(x: &i32) -> i32 { return 0; }",
+        "edge/record-borrow-argument": main("let p = make(1); return take(&p) == true;"),
+        "edge/record-borrow-let": main("let p = make(1); let q = &p; return 0;"),
+        "edge/record-let-mut": main("let mut p = make(1); return p.x;"),
+        "edge/record-let-mut-scalar": main("let mut x = 1; return x;"),
+        "edge/record-field-assign": main("let p = make(1); p.x = 2; return p.x;"),
+        "edge/record-borrow-before-error": point + "fn f() -> i32 { return 0; } fn f() -> i32 { return take(&p); }",
+    }
 
 
 def fixed_cases():
@@ -211,7 +349,7 @@ class Trap(Exception):
 
 
 class Oracle:
-    """Direct Talven scalar semantics over the reference AST; no C involved."""
+    """Direct Talven scalar and record semantics over the reference AST; no C involved."""
 
     def __init__(self, source: str):
         self.functions = {f.name.text: f for f in analyze(source).program.functions}
@@ -251,6 +389,11 @@ class Oracle:
             return value
         if kind == "name":
             return env[value]
+        if kind == "record":
+            # Records are immutable here, so a dictionary models the moved value exactly.
+            return {name.text: self.evaluate(child, env) for name, child in expr.fields}
+        if kind == "field":
+            return self.evaluate(expr.args[0], env)[value]
         if kind == "call":
             args = [self.evaluate(child, env) for child in expr.args]
             if value == "print":
@@ -294,12 +437,61 @@ PRECEDENCE = {"||": 1, "&&": 2, "==": 3, "!=": 3, "<": 4, ">": 4, "<=": 4, ">=":
               "+": 5, "-": 5, "*": 6, "/": 6, "%": 6}
 
 
+MOVED = "moved"
+
+
 class ProgramGenerator:
-    """Deterministic well-typed scalar programs; calls only reach earlier functions."""
+    """Deterministic well-typed programs over scalars, text, and by-value records.
+
+    Calls only reach earlier functions. A record binding is marked MOVED as soon as an
+    expression consumes it, in evaluation order, so later code never uses it again; a field
+    read does not move. Every generated branch returns, so a move inside a branch never
+    affects the code after the if statement.
+    """
 
     def __init__(self, rng: random.Random):
         self.rng = rng
         self.signatures = []
+        self.records = {}
+
+    def types(self):
+        return ["i32", "i32", "bool", *self.records]
+
+    def record(self, typ, env, depth):
+        """A record literal with every field once, in any order, sometimes with a trailing comma."""
+        fields = list(self.records[typ].items())
+        self.rng.shuffle(fields)
+        inits = [f"{name}: {self.expr(t, env, depth - 1)[0]}" for name, t in fields]
+        return f"{typ} {{ {', '.join(inits)}{',' if self.rng.random() < 0.3 else ''} }}", 9
+
+    def record_value(self, typ, env, depth):
+        rng = self.rng
+        names = [name for name, t in env.items() if t == typ]
+        calls = [s for s in self.signatures if s[2] == typ]
+        if names and rng.random() < 0.5:
+            name = rng.choice(names)
+            env[name] = MOVED
+            return name, 9
+        if calls and depth > 0 and rng.random() < 0.4:
+            name, params, _ = rng.choice(calls)
+            return f"{name}({', '.join(self.expr(t, env, depth - 1)[0] for t in params)})", 9
+        return self.record(typ, env, depth)
+
+    def field_read(self, typ, env, depth):
+        """Read a scalar field of a named record, a call result, or a record literal."""
+        rng = self.rng
+        owners = [(record, field) for record, fields in self.records.items()
+                  for field, t in fields.items() if t == typ]
+        if not owners:
+            return None
+        record, field = rng.choice(owners)
+        names = [name for name, t in env.items() if t == record]
+        if names and (depth <= 0 or rng.random() < 0.6):
+            return f"{rng.choice(names)}.{field}", 9
+        if depth <= 0:
+            return None
+        base, _ = self.record_value(record, env, depth - 1) if rng.random() < 0.6 else self.record(record, env, depth - 1)
+        return f"{base}.{field}", 9
 
     def literal(self):
         rng = self.rng
@@ -315,8 +507,14 @@ class ProgramGenerator:
     def expr(self, typ, env, depth):
         """Return (source, precedence) for an expression of type typ."""
         rng = self.rng
+        if typ in self.records:
+            return self.record_value(typ, env, depth)
         names = [name for name, t in env.items() if t == typ]
         calls = [s for s in self.signatures if s[2] == typ]
+        if self.records and rng.random() < 0.12:
+            read = self.field_read(typ, env, depth)
+            if read:
+                return read
         if depth <= 0 or rng.random() < 0.25:
             if typ == "i32":
                 if names and rng.random() < 0.5:
@@ -355,7 +553,7 @@ class ProgramGenerator:
         for _ in range(rng.randrange(0, 4)):
             roll = rng.random()
             if roll < 0.45:
-                typ = rng.choice(["i32", "i32", "bool"])
+                typ = rng.choice(self.types())
                 name = f"v{len(env)}"
                 annotation = f": {typ}" if rng.random() < 0.3 else ""
                 lines.append(f"{pad}let {name}{annotation} = {self.expr(typ, env, 3)[0]};")
@@ -363,7 +561,8 @@ class ProgramGenerator:
             elif roll < 0.65:
                 lines.append(f'{pad}print("{rng.choice(TEXTS)}");')
             elif roll < 0.8:
-                lines.append(f"{pad}{self.expr(rng.choice(['i32', 'bool']), env, 2)[0]};")
+                # Discarding a record moves it.
+                lines.append(f"{pad}{self.expr(rng.choice(self.types()), env, 2)[0]};")
             elif depth > 0:
                 condition = self.expr("bool", env, 2)[0]
                 then = self.body(result, dict(env), depth - 1, indent + 1)
@@ -382,10 +581,17 @@ class ProgramGenerator:
     def program(self):
         rng = self.rng
         self.signatures = []
+        self.records = {}
+        declarations = []
+        for index in range(rng.choice([0, 0, 1, 1, 2])):
+            fields = {name: rng.choice(["i32", "bool"]) for name in rng.sample(["a", "b", "c", "x"], rng.randrange(1, 4))}
+            self.records[f"R{index}"] = fields
+            declarations.append(f"struct R{index} {{\n" + ",\n".join(f"    {n}: {t}" for n, t in fields.items()) +
+                                ("," if rng.random() < 0.3 else "") + "\n}\n")
         functions = []
         for index in range(rng.randrange(0, 4)):
-            params = [rng.choice(["i32", "i32", "bool"]) for _ in range(rng.randrange(0, 4))]
-            result = rng.choice(["i32", "bool"])
+            params = [rng.choice(self.types()) for _ in range(rng.randrange(0, 4))]
+            result = rng.choice(["i32", "bool", *self.records])
             env = {f"p{i}": t for i, t in enumerate(params)}
             header = ", ".join(f"p{i}: {t}" for i, t in enumerate(params))
             functions.append(f"fn g{index}({header}) -> {result} {{\n" +
@@ -394,7 +600,10 @@ class ProgramGenerator:
         functions.append("fn main() -> i32 {\n" + "\n".join(self.body("i32", {}, 2, 1)) + "\n}\n")
         if rng.random() < 0.5:
             functions.reverse()  # forward calls are valid
-        return "\n".join(functions)
+        items = [*declarations, *functions]
+        if declarations and rng.random() < 0.5:
+            items = [*functions, *declarations]  # records may be used before their declaration
+        return "\n".join(items)
 
 
 VOCABULARY = ["fn", "let", "mut", "return", "if", "else", "true", "false", "struct", "print",

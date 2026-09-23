@@ -55,7 +55,7 @@ Source grew about four times; the context an agent needs for the edit did not. T
 
 The native time is almost entirely process start-up: it barely changes between 83 and 2,403 lines. The Python reference is the specification-grade implementation; it scales linearly and is fine for today's program sizes.
 
-**Limits.** Clang and rustc do more work for richer languages, include standard-library or header processing, and start larger processes, so their columns give scale rather than a like-for-like race. The native prototype covers scalars and text only, not records or borrowing. One host, one run.
+**Limits.** Clang and rustc do more work for richer languages, include standard-library or header processing, and start larger processes, so their columns give scale rather than a like-for-like race. The measured native prototype covered scalars and text only; it has since gained by-value records (not borrowing), which these scalar-only workloads do not exercise and which were not re-measured. One host, one run.
 
 ## Small freestanding programs
 
@@ -70,7 +70,7 @@ Checked arithmetic and traps are included; nothing else is linked. This supports
 
 ## Correctness investment
 
-- **Two compilers, one behavior.** The Python reference and the Rust prototype are compared on 548 cases (examples, 116 hand-written edge cases, 160 random programs, 260 mutations): diagnostics must match code, message, and range, and emitted C must be byte-identical and run identically.
+- **Two compilers, one behavior.** The Python reference and the Rust prototype are compared on 644 cases (15 example and fixture files, 209 hand-written edge cases, 160 random programs, 260 mutations): diagnostics must match code, message, and range, and emitted C must be byte-identical and run identically.
 - **Sanitizers.** Borrowing and text lifetimes run under ASan and UBSan.
 - **Test coverage.** The reference suite has 270+ tests and runs in CI on Linux x86-64 and ARM64 with no skips allowed.
 

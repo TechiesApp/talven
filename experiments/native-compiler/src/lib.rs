@@ -1,10 +1,12 @@
-//! A bounded port of the reference frontend and hosted C backend for scalars and static text.
+//! A bounded port of the reference frontend and hosted C backend for scalars, static text,
+//! and by-value records.
 //!
 //! The lexer, parser, checker, and emitter follow `talven/frontend.py` and `talven/backend.py`
-//! in order, codes, messages, and spans. Record declarations are the one unsupported feature
-//! (`E0801`); without records, borrow, field, record-literal, assignment, and `let mut` syntax
-//! always receives the reference's diagnostics.
-use std::collections::BTreeMap;
+//! in order, codes, messages, and spans. Records are affine by-value values with scalar fields.
+//! Borrowing and mutation are the one unsupported feature: a program that declares a struct and
+//! uses a borrowed parameter type, a borrow expression, `let mut`, or a field assignment receives
+//! `E0801`. Without records, that syntax always receives the reference's diagnostics.
+use std::collections::{BTreeMap, BTreeSet};
 use std::ops::Range;
 
 pub const PROFILE: &str = "native-scalar-text-v1";
@@ -247,20 +249,27 @@ enum Ty {
     Int,
     Bool,
     Text,
+    /// An index into the program's record declarations.
+    Record(usize),
 }
 impl Ty {
-    fn name(self) -> &'static str {
+    fn is_copy(self) -> bool {
+        !matches!(self, Self::Record(_))
+    }
+    fn name(self, records: &[Record]) -> &str {
         match self {
             Self::Int => "i32",
             Self::Bool => "bool",
             Self::Text => "str",
+            Self::Record(index) => &records[index].name.text,
         }
     }
-    fn c(self) -> &'static str {
+    fn c(self, records: &[Record]) -> String {
         match self {
-            Self::Int => "int32_t",
-            Self::Bool => "bool",
-            Self::Text => "tv_str",
+            Self::Int => "int32_t".into(),
+            Self::Bool => "bool".into(),
+            Self::Text => "tv_str".into(),
+            Self::Record(index) => format!("struct tv_s_{}", records[index].name.text),
         }
     }
 }
@@ -271,7 +280,8 @@ enum ExprKind {
     Text(String),
     Name(String),
     Call(String, Vec<usize>),
-    Record(String, Vec<usize>),
+    /// A record literal: its name, then each written field label and value in source order.
+    Record(String, Vec<(Token, usize)>),
     Field(String, usize),
     Borrow(usize),
     Unary(String, usize),
@@ -287,7 +297,8 @@ impl Expr {
     /// Children in the reference's `[*args, *fields]` order.
     fn children(&self) -> Vec<usize> {
         match &self.kind {
-            ExprKind::Call(_, args) | ExprKind::Record(_, args) => args.clone(),
+            ExprKind::Call(_, args) => args.clone(),
+            ExprKind::Record(_, fields) => fields.iter().map(|(_, value)| *value).collect(),
             ExprKind::Field(_, child) | ExprKind::Borrow(child) | ExprKind::Unary(_, child) => {
                 vec![*child]
             }
@@ -317,6 +328,13 @@ struct Stmt {
     target: Option<usize>,
 }
 #[derive(Debug)]
+pub struct Record {
+    name: Token,
+    fields: Vec<(Token, Token)>,
+    /// Field names and types, resolved once every declaration is validated.
+    resolved: Vec<(String, Ty)>,
+}
+#[derive(Debug)]
 struct Function {
     name: Token,
     params: Vec<(Token, Token)>,
@@ -325,6 +343,7 @@ struct Function {
 }
 #[derive(Debug)]
 pub struct Program {
+    records: Vec<Record>,
     functions: Vec<Function>,
     signatures: BTreeMap<String, (Vec<Ty>, Ty)>,
     expressions: Vec<Expr>,
@@ -420,16 +439,19 @@ impl Parser {
         self.take(end)?;
         Ok(result)
     }
-    fn program(&mut self) -> Result<(Vec<Function>, Option<Range<usize>>)> {
+    fn program(&mut self) -> Result<(Vec<Record>, Vec<Function>)> {
+        let mut records = Vec::new();
         let mut functions = Vec::new();
-        let mut record = None;
         while self.current().kind() != "eof" {
-            let start = self.current().span.clone();
             if self.accept("struct") {
-                self.take("id")?;
+                let name = self.take("id")?;
                 self.take("{")?;
-                self.pairs("}")?;
-                record.get_or_insert(start);
+                let fields = self.pairs("}")?;
+                records.push(Record {
+                    name,
+                    fields,
+                    resolved: Vec::new(),
+                });
             } else {
                 self.take("fn")?;
                 let name = self.take("id")?;
@@ -446,7 +468,7 @@ impl Parser {
                 });
             }
         }
-        Ok((functions, record))
+        Ok((records, functions))
     }
     fn block(&mut self, frame: usize) -> Result<Vec<Stmt>> {
         self.guard(frame)?;
@@ -560,9 +582,9 @@ impl Parser {
             } else if self.accept("{") {
                 let mut fields = Vec::new();
                 while self.current().kind() != "}" {
-                    self.take("id")?;
+                    let key = self.take("id")?;
                     self.take(":")?;
-                    fields.push(self.expression(0, frame + 1)?);
+                    fields.push((key, self.expression(0, frame + 1)?));
                     if !self.accept(",") {
                         break;
                     }
@@ -645,7 +667,38 @@ fn check_depth(functions: &[Function], expressions: &[Expr]) -> Result<()> {
     Ok(())
 }
 
-fn same(actual: Ty, expected: Ty, span: Range<usize>) -> Result<()> {
+/// The first borrow or mutation construct, in source order: a borrowed parameter type, a
+/// borrow expression, `let mut`, or a field assignment. With records declared these are the
+/// native profile's unsupported features (`E0801`); without records the reference always
+/// rejects them, and the checker below reports the reference's diagnostic instead.
+fn borrow_or_mutation(functions: &[Function], expressions: &[Expr]) -> Option<Range<usize>> {
+    fn statements(body: &[Stmt], spans: &mut Vec<Range<usize>>) {
+        for stmt in body {
+            if stmt.mutable || stmt.kind == StmtKind::Assign {
+                spans.push(stmt.span.clone());
+            }
+            statements(&stmt.then, spans);
+            statements(&stmt.otherwise, spans);
+        }
+    }
+    let mut spans: Vec<Range<usize>> = expressions
+        .iter()
+        .filter(|e| matches!(e.kind, ExprKind::Borrow(_)))
+        .map(|e| e.span.clone())
+        .collect();
+    for f in functions {
+        spans.extend(
+            f.params
+                .iter()
+                .filter(|(_, ty)| ty.text.starts_with('&'))
+                .map(|(_, ty)| ty.span.clone()),
+        );
+        statements(&f.body, &mut spans);
+    }
+    spans.into_iter().min_by_key(|span| span.start)
+}
+
+fn same(actual: Ty, expected: Ty, span: Range<usize>, records: &[Record]) -> Result<()> {
     if actual == expected {
         Ok(())
     } else {
@@ -653,14 +706,14 @@ fn same(actual: Ty, expected: Ty, span: Range<usize>) -> Result<()> {
             "E0201",
             format!(
                 "Expected {}, found {}; implicit conversions are not supported",
-                expected.name(),
-                actual.name()
+                expected.name(records),
+                actual.name(records)
             ),
             span,
         ))
     }
 }
-fn type_name(token: &Token, parameter: bool) -> Result<Ty> {
+fn type_name(token: &Token, parameter: bool, records: &BTreeMap<String, usize>) -> Result<Ty> {
     let text = token.text.as_str();
     let base = text
         .strip_prefix("&mut ")
@@ -676,34 +729,56 @@ fn type_name(token: &Token, parameter: bool) -> Result<Ty> {
         "i32" => Ty::Int,
         "bool" => Ty::Bool,
         "str" => Ty::Text,
-        _ => {
-            return Err(error(
-                "E0101",
-                format!("Unknown type {text}"),
-                token.span.clone(),
-            ));
-        }
+        name => match records.get(name) {
+            Some(index) => Ty::Record(*index),
+            None => {
+                return Err(error(
+                    "E0101",
+                    format!("Unknown type {text}"),
+                    token.span.clone(),
+                ));
+            }
+        },
     };
-    if base.is_some() {
-        return Err(error(
+    match (base, ty) {
+        (None, _) => Ok(ty),
+        // Borrowed record parameters are rejected before checking (`E0801`).
+        (Some(_), Ty::Record(_)) => Err(unsupported(token.span.clone())),
+        (Some(_), _) => Err(error(
             "E0305",
             "Only named records can be borrowed in this profile",
             token.span.clone(),
-        ));
+        )),
     }
-    Ok(ty)
+}
+fn unsupported(span: Range<usize>) -> Error {
+    error(
+        "E0801",
+        "Native experiment does not support borrowing or mutation (&, &mut, let mut, field assignment); use the reference compiler",
+        span,
+    )
 }
 
-type Bindings = BTreeMap<String, Ty>;
+/// Local bindings and the owned records that may have moved on some path.
+#[derive(Clone, Default)]
+struct State {
+    bindings: BTreeMap<String, Ty>,
+    moved: BTreeSet<String>,
+}
 struct Checker<'a> {
     expressions: &'a mut [Expr],
     signatures: &'a BTreeMap<String, (Vec<Ty>, Ty)>,
+    records: &'a [Record],
+    record_index: &'a BTreeMap<String, usize>,
     result: Ty,
     console: bool,
 }
 impl Checker<'_> {
-    fn bind(&self, name: &Token, ty: Ty, bindings: &mut Bindings, mutable: bool) -> Result<()> {
-        if bindings.contains_key(&name.text) {
+    fn same(&self, actual: Ty, expected: Ty, span: Range<usize>) -> Result<()> {
+        same(actual, expected, span, self.records)
+    }
+    fn bind(&self, name: &Token, ty: Ty, state: &mut State, mutable: bool) -> Result<()> {
+        if state.bindings.contains_key(&name.text) {
             return Err(error(
                 "E0102",
                 format!("Duplicate or shadowed binding {}", name.text),
@@ -711,43 +786,56 @@ impl Checker<'_> {
             ));
         }
         if mutable {
+            // Records with `let mut` are rejected before checking, so only scalars reach here.
             return Err(error(
                 "E0305",
                 "let mut currently supports owned records with scalar fields",
                 name.span.clone(),
             ));
         }
-        bindings.insert(name.text.clone(), ty);
+        state.bindings.insert(name.text.clone(), ty);
         Ok(())
     }
-    fn block(&mut self, body: &[Stmt], bindings: &mut Bindings) -> Result<bool> {
+    fn block(&mut self, body: &[Stmt], state: &mut State) -> Result<bool> {
         let mut reachable = true;
         for stmt in body {
             if !reachable {
                 return Err(error("E0206", "Unreachable statement", stmt.span.clone()));
             }
             if stmt.kind == StmtKind::Assign {
-                self.assignment(stmt, bindings)?;
+                self.assignment(stmt, state)?;
                 continue;
             }
-            let ty = self.expr(stmt.expr, bindings)?;
+            let ty = self.expr(stmt.expr, state, true)?;
             let span = self.expressions[stmt.expr].span.clone();
             match stmt.kind {
                 StmtKind::Let => {
                     if let Some(annotation) = &stmt.annotation {
-                        same(ty, type_name(annotation, false)?, span)?;
+                        self.same(ty, type_name(annotation, false, self.record_index)?, span)?;
                     }
                     let name = stmt.name.as_ref().expect("let name");
-                    self.bind(name, ty, bindings, stmt.mutable)?;
+                    self.bind(name, ty, state, stmt.mutable)?;
                 }
                 StmtKind::Return => {
-                    same(ty, self.result, span)?;
+                    self.same(ty, self.result, span)?;
                     reachable = false;
                 }
                 StmtKind::If => {
-                    same(ty, Ty::Bool, span)?;
-                    let then_live = self.block(&stmt.then, &mut bindings.clone())?;
-                    let else_live = self.block(&stmt.otherwise, &mut bindings.clone())?;
+                    self.same(ty, Ty::Bool, span)?;
+                    let mut then = state.clone();
+                    let mut otherwise = state.clone();
+                    let then_live = self.block(&stmt.then, &mut then)?;
+                    let else_live = self.block(&stmt.otherwise, &mut otherwise)?;
+                    // Moves on a branch that can fall through may precede later statements.
+                    for (branch, live) in [(then, then_live), (otherwise, else_live)] {
+                        if live {
+                            let outer = branch
+                                .moved
+                                .into_iter()
+                                .filter(|name| state.bindings.contains_key(name));
+                            state.moved.extend(outer.collect::<Vec<_>>());
+                        }
+                    }
                     reachable = then_live || else_live;
                 }
                 StmtKind::Expr | StmtKind::Assign => (),
@@ -755,7 +843,9 @@ impl Checker<'_> {
         }
         Ok(reachable)
     }
-    fn assignment(&mut self, stmt: &Stmt, bindings: &Bindings) -> Result<()> {
+    /// Field assignment always fails here: with records declared it is rejected before
+    /// checking (`E0801`), and without records a scalar binding has no field.
+    fn assignment(&mut self, stmt: &Stmt, state: &mut State) -> Result<()> {
         let target = stmt.target.expect("assignment target");
         let place = match &self.expressions[target].kind {
             ExprKind::Field(_, place) => *place,
@@ -768,25 +858,32 @@ impl Checker<'_> {
                 self.expressions[target].span.clone(),
             ));
         }
-        // Without records, a scalar binding has no field to assign.
-        self.expr(target, bindings)?;
-        unreachable!("fields of scalar bindings are always rejected")
+        self.expr(target, state, false)?;
+        Err(unsupported(stmt.span.clone()))
     }
-    fn lookup(&self, index: usize, bindings: &Bindings) -> Result<Ty> {
+    fn lookup(&self, index: usize, state: &State) -> Result<Ty> {
         let expr = &self.expressions[index];
         let ExprKind::Name(name) = &expr.kind else {
             unreachable!("lookup of a name")
         };
-        bindings.get(name).copied().ok_or_else(|| {
-            error(
+        let Some(ty) = state.bindings.get(name) else {
+            return Err(error(
                 "E0101",
                 format!("Unknown binding {name}"),
                 expr.span.clone(),
-            )
-        })
+            ));
+        };
+        if state.moved.contains(name) {
+            return Err(error(
+                "E0301",
+                format!("{name} was moved on a possible path and cannot be used again"),
+                expr.span.clone(),
+            ));
+        }
+        Ok(*ty)
     }
     /// A borrow argument always fails without records; report the reference's first reason.
-    fn borrow(&self, index: usize, bindings: &Bindings) -> Result<Ty> {
+    fn borrow(&self, index: usize, state: &State) -> Result<Ty> {
         let ExprKind::Borrow(place) = self.expressions[index].kind else {
             unreachable!("borrow expression")
         };
@@ -798,21 +895,23 @@ impl Checker<'_> {
                 span,
             ));
         }
-        self.lookup(place, bindings)?;
+        self.lookup(place, state)?;
         Err(error(
             "E0305",
             "Only named records can be borrowed in this profile",
             span,
         ))
     }
-    fn argument(&mut self, index: usize, bindings: &Bindings) -> Result<Ty> {
+    fn argument(&mut self, index: usize, state: &mut State) -> Result<Ty> {
         if matches!(self.expressions[index].kind, ExprKind::Borrow(_)) {
-            self.borrow(index, bindings)
+            self.borrow(index, state)
         } else {
-            self.expr(index, bindings)
+            self.expr(index, state, true)
         }
     }
-    fn expr(&mut self, index: usize, bindings: &Bindings) -> Result<Ty> {
+    /// Check one expression. `consume` is false only for a field's base, which reads a scalar
+    /// field without moving its record.
+    fn expr(&mut self, index: usize, state: &mut State, consume: bool) -> Result<Ty> {
         let expr = self.expressions[index].clone();
         let span = expr.span.clone();
         let ty = match expr.kind {
@@ -830,24 +929,79 @@ impl Checker<'_> {
             }
             ExprKind::Bool(_) => Ty::Bool,
             ExprKind::Text(_) => Ty::Text,
-            ExprKind::Name(_) => self.lookup(index, bindings)?,
-            ExprKind::Field(name, child) => {
-                let base = self.expr(child, bindings)?;
-                return Err(error(
-                    "E0101",
-                    format!("Type {} has no field {name}", base.name()),
-                    span,
-                ));
+            ExprKind::Name(name) => {
+                let ty = self.lookup(index, state)?;
+                if consume && !ty.is_copy() {
+                    state.moved.insert(name);
+                }
+                ty
             }
-            ExprKind::Record(name, _) => {
-                return Err(error("E0101", format!("Unknown record {name}"), span));
+            ExprKind::Field(name, child) => {
+                let base = self.expr(child, state, false)?;
+                let field = match base {
+                    Ty::Record(record) => self.records[record]
+                        .resolved
+                        .iter()
+                        .find(|(field, _)| *field == name),
+                    _ => None,
+                };
+                match field {
+                    Some((_, ty)) => *ty,
+                    None => {
+                        return Err(error(
+                            "E0101",
+                            format!("Type {} has no field {name}", base.name(self.records)),
+                            span,
+                        ));
+                    }
+                }
+            }
+            ExprKind::Record(name, fields) => {
+                let Some(&record) = self.record_index.get(&name) else {
+                    return Err(error("E0101", format!("Unknown record {name}"), span));
+                };
+                let mut seen = BTreeSet::new();
+                for (key, child) in fields {
+                    let expected = self.records[record]
+                        .resolved
+                        .iter()
+                        .find(|(field, _)| *field == key.text)
+                        .map(|(_, ty)| *ty);
+                    let Some(expected) = expected.filter(|_| !seen.contains(&key.text)) else {
+                        return Err(error(
+                            "E0203",
+                            format!("Duplicate or unknown field {}", key.text),
+                            key.span,
+                        ));
+                    };
+                    seen.insert(key.text);
+                    let actual = self.expr(child, state, true)?;
+                    self.same(actual, expected, self.expressions[child].span.clone())?;
+                }
+                let missing: BTreeSet<&str> = self.records[record]
+                    .resolved
+                    .iter()
+                    .map(|(field, _)| field.as_str())
+                    .filter(|field| !seen.contains(*field))
+                    .collect();
+                if !missing.is_empty() {
+                    return Err(error(
+                        "E0203",
+                        format!(
+                            "Missing fields: {}",
+                            missing.into_iter().collect::<Vec<_>>().join(", ")
+                        ),
+                        span,
+                    ));
+                }
+                Ty::Record(record)
             }
             ExprKind::Call(name, args) if name == "print" => {
                 if args.len() != 1 {
                     return Err(error("E0203", "print expects 1 argument", span));
                 }
-                let actual = self.argument(args[0], bindings)?;
-                same(actual, Ty::Text, self.expressions[args[0]].span.clone())?;
+                let actual = self.argument(args[0], state)?;
+                self.same(actual, Ty::Text, self.expressions[args[0]].span.clone())?;
                 self.console = true;
                 Ty::Int
             }
@@ -863,8 +1017,8 @@ impl Checker<'_> {
                     ));
                 }
                 for (arg, expected) in args.iter().zip(params) {
-                    let actual = self.argument(*arg, bindings)?;
-                    same(actual, expected, self.expressions[*arg].span.clone())?;
+                    let actual = self.argument(*arg, state)?;
+                    self.same(actual, expected, self.expressions[*arg].span.clone())?;
                 }
                 result
             }
@@ -883,38 +1037,39 @@ impl Checker<'_> {
                     Ty::Int
                 } else {
                     let expected = if op == "-" { Ty::Int } else { Ty::Bool };
-                    let actual = self.expr(child, bindings)?;
-                    same(actual, expected, self.expressions[child].span.clone())?;
+                    let actual = self.expr(child, state, true)?;
+                    self.same(actual, expected, self.expressions[child].span.clone())?;
                     expected
                 }
             }
             ExprKind::Binary(op, a, b) => {
-                let left = self.expr(a, bindings)?;
-                let right = self.expr(b, bindings)?;
+                let left = self.expr(a, state, true)?;
+                // The right side of &&/|| may run, so its moves count as possible.
+                let right = self.expr(b, state, true)?;
                 let (a_span, b_span) = (
                     self.expressions[a].span.clone(),
                     self.expressions[b].span.clone(),
                 );
                 match op.as_str() {
                     "&&" | "||" => {
-                        same(left, Ty::Bool, a_span)?;
-                        same(right, Ty::Bool, b_span)?;
+                        self.same(left, Ty::Bool, a_span)?;
+                        self.same(right, Ty::Bool, b_span)?;
                         Ty::Bool
                     }
                     "==" | "!=" => {
-                        if left == Ty::Text {
+                        if !matches!(left, Ty::Int | Ty::Bool) {
                             return Err(error(
                                 "E0204",
                                 "Equality currently supports only i32 and bool",
                                 span,
                             ));
                         }
-                        same(right, left, b_span)?;
+                        self.same(right, left, b_span)?;
                         Ty::Bool
                     }
                     _ => {
-                        same(left, Ty::Int, a_span)?;
-                        same(right, Ty::Int, b_span)?;
+                        self.same(left, Ty::Int, a_span)?;
+                        self.same(right, Ty::Int, b_span)?;
                         if matches!(op.as_str(), "<" | ">" | "<=" | ">=") {
                             Ty::Bool
                         } else {
@@ -929,40 +1084,86 @@ impl Checker<'_> {
     }
 }
 
+/// Reserved and duplicate global names, then record declarations, as in the reference.
+fn check_declarations(
+    records: &mut [Record],
+    functions: &[Function],
+) -> Result<BTreeMap<String, usize>> {
+    let mut names: BTreeSet<&str> = ["i32", "bool", "str", "print"].into();
+    // The reference visits every record before any function, whatever their source order.
+    for name in records
+        .iter()
+        .map(|r| &r.name)
+        .chain(functions.iter().map(|f| &f.name))
+    {
+        if !names.insert(&name.text) {
+            return Err(error(
+                "E0102",
+                format!("Duplicate or reserved declaration {}", name.text),
+                name.span.clone(),
+            ));
+        }
+    }
+    let mut index = BTreeMap::new();
+    for (position, record) in records.iter_mut().enumerate() {
+        if record.fields.is_empty() {
+            return Err(error(
+                "E0204",
+                "Prototype records must have at least one scalar field",
+                record.name.span.clone(),
+            ));
+        }
+        let mut resolved: Vec<(String, Ty)> = Vec::new();
+        for (name, ty) in &record.fields {
+            if resolved.iter().any(|(field, _)| *field == name.text) {
+                return Err(error(
+                    "E0102",
+                    format!("Duplicate field {}", name.text),
+                    name.span.clone(),
+                ));
+            }
+            let ty = match ty.text.as_str() {
+                "i32" => Ty::Int,
+                "bool" => Ty::Bool,
+                _ => {
+                    return Err(error(
+                        "E0204",
+                        "Prototype record fields must be i32 or bool",
+                        ty.span.clone(),
+                    ));
+                }
+            };
+            resolved.push((name.text.clone(), ty));
+        }
+        record.resolved = resolved;
+        index.insert(record.name.text.clone(), position);
+    }
+    Ok(index)
+}
+
 pub fn analyze(source: &str) -> Result<Program> {
     let mut parser = Parser {
         tokens: lex(source)?,
         index: 0,
         expressions: Vec::new(),
     };
-    let (functions, record) = parser.program()?;
+    let (mut records, functions) = parser.program()?;
     let mut expressions = parser.expressions;
     check_depth(&functions, &expressions)?;
-    if let Some(span) = record {
-        return Err(error(
-            "E0801",
-            "Native experiment does not support struct declarations or records; use the reference compiler",
-            span,
-        ));
+    // Only record programs can borrow or mutate successfully in the reference.
+    if !records.is_empty()
+        && let Some(span) = borrow_or_mutation(&functions, &expressions)
+    {
+        return Err(unsupported(span));
     }
-    let mut names = vec!["i32", "bool", "str", "print"];
-    for f in &functions {
-        if names.contains(&f.name.text.as_str()) {
-            return Err(error(
-                "E0102",
-                format!("Duplicate or reserved declaration {}", f.name.text),
-                f.name.span.clone(),
-            ));
-        }
-        names.push(&f.name.text);
-    }
+    let record_index = check_declarations(&mut records, &functions)?;
     let mut signatures = BTreeMap::new();
     for f in &functions {
-        let result = type_name(&f.result, false)?;
+        let result = type_name(&f.result, false, &record_index)?;
         let params = f
             .params
             .iter()
-            .map(|(_, ty)| type_name(ty, true))
+            .map(|(_, ty)| type_name(ty, true, &record_index))
             .collect::<Result<Vec<_>>>()?;
         signatures.insert(f.name.text.clone(), (params, result));
     }
@@ -972,14 +1173,16 @@ pub fn analyze(source: &str) -> Result<Program> {
         let mut checker = Checker {
             expressions: &mut expressions,
             signatures: &signatures,
+            records: &records,
+            record_index: &record_index,
             result,
             console,
         };
-        let mut bindings = Bindings::new();
+        let mut state = State::default();
         for ((name, _), ty) in f.params.iter().zip(params) {
-            checker.bind(name, ty, &mut bindings, false)?;
+            checker.bind(name, ty, &mut state, false)?;
         }
-        if checker.block(&f.body, &mut bindings)? {
+        if checker.block(&f.body, &mut state)? {
             return Err(error(
                 "E0205",
                 format!(
@@ -992,6 +1195,7 @@ pub fn analyze(source: &str) -> Result<Program> {
         console = checker.console;
     }
     Ok(Program {
+        records,
         functions,
         signatures,
         expressions,
@@ -1040,6 +1244,7 @@ fn console_definition() -> &'static str {
 
 struct Emitter<'a> {
     expressions: &'a [Expr],
+    records: &'a [Record],
     lines: Vec<String>,
     indent: usize,
     counter: usize,
@@ -1053,7 +1258,8 @@ impl Emitter<'_> {
     fn temp(&mut self, ty: Ty, value: String) -> String {
         self.counter += 1;
         let name = format!("tv_tmp_{}", self.counter);
-        self.line(format!("{} {name} = {value};", ty.c()));
+        let ctype = ty.c(self.records);
+        self.line(format!("{ctype} {name} = {value};"));
         name
     }
     fn helper(&mut self, name: &str) -> String {
@@ -1145,9 +1351,23 @@ impl Emitter<'_> {
                 };
                 self.temp(ty, value)
             }
-            ExprKind::Record(..) | ExprKind::Field(..) | ExprKind::Borrow(_) => {
-                unreachable!("rejected by the checker")
+            ExprKind::Field(name, child) => {
+                // A named base is read in place; any other base is evaluated to a temporary.
+                let record = match &self.expressions[*child].kind {
+                    ExprKind::Name(base) => format!("tv_v_{base}"),
+                    _ => self.expr(*child),
+                };
+                // Capture the scalar now, as the reference does.
+                self.temp(ty, format!("({record}).tv_m_{name}"))
             }
+            ExprKind::Record(name, fields) => {
+                let values = fields
+                    .iter()
+                    .map(|(key, child)| format!(".tv_m_{} = {}", key.text, self.expr(*child)))
+                    .collect::<Vec<_>>();
+                self.temp(ty, format!("(struct tv_s_{name}){{{}}}", values.join(", ")))
+            }
+            ExprKind::Borrow(_) => unreachable!("rejected by the checker"),
         }
     }
     fn block(&mut self, body: &[Stmt]) {
@@ -1157,7 +1377,8 @@ impl Emitter<'_> {
                 StmtKind::Let => {
                     let name = &stmt.name.as_ref().expect("let name").text;
                     let ty = self.expressions[stmt.expr].ty.expect("checked let");
-                    self.line(format!("{} tv_v_{name} = {value};", ty.c()));
+                    let ctype = ty.c(self.records);
+                    self.line(format!("{ctype} tv_v_{name} = {value};"));
                     self.line(format!("(void)tv_v_{name};"));
                 }
                 StmtKind::Return => self.line(format!("return {value};")),
@@ -1184,7 +1405,7 @@ fn signature(program: &Program, f: &Function) -> String {
         .params
         .iter()
         .zip(params)
-        .map(|((name, _), ty)| format!("{} tv_v_{}", ty.c(), name.text))
+        .map(|((name, _), ty)| format!("{} tv_v_{}", ty.c(&program.records), name.text))
         .collect::<Vec<_>>()
         .join(", ");
     let params = if params.is_empty() {
@@ -1192,7 +1413,11 @@ fn signature(program: &Program, f: &Function) -> String {
     } else {
         params
     };
-    format!("{} tv_f_{}({params})", result.c(), f.name.text)
+    format!(
+        "{} tv_f_{}({params})",
+        result.c(&program.records),
+        f.name.text
+    )
 }
 pub fn emit_c(program: &Program, console: bool) -> Result<String> {
     if program.console && !console {
@@ -1212,6 +1437,7 @@ pub fn emit_c(program: &Program, console: bool) -> Result<String> {
     }
     let mut emitter = Emitter {
         expressions: &program.expressions,
+        records: &program.records,
         lines: HEADER.iter().map(|line| line.to_string()).collect(),
         indent: 0,
         counter: 0,
@@ -1221,6 +1447,14 @@ pub fn emit_c(program: &Program, console: bool) -> Result<String> {
         emitter.lines.push(console_definition().into());
     }
     let helpers_at = emitter.lines.len();
+    for record in &program.records {
+        emitter.line(format!("struct tv_s_{} {{", record.name.text));
+        for (name, ty) in &record.resolved {
+            let ctype = ty.c(&program.records);
+            emitter.line(format!("    {ctype} tv_m_{name};"));
+        }
+        emitter.line("};");
+    }
     for f in &program.functions {
         emitter.line(format!("{};", signature(program, f)));
     }
@@ -1329,11 +1563,186 @@ mod tests {
     }
 
     #[test]
-    fn let_mut_and_record_syntax_follow_the_reference() {
+    fn let_mut_and_record_syntax_follow_the_reference_without_records() {
         let (code, _, span) = failure("fn f() -> i32 { let mut x = 1; return x; }");
         assert_eq!(("E0305", 24..25), (code, span));
-        assert_eq!("E0801", failure("struct A { x: i32 }").0);
+        assert!(analyze("struct A { x: i32 }").is_ok());
         assert_eq!("E0101", failure("fn f(x: i32) -> i32 { return x.y; }").0);
+        assert_eq!("E0101", failure("fn f(x: &A) -> i32 { return 0; }").0);
+        let (code, message, _) = failure("fn f() -> i32 { return P { x: 1 }; }");
+        assert_eq!(("E0101", "Unknown record P"), (code, message.as_str()));
+    }
+
+    const POINT: &str = "struct P { x: i32, y: bool }\n";
+
+    #[test]
+    fn borrowing_and_mutation_in_record_programs_are_unsupported() {
+        let cases = [
+            ("fn f(p: &P) -> i32 { return p.x; }", "&P"),
+            ("fn f(p: &mut P) -> i32 { return p.x; }", "&mut P"),
+            ("fn f(x: &i32) -> i32 { return 0; }", "&i32"),
+            (
+                "fn g(p: P) -> i32 { return 0; } fn f(p: P) -> i32 { return g(&p); }",
+                "&p",
+            ),
+            (
+                "fn f() -> i32 { let mut x = 1; return x; }",
+                "let mut x = 1;",
+            ),
+            ("fn f(p: P) -> i32 { p.x = 1; return 0; }", "p.x = 1;"),
+            // The first construct in source order, before any other check.
+            (
+                "fn f() -> i32 { return 0; } fn f() -> i32 { let mut q = 1; return g(&q); }",
+                "let mut q = 1;",
+            ),
+        ];
+        for (body, construct) in cases {
+            let source = format!("{POINT}{body}");
+            let (code, message, span) = failure(&source);
+            assert_eq!("E0801", code, "{source}");
+            assert!(message.contains("borrowing or mutation"));
+            assert_eq!(construct, &source[span], "{source}");
+        }
+        // Borrowed results and annotations keep the reference's E0304; field types keep E0204.
+        assert_eq!(
+            "E0304",
+            failure(&format!("{POINT}fn f(p: P) -> &P {{ return p; }}")).0
+        );
+        assert_eq!("E0204", failure("struct Q { p: &Q }").0);
+    }
+
+    #[test]
+    fn record_declarations_follow_the_reference_order() {
+        let (code, message, span) = failure("fn f() -> i32 { return 0; }\nstruct f { x: i32 }");
+        assert_eq!(("E0102", 3..4), (code, span.clone()));
+        assert_eq!("Duplicate or reserved declaration f", message);
+        let checks = [
+            (
+                "struct E {}",
+                "E0204",
+                "Prototype records must have at least one scalar field",
+            ),
+            ("struct P { x: i32, x: str }", "E0102", "Duplicate field x"),
+            (
+                "struct P { x: str }",
+                "E0204",
+                "Prototype record fields must be i32 or bool",
+            ),
+            (
+                "struct print { x: i32 }",
+                "E0102",
+                "Duplicate or reserved declaration print",
+            ),
+        ];
+        for (source, code, message) in checks {
+            assert_eq!((code, message.to_string()), {
+                let f = failure(source);
+                (f.0, f.1)
+            });
+        }
+    }
+
+    #[test]
+    fn record_literals_and_fields() {
+        let program = |body: &str| format!("{POINT}fn f() -> i32 {{ {body} }}");
+        assert!(analyze(&program("return P { y: true, x: 1, }.x;")).is_ok());
+        let cases = [
+            (
+                "return P { x: 1, x: 2, y: true }.x;",
+                "E0203",
+                "Duplicate or unknown field x",
+            ),
+            (
+                "return P { x: 1, z: 2 }.x;",
+                "E0203",
+                "Duplicate or unknown field z",
+            ),
+            ("return P { }.x;", "E0203", "Missing fields: x, y"),
+            (
+                "return P { x: true, y: true }.x;",
+                "E0201",
+                "Expected i32, found bool; implicit conversions are not supported",
+            ),
+            (
+                "return P { x: 1, y: true }.z;",
+                "E0101",
+                "Type P has no field z",
+            ),
+            (
+                "return P { x: 1, y: true }.x.y;",
+                "E0101",
+                "Type i32 has no field y",
+            ),
+            ("return Q { x: 1 }.x;", "E0101", "Unknown record Q"),
+            ("return P(1);", "E0101", "Unknown function P"),
+            (
+                "let p = P { x: 1, y: true }; return p;",
+                "E0201",
+                "Expected i32, found P; implicit conversions are not supported",
+            ),
+            (
+                "let p = P { x: 1, y: true }; let q = P { x: 1, y: true }; if (p == q) { return 1; } return 0;",
+                "E0204",
+                "Equality currently supports only i32 and bool",
+            ),
+        ];
+        for (body, code, message) in cases {
+            let (actual, text, _) = failure(&program(body));
+            assert_eq!((code, message), (actual, text.as_str()), "{body}");
+        }
+    }
+
+    #[test]
+    fn moves_follow_the_reference_paths() {
+        let prelude = format!("{POINT}fn take(p: P) -> bool {{ return p.y; }}\n");
+        let program = |body: &str| format!("{prelude}fn f(p: P, c: bool) -> i32 {{ {body} }}");
+        let accepted = [
+            "let q = p; return q.x;",
+            "if (c) { let q = p; return q.x; } return p.x;",
+            "if (c) { return 1; } else { take(p); } return 0;",
+            "let v = p.x; if (take(p)) { return v; } return 0;",
+        ];
+        for body in accepted {
+            assert!(analyze(&program(body)).is_ok(), "{body}");
+        }
+        let moved = [
+            "let q = p; return p.x;",
+            "p; return p.x;",
+            "if (c) { take(p); } return p.x;",
+            "if (c) { return 1; } else { take(p); } return p.x;",
+            "if (false && take(p)) { return 1; } return p.x;",
+            "if (true || take(p)) { return 1; } return p.x;",
+            "if (p == p) { return 1; } return 0;",
+        ];
+        for body in moved {
+            let (code, message, _) = failure(&program(body));
+            assert_eq!("E0301", code, "{body}");
+            assert_eq!(
+                "p was moved on a possible path and cannot be used again",
+                message
+            );
+        }
+    }
+
+    #[test]
+    fn records_emit_definitions_temporaries_and_order() {
+        let source = format!(
+            "{POINT}fn make(v: i32) -> P {{ return P {{ y: v > 0, x: v + 1 }}; }}\n\
+             fn main() -> i32 {{ let p = make(2); return p.x + make(3).x; }}"
+        );
+        let c = emit_c(&analyze(&source).unwrap(), false).unwrap();
+        let definition = "struct tv_s_P {\n    int32_t tv_m_x;\n    bool tv_m_y;\n};\n";
+        let at = c.find(definition).expect("record definition");
+        assert!(
+            c.find(HOSTED_TRAP).unwrap() < at
+                && at < c.find("struct tv_s_P tv_f_make(int32_t tv_v_v);").unwrap()
+        );
+        assert!(c.contains(
+            "struct tv_s_P tv_tmp_5 = (struct tv_s_P){.tv_m_y = tv_tmp_2, .tv_m_x = tv_tmp_4};"
+        ));
+        assert!(c.contains("struct tv_s_P tv_v_p = tv_tmp_6;"));
+        assert!(c.contains("int32_t tv_tmp_7 = (tv_v_p).tv_m_x;"));
+        assert!(c.contains("int32_t tv_tmp_9 = (tv_tmp_8).tv_m_x;"));
     }
 
     #[test]

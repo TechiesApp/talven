@@ -1,6 +1,6 @@
 # Native compiler experiment evidence
 
-This record concerns the bounded [native scalar/static-text experiment](../experiments/native-compiler/README.md). It is separate from the broader reference compiler's conformance and the existing Python tooling baseline. Records/borrowing and shared editor/agent tooling are not implemented natively.
+This record concerns the bounded [native scalar/static-text experiment](../experiments/native-compiler/README.md). It is separate from the broader reference compiler's conformance and the existing Python tooling baseline. Borrowing/mutation and shared editor/agent tooling are not implemented natively; by-value records were ported after the run recorded below.
 
 ## Correctness criteria
 

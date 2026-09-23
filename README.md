@@ -94,7 +94,7 @@ Run the test suite with `python3 -m unittest discover -s tests`. For editor supp
 | Tooling | `check`, `fmt`, `context`, `build`, `emit-c`, `dev` (watch and restart), `edit` previews, and an LSP |
 | Targets | Native executables through C11 on Linux x86-64 and ARM64 (in CI) and macOS; a no-libc Linux mode |
 | Agent evaluation | A reproducible harness with paired source-only and compiler-context conditions, independent native acceptance, and priced token accounting |
-| Native compiler | A Rust prototype of the scalar subset, kept identical to the reference by a differential suite |
+| Native compiler | A Rust prototype of the scalar, text, and by-value record subset (no borrowing yet), kept identical to the reference by a differential suite |
 
 Not built yet: loops, heap allocation, generics, modules, concurrency, a package manager, and GPU backends. See the [roadmap](docs/roadmap.md).
 
