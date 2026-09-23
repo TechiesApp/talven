@@ -42,6 +42,8 @@ The implemented subset has `i32`, `bool`, static immutable `str` values, functio
 
 Try `python3 -m talven build examples/borrowing.tal -o build/borrowing`, then `./build/borrowing`. The example updates a record through an exclusive borrow and then reads it through a shared borrow.
 
+A separate [native compiler experiment](experiments/native-compiler/README.md) implements a narrower scalar/static-text subset in Rust, with no Python delegation. It retains the C11 backend and measures selected frontend operations. Records/borrowing and the full tooling remain in the reference compiler.
+
 ## Product goal
 
 Make it cheaper and more reliable for current open and proprietary LLMs to understand, change, check, and maintain systems software. Preserve native performance, a small deployment footprint, and direct control over CPU memory, GPU resources, concurrency, and platform capabilities.

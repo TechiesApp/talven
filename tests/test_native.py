@@ -175,6 +175,14 @@ class CommandTests(unittest.TestCase):
         self.assertNotIn("static inline", plain)
         self.assertNotIn("talven_trap", plain)
 
+    def test_emit_c_creates_parents_like_build(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "new" / "nested" / "vectors.c"
+            result = self.command("emit-c", "examples/vectors.tal", "-o", output)
+            self.assertEqual(0, result.returncode, result.stderr)
+            self.assertIn("tv_f_dot", output.read_text())
+            self.assertEqual(["vectors.c"], [path.name for path in output.parent.iterdir()])
+
     def test_output_cannot_overwrite_source(self):
         result = self.command("emit-c", "examples/vectors.tal", "-o", "examples/vectors.tal")
         self.assertEqual(1, result.returncode)
