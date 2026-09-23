@@ -16,7 +16,7 @@ import { spawnSync } from "node:child_process";
 
 const root = resolve(dirname(new URL(import.meta.url).pathname), "..");
 const skipMermaid = process.argv.includes("--no-mermaid");
-const ignoreDirs = new Set([".git", "node_modules", "build", "target", "dist"]);
+const ignoreDirs = new Set([".git", ".worktrees", "node_modules", "build", "target", "dist"]);
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {

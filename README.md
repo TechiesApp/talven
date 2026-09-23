@@ -36,7 +36,7 @@ python3 -m unittest discover -s tests -v
 
 The vector example exits zero when its calculation is correct. See the [prototype guide](docs/prototype.md) for grammar, ownership rules, diagnostics, context/cache identity, LSP integration, and freestanding emission. See the [validation record](docs/prototype-validation.md) for actual target evidence.
 
-The historical M1c native CI runs passed all **80 tests on Linux x86-64 and ARM64**, with no skips. All three jobs also passed six ASan/UBSan borrowing executions and built and ran both original CLI examples. See the [M1c validation record](docs/borrowing-validation.md) for that host, compiler, and job evidence. The static-text guide above records the expanded suite and greeting executions.
+Native CI runs the full test suite on Linux x86-64 and ARM64 with no skips allowed, plus ASan/UBSan borrowing executions, the three CLI examples, the no-libc probe, offline evaluation fixtures, and the tooling baseline. The suite also passes on macOS with Apple clang, where one Linux-only sanitizer test is skipped. The validation records linked below hold the evidence for each increment.
 
 The implemented subset has `i32`, `bool`, static immutable `str` values, functions, conditionals, and move-only records containing scalars. [M1c borrowing](docs/borrowing.md) adds `let mut` record owners, shared `&Record` and exclusive `&mut Record` call arguments, and field assignment. Borrowed references cannot be stored or returned; static text views are copyable and can be returned. Escaping borrows, heap/resource cleanup, full LSP features, concurrency, GPU backends, package adapters, and comparative model benchmarks remain future work.
 
@@ -87,7 +87,7 @@ The primary measure is **total cost per correctly completed coding task**, inclu
 | [Edit preview evidence](docs/edit-validation-evidence.md) | Actual revision/repair checks, separate native acceptance and offline regressions |
 | [Offline tooling baseline](docs/tooling-baseline.md) | Reproducible CLI/build timings, output sizes, native acceptance and archived measurements |
 | [Tooling baseline evidence](docs/tooling-baseline-evidence.md) | Actual sample ranges and byte sizes, with host conditions and measurement limits |
-| [Fast compiler and development reload](docs/proposals/0010-fast-compiler-and-development-reload.md) | Proposed native compiler evaluation, incremental builds, watch/restart and restricted hot reload; not implemented |
+| [Fast compiler and development reload](docs/proposals/0010-fast-compiler-and-development-reload.md) | Native compiler evaluation, incremental builds, watch/restart and restricted hot reload; watch/restart is implemented, the rest is proposed |
 | [Requirements](docs/requirements.md) | Traceable record of the product requirements and evidence needed to satisfy them |
 | [Architecture](docs/architecture.md) | Compiler, native core, optional modules, target support, and toolchain |
 | [Architecture diagrams](docs/architecture-diagrams.md) | Agent verification, protected release boundaries, and CPU/GPU resource lifetimes |

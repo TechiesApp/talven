@@ -5,6 +5,9 @@
 .cache/
 *.log
 
+# Local development worktrees
+/.worktrees/
+
 # Local configuration and secrets
 .env
 .env.*
