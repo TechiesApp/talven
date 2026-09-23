@@ -135,14 +135,20 @@ def main(argv: list[str] | None = None) -> int:
                                        or (output.exists() and output.samefile(args.source))):
                 raise CompileError("E0403", "Output must not overwrite the source file", Span(0, 0))
             generated = emit_c(result, freestanding=getattr(args, "freestanding", False), console=args.console)
+            if output is not None:
+                # Both commands create missing parents and replace the output
+                # only after it is complete, preserving an existing file on failure.
+                output = output.resolve()
+                output.parent.mkdir(parents=True, exist_ok=True)
             if args.command == "emit-c":
                 if output:
-                    output.write_text(generated, encoding="utf-8")
+                    with tempfile.TemporaryDirectory(prefix="talven-emit-", dir=output.parent) as temporary:
+                        staged = Path(temporary) / "program.c"
+                        staged.write_text(generated, encoding="utf-8")
+                        os.replace(staged, output)
                 else:
                     print(generated, end="")
             else:
-                output = output.resolve()
-                output.parent.mkdir(parents=True, exist_ok=True)
                 with tempfile.TemporaryDirectory(prefix="talven-build-", dir=output.parent) as temporary:
                     directory = Path(temporary)
                     cfile, executable = directory / "program.c", directory / "program"
