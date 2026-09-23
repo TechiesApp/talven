@@ -118,7 +118,7 @@ Commands read source only from regular files; FIFOs and devices produce E0901 wi
 | Code | Category |
 | --- | --- |
 | E0001 / E0002 | Lexical / syntax error |
-| E0005 | Input, token, syntax-depth, or parser-recursion limit |
+| E0005 | Input, token, syntax-depth, or nesting limit |
 | E0006 | Invalid escape, raw ASCII control, or unterminated text literal |
 | E0101 / E0102 | Unknown / duplicate name |
 | E0201 / E0202 | Type mismatch / integer literal range |
@@ -142,7 +142,7 @@ The stdio server supports initialization/shutdown, full document synchronization
 
 This is an initial LSP integration, not the planned full editor experience. Incremental parsing, completion, references/rename, semantic tokens, multi-file workspaces, and error recovery remain unimplemented. Definition/hover coverage is limited to references recorded by the checker; constructor field labels are not indexed yet.
 
-Prototype limits: 256 KiB UTF-8 source; 16384 tokens; syntax trees at most 128 levels; LSP JSON at most 128 levels, message bodies at most 1 MiB, headers at most 8 KiB, and at most 32 open documents. These limits reduce accidental resource growth; they are not OS-level CPU or RAM quotas.
+Prototype limits: 256 KiB UTF-8 source; 16384 tokens; syntax trees at most 128 levels; block and expression nesting, including parentheses, at most 256 levels; LSP JSON at most 128 levels, message bodies at most 1 MiB, headers at most 8 KiB, and at most 32 open documents. These limits reduce accidental resource growth; they are not OS-level CPU or RAM quotas.
 
 ## Native and freestanding profiles
 

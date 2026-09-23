@@ -4,7 +4,7 @@ Profile: `m1-static-text-v1` (compiler `0.4.0-dev`). This page is the complete, 
 
 ## Source text
 
-- Files are UTF-8, at most 256 KiB and 16384 tokens; syntax nests at most 128 levels.
+- Files are UTF-8, at most 256 KiB and 16384 tokens. Syntax trees are at most 128 levels deep; separately, blocks and expressions, including parentheses, nest at most 256 levels (a function body is level 1).
 - Whitespace is ASCII space, tab, and LF. CR is allowed only as part of CRLF.
 - A lone CR, any other whitespace or control character, and bidirectional controls (U+202A–U+202E, U+2066–U+2069) are E0001 anywhere, including comments. Inside a text literal, raw control characters are E0006 instead.
 - `//` starts a comment that runs to the end of the line. There are no block comments.

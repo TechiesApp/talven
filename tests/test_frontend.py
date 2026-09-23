@@ -140,6 +140,14 @@ class FrontendTests(unittest.TestCase):
     def test_source_and_nesting_limits(self):
         self.assert_error("E0005", " " * (MAX_SOURCE_BYTES + 1))
         self.assert_error("E0005", "fn f() -> i32 { return " + "(" * 2000 + "1" + ")" * 2000 + "; }")
+        # The nesting limit is a defined level, not Python's recursion limit.
+        parens = lambda n: "fn f() -> i32 { return " + "(" * n + "1" + ")" * n + "; }"
+        analyze(parens(254))
+        error = self.assert_error("E0005", parens(255))
+        self.assertIn("256-level", error.message)
+        self.assertEqual(278, error.span.start)
+        blocks = lambda n: "fn f() -> i32 { " + "if (true) { " * n + "}" * n + " return 0; }"
+        self.assert_error("E0005", blocks(300))
         self.assert_error("E0005", "1 " * 17000)
         self.assert_error("E0005", "fn f() -> i32 { return " + "1 + " * 200 + "1; }")
 
