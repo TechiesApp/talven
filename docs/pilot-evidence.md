@@ -1,6 +1,6 @@
 # Live pilots: Claude Opus 5.5, Sonnet 5, and Haiku 4.5
 
-Status: actual results of four controlled pilot runs on 24 September 2026, the first live model evidence for the [evaluation harness](../experiments/README.md). They validate the pipeline end to end and show that a frontier model learns Talven's rules from one page. The third, with smaller models, found the original compiler context slightly harmful. The fourth, after compact context and multi-error reporting, found that harm gone and compiler context no costlier than source-only.
+Status: actual results of five controlled pilot runs on 24 September 2026, the first live model evidence for the [evaluation harness](../experiments/README.md). They validate the pipeline end to end and show that a frontier model learns Talven's rules from one page. The third, with smaller models, found the original compiler context slightly harmful. The fourth, after compact context and multi-error reporting, found that harm gone and compiler context no costlier than source-only. The fifth, on large programs, found compiler context doubling Haiku 4.5's first-attempt success, and scalar reassignment the most common failure.
 
 ## Setup
 
@@ -124,8 +124,32 @@ What changed:
 
 This removes a harm and suggests a benefit for multi-error repairs, but it does not yet show that compiler context improves correctness. That needs more repetitions or tasks where facts are only available from the compiler.
 
+## Fifth run: the large-program corpus
+
+The [large-program corpus](../experiments/README.md#large-program-corpus) (`m1-large-tasks-v1`) asks for a `pipeline` that calls 4–6 named helpers among 40–200 similar ones. Each call must match a signature buried in the file. The model returns only the new function, and the compiler condition also gets a sorted signature index.
+
+The run used Haiku 4.5 and Sonnet 5 (effort `low`), with 4 repetitions and up to 2 repairs, from clean revision `8aebd0b`. Records are in [`experiments/results/pilot-large-20260924`](../experiments/results/pilot-large-20260924/), and both archives reverified.
+
+| Model | Condition | First-attempt passes | Final passes | Attempts | Input tokens | Output tokens | List-price cost (USD) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Haiku 4.5 | source | 5 / 16 | 15 / 16 | 30 | 383,496 | 149,654 | 1.514992 |
+| Haiku 4.5 | compiler | 10 / 16 | 14 / 16 | 25 | 336,723 | 82,906 | 1.087751 |
+| Sonnet 5, low | source | 1 / 16 | 16 / 16 | 36 | 529,398 | 32,384 | 1.905579 |
+| Sonnet 5, low | compiler | 0 / 16 | 15 / 16 | 39 | 714,634 | 14,717 | 2.440080 |
+
+The run cost $6.95 at list-price equivalent.
+
+What it shows:
+
+- **For Haiku, the signature index doubled first-attempt success.** It went from 5 to 10 of 16 (discordant pairs 6–1, exact p = 0.13), with fewer attempts and 28% lower cost. This is the first time compiler context has pointed toward better correctness. With 16 pairs it is still not conclusive.
+- **For Sonnet at `low`, one habit hid everything else.** In 30 of its 32 first attempts, it wrote a mutable running value (`let mut result = v; result = f(result);`). Talven has no scalar reassignment, so every such attempt was a syntax error in both conditions. The feedback then led it to a correct program with new bindings.
+- **Pooled across models, first attempts favored compiler context 6–2** (exact p = 0.29).
+- **Signature mistakes still happened in both conditions,** for example passing `&a` to a helper that takes `&mut Account`.
+
+Scalar reassignment is now the most common single failure across all pilots, at 38 of 64 first-attempt failures in this run. That is evidence about the language itself: agents strongly expect mutable local variables. Whether to add them is a design question for a proposal. The cost is that shadowing and reassignment rules interact with the move and borrow checker.
+
 ## Next steps
 
-1. **Add tasks whose needed facts come only from the compiler,** such as larger programs spread across many functions, and later across modules, where the visible source does not show every signature at once.
-2. **Run more repetitions on smaller models,** sized from the variance above, to measure the multi-error effect with confidence.
-3. **Track cost per correct task** across both conditions now that compiler context no longer adds tokens.
+1. **Decide whether to add mutable scalar locals and reassignment** through a design proposal. They are the dominant first-attempt failure: agents expect them, and their absence costs repairs.
+2. **Rerun the large corpus with more repetitions on Haiku 4.5** to test the first-attempt gain (6–1 here) with enough pairs to be conclusive.
+3. **Keep growing the corpus toward multi-file programs** once modules exist.

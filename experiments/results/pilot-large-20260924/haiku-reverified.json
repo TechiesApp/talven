@@ -1,0 +1,2429 @@
+{
+  "corpus_version": "m1-large-tasks-v1",
+  "environment": {
+    "c_flags": [
+      "-std=c11",
+      "-O2"
+    ],
+    "cc": "/usr/bin/cc",
+    "cc_sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+    "cc_target": "arm64-apple-darwin27.0.0",
+    "cc_version": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+    "compiler_hash": "d0c8f5acbff7bbd1b7a648475adf7abe2686c3bd5d999799d43e47008c17271a",
+    "compiler_version": "0.4.0-dev",
+    "language_profile": "m1-static-text-v1",
+    "logical_cpus": 10,
+    "machine": "arm64",
+    "processor": "arm",
+    "python": "3.14.7",
+    "python_implementation": "CPython",
+    "release": "27.0.0",
+    "repository_dirty": false,
+    "repository_revision": "8aebd0b98844a9154c33c0772aec4c1f0b084473",
+    "system": "Darwin"
+  },
+  "matches_archive": true,
+  "note": "Fresh correctness checks only; no new model usage or billing measurements",
+  "schema": "talven.eval.reverification.v2",
+  "toolchain_matches_archive": true,
+  "trials": [
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-rta0g_w3/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-rta0g_w3/native-values"
+          ],
+          "elapsed_seconds": 0.19102883299638052,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-rta0g_w3/native-values"
+          ],
+          "elapsed_seconds": 0.46673354199447203,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-80-compiler-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-80",
+          "--source",
+          "<scratch>/haiku/pipeline-80-compiler-001/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.7974913749931147,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-rta0g_w3/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-rta0g_w3/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.19102883299638052}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-rta0g_w3/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.46673354199447203}]}\n",
+        "stdout_sha256": "94f0de0610603e2370116aeb2c369927f951237f4941c98d7212222367b2f000"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-jzhmnn48/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-jzhmnn48/native-values"
+          ],
+          "elapsed_seconds": 0.1460265409987187,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-jzhmnn48/native-values"
+          ],
+          "elapsed_seconds": 0.04930137499468401,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-200-compiler-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-200",
+          "--source",
+          "<scratch>/haiku/pipeline-200-compiler-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.34176799999841023,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-jzhmnn48/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-jzhmnn48/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.1460265409987187}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-jzhmnn48/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04930137499468401}]}\n",
+        "stdout_sha256": "44fb918ba1e205f1bc4ca0571d344c757003d9babd26fa5f31f5eba494bf837b"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "failed",
+      "checks": [
+        {
+          "message": "E0302: Cannot read a: an earlier argument holds an exclusive borrow until its call returns",
+          "name": "frontend",
+          "passed": false
+        }
+      ],
+      "commands": [],
+      "diagnostics": [
+        {
+          "code": "E0302",
+          "message": "Cannot read a: an earlier argument holds an exclusive borrow until its call returns",
+          "range": {
+            "end": {
+              "character": 79,
+              "line": 602
+            },
+            "start": {
+              "character": 78,
+              "line": 602
+            }
+          },
+          "severity": 1,
+          "source": "talven"
+        }
+      ],
+      "feedback": "E0302: Cannot read a: an earlier argument holds an exclusive borrow until its call returns",
+      "id": "pipeline-140-compiler-004",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-140",
+          "--source",
+          "<scratch>/haiku/pipeline-140-compiler-004/attempt-002/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.11561208400235046,
+        "error": null,
+        "returncode": 1,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"failed\", \"checks\": [{\"name\": \"frontend\", \"passed\": false, \"message\": \"E0302: Cannot read a: an earlier argument holds an exclusive borrow until its call returns\"}], \"feedback\": \"E0302: Cannot read a: an earlier argument holds an exclusive borrow until its call returns\", \"commands\": [], \"diagnostics\": [{\"code\": \"E0302\", \"message\": \"Cannot read a: an earlier argument holds an exclusive borrow until its call returns\", \"severity\": 1, \"source\": \"talven\", \"range\": {\"start\": {\"line\": 602, \"character\": 78}, \"end\": {\"line\": 602, \"character\": 79}}}]}\n",
+        "stdout_sha256": "7d33dc2ce367667b37f8b99d095d208e2d9f6233072f72e625c4f009199e4550"
+      },
+      "status": "failed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ubdae8jg/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ubdae8jg/native-values"
+          ],
+          "elapsed_seconds": 0.10867016699921805,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ubdae8jg/native-values"
+          ],
+          "elapsed_seconds": 0.05068562499945983,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-140-source-003",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-140",
+          "--source",
+          "<scratch>/haiku/pipeline-140-source-003/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.2824325840047095,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ubdae8jg/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ubdae8jg/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.10867016699921805}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ubdae8jg/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.05068562499945983}]}\n",
+        "stdout_sha256": "a0319cfb2c1a715d37e3b8f235f06f3b9774493e21faea2ff68f39c3401ff70a"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-yd1tdpm_/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-yd1tdpm_/native-values"
+          ],
+          "elapsed_seconds": 0.08216995900147595,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-yd1tdpm_/native-values"
+          ],
+          "elapsed_seconds": 0.07834600000933278,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-80-compiler-003",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-80",
+          "--source",
+          "<scratch>/haiku/pipeline-80-compiler-003/attempt-002/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.28176166700723115,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-yd1tdpm_/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-yd1tdpm_/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.08216995900147595}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-yd1tdpm_/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07834600000933278}]}\n",
+        "stdout_sha256": "1e5b354ed4dfe2328f1051ee0c1b3d6b499531cd591aa3434f76df3a325bab2c"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-84ipxjyy/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-84ipxjyy/native-values"
+          ],
+          "elapsed_seconds": 0.11725024999759626,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-84ipxjyy/native-values"
+          ],
+          "elapsed_seconds": 0.059831915990798734,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-140-compiler-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-140",
+          "--source",
+          "<scratch>/haiku/pipeline-140-compiler-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.31058195799414534,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-84ipxjyy/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-84ipxjyy/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.11725024999759626}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-84ipxjyy/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.059831915990798734}]}\n",
+        "stdout_sha256": "9314fcfec633c11d744005106b702970f3d981cb88441fab583ccfd88f3e60bb"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ovmanwcy/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ovmanwcy/native-values"
+          ],
+          "elapsed_seconds": 0.07197699999960605,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ovmanwcy/native-values"
+          ],
+          "elapsed_seconds": 0.041329333995236084,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-40-source-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-40",
+          "--source",
+          "<scratch>/haiku/pipeline-40-source-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.23693324999476317,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ovmanwcy/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ovmanwcy/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07197699999960605}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ovmanwcy/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.041329333995236084}]}\n",
+        "stdout_sha256": "ae89b71b284902d0dc80128e8154d0688126c84c92cd3e1edb09f693148830d8"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-e6obxcmf/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-e6obxcmf/native-values"
+          ],
+          "elapsed_seconds": 0.09406241599936038,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-e6obxcmf/native-values"
+          ],
+          "elapsed_seconds": 0.04986933300097007,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-80-source-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-80",
+          "--source",
+          "<scratch>/haiku/pipeline-80-source-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.26183316599053796,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-e6obxcmf/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-e6obxcmf/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.09406241599936038}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-e6obxcmf/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04986933300097007}]}\n",
+        "stdout_sha256": "eb438069ec541d4f94ce68657c228d668803cf96831047127f912104dce84de2"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "failed",
+      "checks": [
+        {
+          "message": "E0304: Pass &mut Account explicitly with &name or &mut name",
+          "name": "frontend",
+          "passed": false
+        }
+      ],
+      "commands": [],
+      "diagnostics": [
+        {
+          "code": "E0304",
+          "message": "Pass &mut Account explicitly with &name or &mut name",
+          "range": {
+            "end": {
+              "character": 27,
+              "line": 857
+            },
+            "start": {
+              "character": 26,
+              "line": 857
+            }
+          },
+          "severity": 1,
+          "source": "talven"
+        }
+      ],
+      "feedback": "E0304: Pass &mut Account explicitly with &name or &mut name",
+      "id": "pipeline-200-source-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-200",
+          "--source",
+          "<scratch>/haiku/pipeline-200-source-002/attempt-002/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.10532424999109935,
+        "error": null,
+        "returncode": 1,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"failed\", \"checks\": [{\"name\": \"frontend\", \"passed\": false, \"message\": \"E0304: Pass &mut Account explicitly with &name or &mut name\"}], \"feedback\": \"E0304: Pass &mut Account explicitly with &name or &mut name\", \"commands\": [], \"diagnostics\": [{\"code\": \"E0304\", \"message\": \"Pass &mut Account explicitly with &name or &mut name\", \"severity\": 1, \"source\": \"talven\", \"range\": {\"start\": {\"line\": 857, \"character\": 26}, \"end\": {\"line\": 857, \"character\": 27}}}]}\n",
+        "stdout_sha256": "e65decd7d66bbee04906450a6dab8da0b6bb8caf2a4202a5137bbc2412341f5c"
+      },
+      "status": "failed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-5zq7thv9/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-5zq7thv9/native-values"
+          ],
+          "elapsed_seconds": 0.09783795800467487,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-5zq7thv9/native-values"
+          ],
+          "elapsed_seconds": 0.04926595799042843,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-80-source-004",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-80",
+          "--source",
+          "<scratch>/haiku/pipeline-80-source-004/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.2619041669968283,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-5zq7thv9/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-5zq7thv9/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.09783795800467487}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-5zq7thv9/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04926595799042843}]}\n",
+        "stdout_sha256": "732b8a5a5f48e3411d161f91a3530291d65d75a648f4b92aeac9885656b0bb4a"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-xyqpd8ey/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-xyqpd8ey/native-values"
+          ],
+          "elapsed_seconds": 0.08479374999296851,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-xyqpd8ey/native-values"
+          ],
+          "elapsed_seconds": 0.050339749999693595,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-40-compiler-003",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-40",
+          "--source",
+          "<scratch>/haiku/pipeline-40-compiler-003/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.24883925000904128,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-xyqpd8ey/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-xyqpd8ey/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.08479374999296851}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-xyqpd8ey/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.050339749999693595}]}\n",
+        "stdout_sha256": "e319a45185a0c72dc00f93448a9e6bcea57b356acf89ddf49fc13f8b105fda09"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-cumuq_gl/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-cumuq_gl/native-values"
+          ],
+          "elapsed_seconds": 0.12527204200159758,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-cumuq_gl/native-values"
+          ],
+          "elapsed_seconds": 0.04980054199404549,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-140-compiler-003",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-140",
+          "--source",
+          "<scratch>/haiku/pipeline-140-compiler-003/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.31529845799377654,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-cumuq_gl/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-cumuq_gl/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.12527204200159758}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-cumuq_gl/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04980054199404549}]}\n",
+        "stdout_sha256": "b3e9335f0761c504b8caf132c8c7421d3eb674999cc45838dfee26cdda5af89f"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "failed",
+      "checks": [
+        {
+          "message": "E0304: Borrow expressions are allowed only as direct call arguments; references cannot be stored or returned",
+          "name": "frontend",
+          "passed": false
+        }
+      ],
+      "commands": [],
+      "diagnostics": [
+        {
+          "code": "E0304",
+          "message": "Borrow expressions are allowed only as direct call arguments; references cannot be stored or returned",
+          "range": {
+            "end": {
+              "character": 43,
+              "line": 348
+            },
+            "start": {
+              "character": 41,
+              "line": 348
+            }
+          },
+          "severity": 1,
+          "source": "talven"
+        }
+      ],
+      "feedback": "E0304: Borrow expressions are allowed only as direct call arguments; references cannot be stored or returned",
+      "id": "pipeline-80-compiler-004",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-80",
+          "--source",
+          "<scratch>/haiku/pipeline-80-compiler-004/attempt-002/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.11806070900638588,
+        "error": null,
+        "returncode": 1,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"failed\", \"checks\": [{\"name\": \"frontend\", \"passed\": false, \"message\": \"E0304: Borrow expressions are allowed only as direct call arguments; references cannot be stored or returned\"}], \"feedback\": \"E0304: Borrow expressions are allowed only as direct call arguments; references cannot be stored or returned\", \"commands\": [], \"diagnostics\": [{\"code\": \"E0304\", \"message\": \"Borrow expressions are allowed only as direct call arguments; references cannot be stored or returned\", \"severity\": 1, \"source\": \"talven\", \"range\": {\"start\": {\"line\": 348, \"character\": 41}, \"end\": {\"line\": 348, \"character\": 43}}}]}\n",
+        "stdout_sha256": "e33664aaec56f2c6b2d84bceb1b003c1256d5f6b079de8dac3505fa29aa48936"
+      },
+      "status": "failed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-qjdyo2u8/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-qjdyo2u8/native-values"
+          ],
+          "elapsed_seconds": 0.1284407079947414,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-qjdyo2u8/native-values"
+          ],
+          "elapsed_seconds": 0.05001533300674055,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-200-compiler-003",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-200",
+          "--source",
+          "<scratch>/haiku/pipeline-200-compiler-003/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.3136914169881493,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-qjdyo2u8/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-qjdyo2u8/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.1284407079947414}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-qjdyo2u8/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.05001533300674055}]}\n",
+        "stdout_sha256": "a55513b96905bd8fa90def92a81d9fc167d24597917774522d7fc56f7e4b86c1"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-a_i7_qwk/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-a_i7_qwk/native-values"
+          ],
+          "elapsed_seconds": 0.09697904200584162,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-a_i7_qwk/native-values"
+          ],
+          "elapsed_seconds": 0.07503237499622628,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-80-source-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-80",
+          "--source",
+          "<scratch>/haiku/pipeline-80-source-001/attempt-002/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.2866398749902146,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-a_i7_qwk/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-a_i7_qwk/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.09697904200584162}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-a_i7_qwk/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07503237499622628}]}\n",
+        "stdout_sha256": "47e12bf75eb0d058dbedbc93e4a3d31f2cd7baa04c906d15933b6a973df956f3"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-d0v3bpu7/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-d0v3bpu7/native-values"
+          ],
+          "elapsed_seconds": 0.1329645840014564,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-d0v3bpu7/native-values"
+          ],
+          "elapsed_seconds": 0.06340908400306944,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-200-source-003",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-200",
+          "--source",
+          "<scratch>/haiku/pipeline-200-source-003/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.3392910410038894,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-d0v3bpu7/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-d0v3bpu7/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.1329645840014564}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-d0v3bpu7/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06340908400306944}]}\n",
+        "stdout_sha256": "de71477baa37e3366abf3a91a97fb2aa7c9d8074a3a3dc9b5e7cc911aee066d3"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-6w0trppv/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-6w0trppv/native-values"
+          ],
+          "elapsed_seconds": 0.10751008399529383,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-6w0trppv/native-values"
+          ],
+          "elapsed_seconds": 0.10316162499657366,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-140-source-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-140",
+          "--source",
+          "<scratch>/haiku/pipeline-140-source-001/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.34539112501079217,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-6w0trppv/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-6w0trppv/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.10751008399529383}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-6w0trppv/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.10316162499657366}]}\n",
+        "stdout_sha256": "578c190ef93fe5d21ae59462c5482b4eb824d77955bf97626928f238c0c2f7bd"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lp1gipz3/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lp1gipz3/native-values"
+          ],
+          "elapsed_seconds": 0.07357470798888244,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lp1gipz3/native-values"
+          ],
+          "elapsed_seconds": 0.049656125003821217,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-40-compiler-004",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-40",
+          "--source",
+          "<scratch>/haiku/pipeline-40-compiler-004/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.23605225000937935,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lp1gipz3/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lp1gipz3/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07357470798888244}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lp1gipz3/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.049656125003821217}]}\n",
+        "stdout_sha256": "426a062a65f3ad500038fde5e47317d237060be2a8b0025e273ff1eec5e37bee"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z0if_axt/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z0if_axt/native-values"
+          ],
+          "elapsed_seconds": 0.14149204100249335,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z0if_axt/native-values"
+          ],
+          "elapsed_seconds": 0.05143683399364818,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-200-source-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-200",
+          "--source",
+          "<scratch>/haiku/pipeline-200-source-001/attempt-002/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.33333033400413115,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z0if_axt/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z0if_axt/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.14149204100249335}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z0if_axt/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.05143683399364818}]}\n",
+        "stdout_sha256": "4e7d672624f08973816c7f77480ed8c88e90bf296c5ddce89074c4e2704891a2"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-irizi3v0/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-irizi3v0/native-values"
+          ],
+          "elapsed_seconds": 0.08515891699062195,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-irizi3v0/native-values"
+          ],
+          "elapsed_seconds": 0.06205920899810735,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-80-source-003",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-80",
+          "--source",
+          "<scratch>/haiku/pipeline-80-source-003/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.2771416670002509,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-irizi3v0/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-irizi3v0/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.08515891699062195}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-irizi3v0/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06205920899810735}]}\n",
+        "stdout_sha256": "d6591303a39c8e7ceae13509d98575482ca2b2bbd943213ea85661a5f15705f9"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-my09l3tv/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-my09l3tv/native-values"
+          ],
+          "elapsed_seconds": 0.10593608301132917,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-my09l3tv/native-values"
+          ],
+          "elapsed_seconds": 0.05015754200576339,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-80-compiler-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-80",
+          "--source",
+          "<scratch>/haiku/pipeline-80-compiler-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.2817133329954231,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-my09l3tv/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-my09l3tv/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.10593608301132917}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-my09l3tv/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.05015754200576339}]}\n",
+        "stdout_sha256": "d12fd03f84f0bc592bdf3d3e9782e2c265125b2046b3ec551538a2d1d0ab0336"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-syvtjqmd/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-syvtjqmd/native-values"
+          ],
+          "elapsed_seconds": 0.1404840420000255,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-syvtjqmd/native-values"
+          ],
+          "elapsed_seconds": 0.15050058299675584,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-200-source-004",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-200",
+          "--source",
+          "<scratch>/haiku/pipeline-200-source-004/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.4221032500063302,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-syvtjqmd/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-syvtjqmd/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.1404840420000255}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-syvtjqmd/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.15050058299675584}]}\n",
+        "stdout_sha256": "e801a0abaa5dc7a4114271b263be3d4175f4c4ac3b668732ab6c2e0c18e52711"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mlctv_dx/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mlctv_dx/native-values"
+          ],
+          "elapsed_seconds": 0.07746754099207465,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mlctv_dx/native-values"
+          ],
+          "elapsed_seconds": 0.037907374993665144,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-40-compiler-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-40",
+          "--source",
+          "<scratch>/haiku/pipeline-40-compiler-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.22937491699121892,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mlctv_dx/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mlctv_dx/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07746754099207465}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mlctv_dx/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.037907374993665144}]}\n",
+        "stdout_sha256": "b6a50310e89a2d28a59d6362c132757cbbfd9c68a682c37bbee27e325bfe2194"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-3bplawwh/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-3bplawwh/native-values"
+          ],
+          "elapsed_seconds": 0.11488049999752548,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-3bplawwh/native-values"
+          ],
+          "elapsed_seconds": 0.04994525000802241,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-140-source-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-140",
+          "--source",
+          "<scratch>/haiku/pipeline-140-source-002/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.2894807499978924,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-3bplawwh/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-3bplawwh/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.11488049999752548}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-3bplawwh/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04994525000802241}]}\n",
+        "stdout_sha256": "925bee7b68756ce34afc47ee6fbffb153f8d521c57545c6395e198a83f7501d4"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-y9z8qhkl/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-y9z8qhkl/native-values"
+          ],
+          "elapsed_seconds": 0.12944104200869333,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-y9z8qhkl/native-values"
+          ],
+          "elapsed_seconds": 0.04793533298652619,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-200-compiler-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-200",
+          "--source",
+          "<scratch>/haiku/pipeline-200-compiler-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.31048979199840687,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-y9z8qhkl/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-y9z8qhkl/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.12944104200869333}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-y9z8qhkl/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04793533298652619}]}\n",
+        "stdout_sha256": "3ceb87726d3c2abde3fcbd0e3096529ad0ba074a8f4aa9d57718c75ca9acc26a"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-xkpwui6m/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-xkpwui6m/native-values"
+          ],
+          "elapsed_seconds": 0.08101079100742936,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-xkpwui6m/native-values"
+          ],
+          "elapsed_seconds": 0.0493607500102371,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-40-source-003",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-40",
+          "--source",
+          "<scratch>/haiku/pipeline-40-source-003/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.24706233300094027,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-xkpwui6m/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-xkpwui6m/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.08101079100742936}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-xkpwui6m/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.0493607500102371}]}\n",
+        "stdout_sha256": "5597d577fc4e6e8eea929a3f73f58a2a100eb88e20f2e2239954c766ea63f564"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lw2gkqdg/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lw2gkqdg/native-values"
+          ],
+          "elapsed_seconds": 0.07458825000503566,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lw2gkqdg/native-values"
+          ],
+          "elapsed_seconds": 0.04821495800570119,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-40-source-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-40",
+          "--source",
+          "<scratch>/haiku/pipeline-40-source-002/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.23944591700274032,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lw2gkqdg/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lw2gkqdg/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07458825000503566}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lw2gkqdg/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04821495800570119}]}\n",
+        "stdout_sha256": "62a19ad9a56f7a9dd1a254f31ec47b08dc22a1e59d6d958002568ff9005d6baf"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-788zrb7r/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-788zrb7r/native-values"
+          ],
+          "elapsed_seconds": 0.07039404200622812,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-788zrb7r/native-values"
+          ],
+          "elapsed_seconds": 0.0617352500121342,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-40-compiler-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-40",
+          "--source",
+          "<scratch>/haiku/pipeline-40-compiler-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.24051395899732597,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-788zrb7r/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-788zrb7r/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07039404200622812}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-788zrb7r/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.0617352500121342}]}\n",
+        "stdout_sha256": "a3507c64956664c2a5e00bd36e766c7b4b301ab9f5b3bb25755483c83de31a54"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-1pfr1qtm/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-1pfr1qtm/native-values"
+          ],
+          "elapsed_seconds": 0.1145059590053279,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-1pfr1qtm/native-values"
+          ],
+          "elapsed_seconds": 0.0744206670060521,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-140-compiler-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-140",
+          "--source",
+          "<scratch>/haiku/pipeline-140-compiler-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.3231527079915395,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-1pfr1qtm/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-1pfr1qtm/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.1145059590053279}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-1pfr1qtm/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.0744206670060521}]}\n",
+        "stdout_sha256": "27996f75bcd776e5daeb9c7f791e84055cd0b7123cdd085dced2e5a2cf11c4a0"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z6udhlqb/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z6udhlqb/native-values"
+          ],
+          "elapsed_seconds": 0.10373545800393913,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z6udhlqb/native-values"
+          ],
+          "elapsed_seconds": 0.038677624994306825,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-140-source-004",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-140",
+          "--source",
+          "<scratch>/haiku/pipeline-140-source-004/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.2667307920055464,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z6udhlqb/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z6udhlqb/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.10373545800393913}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z6udhlqb/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.038677624994306825}]}\n",
+        "stdout_sha256": "e34bb5752d656f36e83c97d84a6e5cac746f736a4fae5a5f2cdf8d83e06d6a83"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-o7bvhugk/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-o7bvhugk/native-values"
+          ],
+          "elapsed_seconds": 0.12167074999888428,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-o7bvhugk/native-values"
+          ],
+          "elapsed_seconds": 0.04944595800770912,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-200-compiler-004",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-200",
+          "--source",
+          "<scratch>/haiku/pipeline-200-compiler-004/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.31252025000867434,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-o7bvhugk/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-o7bvhugk/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.12167074999888428}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-o7bvhugk/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04944595800770912}]}\n",
+        "stdout_sha256": "6a50c3a5240d9defde92c7c7528b1dca3ed729ace3648bd5cbb1037945c5fe65"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "starter declarations preserved and every stage called",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-f4gf5and/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-f4gf5and/native-values"
+          ],
+          "elapsed_seconds": 0.06917295801395085,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-f4gf5and/native-values"
+          ],
+          "elapsed_seconds": 0.037671124999178573,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pipeline-40-source-004",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pipeline-40",
+          "--source",
+          "<scratch>/haiku/pipeline-40-source-004/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.21385820899740793,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"starter declarations preserved and every stage called\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-f4gf5and/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-f4gf5and/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06917295801395085}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-f4gf5and/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.037671124999178573}]}\n",
+        "stdout_sha256": "e1ce7a946efdcb1bc8fa5bf531e0178da7415011c36bce277d1c98078b20160e"
+      },
+      "status": "passed"
+    }
+  ]
+}
