@@ -41,7 +41,7 @@ def function_fact(fn: Function) -> dict:
             "calls": sorted(fn.calls)}
 
 
-AGENT_SCHEMA = "talven.agent-context.v1"
+AGENT_SCHEMA = "talven.agent-context.v2"
 
 
 def _compact(value: dict) -> str:
@@ -53,19 +53,13 @@ def agent_context(analysis: Analysis) -> str:
 
     The full context carries cache keys, hashes, runtime versions, and rules
     that repeat the language reference; a model can use none of them. This
-    view keeps signatures, how each parameter is passed, calls, and records.
+    view is an index: one signature per function, sorted by name, and each
+    record's fields. Borrow modes are in the signatures; a record parameter
+    without & moves its argument.
     """
-    functions = []
-    for name in sorted(analysis.functions):
-        fn = analysis.functions[name]
-        fact = {"signature": fn.signature(),
-                "passing": {n.text: (f"borrow-{borrow_mode(t.text)}" if borrow_mode(t.text)
-                                     else "copy" if t.text in COPY_TYPES else "move") for n, t in fn.params}}
-        if fn.calls:
-            fact["calls"] = sorted(fn.calls)
-        functions.append(fact)
-    records = [{"name": name, "fields": ", ".join(f"{n.text}: {t.text}" for n, t in record.fields), "moves": True}
-               for name, record in sorted(analysis.records.items())]
+    functions = [analysis.functions[name].signature() for name in sorted(analysis.functions)]
+    records = [f"struct {name} {{ " + ", ".join(f"{n.text}: {t.text}" for n, t in record.fields)
+               + " } (moves when passed by value)" for name, record in sorted(analysis.records.items())]
     return _compact({"schema": AGENT_SCHEMA, "functions": functions, "records": records})
 
 

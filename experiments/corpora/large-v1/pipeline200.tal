@@ -1,0 +1,864 @@
+struct Account {
+    balance: i32,
+    limit: i32,
+    tier: i32
+}
+
+fn debit_17(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 2 - v;
+}
+
+fn post_77(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 4 - v;
+}
+
+fn accrue_65(v: i32) -> i32 {
+    return v * 4 - 1;
+}
+
+fn levy_27(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn accrue_96(v: i32) -> i32 {
+    return v * 3 - 1;
+}
+
+fn accrue_92(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 4;
+}
+
+fn accrue_24(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn credit_42(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 2 - v;
+}
+
+fn post_94(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn debit_26(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 5;
+    return a.balance;
+}
+
+fn rebate_58(v: i32) -> i32 {
+    return v * 4 - 1;
+}
+
+fn post_54(v: i32) -> i32 {
+    return v * 4 - 1;
+}
+
+fn adjust_39(v: i32) -> i32 {
+    return v * 4 - 1;
+}
+
+fn ledger_01(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 2 - v;
+}
+
+fn settle_08(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 5 - v;
+}
+
+fn ledger_46(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn rebate_70(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn rebate_77(v: i32) -> i32 {
+    return v * 2 - 1;
+}
+
+fn levy_37(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn credit_64(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn debit_77(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn audit_01(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn settle_27(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn post_61(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 5;
+}
+
+fn adjust_25(v: i32) -> i32 {
+    return v * 3 - 1;
+}
+
+fn adjust_68(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn rebate_39(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn post_41(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 2;
+}
+
+fn settle_73(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 2 - v;
+}
+
+fn rebate_65(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn post_80(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn credit_41(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 5 - v;
+}
+
+fn audit_97(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 5;
+    return a.balance;
+}
+
+fn audit_96(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn levy_31(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 5;
+    return a.balance;
+}
+
+fn settle_28(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn levy_54(v: i32) -> i32 {
+    return v * 4 - 1;
+}
+
+fn debit_53(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn ledger_40(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn adjust_33(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn audit_46(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 4 - v;
+}
+
+fn settle_43(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 4;
+}
+
+fn ledger_30(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn audit_26(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 2;
+}
+
+fn adjust_15(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 4 - v;
+}
+
+fn rebate_51(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn ledger_70(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn rebate_52(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn levy_98(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn audit_23(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn debit_60(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 5 - v;
+}
+
+fn audit_20(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 5;
+}
+
+fn rebate_18(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 4;
+    return a.balance;
+}
+
+fn settle_96(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 4 - v;
+}
+
+fn debit_95(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn adjust_45(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn debit_28(v: i32) -> i32 {
+    return v * 3 - 1;
+}
+
+fn accrue_59(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 5;
+    return a.balance;
+}
+
+fn adjust_83(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 4 - v;
+}
+
+fn credit_91(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn debit_48(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn adjust_04(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn debit_21(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 5;
+}
+
+fn levy_94(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 4;
+}
+
+fn debit_32(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 5 - v;
+}
+
+fn rebate_59(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 5;
+}
+
+fn audit_40(v: i32) -> i32 {
+    return v * 2 - 1;
+}
+
+fn levy_58(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 4 - v;
+}
+
+fn post_02(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn accrue_15(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn settle_35(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 5;
+}
+
+fn ledger_25(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn ledger_71(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 5;
+}
+
+fn audit_94(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 5;
+    return a.balance;
+}
+
+fn debit_27(v: i32) -> i32 {
+    return v * 3 - 1;
+}
+
+fn post_38(v: i32) -> i32 {
+    return v * 2 - 1;
+}
+
+fn audit_33(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn credit_95(v: i32) -> i32 {
+    return v * 4 - 1;
+}
+
+fn levy_80(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 4;
+}
+
+fn rebate_50(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 2 - v;
+}
+
+fn post_23(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn settle_88(v: i32) -> i32 {
+    return v * 2 - 1;
+}
+
+fn adjust_31(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 2 - v;
+}
+
+fn settle_84(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn audit_03(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 5 - v;
+}
+
+fn audit_43(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 4;
+}
+
+fn settle_71(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn adjust_14(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn debit_46(v: i32) -> i32 {
+    return v * 2 - 1;
+}
+
+fn audit_13(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 5;
+    return a.balance;
+}
+
+fn settle_60(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 4;
+    return a.balance;
+}
+
+fn audit_08(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 4 - v;
+}
+
+fn ledger_47(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 2 - v;
+}
+
+fn audit_64(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 5 - v;
+}
+
+fn adjust_17(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 5;
+}
+
+fn credit_09(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn settle_98(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 4;
+}
+
+fn levy_21(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn ledger_67(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 5 - v;
+}
+
+fn levy_12(v: i32) -> i32 {
+    return v * 3 - 1;
+}
+
+fn credit_57(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 2;
+}
+
+fn settle_82(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 5;
+}
+
+fn credit_89(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 5;
+    return a.balance;
+}
+
+fn debit_18(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn rebate_57(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 4;
+    return a.balance;
+}
+
+fn levy_60(v: i32) -> i32 {
+    return v * 3 - 1;
+}
+
+fn rebate_99(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn adjust_18(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 5 - v;
+}
+
+fn settle_58(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 4 - v;
+}
+
+fn debit_05(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 5 - v;
+}
+
+fn adjust_73(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn rebate_90(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn levy_34(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 2;
+}
+
+fn post_71(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn rebate_74(v: i32) -> i32 {
+    return v * 2 - 1;
+}
+
+fn debit_35(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 5;
+}
+
+fn ledger_20(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 2 - v;
+}
+
+fn audit_24(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn credit_66(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 4;
+    return a.balance;
+}
+
+fn credit_43(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn adjust_80(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn post_95(v: i32) -> i32 {
+    return v * 2 - 1;
+}
+
+fn ledger_31(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn adjust_12(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn ledger_11(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn adjust_02(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 5;
+    return a.balance;
+}
+
+fn settle_16(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn ledger_16(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn rebate_01(v: i32) -> i32 {
+    return v * 4 - 1;
+}
+
+fn accrue_69(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 4;
+}
+
+fn post_87(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn audit_91(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 5;
+}
+
+fn rebate_24(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn credit_50(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn post_31(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 4;
+    return a.balance;
+}
+
+fn ledger_13(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn adjust_55(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn accrue_07(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 4;
+    return a.balance;
+}
+
+fn debit_02(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn accrue_53(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn post_53(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn rebate_93(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 5;
+    return a.balance;
+}
+
+fn audit_12(v: i32) -> i32 {
+    return v * 3 - 1;
+}
+
+fn post_65(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn credit_60(v: i32) -> i32 {
+    return v * 4 - 1;
+}
+
+fn accrue_71(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn credit_63(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 2;
+}
+
+fn accrue_01(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn audit_71(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn settle_17(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 5 - v;
+}
+
+fn settle_21(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 4;
+}
+
+fn rebate_81(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 4 - v;
+}
+
+fn adjust_81(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn post_00(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 2;
+}
+
+fn credit_37(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 2;
+}
+
+fn accrue_33(v: i32) -> i32 {
+    return v * 3 - 1;
+}
+
+fn levy_86(v: i32) -> i32 {
+    return v * 2 - 1;
+}
+
+fn settle_02(v: i32) -> i32 {
+    return v * 4 - 1;
+}
+
+fn debit_33(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn settle_49(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn rebate_98(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn levy_03(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn ledger_53(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 5 - v;
+}
+
+fn audit_00(v: i32) -> i32 {
+    return v * 3 - 1;
+}
+
+fn accrue_27(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn settle_67(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn debit_08(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 5;
+}
+
+fn debit_67(v: i32) -> i32 {
+    return v * 4 - 1;
+}
+
+fn post_99(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn adjust_20(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 4;
+    return a.balance;
+}
+
+fn audit_09(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 5;
+}
+
+fn levy_68(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn adjust_99(v: i32) -> i32 {
+    return v * 2 - 1;
+}
+
+fn settle_04(v: i32) -> i32 {
+    return v * 3 - 1;
+}
+
+fn debit_31(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn levy_41(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn settle_63(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 4;
+}
+
+fn audit_36(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn post_97(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn audit_73(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn rebate_45(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 2;
+    return a.balance;
+}
+
+fn credit_65(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 5;
+}
+
+fn levy_07(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 2;
+}
+
+fn debit_23(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn credit_75(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 4;
+}
+
+fn credit_32(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn audit_49(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 2 - v;
+}
+
+fn ledger_87(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 2 - v;
+}
+
+fn audit_47(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 4;
+}
+
+fn adjust_49(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+fn ledger_21(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn debit_09(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 4;
+}
+
+fn debit_52(v: i32) -> i32 {
+    return v * 2 - 1;
+}
+
+fn post_55(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+fn accrue_17(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn adjust_09(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn rebate_49(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn ledger_50(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn settle_30(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+fn settle_37(v: i32) -> i32 {
+    return v * 5 - 1;
+}
+
+fn pipeline(a: &mut Account, v: i32) -> i32 {
+    return v;
+}
+
+fn main() -> i32 {
+    let mut account = Account { balance: 10, limit: 500, tier: 1 };
+    return pipeline(&mut account, 0) - pipeline(&mut account, 0);
+}

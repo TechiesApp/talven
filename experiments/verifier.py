@@ -21,14 +21,14 @@ from pathlib import Path
 import tempfile
 
 from experiments.process import TOOL_ENVIRONMENT, environment_subset, run_process
-from experiments import borrowing_verifier, hard_verifier
+from experiments import borrowing_verifier, hard_verifier, large_verifier
 from talven.backend import emit_c
 from talven.frontend import Analysis, CompileError, Expr, Statement, analyze, require_entry
 
 
 C_FLAGS = ("-std=c11", "-O2")
 TASK_IDS = ({"move-scalar", "strict-type", "rename-field", "squared-length"} | borrowing_verifier.TASK_IDS |
-            hard_verifier.TASK_IDS)
+            hard_verifier.TASK_IDS | large_verifier.TASK_IDS)
 
 
 def _expressions(expr: Expr):
@@ -70,6 +70,8 @@ def _structure(task: str, analysis: Analysis) -> tuple[bool, str]:
         return borrowing_verifier.structure(task, analysis)
     if task in hard_verifier.TASK_IDS:
         return hard_verifier.structure(task, analysis)
+    if task in large_verifier.TASK_IDS:
+        return large_verifier.structure(task, analysis)
     main = analysis.functions["main"]
     if task in {"move-scalar", "strict-type"}:
         # Bounded shape prevents an unreachable decorative binding/move from
@@ -150,6 +152,8 @@ def _harness(task: str) -> str:
         return borrowing_verifier.harness(task)
     if task in hard_verifier.TASK_IDS:
         return hard_verifier.harness(task)
+    if task in large_verifier.TASK_IDS:
+        return large_verifier.harness(task)
     expected = {"move-scalar": 7, "strict-type": 1}.get(task, 0)
     checks = [f'if (tv_f_main() != INT32_C({expected})) {{ puts("main returned an unexpected i32 value"); return 1; }}']
     if task in {"rename-field", "squared-length"}:

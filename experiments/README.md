@@ -79,10 +79,28 @@ The original corpus, its fixture, and historical reports remain available. Chang
 
 The [hard verifier](hard_verifier.py) owns the acceptance. It checks exact contracts, keeps protected helpers token-identical, and uses a wrapper that counts `add` calls. C harnesses compute the expected values with 64-bit arithmetic over edge inputs. Tests confirm that every reference solution passes, every starter fails, and one habit mistake per task is rejected for the intended reason. See the [live pilots](../docs/pilot-evidence.md#second-pilot-the-hard-corpus) for results.
 
+### Large-program corpus
+
+`m1-large-tasks-v1` tests whether compiler facts help when the facts a model needs are scattered through a large file. Each of its four [generated starters](corpora/large-v1/) declares one record and 40, 80, 140, or 200 helpers with similar names (`ledger_32`, `levy_76`, …). Each helper takes the account in one of four ways: `&mut Account`, `&Account`, by value (moving it), or not at all.
+
+The task is always the same: implement `pipeline(a: &mut Account, v: i32) -> i32` to call 4–6 named helpers in order. Each call must match the helper's signature:
+- pass `&mut a` or `&a` explicitly;
+- build a fresh `Account` for a by-value helper, since a borrowed parameter cannot be moved;
+- bind each result to a new name, since there is no reassignment.
+
+These tasks use **function-scoped edits**: `"edit": "function:pipeline"` in the task. The model returns only the new definition of `pipeline`, and the runner splices it into the current file by matching braces on tokens. The spliced file is what gets verified and archived, so `reverify` is unchanged. Without this, the model would have to reproduce up to 860 unchanged lines. That would measure copying, not the lookup under test.
+
+The [large verifier](large_verifier.py):
+- requires every other declaration to stay token-identical;
+- requires `pipeline` to call every stage;
+- simulates the stages in C with 64-bit arithmetic over 24 inputs, checking both the returned value and the account's final state.
+
+[`large_tasks.py`](large_tasks.py) generates the starters deterministically, and a test keeps the committed files identical to its output.
+
 ## Context and repair protocol
 
 - `--context source`: the pinned [language reference](../docs/language-reference.md), task instructions, and complete current task source.
-- `--context compiler`: the same input plus compact compiler facts (`talven context --compact`): signatures, parameter passing, calls, and records, without hashes or other machine metadata. Invalid source instead receives every recovered error as `line:column code message` lines. Context is recomputed for each repair. Runs from revisions before `9c673a2` (PR #30) sent the full `talven.context.v2` document and only the first error.
+- `--context compiler`: the same input plus compact compiler facts (`talven context --compact`, schema `talven.agent-context.v2`): every function signature sorted by name, and each record's fields. It has no hashes or other machine metadata, and is about half the size of the source. Invalid source instead receives every recovered error as `line:column code message` lines. Context is recomputed for each repair. Runs from revisions before `9c673a2` (PR #30) sent the full `talven.context.v2` document and only the first error. Runs from `9c673a2` until the large-program corpus was added sent `talven.agent-context.v1`, which listed parameter passing and calls per function instead of plain signatures.
 - `--context both` (default): separate trials for both conditions; no conversation or candidate is shared.
 
 The default additional compiler-context budget is **16384 UTF-8 bytes**, including the newline. Guides, source, task text, and prior conversation are outside this byte cap and still count toward actual provider input usage. This is not a token budget. Oversized context fails explicitly instead of truncating facts. Both conditions receive acceptance feedback after failed attempts; native test source is not inserted into prompts. **Compiler diagnostics reach only the compiler condition:** when the language checks reject a source-only candidate, its repair feedback says so without the diagnostic text. A `max_tokens` cut-off or refusal reported by the adapter is a failed attempt whose feedback names the stop reason. Repair turns replay the model's own text when the adapter reports it.
