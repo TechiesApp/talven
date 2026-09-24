@@ -1,6 +1,6 @@
 # Live pilots: Claude Opus 5.5, Sonnet 5, and Haiku 4.5
 
-Status: actual results of three controlled pilot runs on 24 September 2026, the first live model evidence for the [evaluation harness](../experiments/README.md). They validate the pipeline end to end and show that a frontier model learns Talven's rules from one page. Only the third, with smaller models, separates the source-only and compiler-context conditions at all. The difference it shows is small and points against the current context format.
+Status: actual results of four controlled pilot runs on 24 September 2026, the first live model evidence for the [evaluation harness](../experiments/README.md). They validate the pipeline end to end and show that a frontier model learns Talven's rules from one page. The third, with smaller models, found the original compiler context slightly harmful. The fourth, after compact context and multi-error reporting, found that harm gone and compiler context no costlier than source-only.
 
 ## Setup
 
@@ -96,9 +96,36 @@ Every trial ended in a pass except one: Sonnet 5 at `low`, with compiler context
 - **First-error anchoring.** The checker reports only the first error. On the six-error program, the compiler condition's first prompt carried one diagnostic, and the model fixed that one error. The source-only condition had to read the whole program against the reference and fixed more of it.
 - **Noisy context.** The compiler context is about 1.5 KB of JSON, and much of it (cache keys, hashes, runtime versions) is machine metadata. In these runs the compiler condition used 18–62% more input tokens, partly because it needed more repairs, without adding facts the source lacks.
 
+## Fourth run: compact context and every error
+
+After the third pilot, [PR #30](https://github.com/TechiesApp/talven/pull/30) changed what the compiler condition receives:
+- **Compact facts for valid source.** It gets `talven context --compact`: signatures, parameter passing, calls, and records, about a quarter of the old size.
+- **Every error for invalid source.** It gets every recovered error, not only the first.
+
+The source-only condition is unchanged. The run repeated the hard corpus on the two configurations that had favored source-only, now with 3 repetitions, from clean revision `9c673a2`. Records are in [`experiments/results/pilot-hard-rerun-20260924`](../experiments/results/pilot-hard-rerun-20260924/), and both archives reverified.
+
+| Model | Condition | First-attempt passes | Final passes | Attempts | Input tokens | Output tokens | List-price cost (USD) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Haiku 4.5 | source | 17 / 24 | 23 / 24 | 33 | 143,543 | 135,305 | 0.898803 |
+| Haiku 4.5 | compiler | 17 / 24 | 24 / 24 | 32 | 145,820 | 128,660 | 0.922440 |
+| Sonnet 5, low | source | 17 / 24 | 24 / 24 | 33 | 181,988 | 34,813 | 0.587987 |
+| Sonnet 5, low | compiler | 19 / 24 | 24 / 24 | 29 | 157,917 | 16,605 | 0.383632 |
+
+The run cost $2.79 at list-price equivalent.
+
+What changed:
+
+- **The first-attempt penalty is gone.**
+  - Previously all five discordant pairs favored source-only.
+  - Now 5 of 8 favor compiler context and 3 favor source-only (exact p = 0.73): no detectable difference either way.
+  - Both of Sonnet's discordant pairs are the six-error repair, which the compiler condition now solved on the first attempt: the case where one diagnostic used to anchor the model.
+- **Compiler context stopped costing extra.** Its input went from 18–62% above source-only to between 13% below (Sonnet, which needed fewer repairs) and 2% above (Haiku). Sonnet's compiler condition cost 35% less than source-only in total.
+- **Final correctness is near the ceiling in both conditions.** 95 of 96 passed. The one failure was Haiku in the source-only condition on `snapshot-before-move`: it first read a moved value, then edited the protected `total` helper in both repairs.
+
+This removes a harm and suggests a benefit for multi-error repairs, but it does not yet show that compiler context improves correctness. That needs more repetitions or tasks where facts are only available from the compiler.
+
 ## Next steps
 
-1. **Report several independent errors per check** (done: `check` and the harness now report every recovered error).
-2. **Give models a compact context view** (done: `context --compact`, about a quarter of the old size). Measure its effect against source-only.
-3. **Rerun the smaller models with more repetitions** to confirm or refute the first-attempt effect, choosing the count from the variance above.
-4. **Grow the corpus toward larger programs,** where compiler context carries facts the visible source does not.
+1. **Add tasks whose needed facts come only from the compiler,** such as larger programs spread across many functions, and later across modules, where the visible source does not show every signature at once.
+2. **Run more repetitions on smaller models,** sized from the variance above, to measure the multi-error effect with confidence.
+3. **Track cost per correct task** across both conditions now that compiler context no longer adds tokens.
