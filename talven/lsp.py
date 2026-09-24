@@ -12,7 +12,7 @@ from typing import BinaryIO
 
 from . import VERSION
 from .formatter import format_source
-from .frontend import BUILTINS, KEYWORDS, SCALARS, Analysis, CompileError, Span, analyze, source_range
+from .frontend import BUILTINS, KEYWORDS, SCALARS, Analysis, CompileError, Span, analyze, check_source, source_range
 import re
 
 MAX_MESSAGE_BYTES = 1024 * 1024
@@ -171,12 +171,8 @@ class Server:
             return
         if previous is None and len(self.documents) >= MAX_DOCUMENTS:
             raise ValueError("Open-document limit reached")
-        try:
-            result = analyze(source)
-            diagnostics = []
-        except CompileError as error:
-            result = None
-            diagnostics = [error.diagnostic(source)]
+        result, errors = check_source(source)
+        diagnostics = [error.diagnostic(source) for error in errors]
         self.documents[uri] = Document(source, version, result)
         self.send(method="textDocument/publishDiagnostics",
                   params={"uri": uri, "version": version, "diagnostics": diagnostics})

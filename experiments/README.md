@@ -82,7 +82,7 @@ The [hard verifier](hard_verifier.py) owns the acceptance. It checks exact contr
 ## Context and repair protocol
 
 - `--context source`: the pinned [language reference](../docs/language-reference.md), task instructions, and complete current task source.
-- `--context compiler`: the same input plus compiler context v2. Invalid source receives structured frontend diagnostics instead of fabricated context. Context is recomputed for each repair.
+- `--context compiler`: the same input plus compact compiler facts (`talven context --compact`): signatures, parameter passing, calls, and records, without hashes or other machine metadata. Invalid source instead receives every recovered error as `line:column code message` lines. Context is recomputed for each repair. Runs before 25 September 2026 sent the full `talven.context.v2` document and only the first error.
 - `--context both` (default): separate trials for both conditions; no conversation or candidate is shared.
 
 The default additional compiler-context budget is **16384 UTF-8 bytes**, including the newline. Guides, source, task text, and prior conversation are outside this byte cap and still count toward actual provider input usage. This is not a token budget. Oversized context fails explicitly instead of truncating facts. Both conditions receive acceptance feedback after failed attempts; native test source is not inserted into prompts. **Compiler diagnostics reach only the compiler condition:** when the language checks reject a source-only candidate, its repair feedback says so without the diagnostic text. A `max_tokens` cut-off or refusal reported by the adapter is a failed attempt whose feedback names the stop reason. Repair turns replay the model's own text when the adapter reports it.
