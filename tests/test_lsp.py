@@ -212,6 +212,11 @@ class LspTests(unittest.TestCase):
                 self.assertEqual(code, reply["error"]["code"])
         self.assertEqual(-32803, self.request("textDocument/rename", source, source.index("print"), newName="out")["error"]["code"])
 
+    def test_diagnostics_include_every_recovered_error(self):
+        self.open("fn f() -> i32 { let x = 1; let x = 2; return x; }\nfn g() -> i32 { return 1 }\n")
+        published = self.messages()[-1]["params"]["diagnostics"]
+        self.assertEqual(["E0002", "E0102"], sorted(d["code"] for d in published))
+
     def formatting(self, options=None):
         self.server.handle({"id": 4, "method": "textDocument/formatting", "params": {
             "textDocument": {"uri": URI}, "options": options or {"tabSize": 4, "insertSpaces": True}}})

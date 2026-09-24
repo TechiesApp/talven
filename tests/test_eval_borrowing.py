@@ -207,8 +207,9 @@ class BorrowingFixtureTests(unittest.TestCase):
                     self.assertIsNone(payload["feedback"])
                     if trial["context_mode"] == "compiler":
                         context = json.loads(payload["compiler_context"])
-                        expected = "talven.context.v2" if trial["task"] == "borrow-order" else "talven.diagnostics.v1"
-                        self.assertEqual(expected, context["schema"])
+                        self.assertEqual("talven.agent-context.v1", context["schema"])
+                        # The valid starter gets program facts; invalid starters get every recovered error.
+                        self.assertIn("functions" if trial["task"] == "borrow-order" else "errors", context)
                     else:
                         self.assertNotIn("compiler_context", payload)
             checked = self.command("-m", "experiments", "reverify", directory / "run",

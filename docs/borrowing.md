@@ -102,7 +102,7 @@ The shared LSP frontend reports borrow failures and shows shared/exclusive param
 | E0201 | Exact field or argument type mismatch, including borrow mode |
 | E0204 | Unsupported record field type, including reference fields |
 
-The compiler reports the first error, so malformed combinations can fail earlier with syntax or name diagnostics.
+Checks report the first error in each function body, so malformed combinations can fail earlier with syntax or name diagnostics.
 
 ## Security and target limits
 

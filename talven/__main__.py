@@ -9,10 +9,10 @@ import tempfile
 
 from . import VERSION
 from .backend import emit_c
-from .context import context, encode, source_hash
+from .context import agent_context, context, encode, source_hash
 from .edit_validation import HASH_PATTERN, snapshot_source, validate_edit
 from .formatter import format_source
-from .frontend import CompileError, MAX_SOURCE_BYTES, Span, analyze
+from .frontend import CompileError, MAX_SOURCE_BYTES, Span, analyze, check_source
 from .native import compiler_command
 from .source_edit import read_regular, replace_source, writable_source
 
@@ -46,6 +46,8 @@ def main(argv: list[str] | None = None) -> int:
     ctx.add_argument("--expect-source-hash", type=revision_hash)
     ctx.add_argument("--freestanding", action="store_true")
     ctx.add_argument("--include-body", action="store_true", help="Include selected source as untrusted text data")
+    ctx.add_argument("--compact", action="store_true",
+                     help="Program facts only (signatures, passing, calls, records), for model prompts")
     emit = commands.add_parser("emit-c", help="Emit checked C11 without executing a C compiler")
     emit.add_argument("source", type=Path)
     emit.add_argument("-o", "--output", type=Path)
@@ -102,6 +104,7 @@ def main(argv: list[str] | None = None) -> int:
         print(encode(receipt), end="")
         return 0 if receipt["ok"] else 1
     source = ""
+    reported: list[CompileError] = []  # check reports every error it found; other commands the first
     try:
         if args.command == "fmt" and args.write:
             writable_source(args.source)
@@ -128,12 +131,21 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         if args.command == "context" and args.expect_source_hash not in (None, source_hash(source)):
             raise CompileError("E0501", "Source revision changed; request fresh context before editing", Span(0, 0))
+        if args.command == "check":
+            _, reported = check_source(source)
+            if reported:
+                raise reported[0]
         result = analyze(source)
         if args.command == "check":
             if args.json:
                 print(encode({"schema": "talven.diagnostics.v1", "ok": True, "diagnostics": []}), end="")
             else:
                 print("Check passed")
+        elif args.command == "context" and args.compact:
+            if args.symbol or args.include_body or args.freestanding:
+                raise CompileError("E0502", "--compact describes the whole program; omit --symbol, --include-body and "
+                                            "--freestanding", Span(0, 0))
+            print(agent_context(result), end="")
         elif args.command == "context":
             print(context(result, args.symbol, args.max_bytes, args.expect_source_hash,
                           args.freestanding, args.include_body), end="")
@@ -172,12 +184,15 @@ def main(argv: list[str] | None = None) -> int:
         failure = CompileError("E0901", str(error), Span(0, 0))
     except CompileError as error:
         failure = error
-    diagnostic = failure.diagnostic(source)
+    failures = reported if reported and failure is reported[0] else [failure]
+    diagnostics = [error.diagnostic(source) for error in failures]
     if args.command == "context" or getattr(args, "json", False):
-        print(encode({"schema": "talven.diagnostics.v1", "ok": False, "diagnostics": [diagnostic]}), end="")
+        print(encode({"schema": "talven.diagnostics.v1", "ok": False, "diagnostics": diagnostics}), end="")
     else:
-        start = diagnostic["range"]["start"]
-        print(f"{args.source}:{start['line'] + 1}:{start['character'] + 1}: {failure.code}: {failure.message}", file=sys.stderr)
+        for error, diagnostic in zip(failures, diagnostics):
+            start = diagnostic["range"]["start"]
+            print(f"{args.source}:{start['line'] + 1}:{start['character'] + 1}: {error.code}: {error.message}",
+                  file=sys.stderr)
     return 1
 
 

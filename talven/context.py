@@ -41,6 +41,43 @@ def function_fact(fn: Function) -> dict:
             "calls": sorted(fn.calls)}
 
 
+AGENT_SCHEMA = "talven.agent-context.v1"
+
+
+def _compact(value: dict) -> str:
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
+
+
+def agent_context(analysis: Analysis) -> str:
+    """Program facts for a model's prompt, without machine metadata.
+
+    The full context carries cache keys, hashes, runtime versions, and rules
+    that repeat the language reference; a model can use none of them. This
+    view keeps signatures, how each parameter is passed, calls, and records.
+    """
+    functions = []
+    for name in sorted(analysis.functions):
+        fn = analysis.functions[name]
+        fact = {"signature": fn.signature(),
+                "passing": {n.text: (f"borrow-{borrow_mode(t.text)}" if borrow_mode(t.text)
+                                     else "copy" if t.text in COPY_TYPES else "move") for n, t in fn.params}}
+        if fn.calls:
+            fact["calls"] = sorted(fn.calls)
+        functions.append(fact)
+    records = [{"name": name, "fields": ", ".join(f"{n.text}: {t.text}" for n, t in record.fields), "moves": True}
+               for name, record in sorted(analysis.records.items())]
+    return _compact({"schema": AGENT_SCHEMA, "functions": functions, "records": records})
+
+
+def agent_diagnostics(source: str, errors: list[CompileError]) -> str:
+    """Every recovered error as one line: line:column code message (1-based)."""
+    lines = []
+    for error in errors:
+        start = error.diagnostic(source)["range"]["start"]
+        lines.append(f"{start['line'] + 1}:{start['character'] + 1} {error.code} {error.message}")
+    return _compact({"schema": AGENT_SCHEMA, "errors": lines})
+
+
 def expressions(body: list[Statement]):
     def walk(expr: Expr):
         yield expr

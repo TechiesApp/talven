@@ -140,7 +140,7 @@ fn main() -> i32 {
 
 ## Diagnostics
 
-The checker reports the first error with a code:
+`talven check` reports up to 20 errors per run, each with a code; one mistake does not hide the others:
 
 | Code | Meaning |
 | --- | --- |

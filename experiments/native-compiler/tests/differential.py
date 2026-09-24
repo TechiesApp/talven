@@ -652,8 +652,10 @@ def run(argv, timeout=30):
 
 
 def diagnostic_view(stdout):
+    """ok plus the first diagnostic. The reference recovers and reports several
+    errors per check; the native prototype stops at the first, which must match."""
     receipt = json.loads(stdout)
-    return receipt["ok"], [(d["code"], d["message"], d["severity"], d["range"]) for d in receipt["diagnostics"]]
+    return receipt["ok"], [(d["code"], d["message"], d["severity"], d["range"]) for d in receipt["diagnostics"][:1]]
 
 
 class DifferentialCorpusTests(unittest.TestCase):

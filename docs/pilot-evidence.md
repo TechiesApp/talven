@@ -98,7 +98,7 @@ Every trial ended in a pass except one: Sonnet 5 at `low`, with compiler context
 
 ## Next steps
 
-1. **Report several independent errors per check,** so compiler feedback shows the whole problem instead of anchoring on the first error.
-2. **Give models a compact context view:** facts only, without cache keys, hashes, or runtime versions. Measure its token cost against source-only.
+1. **Report several independent errors per check** (done: `check` and the harness now report every recovered error).
+2. **Give models a compact context view** (done: `context --compact`, about a quarter of the old size). Measure its effect against source-only.
 3. **Rerun the smaller models with more repetitions** to confirm or refute the first-attempt effect, choosing the count from the variance above.
 4. **Grow the corpus toward larger programs,** where compiler context carries facts the visible source does not.

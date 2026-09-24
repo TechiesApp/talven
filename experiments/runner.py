@@ -12,8 +12,8 @@ import tempfile
 import time
 
 from talven import VERSION, PROFILE
-from talven.context import compiler_hash, context
-from talven.frontend import CompileError, analyze
+from talven.context import agent_context, agent_diagnostics, compiler_hash
+from talven.frontend import check_source
 from . import CORPUS_VERSION, SCHEMA, SUPPORTED_SCHEMAS
 from .metrics import aggregate, money, paired_comparison, summarize_trial
 from .process import ADAPTER_ENVIRONMENT, TOOL_ENVIRONMENT, environment_subset, run_process
@@ -75,16 +75,12 @@ def environment(cc):
 
 
 def compiler_context(source, budget):
-    try:
-        return context(analyze(source), max_bytes=budget)
-    except CompileError as error:
-        if error.code == "E0502":
-            raise ValueError("Compiler context exceeds the configured byte budget") from error
-        diagnostic = encode({"schema": "talven.diagnostics.v1", "ok": False,
-                             "diagnostics": [error.diagnostic(source)]})
-        if len(diagnostic.encode("utf-8")) > budget:
-            raise ValueError("Compiler diagnostic exceeds the configured context byte budget")
-        return diagnostic
+    """Compact compiler facts for the prompt: program facts, or every recovered error."""
+    analysis, errors = check_source(source)
+    text = agent_diagnostics(source, errors) if errors else agent_context(analysis)
+    if len(text.encode("utf-8")) > budget:
+        raise ValueError("Compiler context exceeds the configured byte budget")
+    return text
 
 
 def verify_candidate(task_id, candidate, env, timeout, native_timeout):

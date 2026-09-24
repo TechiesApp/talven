@@ -18,6 +18,8 @@ MAX_AST_DEPTH = 128
 # count here but not in the syntax tree. Keeping this well below Python's
 # recursion limit makes the diagnostic independent of the interpreter version.
 MAX_NESTING = 256
+# Diagnostics reported by one check; later errors are dropped to keep output bounded.
+MAX_DIAGNOSTICS = 20
 SCALARS = {"i32", "bool"}
 COPY_TYPES = SCALARS | {"str"}
 BUILTINS = {"print"}
@@ -189,8 +191,32 @@ class Parser:
     PRECEDENCE = {"||": 1, "&&": 2, "==": 3, "!=": 3, "<": 4, ">": 4,
                   "<=": 4, ">=": 4, "+": 5, "-": 5, "*": 6, "/": 6, "%": 6}
 
-    def __init__(self, tokens: list[Token]):
+    def __init__(self, tokens: list[Token], recover: bool = False):
         self.tokens, self.index, self.nesting = tokens, 0, 0
+        # With recovery, a syntax error is recorded and parsing resumes at the
+        # next statement or declaration, so one check reports several errors.
+        self.recover, self.errors = recover, []
+        self.declaration_errors, self.broken = False, set()
+
+    def recovered(self, error: CompileError, stop: set[str]) -> None:
+        """Record error, then skip to a boundary; limits and a full list end the parse."""
+        if not self.recover or error.code == "E0005" or len(self.errors) >= MAX_DIAGNOSTICS - 1:
+            raise error
+        self.errors.append(error)
+        depth = 0
+        while self.current.kind != "eof":
+            kind = self.current.kind
+            if depth == 0 and kind in stop:
+                if kind == ";":
+                    self.index += 1
+                return
+            if kind == "{":
+                depth += 1
+            elif kind == "}":
+                if depth == 0:
+                    return
+                depth -= 1
+            self.index += 1
 
     def enter(self):
         self.nesting += 1
@@ -237,23 +263,37 @@ class Parser:
     def program(self) -> Program:
         records, functions = [], []
         while self.current.kind != "eof":
-            start = self.current.span.start
-            if self.accept("struct"):
-                name = self.take("id")
-                self.take("{")
-                fields = self.pairs("}")
-                records.append(Record(name, fields, Span(start, self.tokens[self.index - 1].span.end)))
-            else:
-                self.take("fn")
-                name = self.take("id")
-                self.take("(")
-                params = self.pairs(")")
-                self.take("->")
-                result = self.type_token()
-                body = self.block()
-                functions.append(Function(name, params, result, body,
-                                          Span(start, self.tokens[self.index - 1].span.end)))
+            before = self.index
+            try:
+                self.declaration(records, functions)
+            except CompileError as error:
+                self.recovered(error, {"fn", "struct"})
+                self.declaration_errors = True
+                if self.index == before:
+                    self.index += 1
+                while self.current.kind == "}":
+                    self.index += 1
         return Program(records, functions)
+
+    def declaration(self, records: list[Record], functions: list[Function]):
+        start = self.current.span.start
+        if self.accept("struct"):
+            name = self.take("id")
+            self.take("{")
+            fields = self.pairs("}")
+            records.append(Record(name, fields, Span(start, self.tokens[self.index - 1].span.end)))
+            return
+        self.take("fn")
+        name = self.take("id")
+        self.take("(")
+        params = self.pairs(")")
+        self.take("->")
+        result = self.type_token()
+        errors = len(self.errors)
+        body = self.block()
+        if len(self.errors) > errors:
+            self.broken.add(name.text)
+        functions.append(Function(name, params, result, body, Span(start, self.tokens[self.index - 1].span.end)))
 
     def block(self) -> list[Statement]:
         self.enter()
@@ -266,36 +306,46 @@ class Parser:
         self.take("{")
         statements = []
         while self.current.kind != "}":
-            start = self.current.span.start
-            if self.accept("let"):
-                mutable = self.accept("mut")
-                name = self.take("id")
-                annotation = self.type_token() if self.accept(":") else None
-                self.take("=")
-                expr = self.expression()
-                end = self.take(";").span.end
-                statements.append(Statement("let", Span(start, end), expr, name, annotation, mutable=mutable))
-            elif self.accept("return"):
-                expr = self.expression()
-                end = self.take(";").span.end
-                statements.append(Statement("return", Span(start, end), expr))
-            elif self.accept("if"):
-                self.take("(")
-                expr = self.expression()
-                self.take(")")
-                then = self.block()
-                otherwise = self.block() if self.accept("else") else []
-                statements.append(Statement("if", Span(start, self.tokens[self.index - 1].span.end),
-                                            expr, then=then, otherwise=otherwise))
-            else:
-                expr = self.expression()
-                target = expr if expr.kind == "field" and self.accept("=") else None
-                if target is not None:
-                    expr = self.expression()
-                end = self.take(";").span.end
-                statements.append(Statement("assign" if target else "expr", Span(start, end), expr, target=target))
+            before = self.index
+            try:
+                statements.append(self.statement())
+            except CompileError as error:
+                self.recovered(error, {";"})
+                if self.current.kind == "eof":
+                    return statements
+                if self.index == before and self.current.kind != "}":
+                    self.index += 1
         self.take("}")
         return statements
+
+    def statement(self) -> Statement:
+        start = self.current.span.start
+        if self.accept("let"):
+            mutable = self.accept("mut")
+            name = self.take("id")
+            annotation = self.type_token() if self.accept(":") else None
+            self.take("=")
+            expr = self.expression()
+            end = self.take(";").span.end
+            return Statement("let", Span(start, end), expr, name, annotation, mutable=mutable)
+        if self.accept("return"):
+            expr = self.expression()
+            end = self.take(";").span.end
+            return Statement("return", Span(start, end), expr)
+        if self.accept("if"):
+            self.take("(")
+            expr = self.expression()
+            self.take(")")
+            then = self.block()
+            otherwise = self.block() if self.accept("else") else []
+            return Statement("if", Span(start, self.tokens[self.index - 1].span.end),
+                             expr, then=then, otherwise=otherwise)
+        expr = self.expression()
+        target = expr if expr.kind == "field" and self.accept("=") else None
+        if target is not None:
+            expr = self.expression()
+        end = self.take(";").span.end
+        return Statement("assign" if target else "expr", Span(start, end), expr, target=target)
 
     def expression(self, minimum: int = 0) -> Expr:
         self.enter()
@@ -398,8 +448,11 @@ class Analysis:
 
 
 class Checker:
-    def __init__(self, source: str, program: Program):
+    def __init__(self, source: str, program: Program, skip: set[str] | None = None):
+        # With skip given, function bodies are checked independently: errors are
+        # collected in self.errors and the functions named in skip are not checked.
         self.source, self.program = source, program
+        self.skip, self.errors = skip, []
         self.records: dict[str, Record] = {}
         self.functions: dict[str, Function] = {}
         self.references: list[Reference] = []
@@ -517,12 +570,19 @@ class Checker:
                 self.type_name(typ, parameter=True)
             self.reference(fn.name.span, fn.name.span, fn.signature())
         for fn in self.program.functions:
-            self.function = fn
-            state = State()
-            for name, typ in fn.params:
-                self.bind(name, typ.text, state)
-            if self.block(fn.body, state):
-                self.error("E0205", f"Function {fn.name.text} must return {fn.result.text} on every path", fn.name.span)
+            if self.skip is not None and fn.name.text in self.skip:
+                continue
+            try:
+                self.function = fn
+                state = State()
+                for name, typ in fn.params:
+                    self.bind(name, typ.text, state)
+                if self.block(fn.body, state):
+                    self.error("E0205", f"Function {fn.name.text} must return {fn.result.text} on every path", fn.name.span)
+            except CompileError as error:
+                if self.skip is None:
+                    raise
+                self.errors.append(error)
         return Analysis(self.source, self.program, self.records, self.functions, self.references)
 
     def block(self, statements: list[Statement], state: State) -> bool:
@@ -664,32 +724,72 @@ class Checker:
         return typ
 
 
+def _check_depth(program: Program) -> None:
+    pending = [(stmt, 1) for fn in program.functions for stmt in fn.body]
+    while pending:
+        node, depth = pending.pop()
+        if depth > MAX_AST_DEPTH:
+            raise CompileError("E0005", "Syntax tree exceeds the 128-level prototype limit", node.span)
+        if isinstance(node, Statement):
+            children = [node.expr, *node.then, *node.otherwise]
+            if node.target is not None:
+                children.append(node.target)
+        else:
+            children = [*node.args, *(child for _, child in node.fields)]
+        pending.extend((child, depth + 1) for child in children)
+
+
+def _recursion_limit() -> CompileError:
+    return CompileError("E0005", "Expression or block nesting exceeds the prototype limit", Span(0, 0))
+
+
 def parse(source: str) -> Program:
     """Parse with the same input/depth limits, without requiring valid types."""
     try:
         program = Parser(lex(source)).program()
-        pending = [(stmt, 1) for fn in program.functions for stmt in fn.body]
-        while pending:
-            node, depth = pending.pop()
-            if depth > MAX_AST_DEPTH:
-                raise CompileError("E0005", "Syntax tree exceeds the 128-level prototype limit", node.span)
-            if isinstance(node, Statement):
-                children = [node.expr, *node.then, *node.otherwise]
-                if node.target is not None:
-                    children.append(node.target)
-            else:
-                children = [*node.args, *(child for _, child in node.fields)]
-            pending.extend((child, depth + 1) for child in children)
+        _check_depth(program)
         return program
     except RecursionError:
-        raise CompileError("E0005", "Expression or block nesting exceeds the prototype limit", Span(0, 0)) from None
+        raise _recursion_limit() from None
 
 
 def analyze(source: str) -> Analysis:
+    """Check source, raising the first error."""
     try:
         return Checker(source, parse(source)).check()
     except RecursionError:
-        raise CompileError("E0005", "Expression or block nesting exceeds the prototype limit", Span(0, 0)) from None
+        raise _recursion_limit() from None
+
+
+def check_source(source: str) -> tuple[Analysis | None, list[CompileError]]:
+    """Check source and return up to MAX_DIAGNOSTICS errors.
+
+    The first error is always the one analyze() raises. Syntax errors are
+    recovered at statement and declaration boundaries, and each function body
+    is checked independently. Semantic checking is skipped when a declaration
+    failed to parse, and for function bodies with syntax errors, so it does not
+    report errors that are only consequences of earlier ones.
+    """
+    errors: list[CompileError] = []
+    try:
+        parser = Parser(lex(source), recover=True)
+        try:
+            program = parser.program()
+            _check_depth(program)
+        finally:
+            errors.extend(parser.errors)
+        if parser.declaration_errors:
+            return None, errors
+        checker = Checker(source, program, skip=parser.broken)
+        analysis = checker.check()
+        errors.extend(checker.errors)
+    except CompileError as error:
+        errors.append(error)
+        return None, errors[:MAX_DIAGNOSTICS]
+    except RecursionError:
+        errors.append(_recursion_limit())
+        return None, errors[:MAX_DIAGNOSTICS]
+    return (None if errors else analysis), errors[:MAX_DIAGNOSTICS]
 
 
 def require_entry(analysis: Analysis):
