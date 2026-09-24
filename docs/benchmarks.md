@@ -27,6 +27,7 @@ Claude Opus 5.5, effort `high`, received only the one-page [language reference](
 | Hard corpus: habits other languages allow (2 efforts × 2 repetitions) | 64 | 64 | 5,922 | $1.790 |
 | Hard corpus on Sonnet 5 (low, high) and Haiku 4.5 | 96 | 83 (95 after repairs) | 5,462 | $2.642 |
 | Rerun with compact context and every error (Haiku 4.5, Sonnet 5 low) | 96 | 70 (95 after repairs) | 4,955 | $2.793 |
+| Large programs, 40–200 helpers (Haiku 4.5, Sonnet 5 low) | 64 | 16 (60 after repairs) | 15,110 | $6.948 |
 
 About 3,900 tokens of each call were the cached system prompt (31,160 cache-read tokens over 8 calls per corpus): the model learned a new language from that much text. Costs are list-price equivalents; the run used a subscription.
 
@@ -34,7 +35,7 @@ The hard corpus asks for code where habits from other languages fail in Talven: 
 
 Smaller models fell into the targeted habits (scalar reassignment, implicit reborrows, overflow) and then repaired them from feedback, ending at 95 of 96.
 
-**Limits.** The runs show the language is learnable from one page. The original compiler context slightly hurt first attempts: all 5 discordant pairs favored source-only. After compact context and multi-error reporting, that harm disappeared: 5 of 8 pairs favored compiler context, which is not significant (p = 0.73). Compiler context also stopped costing extra; on Sonnet 5 it cost 35% less than source-only. It does not yet show a correctness gain. See [the pilot record](pilot-evidence.md#fourth-run-compact-context-and-every-error).
+**Limits.** The runs show the language is learnable from one page. The original compiler context slightly hurt first attempts: all 5 discordant pairs favored source-only. After compact context and multi-error reporting, that harm disappeared: 5 of 8 pairs favored compiler context, which is not significant (p = 0.73). Compiler context also stopped costing extra; on Sonnet 5 it cost 35% less than source-only. On large programs, the signature index doubled Haiku 4.5's first-attempt success (5 to 10 of 16, p = 0.13), which suggests a correctness gain but does not prove one. See [the pilot record](pilot-evidence.md#fourth-run-compact-context-and-every-error).
 
 ## Compiler context stays bounded
 
