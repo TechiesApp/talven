@@ -6,7 +6,7 @@ Talven is early. This page gathers the measurements it has so far, so you can ju
 
 | Question | Measured answer | Source |
 | --- | --- | --- |
-| Can a current model work in Talven from one page of documentation? | Claude Opus 5.5 passed **80 of 80** trials on the first attempt, including a corpus built to trip up habits from other languages, at **$0.02–0.03 per task** at list price | [Agent pilot](#agents-can-use-it-today) |
+| Can a current model work in Talven from one page of documentation? | Claude Opus 5.5 passed **80 of 80** trials on the first attempt, including a corpus built to trip up habits from other languages; Sonnet 5 and Haiku 4.5 passed **95 of 96** after repairs. That cost **$0.02–0.04 per task** at list price | [Agent pilot](#agents-can-use-it-today) |
 | How does it compare with C, Rust, Go, Java, and TypeScript? | Fastest checker on a 2,400-line program (**6.5 ms**), native run time level with Go, 33 KB executables with no runtime | [Comparison](#compared-with-popular-languages) |
 | How much prompt does the language itself cost? | The whole system prompt, including the language reference, is about **3,900 tokens** | [Agent pilot](#agents-can-use-it-today) |
 | Does compiler context stay small as programs grow? | Selected-symbol context stayed at **~1.5 KB** while source grew **4×** (2.2 KB to 8.6 KB) | [Bounded context](#compiler-context-stays-bounded) |
@@ -25,12 +25,15 @@ Claude Opus 5.5, effort `high`, received only the one-page [language reference](
 | Records, moves, types, refactors | 8 | 8 | 4,943 | $0.146 |
 | Shared and exclusive borrowing | 8 | 8 | 5,225 | $0.184 |
 | Hard corpus: habits other languages allow (2 efforts × 2 repetitions) | 64 | 64 | 5,922 | $1.790 |
+| Hard corpus on Sonnet 5 (low, high) and Haiku 4.5 | 96 | 83 (95 after repairs) | 5,462 | $2.642 |
 
 About 3,900 tokens of each call were the cached system prompt (31,160 cache-read tokens over 8 calls per corpus): the model learned a new language from that much text. Costs are list-price equivalents; the run used a subscription.
 
 The hard corpus asks for code where habits from other languages fail in Talven: loops, shadowing, `else if`, implicit reborrows, and overflowing intermediates. It includes one repair of six such errors at once, done without any compiler diagnostics in the source-only condition. The model avoided every trap.
 
-**Limits.** One model. Every trial passed in both conditions, so these runs show the language is learnable, not that compiler context helps: at this program size, context cost about 20% more input tokens for no gain. See [next steps](pilot-evidence.md#next-steps).
+Smaller models fell into the targeted habits (scalar reassignment, implicit reborrows, overflow) and then repaired them from feedback, ending at 95 of 96.
+
+**Limits.** The runs show the language is learnable from one page. They do not show that compiler context helps. On first attempts, all five pairs that differed between conditions favored source-only (exact p = 0.06). The likely causes are the checker reporting only its first error and noisy context metadata; both are next steps. See [the pilot record](pilot-evidence.md#third-pilot-smaller-models-on-the-hard-corpus).
 
 ## Compiler context stays bounded
 

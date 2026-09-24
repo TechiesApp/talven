@@ -1,0 +1,2495 @@
+{
+  "corpus_version": "m1-hard-tasks-v1",
+  "environment": {
+    "c_flags": [
+      "-std=c11",
+      "-O2"
+    ],
+    "cc": "/usr/bin/cc",
+    "cc_sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+    "cc_target": "arm64-apple-darwin27.0.0",
+    "cc_version": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+    "compiler_hash": "4bfde0edba69f190985936cfaa4c5987c5c772e7e14879675c83d83dbb38443d",
+    "compiler_version": "0.4.0-dev",
+    "language_profile": "m1-static-text-v1",
+    "logical_cpus": 10,
+    "machine": "arm64",
+    "processor": "arm",
+    "python": "3.14.7",
+    "python_implementation": "CPython",
+    "release": "27.0.0",
+    "repository_dirty": false,
+    "repository_revision": "de2427cf0c29ea07171914bbb638fec3d186765b",
+    "system": "Darwin"
+  },
+  "matches_archive": true,
+  "note": "Fresh correctness checks only; no new model usage or billing measurements",
+  "schema": "talven.eval.reverification.v2",
+  "toolchain_matches_archive": true,
+  "trials": [
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_i061d1b/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_i061d1b/native-values"
+          ],
+          "elapsed_seconds": 0.4072065410000505,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_i061d1b/native-values"
+          ],
+          "elapsed_seconds": 0.3817372909979895,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "digit-sum-compiler-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "digit-sum",
+          "--source",
+          "<scratch>/haiku/digit-sum-compiler-001/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.8706434999912744,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_i061d1b/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_i061d1b/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.4072065410000505}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_i061d1b/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.3817372909979895}]}\n",
+        "stdout_sha256": "580e1962a2ba8ef82b58d8f78fe9868d6bccab35246eaf71afe67f4e6d229da8"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lo5u_5fz/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lo5u_5fz/native-values"
+          ],
+          "elapsed_seconds": 0.061268624995136634,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lo5u_5fz/native-values"
+          ],
+          "elapsed_seconds": 0.2744237080041785,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "grade-bands-compiler-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "grade-bands",
+          "--source",
+          "<scratch>/haiku/grade-bands-compiler-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.4202526670123916,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lo5u_5fz/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lo5u_5fz/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.061268624995136634}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-lo5u_5fz/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.2744237080041785}]}\n",
+        "stdout_sha256": "144de882eda36b76f44755f4a0b0450a3e4a56b036d2760b7e83b47d8574a87e"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z2t69b9m/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z2t69b9m/native-values"
+          ],
+          "elapsed_seconds": 0.07481279200874269,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z2t69b9m/native-values"
+          ],
+          "elapsed_seconds": 0.29994391700893175,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "no-shadowing-compiler-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "no-shadowing",
+          "--source",
+          "<scratch>/haiku/no-shadowing-compiler-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.44685979098721873,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z2t69b9m/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z2t69b9m/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07481279200874269}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-z2t69b9m/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.29994391700893175}]}\n",
+        "stdout_sha256": "a71f0fcb3c330a7b0e2ff616a7adb116aa445ad781d39547e8ce71a7f22839c5"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-idytj8y2/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-idytj8y2/native-values"
+          ],
+          "elapsed_seconds": 0.06087162499898113,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-idytj8y2/native-values"
+          ],
+          "elapsed_seconds": 0.2752726249891566,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pow-mod-source-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pow-mod",
+          "--source",
+          "<scratch>/haiku/pow-mod-source-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.4193559580016881,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-idytj8y2/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-idytj8y2/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06087162499898113}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-idytj8y2/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.2752726249891566}]}\n",
+        "stdout_sha256": "ebd4f125b00712123e587563f75e2839ef686242f9e5f57b15a63e8eea49c0d4"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mg167h2t/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mg167h2t/native-values"
+          ],
+          "elapsed_seconds": 0.05938083300134167,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mg167h2t/native-values"
+          ],
+          "elapsed_seconds": 0.2804725409951061,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "digit-sum-compiler-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "digit-sum",
+          "--source",
+          "<scratch>/haiku/digit-sum-compiler-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.40093337500002235,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mg167h2t/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mg167h2t/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.05938083300134167}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mg167h2t/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.2804725409951061}]}\n",
+        "stdout_sha256": "b2f769566bef130539e0ad45a3535c8bc96891b661486990c807b444a1b45f4c"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-yp5mi2qo/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-yp5mi2qo/native-values"
+          ],
+          "elapsed_seconds": 0.09146916700410657,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-yp5mi2qo/native-values"
+          ],
+          "elapsed_seconds": 0.27686729199194815,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pow-mod-compiler-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pow-mod",
+          "--source",
+          "<scratch>/haiku/pow-mod-compiler-001/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.4616891250043409,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-yp5mi2qo/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-yp5mi2qo/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.09146916700410657}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-yp5mi2qo/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.27686729199194815}]}\n",
+        "stdout_sha256": "5306ff14442c1393900c95d75cb4d6c46563f2ed210bc8c582d76c0c2b6db2ba"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ng5n71wf/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ng5n71wf/native-values"
+          ],
+          "elapsed_seconds": 0.06829066599311773,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ng5n71wf/native-values"
+          ],
+          "elapsed_seconds": 0.041485416993964463,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "lcm-no-overflow-source-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "lcm-no-overflow",
+          "--source",
+          "<scratch>/haiku/lcm-no-overflow-source-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.17539824999403208,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ng5n71wf/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ng5n71wf/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06829066599311773}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-ng5n71wf/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.041485416993964463}]}\n",
+        "stdout_sha256": "0672fc08200af959523c3fbf43963f5402c91595c90794678e37845542086a9d"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mp9a_0_i/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mp9a_0_i/native-values"
+          ],
+          "elapsed_seconds": 0.061187999992398545,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mp9a_0_i/native-values"
+          ],
+          "elapsed_seconds": 0.28460120799718425,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "snapshot-before-move-source-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "snapshot-before-move",
+          "--source",
+          "<scratch>/haiku/snapshot-before-move-source-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.4171561249968363,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mp9a_0_i/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mp9a_0_i/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.061187999992398545}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-mp9a_0_i/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.28460120799718425}]}\n",
+        "stdout_sha256": "2c453836ef53a6efa5fe9b2bd6d82f5360f4c025b40196be061ec743f12fbb45"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-eo582m3q/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-eo582m3q/native-values"
+          ],
+          "elapsed_seconds": 0.0768148749921238,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-eo582m3q/native-values"
+          ],
+          "elapsed_seconds": 0.03888300000107847,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "multi-error-repair-source-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "multi-error-repair",
+          "--source",
+          "<scratch>/haiku/multi-error-repair-source-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.18339679199561942,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-eo582m3q/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-eo582m3q/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.0768148749921238}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-eo582m3q/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.03888300000107847}]}\n",
+        "stdout_sha256": "0d9dd53d296c19c143707b7fb258b25a0839e5e1d774988ebf783e648a4cd3a5"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-9fln6vw6/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-9fln6vw6/native-values"
+          ],
+          "elapsed_seconds": 0.05441175001033116,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-9fln6vw6/native-values"
+          ],
+          "elapsed_seconds": 0.04464745899895206,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "snapshot-before-move-source-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "snapshot-before-move",
+          "--source",
+          "<scratch>/haiku/snapshot-before-move-source-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.1574976670090109,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-9fln6vw6/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-9fln6vw6/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.05441175001033116}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-9fln6vw6/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04464745899895206}]}\n",
+        "stdout_sha256": "ac737594b3b69e344fe350a036d99a19ca7d0fe1d7b9cc472f898c31779db1c8"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-43y4965q/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-43y4965q/native-values"
+          ],
+          "elapsed_seconds": 0.06604566700116266,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-43y4965q/native-values"
+          ],
+          "elapsed_seconds": 0.04821866599377245,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "lcm-no-overflow-compiler-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "lcm-no-overflow",
+          "--source",
+          "<scratch>/haiku/lcm-no-overflow-compiler-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.17199570799130015,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-43y4965q/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-43y4965q/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06604566700116266}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-43y4965q/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04821866599377245}]}\n",
+        "stdout_sha256": "f4fc9f29b613d23e71093ad726d3fad44f3ee4238c436d71e7a13c6c03ccfa68"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-7yycr91_/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-7yycr91_/native-values"
+          ],
+          "elapsed_seconds": 0.0585304160049418,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-7yycr91_/native-values"
+          ],
+          "elapsed_seconds": 0.28744925001228694,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pow-mod-compiler-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pow-mod",
+          "--source",
+          "<scratch>/haiku/pow-mod-compiler-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.4026686670113122,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-7yycr91_/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-7yycr91_/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.0585304160049418}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-7yycr91_/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.28744925001228694}]}\n",
+        "stdout_sha256": "bee143990198f8822f9224123d6dff09a1954d027ea1259a3b6a80b166d5cfb1"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-acoqunwa/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-acoqunwa/native-values"
+          ],
+          "elapsed_seconds": 0.07603679200110491,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-acoqunwa/native-values"
+          ],
+          "elapsed_seconds": 0.042255125008523464,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "snapshot-before-move-compiler-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "snapshot-before-move",
+          "--source",
+          "<scratch>/haiku/snapshot-before-move-compiler-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.178028667010949,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-acoqunwa/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-acoqunwa/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07603679200110491}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-acoqunwa/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.042255125008523464}]}\n",
+        "stdout_sha256": "e18085772b48418bb67e546d7625fca8d8faf959c40bdf8f73d30c7d0e05cd1a"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-j50w09jr/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-j50w09jr/native-values"
+          ],
+          "elapsed_seconds": 0.06730475000222214,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-j50w09jr/native-values"
+          ],
+          "elapsed_seconds": 0.04119049999280833,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "grade-bands-compiler-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "grade-bands",
+          "--source",
+          "<scratch>/haiku/grade-bands-compiler-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.17223633300454821,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-j50w09jr/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-j50w09jr/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06730475000222214}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-j50w09jr/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04119049999280833}]}\n",
+        "stdout_sha256": "e627a6da9fc2678ba9f4323240464e6773a42d23831c6a1c8a8943e4f5db8f1b"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-5myx9f_z/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-5myx9f_z/native-values"
+          ],
+          "elapsed_seconds": 0.061859374996856786,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-5myx9f_z/native-values"
+          ],
+          "elapsed_seconds": 0.04125337500590831,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "digit-sum-source-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "digit-sum",
+          "--source",
+          "<scratch>/haiku/digit-sum-source-001/attempt-001/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.17747745900123846,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-5myx9f_z/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-5myx9f_z/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.061859374996856786}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-5myx9f_z/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04125337500590831}]}\n",
+        "stdout_sha256": "24ac62f5c553d2be63441dd3bb7f5e2dc64305ef5f54801db385dd6513618454"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-9qyow1q5/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-9qyow1q5/native-values"
+          ],
+          "elapsed_seconds": 0.06597316700208467,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-9qyow1q5/native-values"
+          ],
+          "elapsed_seconds": 0.044739207995007746,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "grade-bands-source-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "grade-bands",
+          "--source",
+          "<scratch>/haiku/grade-bands-source-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.17843695799820125,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-9qyow1q5/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-9qyow1q5/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06597316700208467}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-9qyow1q5/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.044739207995007746}]}\n",
+        "stdout_sha256": "5c411cbd695162c6b9061a98c96e384980f09e121d0b0eecbdc47f81fc94d779"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-vv84otnt/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-vv84otnt/native-values"
+          ],
+          "elapsed_seconds": 0.07529795799928252,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-vv84otnt/native-values"
+          ],
+          "elapsed_seconds": 0.29731658300443087,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "pow-mod-source-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "pow-mod",
+          "--source",
+          "<scratch>/haiku/pow-mod-source-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.4315638330008369,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-vv84otnt/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-vv84otnt/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07529795799928252}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-vv84otnt/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.29731658300443087}]}\n",
+        "stdout_sha256": "7d2790f5bc9ddf5905b5b0fe117c8408ac01ef859d74add925b7152380eb8995"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_axhx2m6/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_axhx2m6/native-values"
+          ],
+          "elapsed_seconds": 0.07223462499678135,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_axhx2m6/native-values"
+          ],
+          "elapsed_seconds": 0.2789652089995798,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "recursive-reborrow-compiler-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "recursive-reborrow",
+          "--source",
+          "<scratch>/haiku/recursive-reborrow-compiler-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.4190719999896828,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_axhx2m6/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_axhx2m6/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07223462499678135}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_axhx2m6/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.2789652089995798}]}\n",
+        "stdout_sha256": "4d2fcb41c39dd8badbd4e0987e8c2cb97f057e79614a4d817d9b1029c88e9047"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-339eeflr/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-339eeflr/native-values"
+          ],
+          "elapsed_seconds": 0.06391599999915343,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-339eeflr/native-values"
+          ],
+          "elapsed_seconds": 0.028503749999799766,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "grade-bands-source-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "grade-bands",
+          "--source",
+          "<scratch>/haiku/grade-bands-source-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.1468362919986248,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-339eeflr/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-339eeflr/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06391599999915343}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-339eeflr/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.028503749999799766}]}\n",
+        "stdout_sha256": "b416698ec355a240200129cd71cc737372f2cf490857bd871a459efc46e1bd53"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-33mk5pc0/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-33mk5pc0/native-values"
+          ],
+          "elapsed_seconds": 0.05138779200206045,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-33mk5pc0/native-values"
+          ],
+          "elapsed_seconds": 0.2755500409984961,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "digit-sum-source-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "digit-sum",
+          "--source",
+          "<scratch>/haiku/digit-sum-source-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.3825436249899212,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-33mk5pc0/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-33mk5pc0/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.05138779200206045}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-33mk5pc0/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.2755500409984961}]}\n",
+        "stdout_sha256": "651604e39b3e8c9d10f133fc8f95350ac6b14eae5897af894d247b44dff9385a"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-x_iyolps/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-x_iyolps/native-values"
+          ],
+          "elapsed_seconds": 0.055002875000354834,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-x_iyolps/native-values"
+          ],
+          "elapsed_seconds": 0.03061837499262765,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "snapshot-before-move-compiler-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "snapshot-before-move",
+          "--source",
+          "<scratch>/haiku/snapshot-before-move-compiler-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.14176924999628682,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-x_iyolps/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-x_iyolps/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.055002875000354834}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-x_iyolps/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.03061837499262765}]}\n",
+        "stdout_sha256": "bf3312cd361afaced8ae582f8e46ad281212dc353fa96296c952f50218451855"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-1rsxcia_/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-1rsxcia_/native-values"
+          ],
+          "elapsed_seconds": 0.06509674999688286,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-1rsxcia_/native-values"
+          ],
+          "elapsed_seconds": 0.031880499998806044,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "multi-error-repair-source-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "multi-error-repair",
+          "--source",
+          "<scratch>/haiku/multi-error-repair-source-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.14955670900235418,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-1rsxcia_/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-1rsxcia_/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06509674999688286}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-1rsxcia_/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.031880499998806044}]}\n",
+        "stdout_sha256": "1c03a9a3ae532cf1cb070800bf29049da95896e932323b7db4171ef417f2c69c"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-b548kbv9/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-b548kbv9/native-values"
+          ],
+          "elapsed_seconds": 0.07181500000297092,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-b548kbv9/native-values"
+          ],
+          "elapsed_seconds": 0.2829112079925835,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "recursive-reborrow-compiler-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "recursive-reborrow",
+          "--source",
+          "<scratch>/haiku/recursive-reborrow-compiler-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.42737266700714827,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-b548kbv9/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-b548kbv9/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07181500000297092}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-b548kbv9/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.2829112079925835}]}\n",
+        "stdout_sha256": "4ee916ce16d26d9afa4958e0218621114cd6322e6193ddefc19722d77d4b4b79"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-501g62qo/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-501g62qo/native-values"
+          ],
+          "elapsed_seconds": 0.05245479200675618,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-501g62qo/native-values"
+          ],
+          "elapsed_seconds": 0.2787782500090543,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "no-shadowing-source-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "no-shadowing",
+          "--source",
+          "<scratch>/haiku/no-shadowing-source-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.39566737500717863,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-501g62qo/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-501g62qo/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.05245479200675618}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-501g62qo/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.2787782500090543}]}\n",
+        "stdout_sha256": "bff267153964cebd9a75c4a162393c0750d908bf78d0ffa5fd52660bb058e1ab"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-y0k4ex0v/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-y0k4ex0v/native-values"
+          ],
+          "elapsed_seconds": 0.06778508301067632,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-y0k4ex0v/native-values"
+          ],
+          "elapsed_seconds": 0.03173849999438971,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "multi-error-repair-compiler-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "multi-error-repair",
+          "--source",
+          "<scratch>/haiku/multi-error-repair-compiler-001/attempt-002/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.1540984579914948,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-y0k4ex0v/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-y0k4ex0v/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06778508301067632}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-y0k4ex0v/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.03173849999438971}]}\n",
+        "stdout_sha256": "b313309406911e1fca234e6fea8d267912ffe47464b8187f29daaec9f94ec5c1"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-t2foasef/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-t2foasef/native-values"
+          ],
+          "elapsed_seconds": 0.06219158400199376,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-t2foasef/native-values"
+          ],
+          "elapsed_seconds": 0.029946875001769513,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "lcm-no-overflow-source-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "lcm-no-overflow",
+          "--source",
+          "<scratch>/haiku/lcm-no-overflow-source-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.15808116699918173,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-t2foasef/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-t2foasef/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06219158400199376}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-t2foasef/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.029946875001769513}]}\n",
+        "stdout_sha256": "1122d6959191acf35bd81855f51ab340559bf078f55f7c18062b7798f069390b"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_zv4cox1/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_zv4cox1/native-values"
+          ],
+          "elapsed_seconds": 0.06422041699988768,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_zv4cox1/native-values"
+          ],
+          "elapsed_seconds": 0.028632749992539175,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "recursive-reborrow-source-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "recursive-reborrow",
+          "--source",
+          "<scratch>/haiku/recursive-reborrow-source-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.15051500000117812,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_zv4cox1/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_zv4cox1/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06422041699988768}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-_zv4cox1/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.028632749992539175}]}\n",
+        "stdout_sha256": "d0bd09817fc747a50631d148a567e2f3b1da8787ca56f6b12024ae9ff245e54e"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-tnqk2v2i/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-tnqk2v2i/native-values"
+          ],
+          "elapsed_seconds": 0.06180079201294575,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-tnqk2v2i/native-values"
+          ],
+          "elapsed_seconds": 0.036120749995461665,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "lcm-no-overflow-compiler-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "lcm-no-overflow",
+          "--source",
+          "<scratch>/haiku/lcm-no-overflow-compiler-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.156144917011261,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-tnqk2v2i/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-tnqk2v2i/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06180079201294575}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-tnqk2v2i/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.036120749995461665}]}\n",
+        "stdout_sha256": "135fe88c2a28b80763fd5575503ef261190cb154c294dbdd5910ee696e7f9d59"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-oi5zoopl/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-oi5zoopl/native-values"
+          ],
+          "elapsed_seconds": 0.0638818339939462,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-oi5zoopl/native-values"
+          ],
+          "elapsed_seconds": 0.04007608299434651,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "no-shadowing-compiler-001",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "no-shadowing",
+          "--source",
+          "<scratch>/haiku/no-shadowing-compiler-001/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.15934508400096092,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-oi5zoopl/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-oi5zoopl/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.0638818339939462}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-oi5zoopl/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.04007608299434651}]}\n",
+        "stdout_sha256": "f94e0098af1f3bf7f284c2b8b13124363d1154a8a7b82bc7745eaa1c339d9b19"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-8qltg0p3/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-8qltg0p3/native-values"
+          ],
+          "elapsed_seconds": 0.05817287499667145,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-8qltg0p3/native-values"
+          ],
+          "elapsed_seconds": 0.03966412499721628,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "no-shadowing-source-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "no-shadowing",
+          "--source",
+          "<scratch>/haiku/no-shadowing-source-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.15745508400141262,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-8qltg0p3/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-8qltg0p3/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.05817287499667145}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-8qltg0p3/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.03966412499721628}]}\n",
+        "stdout_sha256": "5714433e4a0bf390655bbd9f95fbe322d0fb58a63c69b760ce87f111a05b92c0"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-nkaeohof/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-nkaeohof/native-values"
+          ],
+          "elapsed_seconds": 0.07094941700052004,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-nkaeohof/native-values"
+          ],
+          "elapsed_seconds": 0.029211041997768916,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "multi-error-repair-compiler-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "multi-error-repair",
+          "--source",
+          "<scratch>/haiku/multi-error-repair-compiler-002/attempt-002/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.1627165420068195,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-nkaeohof/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-nkaeohof/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.07094941700052004}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-nkaeohof/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.029211041997768916}]}\n",
+        "stdout_sha256": "cade5aff7889953f8b0f654464d459829ce7edf2d774fd638992e573b0414dcb"
+      },
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared frontend and native entry checks passed",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "required contracts and protected helpers are present",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native check passed",
+          "name": "native-values",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-O2",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-4xkdx0ct/native-values.c",
+            "-o",
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-4xkdx0ct/native-values"
+          ],
+          "elapsed_seconds": 0.06665062499814667,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-4xkdx0ct/native-values"
+          ],
+          "elapsed_seconds": 0.02880675000778865,
+          "error": null,
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "native checks passed\n",
+          "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+        }
+      ],
+      "feedback": "all task acceptance checks passed",
+      "id": "recursive-reborrow-source-002",
+      "matches_archive": true,
+      "process": {
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-m",
+          "experiments.verifier",
+          "--task",
+          "recursive-reborrow",
+          "--source",
+          "<scratch>/haiku/recursive-reborrow-source-002/attempt-000/task.tal",
+          "--cc",
+          "/usr/bin/cc",
+          "--timeout",
+          "5"
+        ],
+        "elapsed_seconds": 0.15832058399973903,
+        "error": null,
+        "returncode": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "{\"status\": \"passed\", \"checks\": [{\"name\": \"frontend\", \"passed\": true, \"message\": \"shared frontend and native entry checks passed\"}, {\"name\": \"task-structure\", \"passed\": true, \"message\": \"required contracts and protected helpers are present\"}, {\"name\": \"native-values\", \"passed\": true, \"message\": \"native check passed\"}], \"feedback\": \"all task acceptance checks passed\", \"commands\": [{\"argv\": [\"/usr/bin/cc\", \"-std=c11\", \"-O2\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-4xkdx0ct/native-values.c\", \"-o\", \"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-4xkdx0ct/native-values\"], \"returncode\": 0, \"stdout\": \"\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.06665062499814667}, {\"argv\": [\"/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-acceptance-4xkdx0ct/native-values\"], \"returncode\": 0, \"stdout\": \"native checks passed\\n\", \"stderr\": \"\", \"error\": null, \"stdout_sha256\": \"e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"elapsed_seconds\": 0.02880675000778865}]}\n",
+        "stdout_sha256": "10279387ab3d463ba9f1df0f85bcfb2e4e34e5f764beaa1e124c627dff95715d"
+      },
+      "status": "passed"
+    }
+  ]
+}

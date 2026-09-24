@@ -59,7 +59,7 @@ fn main() -> i32 {
 
 | | Result |
 | --- | --- |
-| **Agents** | Claude Opus 5.5 passed **80 of 80** trials on the first attempt from the one-page reference alone, including tasks built to trip up habits from Rust, C, and TypeScript, at **$0.02–0.03 per task** at list price |
+| **Agents** | From the one-page reference alone, Claude Opus 5.5 passed **80 of 80** trials on the first attempt, including tasks built to trip up habits from Rust, C, and TypeScript. Sonnet 5 and Haiku 4.5 passed **95 of 96** after repairs. That cost **$0.02–0.04 per task** at list price |
 | **Context** | Compiler context for one symbol stayed at **~1.5 KB** while the source grew 4× |
 | **Speed** | The native checker handles a **2,400-line** program in about **4–7 ms**, including process start-up. That is faster than `clang`, `go`, `rustc`, `javac`, and `tsc` checking the same program |
 | **Run time** | Compiled programs run at native speed with overflow checks: level with Go on recursive `fib(35)`, ahead of Java and TypeScript |

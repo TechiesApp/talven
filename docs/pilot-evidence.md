@@ -1,6 +1,6 @@
-# Live pilots: Claude Opus 5.5
+# Live pilots: Claude Opus 5.5, Sonnet 5, and Haiku 4.5
 
-Status: actual results of two controlled pilot runs on 24 September 2026, the first live model evidence for the [evaluation harness](../experiments/README.md). They validate the pipeline end to end and show that a frontier model learns Talven's rules from one page. They are **not** a comparison of the source-only and compiler-context conditions: every trial passed in both, so there is nothing to separate them.
+Status: actual results of three controlled pilot runs on 24 September 2026, the first live model evidence for the [evaluation harness](../experiments/README.md). They validate the pipeline end to end and show that a frontier model learns Talven's rules from one page. Only the third, with smaller models, separates the source-only and compiler-context conditions at all. The difference it shows is small and points against the current context format.
 
 ## Setup
 
@@ -70,6 +70,35 @@ What this shows:
 - **Compiler context was pure overhead here.** It cost about 20% more input tokens at both effort levels, with no correctness difference. For a frontier model on programs this small, the source and the reference already carry the information the context adds.
 - **The comparison still has no discordant pairs.** Separating the conditions needs weaker models, larger programs, or tasks whose facts are only in compiler output. The corpus stays in the repository for exactly those runs.
 
+## Third pilot: smaller models on the hard corpus
+
+The same hard corpus and design ran from clean revision `de2427c` on **Claude Sonnet 5** at efforts `low` and `high`, and on **Claude Haiku 4.5**, which does not take an effort setting. Records are in [`experiments/results/pilot-hard-sonnet-haiku-20260924`](../experiments/results/pilot-hard-sonnet-haiku-20260924/), and all three archives reverified.
+
+| Model | Condition | First-attempt passes | Final passes | Attempts | Input tokens | Output tokens | List-price cost (USD) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Haiku 4.5 | source | 15 / 16 | 16 / 16 | 17 | 70,038 | 76,595 | 0.474731 |
+| Haiku 4.5 | compiler | 12 / 16 | 16 / 16 | 22 | 113,576 | 90,204 | 0.677974 |
+| Sonnet 5, low | source | 13 / 16 | 16 / 16 | 21 | 117,098 | 16,824 | 0.327722 |
+| Sonnet 5, low | compiler | 11 / 16 | 15 / 16 | 24 | 156,118 | 12,371 | 0.409848 |
+| Sonnet 5, high | source | 16 / 16 | 16 / 16 | 16 | 81,010 | 21,851 | 0.307190 |
+| Sonnet 5, high | compiler | 16 / 16 | 16 / 16 | 16 | 95,741 | 28,212 | 0.444430 |
+
+The run cost $2.64 in total at list-price equivalent.
+
+**The traps worked.** Smaller models fell into the habits the corpus targets, then repaired them from feedback:
+- **Scalar reassignment** (`x = …`), which Talven does not have, was the most common mistake (E0002).
+- **Implicit reborrows** (E0304), **`let mut` on a scalar** (E0305), and **overflow traps at run time** in `digit-sum` and `pow-mod` followed.
+
+Every trial ended in a pass except one: Sonnet 5 at `low`, with compiler context, ran out of repairs on the six-error program.
+
+**Compiler context did not help first attempts, and may have hurt.** Five task pairs had different first-attempt outcomes between the conditions, and all five favored source-only: three for Haiku and two for Sonnet at `low`. With five discordant pairs the exact McNemar p-value is 0.06, so this is a signal to investigate, not a conclusion. The records suggest two causes:
+
+- **First-error anchoring.** The checker reports only the first error. On the six-error program, the compiler condition's first prompt carried one diagnostic, and the model fixed that one error. The source-only condition had to read the whole program against the reference and fixed more of it.
+- **Noisy context.** The compiler context is about 1.5 KB of JSON, and much of it (cache keys, hashes, runtime versions) is machine metadata. In these runs the compiler condition used 18–62% more input tokens, partly because it needed more repairs, without adding facts the source lacks.
+
 ## Next steps
 
-For a frontier model, neither corpus is hard enough to separate the conditions. The next runs should use smaller or cheaper models (for example Claude Haiku 4.5 or Sonnet 5) on the hard corpus. They should also use tasks whose needed facts live across many functions or only in compiler output, such as larger multi-file programs once modules exist. Choose repetition counts from the variance those runs show.
+1. **Report several independent errors per check,** so compiler feedback shows the whole problem instead of anchoring on the first error.
+2. **Give models a compact context view:** facts only, without cache keys, hashes, or runtime versions. Measure its token cost against source-only.
+3. **Rerun the smaller models with more repetitions** to confirm or refute the first-attempt effect, choosing the count from the variance above.
+4. **Grow the corpus toward larger programs,** where compiler context carries facts the visible source does not.
