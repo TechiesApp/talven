@@ -79,8 +79,8 @@ class DiagnosticsTests(unittest.TestCase):
     def test_compact_context_has_facts_without_machine_metadata(self):
         context = json.loads(agent_context(analyze(Path("experiments/corpora/hard-v1/reborrow.tal").read_text())))
         self.assertEqual({"schema", "functions", "records"}, set(context))
-        bump = next(fn for fn in context["functions"] if fn["signature"].startswith("fn bump_n"))
-        self.assertEqual("borrow-exclusive", bump["passing"]["c"])
+        self.assertIn("fn bump_n(c: &mut Counter, times: i32, delta: i32) -> i32", context["functions"])
+        self.assertEqual(["struct Counter { value: i32 } (moves when passed by value)"], context["records"])
         encoded = json.dumps(context)
         for noise in ("cache_key", "compiler_hash", "bootstrap_runtime", "source_hash", "rules"):
             self.assertNotIn(noise, encoded)

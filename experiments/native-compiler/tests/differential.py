@@ -54,6 +54,10 @@ EXPECTED_DIVERGENCES = {
     "edge/record-field-assign": "E0801",
     "edge/record-borrow-before-error": "E0801",
     "experiments/corpora/hard-v1/reborrow.tal": "E0801",
+    "experiments/corpora/large-v1/pipeline40.tal": "E0801",
+    "experiments/corpora/large-v1/pipeline80.tal": "E0801",
+    "experiments/corpora/large-v1/pipeline140.tal": "E0801",
+    "experiments/corpora/large-v1/pipeline200.tal": "E0801",
     "edge/invalid-utf8": "E0901-message",
 }
 

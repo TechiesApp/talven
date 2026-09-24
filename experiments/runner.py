@@ -13,7 +13,7 @@ import time
 
 from talven import VERSION, PROFILE
 from talven.context import agent_context, agent_diagnostics, compiler_hash
-from talven.frontend import check_source
+from talven.frontend import CompileError, check_source, lex
 from . import CORPUS_VERSION, SCHEMA, SUPPORTED_SCHEMAS
 from .metrics import aggregate, money, paired_comparison, summarize_trial
 from .process import ADAPTER_ENVIRONMENT, TOOL_ENVIRONMENT, environment_subset, run_process
@@ -101,6 +101,55 @@ def verify_candidate(task_id, candidate, env, timeout, native_timeout):
     return {**result, "process": process}
 
 
+def function_scope(task):
+    """The function name a task's edits replace, or None for whole-file edits."""
+    edit = task.get("edit")
+    if edit is None:
+        return None
+    if not isinstance(edit, str) or not edit.startswith("function:"):
+        raise ValueError("Unsupported task edit scope")
+    return edit.split(":", 1)[1]
+
+
+def splice_function(source, name, definition):
+    """Replace function name in source with definition, located by tokens.
+
+    The definition must be exactly one function with that name. Braces are
+    matched on tokens, so text and comments cannot confuse the boundaries.
+    """
+    try:
+        tokens = [t for t in lex(definition) if t.kind != "eof"]
+    except CompileError as error:
+        raise ValueError(f"Replacement for {name} does not lex: {error.code}: {error.message}") from None
+    if len(tokens) < 3 or [t.kind for t in tokens[:2]] != ["fn", "id"] or tokens[1].text != name:
+        raise ValueError(f"Return only the definition of fn {name}")
+    depth, closed = 0, None
+    for index, token in enumerate(tokens):
+        if token.kind == "{":
+            depth += 1
+        elif token.kind == "}":
+            depth -= 1
+            if depth == 0:
+                closed = index
+                break
+    if closed != len(tokens) - 1:
+        raise ValueError(f"Return exactly one complete definition of fn {name} and nothing else")
+    current = lex(source)
+    for index in range(len(current) - 1):
+        if current[index].kind == "fn" and current[index + 1].text == name:
+            depth = 0
+            for token in current[index + 2:]:
+                if token.kind == "{":
+                    depth += 1
+                elif token.kind == "}":
+                    depth -= 1
+                    if depth == 0:
+                        start, end = current[index].span.start, token.span.end
+                        body = definition[tokens[0].span.start:tokens[-1].span.end]
+                        return source[:start] + body + source[end:]
+    raise ValueError(f"The file no longer contains fn {name}")
+
+
 def trial_id(task, mode, repetition):
     return f"{task}-{mode}-{repetition:03d}"
 
@@ -172,11 +221,14 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
     started = time.monotonic()
     result = {"id": identifier, "task": task_id, "context_mode": mode, "repetition": repetition,
               "status": "error", "attempts": [], "elapsed_seconds": 0.0}
+    scope = function_scope(tasks[task_id])
+    replacement = (f"only the complete new definition of function {scope}; the runner replaces that function "
+                   "in the file and keeps everything else" if scope else "the complete replacement source")
     system = (f"You are editing a Talven program in language profile {PROFILE}. Follow the task and the "
               "pinned language reference. "
               "Independent tests are controlled by the runner. Return a JSON object with an edits "
-              "object containing exactly one key, task.tal, whose value is the complete replacement "
-              "source. Do not request tools or edit any other file.\n\n" +
+              f"object containing exactly one key, task.tal, whose value is {replacement}. "
+              "Do not request tools or edit any other file.\n\n" +
               "\n\n".join(f"--- {name} ---\n{inputs[name].decode('utf-8')}" for name in GUIDES))
     messages = [{"role": "system", "content": system}]
     feedback = None
@@ -255,6 +307,8 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
             attempt["model_failure"] = metadata["model_failure"]
         try:
             candidate = candidate_source(response)
+            if scope:
+                candidate = splice_function(source, scope, candidate)
         except ValueError as error:
             attempt.update(status="failed", error=str(error))
             feedback = (f"The response ended with stop reason {attempt['model_failure']} before a complete edit."
