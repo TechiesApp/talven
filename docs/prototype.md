@@ -149,6 +149,8 @@ This is an initial LSP integration, not the planned full editor experience. Incr
 
 Prototype limits: 256 KiB UTF-8 source; 16384 tokens; syntax trees at most 128 levels; block and expression nesting, including parentheses, at most 256 levels; LSP JSON at most 128 levels, message bodies at most 1 MiB, headers at most 8 KiB, and at most 32 open documents. These limits reduce accidental resource growth; they are not OS-level CPU or RAM quotas.
 
+The separate [call type contract check option](call-type-contracts.md) can reuse callers after a parameter rename while preserving current reference descriptions and full native builds. It requires explicit persistent check mode.
+
 ## Native and freestanding profiles
 
 Hosted builds require `fn main() -> i32` with no parameters. They emit C11 and use a local C compiler. Python is a build-time dependency and is not embedded into the generated executable. The Talven subset introduces no language-level heap allocation or tracing GC, but the hosted executable still uses the platform's C startup, termination, and trap facilities.

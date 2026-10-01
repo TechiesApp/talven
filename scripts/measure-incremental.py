@@ -21,7 +21,7 @@ spec.loader.exec_module(base)
 from experiments.tooling_workloads import chain_source, driver
 from talven import PROFILE, VERSION
 from talven.backend import emit_c
-from talven.context import context
+from talven.context import context, source_hash
 from talven.frontend import CompileError, analyze
 from talven.incremental import IncrementalFrontend
 
@@ -127,18 +127,23 @@ def verify_native(recorder, cc, directory, generated, oracle):
 
 
 def run(args):
+    call_type_contracts = getattr(args, 'call_type_contracts', False)
+    base.require(type(call_type_contracts) is bool, 'call type contracts must be an explicit boolean')
     out, cc, arch = base.preflight(args.out, args.repetitions, args.warmups, args.timeout, args.cc, args.expect_arch)
     out.mkdir(parents=True)
     (out / "commands").mkdir()
     report = {"schema": "talven.incremental-comparison.v1", "complete": False, "passed": False,
               "summary": None, "commands": [], "samples": [], "inputs": {}, "workloads": [],
               "started_at": datetime.now(timezone.utc).isoformat(), "repetitions": args.repetitions,
-              "warmups": args.warmups, "compiler_hash": base.compiler_hash(), "profile": PROFILE,
+              "warmups": args.warmups, "call_type_contracts": call_type_contracts,
+              "compiler_hash": base.compiler_hash(), "profile": PROFILE,
               "compiler_version": VERSION, "python": platform.python_version(),
               "python_executable": base.fingerprint(Path(sys.executable)),
               "c_executable": base.fingerprint(Path(cc)), "machine": arch, "system": platform.system(),
               "os_release": platform.release(), "environment_note": args.environment_note,
               "in_process_environment": {key: os.environ.get(key) for key in base.ENVIRONMENT},
+              "effective_environment_hash": source_hash(json.dumps(dict(os.environ), sort_keys=True)),
+              "working_directory_hash": source_hash(str(Path.cwd())),
               "garbage_collector": {"enabled": gc.isenabled(), "thresholds": gc.get_threshold()},
               "c_flags": [*base.FLAGS, "-fno-lto"], "verification_timeout_seconds": args.timeout,
               "clock": {"implementation": time.get_clock_info("perf_counter").implementation,
@@ -149,7 +154,8 @@ def run(args):
     recorder.save()
     try:
         inputs = sorted([*ROOT.joinpath("talven").glob("*.py"), Path(__file__).resolve(),
-                         ROOT / "scripts/measure-tooling.py", ROOT / "experiments/tooling_workloads.py"])
+                         ROOT / "scripts/measure-tooling.py", ROOT / "experiments/tooling_workloads.py",
+                         ROOT / "experiments/__init__.py", *ROOT.joinpath('examples').glob('*.tal')])
         for path in inputs:
             relative = path.relative_to(ROOT)
             archived = out / "inputs" / relative
@@ -196,7 +202,7 @@ def run(args):
                             recorder.save()
                             started = time.perf_counter_ns()
                             if mode == "incremental" and frontend is None:
-                                frontend = IncrementalFrontend()
+                                frontend = IncrementalFrontend(call_type_contracts=call_type_contracts)
                             actual, diagnostic = checked(frontend.analyze if mode == "incremental" else analyze, revision["source"])
                             sample["elapsed_ns"] = time.perf_counter_ns() - started
                             sample["diagnostic"] = diagnostic
@@ -234,6 +240,7 @@ def main():
     parser.add_argument("--timeout", type=float, default=30)
     parser.add_argument("--expect-arch", choices=("aarch64", "x86_64"))
     parser.add_argument("--environment-note", default="unspecified")
+    parser.add_argument("--call-type-contracts", action="store_true", help="Select caller type dependencies with current reference descriptions")
     try:
         return run(parser.parse_args())
     except (base.MeasurementError, OSError, ValueError) as error:

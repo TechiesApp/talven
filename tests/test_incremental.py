@@ -130,3 +130,76 @@ class IncrementalTests(unittest.TestCase):
                 self.equivalent(source)
                 self.equivalent('// shifted 😀\n' + source)
                 self.equivalent(source)
+
+    def test_call_type_contracts_refresh_current_names_after_repeated_renames_and_moves(self):
+        self.frontend = IncrementalFrontend(call_type_contracts=True)
+        self.equivalent(SOURCE)
+        for parameter in ('amount', 'increment', 'step'):
+            source = SOURCE.replace('delta', parameter).replace('add(p:', 'add(owner:').replace('p.x', 'owner.x')
+            source = '// shifted 😀\n' + source
+            result = self.equivalent(source)
+            self.assertEqual(['add'], self.frontend.stats['checked'])
+            self.assertEqual(['spare', 'main'], self.frontend.stats['reused'])
+            calls = [ref for ref in result.references if ref.definition == result.functions['add'].name.span]
+            self.assertTrue(calls)
+            self.assertTrue(all(ref.description == result.functions['add'].signature() for ref in calls))
+        moved = '\n'.join(reversed(source.strip().splitlines())) + '\n'
+        self.equivalent(moved)
+        self.assertEqual([], self.frontend.stats['checked'])
+
+    def test_call_type_contracts_invalidate_types_modes_results_arity_and_missing_callees(self):
+        self.frontend = IncrementalFrontend(call_type_contracts=True)
+        self.equivalent(SOURCE)
+        for source in (SOURCE.replace('delta: i32', 'delta: bool'),
+                       SOURCE.replace('add(p: &mut P', 'add(p: &P'),
+                       SOURCE.replace('delta: i32) -> i32', 'delta: i32) -> bool'),
+                       SOURCE.replace('delta: i32)', 'delta: i32, extra: bool)'),
+                       SOURCE.replace(SOURCE.splitlines()[1] + '\n', ''),
+                       SOURCE.replace('delta: i32', 'p: i32')):
+            with self.subTest(source=source):
+                with self.assertRaises(CompileError) as full:
+                    analyze(source)
+                with self.assertRaises(CompileError) as cached:
+                    self.frontend.analyze(source)
+                self.assertEqual(full.exception.diagnostic(source), cached.exception.diagnostic(source))
+        self.equivalent(SOURCE)
+        self.assertEqual([], self.frontend.stats['checked'])
+        changed = SOURCE.replace('&mut P', '&P').replace('p.x = p.x + delta; ', '').replace('add(&mut p, 2)', 'add(&p, 2)')
+        self.equivalent(changed)
+        self.assertEqual(['add', 'main'], self.frontend.stats['checked'])
+
+    def test_call_type_contracts_preserve_global_record_invalidation_and_result_independence(self):
+        self.frontend = IncrementalFrontend(call_type_contracts=True)
+        result = self.equivalent(SOURCE)
+        result.functions['add'].params.clear()
+        for ref in result.references:
+            ref.description = 'caller mutation'
+        changed = SOURCE.replace('delta', 'amount')
+        self.equivalent(changed)
+        self.assertEqual(['add'], self.frontend.stats['checked'])
+        changed = changed.replace('x: i32 }', 'x: i32, y: bool }').replace('x: 1 }', 'x: 1, y: false }')
+        self.equivalent(changed)
+        self.assertEqual(['add', 'main'], self.frontend.stats['checked'])
+
+    def test_call_type_contracts_recursion_and_boolean_option_guards(self):
+        self.frontend = IncrementalFrontend(call_type_contracts=True)
+        source = ('fn recurse(x: i32) -> i32 { if (x == 0) { return 0; } return recurse(x - 1); } '
+                  'fn main() -> i32 { return recurse(3); }\n')
+        self.equivalent(source)
+        self.equivalent(source.replace('x', 'remaining'))
+        self.assertEqual(['recurse'], self.frontend.stats['checked'])
+        self.assertEqual(['main'], self.frontend.stats['reused'])
+        for invalid in (1, None, 'yes'):
+            with self.assertRaises(ValueError):
+                IncrementalFrontend(call_type_contracts=invalid)
+        self.frontend.call_type_contracts = 1
+        with self.assertRaises(ValueError):
+            self.frontend.analyze(source)
+
+    def test_call_type_contracts_all_valid_fixtures_trivia_and_compiler_pin(self):
+        self.frontend = IncrementalFrontend(call_type_contracts=True)
+        self.test_existing_valid_fixtures_and_trivia_revisions_match_full_frontend()
+        with patch('talven.incremental.compiler_hash', return_value='changed'):
+            with self.assertRaises(CompileError) as caught:
+                self.frontend.analyze(SOURCE)
+        self.assertEqual('E0501', caught.exception.code)

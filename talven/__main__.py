@@ -80,6 +80,7 @@ def main(argv: list[str] | None = None) -> int:
     dev_modes.add_argument("--incremental-build", action="store_true", help="Experimental private native object reuse; current source checks remain full")
     dev.add_argument("--stable-toolchain", action="store_true", help="Assert a trusted stable toolchain for experimental native object reuse")
     dev.add_argument("--local-contracts", action="store_true", help="Experimental local function contracts; requires incremental native builds")
+    dev.add_argument("--call-type-contracts", action="store_true", help="Experimental caller check reuse with current signature descriptions; requires incremental checks")
     dev.add_argument("--events", type=Path, help="Create a new JSONL session receipt file")
     dev.add_argument("--poll-interval", type=interval, default=0.05, metavar="SECONDS")
     dev.add_argument("--debounce", type=interval, default=0.1, metavar="SECONDS")
@@ -106,6 +107,8 @@ def main(argv: list[str] | None = None) -> int:
             parser.error("dev --incremental-build requires --stable-toolchain, and --stable-toolchain applies only to that mode")
         if args.local_contracts and not args.incremental_build:
             parser.error("dev --local-contracts requires --incremental-build --stable-toolchain")
+        if args.call_type_contracts and not args.incremental_check:
+            parser.error("dev --call-type-contracts requires --incremental-check")
         from .dev import run_dev
         return run_dev(args)
     if args.command == "lsp":

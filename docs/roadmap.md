@@ -64,6 +64,8 @@ Measure actual save-to-diagnostic and save-to-running-revision latency, cache re
 
 [Proposal 0026](proposals/0026-local-function-contracts.md) adds explicit [local function contracts](local-function-contracts.md) for hosted units and native watch mode. It retains current full checks, global record layouts and default profiles while allowing unrelated declarations and parameter names to stop invalidating callers. Both native measurement runners accept `--local-contracts`; performance conclusions require retained comparative evidence.
 
+[Proposal 0027](proposals/0027-current-call-type-contracts.md) adds [current call type contracts](call-type-contracts.md) for persistent checks. This remains separate from object reuse: current descriptions are refreshed, full source is parsed, and native C rebuilds in full.
+
 ## M2: Memory and concurrency foundations
 
 Add allocator interfaces, containers, typed failures, structured tasks, cancellation, synchronization, and a selected optional executor.

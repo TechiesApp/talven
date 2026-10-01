@@ -38,7 +38,9 @@ def contract(checker, key):
     kind, name = key
     if kind == 'function':
         fn = checker.functions.get(name)
-        return None if fn is None else fn.signature()
+        if fn is None:
+            return None
+        return (tuple(typ.text for _, typ in fn.params), fn.result.text) if checker.call_type_contracts else fn.signature()
     record = checker.records.get(name)
     return None if record is None else tuple((n.text, t.text) for n, t in record.fields)
 
@@ -54,9 +56,10 @@ class Entry:
 
 
 class ReusingChecker(Checker):
-    def __init__(self, source, program, previous):
+    def __init__(self, source, program, previous, *, call_type_contracts=False):
         super().__init__(source, program)
         self.previous = previous
+        self.call_type_contracts = call_type_contracts
         self.next = {}
         self.checked = []
         self.reused = []
@@ -86,6 +89,8 @@ class ReusingChecker(Checker):
                     definition = None
                 elif isinstance(destination, tuple):
                     definition = locations[destination]
+                    if self.call_type_contracts and destination[0] == 'function':
+                        description = self.functions[destination[1]].signature()
                 else:
                     if destination not in local_definitions:
                         local_definitions[destination] = (Span(destination.start + shift, destination.end + shift)
@@ -116,16 +121,21 @@ class ReusingChecker(Checker):
 class IncrementalFrontend:
     """Bounded to one successful revision; callers receive a fresh current Analysis."""
 
-    def __init__(self):
+    def __init__(self, *, call_type_contracts=False):
+        if type(call_type_contracts) is not bool:
+            raise ValueError('Call type contracts must be an explicit boolean')
+        self.call_type_contracts = call_type_contracts
         self.identity = compiler_hash()
         self.entries = {}
         self.stats = {'checked': [], 'reused': []}
 
     def analyze(self, source):
+        if type(self.call_type_contracts) is not bool:
+            raise ValueError('Call type contracts must be an explicit boolean')
         self.stats = {'checked': [], 'reused': []}
         if compiler_hash() != self.identity:
             raise CompileError('E0501', 'Compiler inputs changed; restart the persistent frontend session', Span(0, 0))
-        checker = ReusingChecker(source, parse(source), self.entries)
+        checker = ReusingChecker(source, parse(source), self.entries, call_type_contracts=self.call_type_contracts)
         try:
             result = checker.check()
         except RecursionError:

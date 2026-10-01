@@ -118,7 +118,7 @@ class Session:
         self.build = None
         self.program = None
         self.cancelled = 0
-        self.frontend = IncrementalFrontend() if args.incremental_check else None
+        self.frontend = IncrementalFrontend(call_type_contracts=args.call_type_contracts) if args.incremental_check else None
         self.units = None
         self.build_mode = "units" if args.incremental_build else "full"
         self.fast_full_poll = args.poll_interval >= args.build_timeout / 2
@@ -336,7 +336,8 @@ class Session:
                        compiler_hash=compiler_hash(), cc=self.args.cc,
                        poll_interval_seconds=self.args.poll_interval, debounce_seconds=self.args.debounce,
                        build_timeout_seconds=self.args.build_timeout, stop_timeout_seconds=self.args.stop_timeout,
-                       stable_toolchain_required=self.units is not None, local_contracts=self.args.local_contracts)
+                       stable_toolchain_required=self.units is not None, local_contracts=self.args.local_contracts,
+                       call_type_contracts=self.args.call_type_contracts)
             next_observation = 0.0
             while not self.cancelled:
                 # Full compiler completion can be polled without rereading source every tick.
