@@ -18,6 +18,8 @@ Compile changed units without LTO, link every current candidate, then verify all
 
 The exact flags, resource limits, timeout exclusions and path lifetime contract are in [the API documentation](../object-reuse.md). Ordinary build/dev remain unchanged. Do not accept external objects or receipts, add persistent shared storage, introduce dynamic dispatch or broaden borrow lifetimes.
 
+Under the same stable-toolchain assumption, retain successful version/target probes only while driver path/bytes, effective environment and actual working directory match. Still preprocess every current valid snapshot and recheck final identities. Capture one working directory/environment for all commands, and include directory identity in object keys. Failed builds retain prior probes, with `driver_probe_reused` reported as work metadata outside configuration keys. Standalone preparation still probes freshly on every call.
+
 ## Trust and publication
 
 Caller acknowledgement of a stable trusted toolchain covers backend tools/libraries/configuration and linker inputs not fully identified by the driver receipt. It is a stated experimental assumption, not independently enforced security. A new session is necessary after changing those dependencies. Hashes identify bytes without authenticating tools or proving task correctness. Private owned files assume trusted single-caller access; this is not a hostile cross-process cache protocol.

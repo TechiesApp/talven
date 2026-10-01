@@ -103,6 +103,19 @@ class PreprocessedUnitTests(unittest.TestCase):
         self.assertNotIn('TALVEN_TEST_PRIVATE_VALUE', text)
         self.assertEqual(64, len(receipt['compiler']['environment_hash']))
 
+    def test_standalone_preparation_always_probes_and_freezes_current_input(self):
+        commands = []
+        def record(command, *args, **kwargs):
+            commands.append(command)
+            return run_bounded(command, *args, **kwargs)
+        with patch('talven.preprocessed_units.run_bounded', side_effect=record):
+            first = prepare_c_units(SOURCE)
+            second = prepare_c_units(SOURCE)
+        self.assertEqual(6, len(commands))
+        self.assertFalse(first['driver_probe_reused'] or second['driver_probe_reused'])
+        self.assertEqual(first, second)
+        self.assertEqual(64, len(second['compiler']['working_directory_hash']))
+
     def test_bounded_process_limits_failure_and_timeout_cleanup(self):
         command = [sys.executable, '-c', 'import sys; sys.stdout.buffer.write(sys.stdin.buffer.read())']
         self.assertEqual(b'input', run_bounded(command, b'input', dict(os.environ), 5, 10))
