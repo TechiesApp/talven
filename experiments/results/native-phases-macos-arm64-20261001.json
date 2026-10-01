@@ -1,0 +1,2801 @@
+{
+  "c_executable": {
+    "bytes": 200560,
+    "sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2"
+  },
+  "c_flags": [
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-pedantic-errors",
+    "-fno-lto"
+  ],
+  "c_target": "arm64-apple-darwin27.0.0",
+  "c_version": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+  "clock": "Rust std::time::Instant; nanoseconds",
+  "compiler_hash": "3f1b89fbb98cc4c92679236068f7479d2210cdc8b5331ab7d5a8e25254767ef9",
+  "complete": true,
+  "cpu_model": "Apple M4",
+  "derived_from": {
+    "kind": "public observation extract; full raw run retained locally",
+    "omissions": [
+      "raw command streams and absolute paths",
+      "embedded native source text (identities retained in inputs)"
+    ],
+    "sha256": "a2e66fb603a945708fbc7720d6b029e77ff8013b16701fce072689551182181a"
+  },
+  "environment_note": "Local Apple M4 macOS 27; desktop apps open; no other validation jobs intentionally running; scheduler/thermals/caches uncontrolled. Native Instant timings exclude source I/O/startup/C builds.",
+  "environment_overrides": {
+    "LC_ALL": "C",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0"
+  },
+  "finished_at": "2026-10-01T08:50:24.700756+00:00",
+  "git_revision": "25213a1a324e84782a88094d10c526bc6023df9b",
+  "git_status": "M .github/workflows/compiler-check.yml\n M docs/README.md\n M docs/proposals/0013-native-scalar-compiler.md\n M docs/roadmap.md\n M experiments/native-compiler/README.md\n M experiments/native-compiler/src/lib.rs\n M experiments/native-compiler/src/main.rs\n M experiments/native-compiler/tests/conformance.py\n?? docs/native-phase-baseline.md\n?? scripts/measure-native-inprocess.py\n?? tests/test_native_inprocess_measurement.py",
+  "inputs": {
+    "examples/hello.tal": {
+      "bytes": 58,
+      "sha256": "20492c7108b5976576bed9b19ab1630c2f8de21000b512e28ee1813b9492169e"
+    },
+    "experiments/native-compiler/Cargo.lock": {
+      "bytes": 157,
+      "sha256": "bd1a00b885ea7bc4cc0e38e9705cefcc83b606be0ad406ddc56c64179fa22943"
+    },
+    "experiments/native-compiler/Cargo.toml": {
+      "bytes": 186,
+      "sha256": "967bc2329abce937c2a9f76a4fdf0b4bb48332896997a6ff8bc4903572ca180a"
+    },
+    "experiments/native-compiler/build.rs": {
+      "bytes": 1691,
+      "sha256": "39f05083ee47c9fbab3b2251b45d9a8c7cf7f52ea828fd780efb4ad561c9d7cb"
+    },
+    "experiments/native-compiler/src/console.c": {
+      "bytes": 611,
+      "sha256": "fb36e23b9924e6b782ed6ec9212ea6e413bcc0c544e6febca6dc5127abfa7258"
+    },
+    "experiments/native-compiler/src/lib.rs": {
+      "bytes": 71934,
+      "sha256": "a57786816486b3b3255d10693c78ba665d3772cea84f7a69363a07f3e8637a0f"
+    },
+    "experiments/native-compiler/src/main.rs": {
+      "bytes": 8506,
+      "sha256": "dce981d1968a0ded30879a77abd0462e39e40ab5514475d63d34c190fb7d28a9"
+    },
+    "experiments/native-compiler/src/runtime.c": {
+      "bytes": 964,
+      "sha256": "ab2a878ef14c698059eb2aa8c83e47eae0997d54f7af4c2382f46233144c2faa"
+    },
+    "experiments/tooling_workloads.py": {
+      "bytes": 3599,
+      "sha256": "3596d3f588f3d384f180d1acec5b357cfa239029db46ccb02351a3020c9a72ad"
+    },
+    "scripts/measure-incremental.py": {
+      "bytes": 15014,
+      "sha256": "99078e19837d514061fea695e4f1ff1572939cc5995d47c56ad0ccaf32a49dd2"
+    },
+    "scripts/measure-native-inprocess.py": {
+      "bytes": 11397,
+      "sha256": "b9071d5cd67234c11702f4b5cba5c5015cf8c48625162f468aee4d5ae456aa4d"
+    },
+    "scripts/measure-native-prototype.py": {
+      "bytes": 11541,
+      "sha256": "ae2a5c2cd0be0d1c7377a5321ae7663662d0f105f48e26ac098ab892d38df108"
+    },
+    "scripts/measure-tooling.py": {
+      "bytes": 18290,
+      "sha256": "b37aaff3df4ab583f30dd2224673bf037c9f0265dd053b87323a9e7319588354"
+    },
+    "talven/__init__.py": {
+      "bytes": 180,
+      "sha256": "07d62eabb70387d13288c22e19bd34137f57b91541d63a694afcd146ca325783"
+    },
+    "talven/__main__.py": {
+      "bytes": 11852,
+      "sha256": "300712242496057b5cd4772edacdaf6b6c660cb5836f18a0d3c5b52e1200f752"
+    },
+    "talven/backend.py": {
+      "bytes": 9502,
+      "sha256": "0de8622757f9cb451eada1abec510849bcc921b9bc231582bd821075cf005b63"
+    },
+    "talven/completion.py": {
+      "bytes": 5951,
+      "sha256": "9b5fc0ffe3ea0b2149cd3a09dbae76f151fcffe37645a7b5277f245c853bd7cd"
+    },
+    "talven/context.py": {
+      "bytes": 8226,
+      "sha256": "090fbd69eec861899f299d40b8415a1e4ab765425204823169d3023c50a19b5d"
+    },
+    "talven/dev.py": {
+      "bytes": 12422,
+      "sha256": "9a24e3ae310b0d51434a146be773d33f45f1da7109296e888864aab33967cb54"
+    },
+    "talven/edit_validation.py": {
+      "bytes": 11300,
+      "sha256": "4e6faf4e6d1f85a5e1642bf9a9a0480dd415b1cc1ec1d654623f4c50bf9ff4d3"
+    },
+    "talven/formatter.py": {
+      "bytes": 5934,
+      "sha256": "f4238109ff03e13cb95928856ee6646dac87b9311dc06e5ab11ab278c42e3650"
+    },
+    "talven/frontend.py": {
+      "bytes": 34942,
+      "sha256": "60d93534a43d2eb08a5b2e4c1eaae1a75d3ab7f6536a07ac6acc2bbbae94359f"
+    },
+    "talven/incremental.py": {
+      "bytes": 5693,
+      "sha256": "a421887eb14d2169ca1620ff4b43cbf5ca48d29bb3707e254abfb42fffe17959"
+    },
+    "talven/lsp.py": {
+      "bytes": 15966,
+      "sha256": "e01a9715c7edc014b5798416480442aa4ba5303e5ae379a447b5a414d23224a1"
+    },
+    "talven/native.py": {
+      "bytes": 224,
+      "sha256": "cca4f6d74fbcd407fd90a1a63ce0e78716e5dda2d1bae92a5546bd4a4ec18688"
+    },
+    "talven/semantic_tokens.py": {
+      "bytes": 3961,
+      "sha256": "3f4ed45f95aa8fdeb28795f7460c95945e652ef171ed76bdbe951b4111ea4ae3"
+    },
+    "talven/source_edit.py": {
+      "bytes": 2350,
+      "sha256": "c98344818be1685774b95bca6ae61462064733d80f1e99b950152df4011066f9"
+    }
+  },
+  "machine": "aarch64",
+  "native": {
+    "bytes": 730496,
+    "sha256": "9ec0ce1f126af9718ce0faf7c7cfabcad93b8916d1706c89b7e614a662ab7a93"
+  },
+  "native_build_info": {
+    "cargo_profile": "release",
+    "opt_level": "3",
+    "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)",
+    "settings": {
+      "CARGO_CFG_TARGET_FEATURE": "aes,crc,dit,dotprod,dpb,dpb2,fcma,fhm,flagm,fp16,frintts,jsconv,lor,lse,neon,paca,pacg,pan,pmuv3,ras,rcpc,rcpc2,rdm,sb,sha2,sha3,ssbs,vh",
+      "CARGO_ENCODED_RUSTFLAGS": "",
+      "DEBUG": "false",
+      "RUSTFLAGS": ""
+    },
+    "target": "aarch64-apple-darwin"
+  },
+  "native_build_sources_verified": true,
+  "native_version": "Talven native experiment 0.1.0 (native-call-borrows-v1)",
+  "os_release": "27.0.0",
+  "passed": true,
+  "python": "3.14.7",
+  "python_executable": {
+    "bytes": 34640,
+    "sha256": "87d4df53fd91304be5bac391fb204643c36b7df2023c04a0953bcbc7d4fdf634"
+  },
+  "repetitions": 50,
+  "samples": [
+    {
+      "analysis_ns": 6542,
+      "check_ns": 1292,
+      "emit_ns": 12625,
+      "parse_ns": 4833,
+      "phase": "warmup",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 5250,
+      "check_ns": 792,
+      "emit_ns": 11959,
+      "parse_ns": 4416,
+      "phase": "warmup",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 9708,
+      "check_ns": 875,
+      "emit_ns": 14708,
+      "parse_ns": 8708,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 5291,
+      "check_ns": 875,
+      "emit_ns": 11792,
+      "parse_ns": 4334,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 7250,
+      "check_ns": 3375,
+      "emit_ns": 15708,
+      "parse_ns": 3792,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 4542,
+      "check_ns": 750,
+      "emit_ns": 12917,
+      "parse_ns": 3708,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 4375,
+      "check_ns": 625,
+      "emit_ns": 9708,
+      "parse_ns": 3625,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 4000,
+      "check_ns": 625,
+      "emit_ns": 11875,
+      "parse_ns": 3291,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 14041,
+      "check_ns": 792,
+      "emit_ns": 11917,
+      "parse_ns": 13166,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 6500,
+      "check_ns": 3000,
+      "emit_ns": 18666,
+      "parse_ns": 3375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3958,
+      "check_ns": 750,
+      "emit_ns": 9125,
+      "parse_ns": 3208,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 6500,
+      "check_ns": 709,
+      "emit_ns": 11042,
+      "parse_ns": 5709,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3625,
+      "check_ns": 625,
+      "emit_ns": 8417,
+      "parse_ns": 2917,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3292,
+      "check_ns": 542,
+      "emit_ns": 8167,
+      "parse_ns": 2666,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3166,
+      "check_ns": 584,
+      "emit_ns": 8250,
+      "parse_ns": 2459,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3209,
+      "check_ns": 583,
+      "emit_ns": 10584,
+      "parse_ns": 2542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3375,
+      "check_ns": 583,
+      "emit_ns": 12667,
+      "parse_ns": 2667,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3541,
+      "check_ns": 625,
+      "emit_ns": 8375,
+      "parse_ns": 2792,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3167,
+      "check_ns": 583,
+      "emit_ns": 10334,
+      "parse_ns": 2458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3292,
+      "check_ns": 583,
+      "emit_ns": 8041,
+      "parse_ns": 2583,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3167,
+      "check_ns": 542,
+      "emit_ns": 8000,
+      "parse_ns": 2541,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3209,
+      "check_ns": 542,
+      "emit_ns": 7834,
+      "parse_ns": 2542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3125,
+      "check_ns": 542,
+      "emit_ns": 7792,
+      "parse_ns": 2500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3167,
+      "check_ns": 542,
+      "emit_ns": 7917,
+      "parse_ns": 2583,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3208,
+      "check_ns": 541,
+      "emit_ns": 7791,
+      "parse_ns": 2542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3125,
+      "check_ns": 542,
+      "emit_ns": 8000,
+      "parse_ns": 2500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3167,
+      "check_ns": 583,
+      "emit_ns": 7875,
+      "parse_ns": 2500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3125,
+      "check_ns": 500,
+      "emit_ns": 7875,
+      "parse_ns": 2500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3166,
+      "check_ns": 542,
+      "emit_ns": 7875,
+      "parse_ns": 2542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3250,
+      "check_ns": 542,
+      "emit_ns": 7958,
+      "parse_ns": 2583,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 5792,
+      "check_ns": 625,
+      "emit_ns": 10375,
+      "parse_ns": 5083,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3375,
+      "check_ns": 583,
+      "emit_ns": 8041,
+      "parse_ns": 2666,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3167,
+      "check_ns": 541,
+      "emit_ns": 7833,
+      "parse_ns": 2542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3166,
+      "check_ns": 542,
+      "emit_ns": 7792,
+      "parse_ns": 2541,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3125,
+      "check_ns": 541,
+      "emit_ns": 7750,
+      "parse_ns": 2458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3125,
+      "check_ns": 500,
+      "emit_ns": 7750,
+      "parse_ns": 2541,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3125,
+      "check_ns": 584,
+      "emit_ns": 7708,
+      "parse_ns": 2500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3334,
+      "check_ns": 542,
+      "emit_ns": 7792,
+      "parse_ns": 2667,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3083,
+      "check_ns": 500,
+      "emit_ns": 7792,
+      "parse_ns": 2458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3167,
+      "check_ns": 542,
+      "emit_ns": 7792,
+      "parse_ns": 2500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3083,
+      "check_ns": 542,
+      "emit_ns": 7750,
+      "parse_ns": 2416,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3083,
+      "check_ns": 500,
+      "emit_ns": 7833,
+      "parse_ns": 2459,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3041,
+      "check_ns": 542,
+      "emit_ns": 7834,
+      "parse_ns": 2416,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3083,
+      "check_ns": 500,
+      "emit_ns": 7708,
+      "parse_ns": 2458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3083,
+      "check_ns": 541,
+      "emit_ns": 7625,
+      "parse_ns": 2417,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3042,
+      "check_ns": 500,
+      "emit_ns": 7792,
+      "parse_ns": 2458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3167,
+      "check_ns": 541,
+      "emit_ns": 7708,
+      "parse_ns": 2500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3084,
+      "check_ns": 542,
+      "emit_ns": 7709,
+      "parse_ns": 2459,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3125,
+      "check_ns": 542,
+      "emit_ns": 7834,
+      "parse_ns": 2500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3166,
+      "check_ns": 542,
+      "emit_ns": 7834,
+      "parse_ns": 2541,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3041,
+      "check_ns": 500,
+      "emit_ns": 7708,
+      "parse_ns": 2458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 3333,
+      "check_ns": 666,
+      "emit_ns": 10333,
+      "parse_ns": 2542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "hello"
+    },
+    {
+      "analysis_ns": 79917,
+      "check_ns": 20042,
+      "emit_ns": 260250,
+      "parse_ns": 59708,
+      "phase": "warmup",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 138000,
+      "check_ns": 38000,
+      "emit_ns": 231041,
+      "parse_ns": 99875,
+      "phase": "warmup",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 108000,
+      "check_ns": 18625,
+      "emit_ns": 101958,
+      "parse_ns": 89292,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 57667,
+      "check_ns": 17500,
+      "emit_ns": 84833,
+      "parse_ns": 40041,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 54292,
+      "check_ns": 15458,
+      "emit_ns": 83958,
+      "parse_ns": 38750,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 51916,
+      "check_ns": 13750,
+      "emit_ns": 227042,
+      "parse_ns": 38125,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 172417,
+      "check_ns": 38875,
+      "emit_ns": 417708,
+      "parse_ns": 133459,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 103542,
+      "check_ns": 15333,
+      "emit_ns": 178000,
+      "parse_ns": 88125,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 165000,
+      "check_ns": 71125,
+      "emit_ns": 195125,
+      "parse_ns": 93791,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 130625,
+      "check_ns": 36916,
+      "emit_ns": 230667,
+      "parse_ns": 93583,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 164875,
+      "check_ns": 49458,
+      "emit_ns": 324291,
+      "parse_ns": 115291,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 209916,
+      "check_ns": 106875,
+      "emit_ns": 89667,
+      "parse_ns": 102875,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 60750,
+      "check_ns": 16541,
+      "emit_ns": 90500,
+      "parse_ns": 44167,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 52417,
+      "check_ns": 15958,
+      "emit_ns": 202041,
+      "parse_ns": 36375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 736125,
+      "check_ns": 639875,
+      "emit_ns": 299542,
+      "parse_ns": 96166,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 76334,
+      "check_ns": 29167,
+      "emit_ns": 272250,
+      "parse_ns": 47042,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 137125,
+      "check_ns": 43541,
+      "emit_ns": 204375,
+      "parse_ns": 93458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 155541,
+      "check_ns": 38833,
+      "emit_ns": 253625,
+      "parse_ns": 116375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 49959,
+      "check_ns": 13792,
+      "emit_ns": 169625,
+      "parse_ns": 36125,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 108958,
+      "check_ns": 35250,
+      "emit_ns": 149958,
+      "parse_ns": 73167,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 74333,
+      "check_ns": 24750,
+      "emit_ns": 190792,
+      "parse_ns": 49542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 397458,
+      "check_ns": 12625,
+      "emit_ns": 313959,
+      "parse_ns": 384792,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 117958,
+      "check_ns": 53500,
+      "emit_ns": 291583,
+      "parse_ns": 64375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 99708,
+      "check_ns": 16791,
+      "emit_ns": 252875,
+      "parse_ns": 82833,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 97458,
+      "check_ns": 31458,
+      "emit_ns": 167834,
+      "parse_ns": 65917,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 86209,
+      "check_ns": 26958,
+      "emit_ns": 165542,
+      "parse_ns": 59125,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 83125,
+      "check_ns": 25250,
+      "emit_ns": 175167,
+      "parse_ns": 57709,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 91000,
+      "check_ns": 30042,
+      "emit_ns": 146125,
+      "parse_ns": 60875,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 96584,
+      "check_ns": 13708,
+      "emit_ns": 236375,
+      "parse_ns": 82792,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 127959,
+      "check_ns": 31750,
+      "emit_ns": 249584,
+      "parse_ns": 96084,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 125917,
+      "check_ns": 32250,
+      "emit_ns": 145208,
+      "parse_ns": 93542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 44625,
+      "check_ns": 13334,
+      "emit_ns": 79625,
+      "parse_ns": 31250,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 40417,
+      "check_ns": 12208,
+      "emit_ns": 76458,
+      "parse_ns": 28125,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 39209,
+      "check_ns": 11667,
+      "emit_ns": 75917,
+      "parse_ns": 27500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 39292,
+      "check_ns": 11500,
+      "emit_ns": 75375,
+      "parse_ns": 27750,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 38834,
+      "check_ns": 11417,
+      "emit_ns": 75792,
+      "parse_ns": 27375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 38708,
+      "check_ns": 11291,
+      "emit_ns": 74875,
+      "parse_ns": 27417,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 38916,
+      "check_ns": 11250,
+      "emit_ns": 77583,
+      "parse_ns": 27542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 39708,
+      "check_ns": 11542,
+      "emit_ns": 72542,
+      "parse_ns": 28041,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 38792,
+      "check_ns": 11375,
+      "emit_ns": 71292,
+      "parse_ns": 27375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 38500,
+      "check_ns": 11209,
+      "emit_ns": 71834,
+      "parse_ns": 27291,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 38750,
+      "check_ns": 11250,
+      "emit_ns": 71584,
+      "parse_ns": 27417,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 38667,
+      "check_ns": 11125,
+      "emit_ns": 71583,
+      "parse_ns": 27458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 38791,
+      "check_ns": 11459,
+      "emit_ns": 71584,
+      "parse_ns": 27250,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 42000,
+      "check_ns": 14416,
+      "emit_ns": 72333,
+      "parse_ns": 27458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 38834,
+      "check_ns": 11292,
+      "emit_ns": 71583,
+      "parse_ns": 27459,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 39125,
+      "check_ns": 11334,
+      "emit_ns": 71750,
+      "parse_ns": 27709,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 39083,
+      "check_ns": 11416,
+      "emit_ns": 71500,
+      "parse_ns": 27625,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 38750,
+      "check_ns": 11292,
+      "emit_ns": 72250,
+      "parse_ns": 27375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 38666,
+      "check_ns": 11333,
+      "emit_ns": 71125,
+      "parse_ns": 27333,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 38917,
+      "check_ns": 11417,
+      "emit_ns": 71709,
+      "parse_ns": 27458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 88041,
+      "check_ns": 60542,
+      "emit_ns": 229417,
+      "parse_ns": 27416,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "analysis_ns": 222750,
+      "check_ns": 68750,
+      "emit_ns": 850625,
+      "parse_ns": 153917,
+      "phase": "warmup",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 207500,
+      "check_ns": 69834,
+      "emit_ns": 335209,
+      "parse_ns": 137625,
+      "phase": "warmup",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 197458,
+      "check_ns": 62833,
+      "emit_ns": 329750,
+      "parse_ns": 134542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 190958,
+      "check_ns": 62125,
+      "emit_ns": 325209,
+      "parse_ns": 128750,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 170333,
+      "check_ns": 57625,
+      "emit_ns": 323584,
+      "parse_ns": 112583,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 501542,
+      "check_ns": 66375,
+      "emit_ns": 1135708,
+      "parse_ns": 435084,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 184709,
+      "check_ns": 60292,
+      "emit_ns": 319666,
+      "parse_ns": 124375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 170250,
+      "check_ns": 55458,
+      "emit_ns": 345625,
+      "parse_ns": 114708,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 173208,
+      "check_ns": 56209,
+      "emit_ns": 658500,
+      "parse_ns": 116916,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 522000,
+      "check_ns": 192125,
+      "emit_ns": 331084,
+      "parse_ns": 329458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 174083,
+      "check_ns": 58458,
+      "emit_ns": 295125,
+      "parse_ns": 115542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 171042,
+      "check_ns": 56959,
+      "emit_ns": 297417,
+      "parse_ns": 114000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 161000,
+      "check_ns": 52125,
+      "emit_ns": 767417,
+      "parse_ns": 108834,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 546375,
+      "check_ns": 201791,
+      "emit_ns": 412083,
+      "parse_ns": 344208,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 174167,
+      "check_ns": 55250,
+      "emit_ns": 677750,
+      "parse_ns": 118792,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 818958,
+      "check_ns": 171750,
+      "emit_ns": 2163167,
+      "parse_ns": 647000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 587333,
+      "check_ns": 65417,
+      "emit_ns": 297833,
+      "parse_ns": 521709,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 171042,
+      "check_ns": 55208,
+      "emit_ns": 401208,
+      "parse_ns": 115834,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 402875,
+      "check_ns": 174375,
+      "emit_ns": 464458,
+      "parse_ns": 228250,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 819916,
+      "check_ns": 688250,
+      "emit_ns": 690667,
+      "parse_ns": 131375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 175209,
+      "check_ns": 56084,
+      "emit_ns": 283792,
+      "parse_ns": 119084,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 164375,
+      "check_ns": 51875,
+      "emit_ns": 294916,
+      "parse_ns": 112417,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 167417,
+      "check_ns": 54833,
+      "emit_ns": 1098083,
+      "parse_ns": 112542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 481833,
+      "check_ns": 149000,
+      "emit_ns": 542750,
+      "parse_ns": 332584,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 375667,
+      "check_ns": 118708,
+      "emit_ns": 2049542,
+      "parse_ns": 256750,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 431000,
+      "check_ns": 143000,
+      "emit_ns": 409250,
+      "parse_ns": 287583,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 509458,
+      "check_ns": 249500,
+      "emit_ns": 650250,
+      "parse_ns": 259833,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 165167,
+      "check_ns": 53042,
+      "emit_ns": 266500,
+      "parse_ns": 112041,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 158416,
+      "check_ns": 50500,
+      "emit_ns": 260917,
+      "parse_ns": 107834,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 157167,
+      "check_ns": 49500,
+      "emit_ns": 264583,
+      "parse_ns": 107541,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 155167,
+      "check_ns": 48875,
+      "emit_ns": 1075583,
+      "parse_ns": 106166,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 647666,
+      "check_ns": 389375,
+      "emit_ns": 671959,
+      "parse_ns": 258000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 170209,
+      "check_ns": 52083,
+      "emit_ns": 267042,
+      "parse_ns": 118000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 157708,
+      "check_ns": 49708,
+      "emit_ns": 262417,
+      "parse_ns": 107958,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 297709,
+      "check_ns": 94625,
+      "emit_ns": 714750,
+      "parse_ns": 202958,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 285041,
+      "check_ns": 71667,
+      "emit_ns": 414667,
+      "parse_ns": 213250,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 167709,
+      "check_ns": 53542,
+      "emit_ns": 266208,
+      "parse_ns": 114084,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 287916,
+      "check_ns": 54584,
+      "emit_ns": 265042,
+      "parse_ns": 233209,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 161084,
+      "check_ns": 51167,
+      "emit_ns": 692292,
+      "parse_ns": 109833,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 175833,
+      "check_ns": 56125,
+      "emit_ns": 261417,
+      "parse_ns": 119625,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 162375,
+      "check_ns": 52042,
+      "emit_ns": 259958,
+      "parse_ns": 110292,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 170916,
+      "check_ns": 54166,
+      "emit_ns": 267250,
+      "parse_ns": 116667,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 159750,
+      "check_ns": 50667,
+      "emit_ns": 258833,
+      "parse_ns": 109083,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 162458,
+      "check_ns": 50750,
+      "emit_ns": 260083,
+      "parse_ns": 111667,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 185375,
+      "check_ns": 55417,
+      "emit_ns": 650541,
+      "parse_ns": 129833,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 405625,
+      "check_ns": 121042,
+      "emit_ns": 631083,
+      "parse_ns": 284292,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 233208,
+      "check_ns": 96125,
+      "emit_ns": 589166,
+      "parse_ns": 137000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 1233834,
+      "check_ns": 103125,
+      "emit_ns": 624750,
+      "parse_ns": 1130583,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 169500,
+      "check_ns": 54250,
+      "emit_ns": 352292,
+      "parse_ns": 115166,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 227791,
+      "check_ns": 115833,
+      "emit_ns": 682208,
+      "parse_ns": 111875,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 302959,
+      "check_ns": 54500,
+      "emit_ns": 263959,
+      "parse_ns": 248459,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 163750,
+      "check_ns": 51084,
+      "emit_ns": 261000,
+      "parse_ns": 112584,
+      "phase": "measured",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "analysis_ns": 1899750,
+      "check_ns": 445959,
+      "emit_ns": 3677042,
+      "parse_ns": 1453334,
+      "phase": "warmup",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1513875,
+      "check_ns": 494333,
+      "emit_ns": 3719084,
+      "parse_ns": 1019250,
+      "phase": "warmup",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1277833,
+      "check_ns": 266417,
+      "emit_ns": 2419709,
+      "parse_ns": 1011000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1759542,
+      "check_ns": 515084,
+      "emit_ns": 2548792,
+      "parse_ns": 1244208,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1338916,
+      "check_ns": 330458,
+      "emit_ns": 2589042,
+      "parse_ns": 1008208,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1174916,
+      "check_ns": 286833,
+      "emit_ns": 2251292,
+      "parse_ns": 887709,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1500292,
+      "check_ns": 494542,
+      "emit_ns": 2200000,
+      "parse_ns": 1005500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 940958,
+      "check_ns": 197833,
+      "emit_ns": 2585375,
+      "parse_ns": 743041,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1124333,
+      "check_ns": 427083,
+      "emit_ns": 2717042,
+      "parse_ns": 697000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 767750,
+      "check_ns": 190500,
+      "emit_ns": 2846208,
+      "parse_ns": 577166,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1015542,
+      "check_ns": 204000,
+      "emit_ns": 2840250,
+      "parse_ns": 811375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1332833,
+      "check_ns": 363042,
+      "emit_ns": 3550916,
+      "parse_ns": 969500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1534834,
+      "check_ns": 269500,
+      "emit_ns": 4183959,
+      "parse_ns": 1265209,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1054625,
+      "check_ns": 198083,
+      "emit_ns": 2585416,
+      "parse_ns": 856416,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1714292,
+      "check_ns": 446459,
+      "emit_ns": 4503583,
+      "parse_ns": 1267625,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 2207541,
+      "check_ns": 476209,
+      "emit_ns": 4623125,
+      "parse_ns": 1730792,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1780375,
+      "check_ns": 467500,
+      "emit_ns": 3140125,
+      "parse_ns": 1296542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1887792,
+      "check_ns": 617291,
+      "emit_ns": 3979042,
+      "parse_ns": 1270375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 2202875,
+      "check_ns": 775500,
+      "emit_ns": 5082917,
+      "parse_ns": 1427084,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1655333,
+      "check_ns": 237291,
+      "emit_ns": 3604208,
+      "parse_ns": 1417750,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1824375,
+      "check_ns": 311000,
+      "emit_ns": 3998875,
+      "parse_ns": 1513167,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 2146625,
+      "check_ns": 423833,
+      "emit_ns": 4281792,
+      "parse_ns": 1722458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1944584,
+      "check_ns": 449625,
+      "emit_ns": 3565125,
+      "parse_ns": 1494792,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1734959,
+      "check_ns": 586000,
+      "emit_ns": 3475417,
+      "parse_ns": 1148417,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1597125,
+      "check_ns": 429292,
+      "emit_ns": 4219584,
+      "parse_ns": 1167375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1689750,
+      "check_ns": 445958,
+      "emit_ns": 3874625,
+      "parse_ns": 1243291,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 2849541,
+      "check_ns": 867875,
+      "emit_ns": 3625875,
+      "parse_ns": 1981375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1458916,
+      "check_ns": 402958,
+      "emit_ns": 3082166,
+      "parse_ns": 1055667,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1681166,
+      "check_ns": 439459,
+      "emit_ns": 2851083,
+      "parse_ns": 1241500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1916584,
+      "check_ns": 401834,
+      "emit_ns": 4580625,
+      "parse_ns": 1514042,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1878875,
+      "check_ns": 442250,
+      "emit_ns": 3735750,
+      "parse_ns": 1436334,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1829375,
+      "check_ns": 535667,
+      "emit_ns": 2873250,
+      "parse_ns": 1293333,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1455084,
+      "check_ns": 438125,
+      "emit_ns": 3540666,
+      "parse_ns": 1016542,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1704375,
+      "check_ns": 202917,
+      "emit_ns": 1701792,
+      "parse_ns": 1501209,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1310334,
+      "check_ns": 271500,
+      "emit_ns": 1722375,
+      "parse_ns": 1038583,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1012833,
+      "check_ns": 251667,
+      "emit_ns": 2045083,
+      "parse_ns": 761000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1006917,
+      "check_ns": 216709,
+      "emit_ns": 4107375,
+      "parse_ns": 790042,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1115708,
+      "check_ns": 197292,
+      "emit_ns": 2223084,
+      "parse_ns": 918250,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1904458,
+      "check_ns": 688833,
+      "emit_ns": 2413208,
+      "parse_ns": 1215375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 853042,
+      "check_ns": 212833,
+      "emit_ns": 2177834,
+      "parse_ns": 640083,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1189625,
+      "check_ns": 303333,
+      "emit_ns": 2400042,
+      "parse_ns": 886167,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 858208,
+      "check_ns": 188833,
+      "emit_ns": 3029917,
+      "parse_ns": 669375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1356417,
+      "check_ns": 205209,
+      "emit_ns": 3194334,
+      "parse_ns": 1150791,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 2015542,
+      "check_ns": 429292,
+      "emit_ns": 5885333,
+      "parse_ns": 1585833,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1668750,
+      "check_ns": 467916,
+      "emit_ns": 4021458,
+      "parse_ns": 1200375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1963709,
+      "check_ns": 628417,
+      "emit_ns": 3506125,
+      "parse_ns": 1334917,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1527000,
+      "check_ns": 405917,
+      "emit_ns": 3134000,
+      "parse_ns": 1120916,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 891625,
+      "check_ns": 191167,
+      "emit_ns": 2492542,
+      "parse_ns": 700166,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1480334,
+      "check_ns": 252083,
+      "emit_ns": 3590000,
+      "parse_ns": 1227958,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1327375,
+      "check_ns": 198583,
+      "emit_ns": 3399459,
+      "parse_ns": 1128667,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1282375,
+      "check_ns": 201625,
+      "emit_ns": 3855375,
+      "parse_ns": 1080500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 1575291,
+      "check_ns": 530375,
+      "emit_ns": 2338167,
+      "parse_ns": 1044708,
+      "phase": "measured",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "analysis_ns": 32042,
+      "check_ns": 5542,
+      "emit_ns": 41000,
+      "parse_ns": 26250,
+      "phase": "warmup",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 19750,
+      "check_ns": 7000,
+      "emit_ns": 27333,
+      "parse_ns": 12709,
+      "phase": "warmup",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 16042,
+      "check_ns": 3833,
+      "emit_ns": 29000,
+      "parse_ns": 12125,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 41542,
+      "check_ns": 30250,
+      "emit_ns": 61875,
+      "parse_ns": 11083,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 25541,
+      "check_ns": 7834,
+      "emit_ns": 27625,
+      "parse_ns": 17625,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 18666,
+      "check_ns": 6959,
+      "emit_ns": 22417,
+      "parse_ns": 11584,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 14417,
+      "check_ns": 3375,
+      "emit_ns": 27584,
+      "parse_ns": 10958,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 14250,
+      "check_ns": 3500,
+      "emit_ns": 22084,
+      "parse_ns": 10666,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 17000,
+      "check_ns": 3458,
+      "emit_ns": 23291,
+      "parse_ns": 13500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 17542,
+      "check_ns": 6625,
+      "emit_ns": 21000,
+      "parse_ns": 10833,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 16875,
+      "check_ns": 3458,
+      "emit_ns": 23333,
+      "parse_ns": 13375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 18167,
+      "check_ns": 7666,
+      "emit_ns": 23000,
+      "parse_ns": 10375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13792,
+      "check_ns": 3333,
+      "emit_ns": 20167,
+      "parse_ns": 10333,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13334,
+      "check_ns": 3125,
+      "emit_ns": 20375,
+      "parse_ns": 10125,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 51166,
+      "check_ns": 5708,
+      "emit_ns": 25083,
+      "parse_ns": 45334,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 14500,
+      "check_ns": 3333,
+      "emit_ns": 27750,
+      "parse_ns": 11083,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 14333,
+      "check_ns": 3375,
+      "emit_ns": 20958,
+      "parse_ns": 10875,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 14041,
+      "check_ns": 3292,
+      "emit_ns": 23167,
+      "parse_ns": 10666,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13916,
+      "check_ns": 3250,
+      "emit_ns": 20166,
+      "parse_ns": 10625,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13333,
+      "check_ns": 3041,
+      "emit_ns": 19833,
+      "parse_ns": 10167,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 16291,
+      "check_ns": 3417,
+      "emit_ns": 20459,
+      "parse_ns": 12833,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 14084,
+      "check_ns": 3250,
+      "emit_ns": 20250,
+      "parse_ns": 10708,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13583,
+      "check_ns": 3166,
+      "emit_ns": 19625,
+      "parse_ns": 10375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13333,
+      "check_ns": 3000,
+      "emit_ns": 20250,
+      "parse_ns": 10166,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13292,
+      "check_ns": 3000,
+      "emit_ns": 23292,
+      "parse_ns": 10209,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13875,
+      "check_ns": 3334,
+      "emit_ns": 19959,
+      "parse_ns": 10500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13333,
+      "check_ns": 3209,
+      "emit_ns": 20042,
+      "parse_ns": 10042,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13125,
+      "check_ns": 3042,
+      "emit_ns": 20084,
+      "parse_ns": 10000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13250,
+      "check_ns": 3041,
+      "emit_ns": 19750,
+      "parse_ns": 10125,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13500,
+      "check_ns": 3250,
+      "emit_ns": 19833,
+      "parse_ns": 10167,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13250,
+      "check_ns": 3083,
+      "emit_ns": 20042,
+      "parse_ns": 10042,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13292,
+      "check_ns": 3208,
+      "emit_ns": 22917,
+      "parse_ns": 10000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 14250,
+      "check_ns": 3666,
+      "emit_ns": 20166,
+      "parse_ns": 10500,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13167,
+      "check_ns": 3083,
+      "emit_ns": 19708,
+      "parse_ns": 10000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13125,
+      "check_ns": 3041,
+      "emit_ns": 19708,
+      "parse_ns": 10042,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13416,
+      "check_ns": 3125,
+      "emit_ns": 19750,
+      "parse_ns": 10208,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13125,
+      "check_ns": 3166,
+      "emit_ns": 77750,
+      "parse_ns": 9875,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 22708,
+      "check_ns": 7334,
+      "emit_ns": 26417,
+      "parse_ns": 15292,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 15459,
+      "check_ns": 3917,
+      "emit_ns": 22584,
+      "parse_ns": 11417,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13791,
+      "check_ns": 3417,
+      "emit_ns": 21333,
+      "parse_ns": 10333,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13750,
+      "check_ns": 3250,
+      "emit_ns": 20959,
+      "parse_ns": 10375,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13625,
+      "check_ns": 3250,
+      "emit_ns": 20291,
+      "parse_ns": 10333,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13083,
+      "check_ns": 3000,
+      "emit_ns": 19792,
+      "parse_ns": 10000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13250,
+      "check_ns": 3084,
+      "emit_ns": 75875,
+      "parse_ns": 10042,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 14750,
+      "check_ns": 5500,
+      "emit_ns": 11583,
+      "parse_ns": 9167,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 7375,
+      "check_ns": 1875,
+      "emit_ns": 9666,
+      "parse_ns": 5458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 6584,
+      "check_ns": 1584,
+      "emit_ns": 9209,
+      "parse_ns": 5000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 107208,
+      "check_ns": 102334,
+      "emit_ns": 25625,
+      "parse_ns": 4792,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 16125,
+      "check_ns": 3541,
+      "emit_ns": 19791,
+      "parse_ns": 12458,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13000,
+      "check_ns": 3041,
+      "emit_ns": 19208,
+      "parse_ns": 9833,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13041,
+      "check_ns": 2959,
+      "emit_ns": 19500,
+      "parse_ns": 9959,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "analysis_ns": 13125,
+      "check_ns": 3042,
+      "emit_ns": 19500,
+      "parse_ns": 10000,
+      "phase": "measured",
+      "verified": true,
+      "workload": "borrowing"
+    }
+  ],
+  "schema": "talven.native-phase-baseline.v1",
+  "started_at": "2026-10-01T08:50:20.232531+00:00",
+  "summary": [
+    {
+      "max_ns": 13166,
+      "median_ns": 2542.0,
+      "min_ns": 2416,
+      "operation": "parse_ns",
+      "samples": 50,
+      "workload": "hello"
+    },
+    {
+      "max_ns": 3375,
+      "median_ns": 542.0,
+      "min_ns": 500,
+      "operation": "check_ns",
+      "samples": 50,
+      "workload": "hello"
+    },
+    {
+      "max_ns": 14041,
+      "median_ns": 3167.0,
+      "min_ns": 3041,
+      "operation": "analysis_ns",
+      "samples": 50,
+      "workload": "hello"
+    },
+    {
+      "max_ns": 18666,
+      "median_ns": 7896.0,
+      "min_ns": 7625,
+      "operation": "emit_ns",
+      "samples": 50,
+      "workload": "hello"
+    },
+    {
+      "max_ns": 384792,
+      "median_ns": 39395.5,
+      "min_ns": 27250,
+      "operation": "parse_ns",
+      "samples": 50,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 639875,
+      "median_ns": 15395.5,
+      "min_ns": 11125,
+      "operation": "check_ns",
+      "samples": 50,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 736125,
+      "median_ns": 59208.5,
+      "min_ns": 38500,
+      "operation": "analysis_ns",
+      "samples": 50,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 417708,
+      "median_ns": 123583.0,
+      "min_ns": 71125,
+      "operation": "emit_ns",
+      "samples": 50,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 1130583,
+      "median_ns": 118938.0,
+      "min_ns": 106166,
+      "operation": "parse_ns",
+      "samples": 50,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 688250,
+      "median_ns": 56167.0,
+      "min_ns": 48875,
+      "operation": "check_ns",
+      "samples": 50,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 1233834,
+      "median_ns": 175521.0,
+      "min_ns": 155167,
+      "operation": "analysis_ns",
+      "samples": 50,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 2163167,
+      "median_ns": 348958.5,
+      "min_ns": 258833,
+      "operation": "emit_ns",
+      "samples": 50,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 1981375,
+      "median_ns": 1149604.0,
+      "min_ns": 577166,
+      "operation": "parse_ns",
+      "samples": 50,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 867875,
+      "median_ns": 402396.0,
+      "min_ns": 188833,
+      "operation": "check_ns",
+      "samples": 50,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 2849541,
+      "median_ns": 1530917.0,
+      "min_ns": 767750,
+      "operation": "analysis_ns",
+      "samples": 50,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 5885333,
+      "median_ns": 3167229.5,
+      "min_ns": 1701792,
+      "operation": "emit_ns",
+      "samples": 50,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 45334,
+      "median_ns": 10333.0,
+      "min_ns": 4792,
+      "operation": "parse_ns",
+      "samples": 50,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 102334,
+      "median_ns": 3250.0,
+      "min_ns": 1584,
+      "operation": "check_ns",
+      "samples": 50,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 107208,
+      "median_ns": 13791.5,
+      "min_ns": 6584,
+      "operation": "analysis_ns",
+      "samples": 50,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 77750,
+      "median_ns": 20333.0,
+      "min_ns": 9209,
+      "operation": "emit_ns",
+      "samples": 50,
+      "workload": "borrowing"
+    }
+  ],
+  "system": "Darwin",
+  "timed_boundary": "Native full lex/parse/depth checks; declaration/body checking; total instrumented analysis; C emission. Source I/O, verification, destruction of returned Program/C, serialization, process startup and C builds excluded.",
+  "timeout_seconds": 30,
+  "unmeasured": [
+    "startup comparison",
+    "cold caches",
+    "memory",
+    "incremental reuse",
+    "C builds",
+    "save-to-running latency",
+    "model/token/dollar effectiveness"
+  ],
+  "unmeasured_native_preflight_per_workload": 1,
+  "warmups": 2,
+  "workloads": [
+    {
+      "criteria": "Exact greeting stdout, empty stderr, exit zero.",
+      "id": "hello",
+      "native_acceptance": {
+        "executable": {
+          "bytes": 33560,
+          "sha256": "87ef576c3cd0966c3ea3bfe95837e5875e2c6d62986c243a19534253e957ff18"
+        },
+        "generated_c": {
+          "bytes": 1195,
+          "sha256": "da3c45444a8caeac013d51acfa1fb5bb101c8e707099b2d387206d6c1c503979"
+        }
+      },
+      "oracle_text": null,
+      "origin": "examples/hello.tal",
+      "source": {
+        "bytes": 58,
+        "sha256": "20492c7108b5976576bed9b19ab1630c2f8de21000b512e28ee1813b9492169e"
+      },
+      "source_text": "fn main() -> i32 {\n    return print(\"Hello, world!\\n\");\n}\n"
+    },
+    {
+      "criteria": "Exact native/reference C; three full-i32 chain results; main returns zero.",
+      "id": "chain-32",
+      "native_acceptance": {
+        "executable": {
+          "bytes": 34840,
+          "sha256": "2cacfa7474280740a9c8644ffe3f375eaa318fc90e90f7b67e60b3fb43a6261b"
+        },
+        "generated_c": {
+          "bytes": 9454,
+          "sha256": "f1e22d7704f336beb835cd642a3fbfe0147bd7d852fb0c3f967ffd0b52d8a234"
+        }
+      },
+      "oracle_text": "#include <stdint.h>\nextern int32_t tv_f_step_31(int32_t);\nextern int32_t tv_f_main(void);\nint main(void) {\nif (tv_f_step_31(-1000) != -968) return 1;\nif (tv_f_step_31(0) != 32) return 1;\nif (tv_f_step_31(1000000) != 1000032) return 1;\nreturn tv_f_main() == 0 ? 0 : 1;\n}\n",
+      "origin": "generated: fixed initial edit-baseline source",
+      "source": {
+        "bytes": 2170,
+        "sha256": "90d4ddf2d2cecde01d170ccb7e223eceafff14cb48df0b4fdf3e20a62143823b"
+      },
+      "source_text": "fn step_0(value: i32) -> i32 {\n    return value + 1;\n}\n\nfn step_1(value: i32) -> i32 {\n    return step_0(value) + 1;\n}\n\nfn step_2(value: i32) -> i32 {\n    return step_1(value) + 1;\n}\n\nfn step_3(value: i32) -> i32 {\n    return step_2(value) + 1;\n}\n\nfn step_4(value: i32) -> i32 {\n    return step_3(value) + 1;\n}\n\nfn step_5(value: i32) -> i32 {\n    return step_4(value) + 1;\n}\n\nfn step_6(value: i32) -> i32 {\n    return step_5(value) + 1;\n}\n\nfn step_7(value: i32) -> i32 {\n    return step_6(value) + 1;\n}\n\nfn step_8(value: i32) -> i32 {\n    return step_7(value) + 1;\n}\n\nfn step_9(value: i32) -> i32 {\n    return step_8(value) + 1;\n}\n\nfn step_10(value: i32) -> i32 {\n    return step_9(value) + 1;\n}\n\nfn step_11(value: i32) -> i32 {\n    return step_10(value) + 1;\n}\n\nfn step_12(value: i32) -> i32 {\n    return step_11(value) + 1;\n}\n\nfn step_13(value: i32) -> i32 {\n    return step_12(value) + 1;\n}\n\nfn step_14(value: i32) -> i32 {\n    return step_13(value) + 1;\n}\n\nfn step_15(value: i32) -> i32 {\n    return step_14(value) + 1;\n}\n\nfn step_16(value: i32) -> i32 {\n    return step_15(value) + 1;\n}\n\nfn step_17(value: i32) -> i32 {\n    return step_16(value) + 1;\n}\n\nfn step_18(value: i32) -> i32 {\n    return step_17(value) + 1;\n}\n\nfn step_19(value: i32) -> i32 {\n    return step_18(value) + 1;\n}\n\nfn step_20(value: i32) -> i32 {\n    return step_19(value) + 1;\n}\n\nfn step_21(value: i32) -> i32 {\n    return step_20(value) + 1;\n}\n\nfn step_22(value: i32) -> i32 {\n    return step_21(value) + 1;\n}\n\nfn step_23(value: i32) -> i32 {\n    return step_22(value) + 1;\n}\n\nfn step_24(value: i32) -> i32 {\n    return step_23(value) + 1;\n}\n\nfn step_25(value: i32) -> i32 {\n    return step_24(value) + 1;\n}\n\nfn step_26(value: i32) -> i32 {\n    return step_25(value) + 1;\n}\n\nfn step_27(value: i32) -> i32 {\n    return step_26(value) + 1;\n}\n\nfn step_28(value: i32) -> i32 {\n    return step_27(value) + 1;\n}\n\nfn step_29(value: i32) -> i32 {\n    return step_28(value) + 1;\n}\n\nfn step_30(value: i32) -> i32 {\n    return step_29(value) + 1;\n}\n\nfn step_31(value: i32) -> i32 {\n    return step_30(value) + 1;\n}\n\nfn main() -> i32 {\n    if (step_31(7) == 39) {\n        return 0;\n    }\n    return 1;\n}\n"
+    },
+    {
+      "criteria": "Exact native/reference C; three full-i32 chain results; main returns zero.",
+      "id": "chain-128",
+      "native_acceptance": {
+        "executable": {
+          "bytes": 38744,
+          "sha256": "d5c42cf1584f94fce949c6fa8d8635ac16e6d676f6ad26faf8543ec617b0a48d"
+        },
+        "generated_c": {
+          "bytes": 36127,
+          "sha256": "ccd5bf9ba83e2fdf095f84b0338999c97047b30e5e2c684c5a1721c9075d3588"
+        }
+      },
+      "oracle_text": "#include <stdint.h>\nextern int32_t tv_f_step_127(int32_t);\nextern int32_t tv_f_main(void);\nint main(void) {\nif (tv_f_step_127(-1000) != -872) return 1;\nif (tv_f_step_127(0) != 128) return 1;\nif (tv_f_step_127(1000000) != 1000128) return 1;\nreturn tv_f_main() == 0 ? 0 : 1;\n}\n",
+      "origin": "generated: fixed initial edit-baseline source",
+      "source": {
+        "bytes": 8563,
+        "sha256": "c507333baed34f93c849a66db1428a21d9319b1ce62f1eef2daa332c7e5980a4"
+      },
+      "source_text": "fn step_0(value: i32) -> i32 {\n    return value + 1;\n}\n\nfn step_1(value: i32) -> i32 {\n    return step_0(value) + 1;\n}\n\nfn step_2(value: i32) -> i32 {\n    return step_1(value) + 1;\n}\n\nfn step_3(value: i32) -> i32 {\n    return step_2(value) + 1;\n}\n\nfn step_4(value: i32) -> i32 {\n    return step_3(value) + 1;\n}\n\nfn step_5(value: i32) -> i32 {\n    return step_4(value) + 1;\n}\n\nfn step_6(value: i32) -> i32 {\n    return step_5(value) + 1;\n}\n\nfn step_7(value: i32) -> i32 {\n    return step_6(value) + 1;\n}\n\nfn step_8(value: i32) -> i32 {\n    return step_7(value) + 1;\n}\n\nfn step_9(value: i32) -> i32 {\n    return step_8(value) + 1;\n}\n\nfn step_10(value: i32) -> i32 {\n    return step_9(value) + 1;\n}\n\nfn step_11(value: i32) -> i32 {\n    return step_10(value) + 1;\n}\n\nfn step_12(value: i32) -> i32 {\n    return step_11(value) + 1;\n}\n\nfn step_13(value: i32) -> i32 {\n    return step_12(value) + 1;\n}\n\nfn step_14(value: i32) -> i32 {\n    return step_13(value) + 1;\n}\n\nfn step_15(value: i32) -> i32 {\n    return step_14(value) + 1;\n}\n\nfn step_16(value: i32) -> i32 {\n    return step_15(value) + 1;\n}\n\nfn step_17(value: i32) -> i32 {\n    return step_16(value) + 1;\n}\n\nfn step_18(value: i32) -> i32 {\n    return step_17(value) + 1;\n}\n\nfn step_19(value: i32) -> i32 {\n    return step_18(value) + 1;\n}\n\nfn step_20(value: i32) -> i32 {\n    return step_19(value) + 1;\n}\n\nfn step_21(value: i32) -> i32 {\n    return step_20(value) + 1;\n}\n\nfn step_22(value: i32) -> i32 {\n    return step_21(value) + 1;\n}\n\nfn step_23(value: i32) -> i32 {\n    return step_22(value) + 1;\n}\n\nfn step_24(value: i32) -> i32 {\n    return step_23(value) + 1;\n}\n\nfn step_25(value: i32) -> i32 {\n    return step_24(value) + 1;\n}\n\nfn step_26(value: i32) -> i32 {\n    return step_25(value) + 1;\n}\n\nfn step_27(value: i32) -> i32 {\n    return step_26(value) + 1;\n}\n\nfn step_28(value: i32) -> i32 {\n    return step_27(value) + 1;\n}\n\nfn step_29(value: i32) -> i32 {\n    return step_28(value) + 1;\n}\n\nfn step_30(value: i32) -> i32 {\n    return step_29(value) + 1;\n}\n\nfn step_31(value: i32) -> i32 {\n    return step_30(value) + 1;\n}\n\nfn step_32(value: i32) -> i32 {\n    return step_31(value) + 1;\n}\n\nfn step_33(value: i32) -> i32 {\n    return step_32(value) + 1;\n}\n\nfn step_34(value: i32) -> i32 {\n    return step_33(value) + 1;\n}\n\nfn step_35(value: i32) -> i32 {\n    return step_34(value) + 1;\n}\n\nfn step_36(value: i32) -> i32 {\n    return step_35(value) + 1;\n}\n\nfn step_37(value: i32) -> i32 {\n    return step_36(value) + 1;\n}\n\nfn step_38(value: i32) -> i32 {\n    return step_37(value) + 1;\n}\n\nfn step_39(value: i32) -> i32 {\n    return step_38(value) + 1;\n}\n\nfn step_40(value: i32) -> i32 {\n    return step_39(value) + 1;\n}\n\nfn step_41(value: i32) -> i32 {\n    return step_40(value) + 1;\n}\n\nfn step_42(value: i32) -> i32 {\n    return step_41(value) + 1;\n}\n\nfn step_43(value: i32) -> i32 {\n    return step_42(value) + 1;\n}\n\nfn step_44(value: i32) -> i32 {\n    return step_43(value) + 1;\n}\n\nfn step_45(value: i32) -> i32 {\n    return step_44(value) + 1;\n}\n\nfn step_46(value: i32) -> i32 {\n    return step_45(value) + 1;\n}\n\nfn step_47(value: i32) -> i32 {\n    return step_46(value) + 1;\n}\n\nfn step_48(value: i32) -> i32 {\n    return step_47(value) + 1;\n}\n\nfn step_49(value: i32) -> i32 {\n    return step_48(value) + 1;\n}\n\nfn step_50(value: i32) -> i32 {\n    return step_49(value) + 1;\n}\n\nfn step_51(value: i32) -> i32 {\n    return step_50(value) + 1;\n}\n\nfn step_52(value: i32) -> i32 {\n    return step_51(value) + 1;\n}\n\nfn step_53(value: i32) -> i32 {\n    return step_52(value) + 1;\n}\n\nfn step_54(value: i32) -> i32 {\n    return step_53(value) + 1;\n}\n\nfn step_55(value: i32) -> i32 {\n    return step_54(value) + 1;\n}\n\nfn step_56(value: i32) -> i32 {\n    return step_55(value) + 1;\n}\n\nfn step_57(value: i32) -> i32 {\n    return step_56(value) + 1;\n}\n\nfn step_58(value: i32) -> i32 {\n    return step_57(value) + 1;\n}\n\nfn step_59(value: i32) -> i32 {\n    return step_58(value) + 1;\n}\n\nfn step_60(value: i32) -> i32 {\n    return step_59(value) + 1;\n}\n\nfn step_61(value: i32) -> i32 {\n    return step_60(value) + 1;\n}\n\nfn step_62(value: i32) -> i32 {\n    return step_61(value) + 1;\n}\n\nfn step_63(value: i32) -> i32 {\n    return step_62(value) + 1;\n}\n\nfn step_64(value: i32) -> i32 {\n    return step_63(value) + 1;\n}\n\nfn step_65(value: i32) -> i32 {\n    return step_64(value) + 1;\n}\n\nfn step_66(value: i32) -> i32 {\n    return step_65(value) + 1;\n}\n\nfn step_67(value: i32) -> i32 {\n    return step_66(value) + 1;\n}\n\nfn step_68(value: i32) -> i32 {\n    return step_67(value) + 1;\n}\n\nfn step_69(value: i32) -> i32 {\n    return step_68(value) + 1;\n}\n\nfn step_70(value: i32) -> i32 {\n    return step_69(value) + 1;\n}\n\nfn step_71(value: i32) -> i32 {\n    return step_70(value) + 1;\n}\n\nfn step_72(value: i32) -> i32 {\n    return step_71(value) + 1;\n}\n\nfn step_73(value: i32) -> i32 {\n    return step_72(value) + 1;\n}\n\nfn step_74(value: i32) -> i32 {\n    return step_73(value) + 1;\n}\n\nfn step_75(value: i32) -> i32 {\n    return step_74(value) + 1;\n}\n\nfn step_76(value: i32) -> i32 {\n    return step_75(value) + 1;\n}\n\nfn step_77(value: i32) -> i32 {\n    return step_76(value) + 1;\n}\n\nfn step_78(value: i32) -> i32 {\n    return step_77(value) + 1;\n}\n\nfn step_79(value: i32) -> i32 {\n    return step_78(value) + 1;\n}\n\nfn step_80(value: i32) -> i32 {\n    return step_79(value) + 1;\n}\n\nfn step_81(value: i32) -> i32 {\n    return step_80(value) + 1;\n}\n\nfn step_82(value: i32) -> i32 {\n    return step_81(value) + 1;\n}\n\nfn step_83(value: i32) -> i32 {\n    return step_82(value) + 1;\n}\n\nfn step_84(value: i32) -> i32 {\n    return step_83(value) + 1;\n}\n\nfn step_85(value: i32) -> i32 {\n    return step_84(value) + 1;\n}\n\nfn step_86(value: i32) -> i32 {\n    return step_85(value) + 1;\n}\n\nfn step_87(value: i32) -> i32 {\n    return step_86(value) + 1;\n}\n\nfn step_88(value: i32) -> i32 {\n    return step_87(value) + 1;\n}\n\nfn step_89(value: i32) -> i32 {\n    return step_88(value) + 1;\n}\n\nfn step_90(value: i32) -> i32 {\n    return step_89(value) + 1;\n}\n\nfn step_91(value: i32) -> i32 {\n    return step_90(value) + 1;\n}\n\nfn step_92(value: i32) -> i32 {\n    return step_91(value) + 1;\n}\n\nfn step_93(value: i32) -> i32 {\n    return step_92(value) + 1;\n}\n\nfn step_94(value: i32) -> i32 {\n    return step_93(value) + 1;\n}\n\nfn step_95(value: i32) -> i32 {\n    return step_94(value) + 1;\n}\n\nfn step_96(value: i32) -> i32 {\n    return step_95(value) + 1;\n}\n\nfn step_97(value: i32) -> i32 {\n    return step_96(value) + 1;\n}\n\nfn step_98(value: i32) -> i32 {\n    return step_97(value) + 1;\n}\n\nfn step_99(value: i32) -> i32 {\n    return step_98(value) + 1;\n}\n\nfn step_100(value: i32) -> i32 {\n    return step_99(value) + 1;\n}\n\nfn step_101(value: i32) -> i32 {\n    return step_100(value) + 1;\n}\n\nfn step_102(value: i32) -> i32 {\n    return step_101(value) + 1;\n}\n\nfn step_103(value: i32) -> i32 {\n    return step_102(value) + 1;\n}\n\nfn step_104(value: i32) -> i32 {\n    return step_103(value) + 1;\n}\n\nfn step_105(value: i32) -> i32 {\n    return step_104(value) + 1;\n}\n\nfn step_106(value: i32) -> i32 {\n    return step_105(value) + 1;\n}\n\nfn step_107(value: i32) -> i32 {\n    return step_106(value) + 1;\n}\n\nfn step_108(value: i32) -> i32 {\n    return step_107(value) + 1;\n}\n\nfn step_109(value: i32) -> i32 {\n    return step_108(value) + 1;\n}\n\nfn step_110(value: i32) -> i32 {\n    return step_109(value) + 1;\n}\n\nfn step_111(value: i32) -> i32 {\n    return step_110(value) + 1;\n}\n\nfn step_112(value: i32) -> i32 {\n    return step_111(value) + 1;\n}\n\nfn step_113(value: i32) -> i32 {\n    return step_112(value) + 1;\n}\n\nfn step_114(value: i32) -> i32 {\n    return step_113(value) + 1;\n}\n\nfn step_115(value: i32) -> i32 {\n    return step_114(value) + 1;\n}\n\nfn step_116(value: i32) -> i32 {\n    return step_115(value) + 1;\n}\n\nfn step_117(value: i32) -> i32 {\n    return step_116(value) + 1;\n}\n\nfn step_118(value: i32) -> i32 {\n    return step_117(value) + 1;\n}\n\nfn step_119(value: i32) -> i32 {\n    return step_118(value) + 1;\n}\n\nfn step_120(value: i32) -> i32 {\n    return step_119(value) + 1;\n}\n\nfn step_121(value: i32) -> i32 {\n    return step_120(value) + 1;\n}\n\nfn step_122(value: i32) -> i32 {\n    return step_121(value) + 1;\n}\n\nfn step_123(value: i32) -> i32 {\n    return step_122(value) + 1;\n}\n\nfn step_124(value: i32) -> i32 {\n    return step_123(value) + 1;\n}\n\nfn step_125(value: i32) -> i32 {\n    return step_124(value) + 1;\n}\n\nfn step_126(value: i32) -> i32 {\n    return step_125(value) + 1;\n}\n\nfn step_127(value: i32) -> i32 {\n    return step_126(value) + 1;\n}\n\nfn main() -> i32 {\n    if (step_127(7) == 135) {\n        return 0;\n    }\n    return 1;\n}\n"
+    },
+    {
+      "criteria": "Exact native/reference C; three full-i32 chain results; main returns zero.",
+      "id": "stores-128",
+      "native_acceptance": {
+        "executable": {
+          "bytes": 71976,
+          "sha256": "062e77e005d031703ec4c62374c8fbd98e6f3c8e3ae336ac1a1fc30fa6ece249"
+        },
+        "generated_c": {
+          "bytes": 243313,
+          "sha256": "2a8ff6b235647a86ec5b760ba83368d745b14791cc4bef6de9293ff14962a84a"
+        }
+      },
+      "oracle_text": "#include <stdint.h>\nextern int32_t tv_f_step_127(int32_t);\nextern int32_t tv_f_main(void);\nint main(void) {\nif (tv_f_step_127(-1000) != -872) return 1;\nif (tv_f_step_127(0) != 128) return 1;\nif (tv_f_step_127(1000000) != 1000128) return 1;\nreturn tv_f_main() == 0 ? 0 : 1;\n}\n",
+      "origin": "generated: fixed initial edit-baseline source",
+      "source": {
+        "bytes": 41327,
+        "sha256": "1f93a9447cd77bb18295cfdad2825cbab1e618b1b4c4a774f1b3346efda203be"
+      },
+      "source_text": "fn step_0(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return acc - 11;\n}\n\nfn step_1(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_0(acc - 12) + 1;\n}\n\nfn step_2(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_1(acc - 12) + 1;\n}\n\nfn step_3(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_2(acc - 12) + 1;\n}\n\nfn step_4(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_3(acc - 12) + 1;\n}\n\nfn step_5(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_4(acc - 12) + 1;\n}\n\nfn step_6(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_5(acc - 12) + 1;\n}\n\nfn step_7(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_6(acc - 12) + 1;\n}\n\nfn step_8(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_7(acc - 12) + 1;\n}\n\nfn step_9(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_8(acc - 12) + 1;\n}\n\nfn step_10(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_9(acc - 12) + 1;\n}\n\nfn step_11(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_10(acc - 12) + 1;\n}\n\nfn step_12(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_11(acc - 12) + 1;\n}\n\nfn step_13(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_12(acc - 12) + 1;\n}\n\nfn step_14(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_13(acc - 12) + 1;\n}\n\nfn step_15(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_14(acc - 12) + 1;\n}\n\nfn step_16(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_15(acc - 12) + 1;\n}\n\nfn step_17(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_16(acc - 12) + 1;\n}\n\nfn step_18(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_17(acc - 12) + 1;\n}\n\nfn step_19(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_18(acc - 12) + 1;\n}\n\nfn step_20(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_19(acc - 12) + 1;\n}\n\nfn step_21(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_20(acc - 12) + 1;\n}\n\nfn step_22(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_21(acc - 12) + 1;\n}\n\nfn step_23(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_22(acc - 12) + 1;\n}\n\nfn step_24(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_23(acc - 12) + 1;\n}\n\nfn step_25(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_24(acc - 12) + 1;\n}\n\nfn step_26(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_25(acc - 12) + 1;\n}\n\nfn step_27(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_26(acc - 12) + 1;\n}\n\nfn step_28(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_27(acc - 12) + 1;\n}\n\nfn step_29(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_28(acc - 12) + 1;\n}\n\nfn step_30(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_29(acc - 12) + 1;\n}\n\nfn step_31(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_30(acc - 12) + 1;\n}\n\nfn step_32(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_31(acc - 12) + 1;\n}\n\nfn step_33(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_32(acc - 12) + 1;\n}\n\nfn step_34(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_33(acc - 12) + 1;\n}\n\nfn step_35(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_34(acc - 12) + 1;\n}\n\nfn step_36(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_35(acc - 12) + 1;\n}\n\nfn step_37(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_36(acc - 12) + 1;\n}\n\nfn step_38(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_37(acc - 12) + 1;\n}\n\nfn step_39(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_38(acc - 12) + 1;\n}\n\nfn step_40(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_39(acc - 12) + 1;\n}\n\nfn step_41(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_40(acc - 12) + 1;\n}\n\nfn step_42(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_41(acc - 12) + 1;\n}\n\nfn step_43(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_42(acc - 12) + 1;\n}\n\nfn step_44(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_43(acc - 12) + 1;\n}\n\nfn step_45(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_44(acc - 12) + 1;\n}\n\nfn step_46(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_45(acc - 12) + 1;\n}\n\nfn step_47(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_46(acc - 12) + 1;\n}\n\nfn step_48(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_47(acc - 12) + 1;\n}\n\nfn step_49(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_48(acc - 12) + 1;\n}\n\nfn step_50(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_49(acc - 12) + 1;\n}\n\nfn step_51(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_50(acc - 12) + 1;\n}\n\nfn step_52(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_51(acc - 12) + 1;\n}\n\nfn step_53(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_52(acc - 12) + 1;\n}\n\nfn step_54(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_53(acc - 12) + 1;\n}\n\nfn step_55(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_54(acc - 12) + 1;\n}\n\nfn step_56(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_55(acc - 12) + 1;\n}\n\nfn step_57(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_56(acc - 12) + 1;\n}\n\nfn step_58(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_57(acc - 12) + 1;\n}\n\nfn step_59(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_58(acc - 12) + 1;\n}\n\nfn step_60(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_59(acc - 12) + 1;\n}\n\nfn step_61(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_60(acc - 12) + 1;\n}\n\nfn step_62(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_61(acc - 12) + 1;\n}\n\nfn step_63(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_62(acc - 12) + 1;\n}\n\nfn step_64(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_63(acc - 12) + 1;\n}\n\nfn step_65(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_64(acc - 12) + 1;\n}\n\nfn step_66(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_65(acc - 12) + 1;\n}\n\nfn step_67(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_66(acc - 12) + 1;\n}\n\nfn step_68(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_67(acc - 12) + 1;\n}\n\nfn step_69(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_68(acc - 12) + 1;\n}\n\nfn step_70(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_69(acc - 12) + 1;\n}\n\nfn step_71(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_70(acc - 12) + 1;\n}\n\nfn step_72(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_71(acc - 12) + 1;\n}\n\nfn step_73(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_72(acc - 12) + 1;\n}\n\nfn step_74(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_73(acc - 12) + 1;\n}\n\nfn step_75(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_74(acc - 12) + 1;\n}\n\nfn step_76(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_75(acc - 12) + 1;\n}\n\nfn step_77(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_76(acc - 12) + 1;\n}\n\nfn step_78(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_77(acc - 12) + 1;\n}\n\nfn step_79(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_78(acc - 12) + 1;\n}\n\nfn step_80(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_79(acc - 12) + 1;\n}\n\nfn step_81(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_80(acc - 12) + 1;\n}\n\nfn step_82(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_81(acc - 12) + 1;\n}\n\nfn step_83(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_82(acc - 12) + 1;\n}\n\nfn step_84(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_83(acc - 12) + 1;\n}\n\nfn step_85(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_84(acc - 12) + 1;\n}\n\nfn step_86(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_85(acc - 12) + 1;\n}\n\nfn step_87(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_86(acc - 12) + 1;\n}\n\nfn step_88(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_87(acc - 12) + 1;\n}\n\nfn step_89(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_88(acc - 12) + 1;\n}\n\nfn step_90(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_89(acc - 12) + 1;\n}\n\nfn step_91(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_90(acc - 12) + 1;\n}\n\nfn step_92(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_91(acc - 12) + 1;\n}\n\nfn step_93(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_92(acc - 12) + 1;\n}\n\nfn step_94(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_93(acc - 12) + 1;\n}\n\nfn step_95(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_94(acc - 12) + 1;\n}\n\nfn step_96(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_95(acc - 12) + 1;\n}\n\nfn step_97(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_96(acc - 12) + 1;\n}\n\nfn step_98(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_97(acc - 12) + 1;\n}\n\nfn step_99(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_98(acc - 12) + 1;\n}\n\nfn step_100(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_99(acc - 12) + 1;\n}\n\nfn step_101(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_100(acc - 12) + 1;\n}\n\nfn step_102(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_101(acc - 12) + 1;\n}\n\nfn step_103(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_102(acc - 12) + 1;\n}\n\nfn step_104(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_103(acc - 12) + 1;\n}\n\nfn step_105(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_104(acc - 12) + 1;\n}\n\nfn step_106(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_105(acc - 12) + 1;\n}\n\nfn step_107(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_106(acc - 12) + 1;\n}\n\nfn step_108(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_107(acc - 12) + 1;\n}\n\nfn step_109(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_108(acc - 12) + 1;\n}\n\nfn step_110(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_109(acc - 12) + 1;\n}\n\nfn step_111(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_110(acc - 12) + 1;\n}\n\nfn step_112(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_111(acc - 12) + 1;\n}\n\nfn step_113(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_112(acc - 12) + 1;\n}\n\nfn step_114(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_113(acc - 12) + 1;\n}\n\nfn step_115(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_114(acc - 12) + 1;\n}\n\nfn step_116(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_115(acc - 12) + 1;\n}\n\nfn step_117(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_116(acc - 12) + 1;\n}\n\nfn step_118(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_117(acc - 12) + 1;\n}\n\nfn step_119(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_118(acc - 12) + 1;\n}\n\nfn step_120(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_119(acc - 12) + 1;\n}\n\nfn step_121(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_120(acc - 12) + 1;\n}\n\nfn step_122(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_121(acc - 12) + 1;\n}\n\nfn step_123(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_122(acc - 12) + 1;\n}\n\nfn step_124(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_123(acc - 12) + 1;\n}\n\nfn step_125(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_124(acc - 12) + 1;\n}\n\nfn step_126(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_125(acc - 12) + 1;\n}\n\nfn step_127(value: i32) -> i32 {\n    let mut acc = value;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    acc = acc + 1;\n    return step_126(acc - 12) + 1;\n}\n\nfn main() -> i32 {\n    if (step_127(7) == 135) {\n        return 0;\n    }\n    return 1;\n}\n"
+    },
+    {
+      "criteria": "Exact native/reference C; read preserves three owners, bump stores/returns input + 1; main returns zero.",
+      "id": "borrowing",
+      "native_acceptance": {
+        "executable": {
+          "bytes": 33656,
+          "sha256": "e3f3beb9a8ee5f9560b50da676aa9f06d57dd6b1d4b9931b496dc14d337e1871"
+        },
+        "generated_c": {
+          "bytes": 1584,
+          "sha256": "60ad93202c5841f0ea494b754eabe38c7232bf359322aaf9cf053abfd9999ae6"
+        }
+      },
+      "oracle_text": "#include <stdint.h>\nstruct tv_s_P { int32_t tv_m_x; };\nextern int32_t tv_f_read(const struct tv_s_P *);\nextern int32_t tv_f_bump(struct tv_s_P *);\nextern int32_t tv_f_main(void);\nint main(void) {\n{ struct tv_s_P p = {-1000}; if (tv_f_read(&p) != -1000 || p.tv_m_x != -1000) return 1; if (tv_f_bump(&p) != -999 || p.tv_m_x != -999) return 1; }\n{ struct tv_s_P p = {0}; if (tv_f_read(&p) != 0 || p.tv_m_x != 0) return 1; if (tv_f_bump(&p) != 1 || p.tv_m_x != 1) return 1; }\n{ struct tv_s_P p = {1000000}; if (tv_f_read(&p) != 1000000 || p.tv_m_x != 1000000) return 1; if (tv_f_bump(&p) != 1000001 || p.tv_m_x != 1000001) return 1; }\nreturn tv_f_main() == 0 ? 0 : 1;\n}\n",
+      "origin": "generated: fixed initial edit-baseline source",
+      "source": {
+        "bytes": 185,
+        "sha256": "d9d869318885de2feebbdc75cf58ff51f340c1410a7c7565c8ab6f2cea9fd767"
+      },
+      "source_text": "struct P { x: i32 }\nfn read(p: &P) -> i32 { return p.x; }\nfn bump(p: &mut P) -> i32 { p.x = p.x + 1; return p.x; }\nfn main() -> i32 { let mut p = P { x: 1 }; return bump(&mut p) - 2; }\n"
+    }
+  ]
+}

@@ -3,13 +3,17 @@ use std::fs::File;
 use std::io::{self, Read, Write};
 use std::path::Path;
 use talven_native::{
-    Error, MAX_SOURCE, PROFILE, analyze, emit_c, line_character, receipt, size_error,
+    Error, MAX_SOURCE, PROFILE, analyze, analyze_measured, emit_c, line_character, receipt,
+    size_error,
 };
 fn main() {
     std::process::exit(run());
 }
 fn run() -> i32 {
     let args: Vec<OsString> = std::env::args_os().skip(1).collect();
+    if args.first().is_some_and(|a| a == "measure") {
+        return measure(&args[1..]);
+    }
     if args.len() == 1 && args[0] == "--build-info" {
         let sources = [
             ("Cargo.toml", include_str!("../Cargo.toml")),
@@ -60,18 +64,7 @@ fn run() -> i32 {
     let console = args[2..].iter().any(|a| a == "--console");
     let mut source = String::new();
     let outcome: Result<String, Error> = (|| {
-        let file = open_source(Path::new(&args[1])).map_err(io_error)?;
-        if !file.metadata().map_err(io_error)?.is_file() {
-            return Err(io_error("Source must be a regular file"));
-        }
-        let mut bytes = Vec::new();
-        file.take((MAX_SOURCE + 1) as u64)
-            .read_to_end(&mut bytes)
-            .map_err(io_error)?;
-        if bytes.len() > MAX_SOURCE {
-            return Err(size_error());
-        }
-        source = String::from_utf8(bytes).map_err(io_error)?;
+        source = read_source(Path::new(&args[1]))?;
         let program = analyze(&source)?;
         if args[0] == "emit-c" {
             emit_c(&program, console)
@@ -106,6 +99,104 @@ fn run() -> i32 {
                     error.message
                 );
             }
+            1
+        }
+    }
+}
+
+fn read_source(path: &Path) -> Result<String, Error> {
+    let file = open_source(path).map_err(io_error)?;
+    if !file.metadata().map_err(io_error)?.is_file() {
+        return Err(io_error("Source must be a regular file"));
+    }
+    let mut bytes = Vec::new();
+    file.take((MAX_SOURCE + 1) as u64)
+        .read_to_end(&mut bytes)
+        .map_err(io_error)?;
+    if bytes.len() > MAX_SOURCE {
+        return Err(size_error());
+    }
+    String::from_utf8(bytes).map_err(io_error)
+}
+
+fn measure(args: &[OsString]) -> i32 {
+    let usage = || {
+        eprintln!("Usage: talven-native measure SOURCE [--iterations 1..100] [--warmups 0..10]");
+        2
+    };
+    if args.is_empty() || args.len().is_multiple_of(2) {
+        return usage();
+    }
+    let (mut iterations, mut warmups) = (10_usize, 1_usize);
+    let (mut seen_iterations, mut seen_warmups) = (false, false);
+    for pair in args[1..].chunks_exact(2) {
+        let Some(value) = pair[1].to_str().and_then(|s| {
+            if s.is_empty() || !s.bytes().all(|b| b.is_ascii_digit()) {
+                None
+            } else {
+                s.parse::<usize>().ok()
+            }
+        }) else {
+            return usage();
+        };
+        if pair[0] == "--iterations" && !seen_iterations && (1..=100).contains(&value) {
+            iterations = value;
+            seen_iterations = true;
+        } else if pair[0] == "--warmups" && !seen_warmups && value <= 10 {
+            warmups = value;
+            seen_warmups = true;
+        } else {
+            return usage();
+        }
+    }
+    let mut source = String::new();
+    let outcome: Result<String, Error> = (|| {
+        source = read_source(Path::new(&args[0]))?;
+        let baseline = emit_c(&analyze(&source)?, true)?;
+        let mut samples = Vec::new();
+        for index in 0..warmups + iterations {
+            let started = std::time::Instant::now();
+            let (program, timing) = analyze_measured(&source)?;
+            let analysis_ns = started.elapsed().as_nanos();
+            let started = std::time::Instant::now();
+            let generated = emit_c(&program, true)?;
+            let emit_ns = started.elapsed().as_nanos();
+            if generated != baseline {
+                return Err(io_error(
+                    "Measured output differs from ordinary checked emission",
+                ));
+            }
+            let phase = if index < warmups {
+                "warmup"
+            } else {
+                "measured"
+            };
+            samples.push(format!(
+                "{{\"phase\":\"{phase}\",\"parse_ns\":{},\"check_ns\":{},\"analysis_ns\":{analysis_ns},\"emit_ns\":{emit_ns}}}",
+                timing.parse_ns, timing.check_ns
+            ));
+        }
+        Ok(format!(
+            "{{\"schema\":\"talven.native-inprocess.v1\",\"complete\":true,\"profile\":{},\"source\":{},\"source_bytes\":{},\"console\":true,\"preflight_analysis\":1,\"iterations\":{iterations},\"warmups\":{warmups},\"samples\":[{}],\"generated_c\":{}}}\n",
+            talven_native::json(PROFILE),
+            talven_native::json(&source),
+            source.len(),
+            samples.join(","),
+            talven_native::json(&baseline)
+        ))
+    })();
+    match outcome {
+        Ok(output) => {
+            if io::stdout().lock().write_all(output.as_bytes()).is_ok() {
+                0
+            } else {
+                1
+            }
+        }
+        Err(error) => {
+            let _ = io::stdout()
+                .lock()
+                .write_all(receipt(&source, Some(&error)).as_bytes());
             1
         }
     }

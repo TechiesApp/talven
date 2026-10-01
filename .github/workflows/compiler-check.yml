@@ -131,6 +131,17 @@ jobs:
       - name: Compare verified overlapping native and reference workloads
         if: matrix.native
         run: python3 scripts/measure-native-prototype.py --native experiments/native-compiler/target/release/talven-native --expect-arch '${{ matrix.arch }}' --out build/native-comparison --repetitions 3 --warmups 1 --environment-note 'GitHub Actions shared runner; Rust 1.96.0 Cargo release defaults recorded in manifest'
+      - name: Measure verified native in-process frontend and emission phases
+        if: matrix.native
+        run: python3 scripts/measure-native-inprocess.py --native experiments/native-compiler/target/release/talven-native --expect-arch '${{ matrix.arch }}' --out build/native-phase-baseline --repetitions 20 --warmups 2 --environment-note 'GitHub Actions shared runner; native std::time::Instant; source I/O and C builds excluded from core timings'
+      - name: Preserve native phase evidence
+        if: always() && matrix.native
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: native-phase-baseline-${{ matrix.arch }}-python-${{ matrix.python }}
+          path: build/native-phase-baseline/
+          if-no-files-found: error
+          retention-days: 30
       - name: Preserve native comparison evidence
         if: always() && matrix.native
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

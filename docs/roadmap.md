@@ -46,6 +46,8 @@ The [editor completion increment](editor-completion.md), specified in [Proposal 
 
 The [native scalar compiler experiment](../experiments/native-compiler/README.md), specified in [Proposal 0013](proposals/0013-native-scalar-compiler.md), adds an independent Rust checker/C emitter for a declared scalar/static-text overlap and a correctness-gated comparison runner. The native experiment now checks by-value records, moves, call-scoped borrowing, record mutation, and scalar reassignment against the reference with differential and sanitizer tests. Shared tooling parity, production selection and incremental compilation remain open.
 
+The [native phase baseline](native-phase-baseline.md) now isolates full lex/parse/depth checking, declaration/body checking and C emission inside one process on verified initial workloads. It keeps correctness and input/build identities explicit, without inferring startup, C build or incremental performance from those phase timings.
+
 ### Planned next increments
 
 These are proposed follow-ups, not implemented features or a new claim that M1 is complete. [Proposal 0010](proposals/0010-fast-compiler-and-development-reload.md) records the owner-requested fast compiler and development refresh requirements.
