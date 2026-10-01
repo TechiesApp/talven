@@ -54,3 +54,5 @@ Verify global/prefix suggestions, parameter/local scope, declaration order and i
 ## Unresolved questions
 
 Type-directed ranking, precise move/loan-state filtering, temporary receivers, richer incomplete-syntax recovery, semantic highlighting, workspace symbols/imports, native parity and representative editor latency need further design/evidence. Proposal acceptance remains separate from the experimental implementation.
+
+Subsequent [Proposal 0018](0018-semantic-highlighting.md) implements full semantic-token requests with current checked references and lexical fallback; range/deltas and richer modifier semantics remain open.

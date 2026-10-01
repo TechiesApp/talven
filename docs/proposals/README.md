@@ -45,3 +45,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0015 | [Mutable scalar locals](0015-mutable-scalar-locals.md) | Draft; implemented experiment |
 | 0016 | [Persistent function checking](0016-persistent-function-checking.md) | Draft; implemented experiment |
 | 0017 | [Current-document completion](0017-current-document-completion.md) | Draft; implemented experiment |
+| 0018 | [Current-document semantic highlighting](0018-semantic-highlighting.md) | Draft; implemented experiment |

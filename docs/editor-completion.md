@@ -12,6 +12,6 @@ Each item contains a plain identifier edit replacing the whole current ASCII wor
 
 Lists contain at most 128 items and compact result JSON at most 64 KiB. When candidates are omitted, `isIncomplete` is true and the client can request a narrower prefix. Invalid positions and requests for closed/unknown documents return invalid-parameter errors. Document version updates and existing server initialization/shutdown behavior apply normally.
 
-Temporary/call receiver completion, chained fields, snippets, semantic tokens, incremental parsing, modules, multi-file lookup and move/loan-aware filtering remain open. No native Rust completion parity or measured responsiveness/cost improvement is claimed.
+Temporary/call receiver completion, chained fields, snippets, incremental parsing, modules, multi-file lookup and move/loan-aware filtering remain open. [Full semantic highlighting](semantic-highlighting.md) is a separate implemented query. No native Rust completion parity or measured responsiveness/cost improvement is claimed.
 
 `tests/test_completion.py` covers scope, typing recovery, field/borrow details, whole-word edits, same-line UTF-16 translation, inert text, stale analysis/versions, limits and lifecycle. A returned edit repairs a real invalid call through the shared checker, while the server's document remains unchanged.
