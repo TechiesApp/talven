@@ -43,7 +43,7 @@ class LspTests(unittest.TestCase):
         self.assertEqual(0, serve(io.BytesIO(requests.getvalue()), output))
         first = read_message(io.BytesIO(output.getvalue()))
         self.assertEqual("utf-16", first["result"]["capabilities"]["positionEncoding"])
-        self.assertEqual(1, first["result"]["capabilities"]["textDocumentSync"]["change"])
+        self.assertEqual(2, first["result"]["capabilities"]["textDocumentSync"]["change"])
         self.assertTrue(first["result"]["capabilities"]["documentFormattingProvider"])
 
     def test_editor_and_compiler_share_diagnostics_without_execution(self):

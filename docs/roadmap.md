@@ -44,6 +44,8 @@ The [in-process edit baseline](incremental-checking-baseline.md) now checks full
 
 The [editor completion increment](editor-completion.md), specified in [Proposal 0017](proposals/0017-current-document-completion.md), adds scoped current names and named-record fields through the shared frontend. Recovered invalid source is explicitly unchecked and never reuses stale semantic facts. Richer type-directed queries and workspace/incremental parsing remain open; no editor latency or agent-cost result is claimed.
 
+[Proposal 0030](proposals/0030-incremental-editor-synchronization.md) adds bounded [sequential UTF-16 document changes](editor-synchronization.md), with full-replacement recovery after rejected batches and fresh shared checking after each accepted notification. Receiving editor deltas does not implement incremental parsing/check reuse or establish a latency benefit.
+
 [Proposal 0018](proposals/0018-semantic-highlighting.md) adds [full semantic highlighting](semantic-highlighting.md) from current checked declarations/references, with lexical-only fallback on invalid edits. Range/delta requests, richer modifiers, incremental parsing and measured editor responsiveness remain open.
 
 [Proposal 0019](proposals/0019-current-call-signatures.md) adds [current call signatures](editor-signatures.md) and active argument selection through shared syntax. Checked declarations expose parameter passing and borrow permission; recovered invalid-source declarations remain explicitly unchecked. Richer type/loan-aware queries and measured responsiveness remain open.
