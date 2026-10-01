@@ -87,11 +87,12 @@ class DriverProbe:
     target: str
 
 
-def _prepare_c_units_steps(source, *, cc='cc', console=False, timeout=30, probe=None):
+def _prepare_c_units_steps(source, *, cc='cc', console=False, timeout=30, probe=None, local_contracts=False):
     if type(timeout) not in (int, float) or not 0.01 <= timeout <= 60:
         raise ValueError('Preparation timeout must be between 0.01 and 60 seconds')
     pinned = compiler_hash()
-    preprocessing_input, identities = emit_preprocess_units(analyze(source), console=console)
+    preprocessing_input, identities = emit_preprocess_units(analyze(source), console=console,
+                                                           local_contracts=local_contracts)
     environment = dict(os.environ)
     environment['LC_ALL'] = 'C'
     # Hash the effective inherited environment without retaining values in receipts.
@@ -123,7 +124,8 @@ def _prepare_c_units_steps(source, *, cc='cc', console=False, timeout=30, probe=
     units = split_preprocessed(output.decode('utf-8'), identities)
     if before != executable_hash(executable) or pinned != compiler_hash():
         raise CompileError('E0501', 'Compiler inputs changed during C unit preparation; retry with a stable toolchain', Span(0, 0))
-    receipt = {'schema': 'talven.preprocessed-units.v1', 'profile': 'hosted-preprocessed-units-v1',
+    receipt = {'schema': 'talven.preprocessed-units.v1',
+            'profile': 'hosted-preprocessed-local-contracts-v1' if local_contracts else 'hosted-preprocessed-units-v1',
             'language_profile': PROFILE,
             'source_hash': source_hash(source), 'compiler_hash': pinned, 'console': console,
             'driver_probe_reused': probe_reused,
@@ -138,10 +140,11 @@ def _prepare_c_units_steps(source, *, cc='cc', console=False, timeout=30, probe=
     return receipt, executable, environment, DriverProbe(probe_identity, version, target), working_directory
 
 
-def _prepare_c_units(source, *, cc='cc', console=False, timeout=30, probe=None):
-    return run_steps(_prepare_c_units_steps(source, cc=cc, console=console, timeout=timeout, probe=probe),
+def _prepare_c_units(source, *, cc='cc', console=False, timeout=30, probe=None, local_contracts=False):
+    return run_steps(_prepare_c_units_steps(source, cc=cc, console=console, timeout=timeout, probe=probe,
+                                          local_contracts=local_contracts),
                      {'prepare': run_bounded})
 
 
-def prepare_c_units(source, *, cc='cc', console=False, timeout=30):
-    return _prepare_c_units(source, cc=cc, console=console, timeout=timeout)[0]
+def prepare_c_units(source, *, cc='cc', console=False, timeout=30, local_contracts=False):
+    return _prepare_c_units(source, cc=cc, console=console, timeout=timeout, local_contracts=local_contracts)[0]

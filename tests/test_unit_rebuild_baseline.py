@@ -21,6 +21,19 @@ def args(path):
 
 
 class UnitRebuildBaselineTests(unittest.TestCase):
+    def test_local_contract_measurement_preserves_actual_object_acceptance(self):
+        workload = measurement.edits.workloads()[-1]
+        with tempfile.TemporaryDirectory() as temporary, patch.object(measurement.edits, 'workloads', return_value=[workload]):
+            out = Path(temporary) / 'local'
+            selected = args(out)
+            selected.local_contracts = True
+            self.assertEqual(0, measurement.run(selected))
+            report = json.loads((out / 'report.json').read_text())
+            self.assertTrue(report['passed'] and report['complete'] and report['local_contracts'])
+            units = [sample for sample in report['samples'] if sample['mode'] == 'units' and sample['receipt']]
+            self.assertTrue(all(sample['receipt']['profile'] == 'hosted-object-local-contracts-v1' for sample in units))
+            self.assertTrue(all(sample['verified'] for sample in report['samples']))
+
     def test_verified_native_run_archives_inputs_samples_and_invalid_repair(self):
         workload = measurement.edits.workloads()[-1]
         with tempfile.TemporaryDirectory() as temporary, patch.object(measurement.edits, 'workloads', return_value=[workload]):

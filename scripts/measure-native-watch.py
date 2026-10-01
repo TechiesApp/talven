@@ -94,7 +94,7 @@ def wait_event(process, path, name, revision, deadline):
     raise base.MeasurementError(f'timed out waiting for {name} revision {revision}')
 
 
-def verify_events(rows, sample, expected, identities, pinned, output, accepted):
+def verify_events(rows, sample, expected, identities, pinned, output, accepted, local_contracts=False):
     current = [row for row in rows if row.get('revision') == sample['revision_number']]
     base.require(current and all(row.get('schema') == 'talven.dev.v1' and row.get('source_hash') == sample['source_hash']
                                  for row in current), 'watch events describe a different source revision')
@@ -103,7 +103,8 @@ def verify_events(rows, sample, expected, identities, pinned, output, accepted):
     sessions = [row for row in rows if row.get('event') == 'session_started']
     base.require(len(sessions) == 1 and sessions[0].get('compiler_hash') == pinned
                  and sessions[0].get('build_mode') == sample['mode'] and sessions[0].get('frontend_mode') == 'full'
-                 and sessions[0].get('stable_toolchain_required') == (sample['mode'] == 'units'), 'watch configuration mismatch')
+                 and sessions[0].get('stable_toolchain_required') == (sample['mode'] == 'units')
+                 and sessions[0].get('local_contracts') == (sample['mode'] == 'units' and local_contracts), 'watch configuration mismatch')
     if expected:
         rejected = [row for row in current if row['event'] == 'rejected']
         base.require(len(rejected) == 1 and rejected[0].get('diagnostic') == expected
@@ -118,6 +119,8 @@ def verify_events(rows, sample, expected, identities, pinned, output, accepted):
             compiled = [row for row in current if row['event'] == 'compiled']
             base.require(len(compiled) == 1, 'missing native candidate receipt')
             receipt = compiled[0]
+            base.require(receipt.get('profile') == ('hosted-object-local-contracts-v1' if local_contracts
+                                                    else 'hosted-object-reuse-v1'), 'wrong native object profile')
             base.require(all(isinstance(receipt.get(key), list) and all(isinstance(value, str) for value in receipt[key])
                              for key in ('compiled', 'reused')), 'invalid candidate work lists')
             work = receipt.get('compiled', []) + receipt.get('reused', [])
@@ -157,6 +160,8 @@ def measure_session(recorder, args, workload, expected, mode, phase, repetition,
             '--poll-interval', str(args.poll_interval), '--debounce', str(args.debounce), '--build-timeout', str(args.timeout)]
     if mode == 'units':
         argv.extend(['--incremental-build', '--stable-toolchain'])
+        if getattr(args, 'local_contracts', False):
+            argv.append('--local-contracts')
     session = {'workload': workload['id'], 'mode': mode, 'phase': phase, 'repetition': repetition, 'argv': argv,
                'path': str(directory.relative_to(recorder.out)), 'returncode': None, 'clean_shutdown': False}
     recorder.report['sessions'].append(session)
@@ -196,7 +201,8 @@ def measure_session(recorder, args, workload, expected, mode, phase, repetition,
                 base.require(stderr.seek(0, 2) <= MAX_LOG_BYTES, 'watch stderr exceeded measurement limit')
                 rows = read_events(events)
                 diagnostic, identifiers = expected[revision['id']]
-                verify_events(rows, sample, diagnostic, identifiers, pinned, output, accepted)
+                verify_events(rows, sample, diagnostic, identifiers, pinned, output, accepted,
+                              getattr(args, 'local_contracts', False))
                 sample['verified'] = True
                 recorder.save()
         finally:
@@ -221,6 +227,7 @@ def measure_session(recorder, args, workload, expected, mode, phase, repetition,
 def run(args):
     out, cc, arch = base.preflight(args.out, args.repetitions, args.warmups, args.timeout, args.cc, args.expect_arch)
     base.require(args.stable_toolchain is True, 'assert --stable-toolchain for this trusted local experiment')
+    base.require(type(getattr(args, 'local_contracts', False)) is bool, 'local contracts must be an explicit boolean')
     base.require(0.01 <= args.timeout <= 60, 'native watch timeout must be 0.01..60 seconds')
     base.require(all(math.isfinite(value) and 0.01 <= value <= 1 for value in (args.poll_interval, args.debounce)),
                  'measurement polling/debounce must be 0.01..1 second')
@@ -234,7 +241,8 @@ def run(args):
               'machine': arch, 'system': platform.system(), 'os_release': platform.release(), 'python': platform.python_version(),
               'python_executable': base.fingerprint(Path(sys.executable)), 'c_executable': base.fingerprint(Path(cc)),
               'poll_interval_seconds': args.poll_interval, 'debounce_seconds': args.debounce, 'timeout_seconds': args.timeout,
-              'stable_toolchain_required': True, 'environment_note': args.environment_note,
+              'stable_toolchain_required': True, 'local_contracts': getattr(args, 'local_contracts', False),
+              'environment_note': args.environment_note,
               'child_environment_overrides': base.ENVIRONMENT,
               'flags': {'full': list(base.FLAGS), 'units': list(OBJECT_FLAGS), 'preflight': [*base.FLAGS, '-fno-lto']},
               'child_environment_hash': source_hash(json.dumps({**os.environ, **base.ENVIRONMENT}, sort_keys=True)),
@@ -318,6 +326,7 @@ def main():
     parser.add_argument('--expect-arch', choices=('aarch64', 'x86_64'))
     parser.add_argument('--environment-note', default='unspecified')
     parser.add_argument('--stable-toolchain', action='store_true')
+    parser.add_argument('--local-contracts', action='store_true', help='Select local function contracts for the native unit mode')
     parser.add_argument('--poll-interval', type=float, default=0.05)
     parser.add_argument('--debounce', type=float, default=0.1)
     try:

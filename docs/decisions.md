@@ -65,6 +65,7 @@ Status definitions:
 | D51 | Proposed | Own bounded pollable compiler commands so later native build stages can preserve observation and cancellation | [Proposal 0023](proposals/0023-pollable-compiler-commands.md); non-waiting read steps, unreaped group identity and compatibility wrapper; watcher object reuse/publication remain separate |
 | D52 | Proposed | Share one current-source object-build continuation between blocking and polling drivers, unwinding cancelled candidates before promotion | [Proposal 0024](proposals/0024-pollable-object-builds.md); bounded immutable requests, queued deadlines and last-successful retention; source watcher/application publication remain separate |
 | D53 | Proposed | Integrate explicit opt-in private native object reuse into source-aware watch/restart with verified separate deployment copies | [Proposal 0025](proposals/0025-native-object-watch.md); full current checks, cancellation/freshness, last-successful native retention and restart; no default speed claim or state preservation |
+| D54 | Proposed | Select own/direct-callee type declarations for opt-in hosted units, retaining global record layouts and fresh current checks | [Proposal 0026](proposals/0026-local-function-contracts.md); [local function contracts](local-function-contracts.md), separate profile/cache identities and actual native acceptance; default profiles remain unchanged |
 
 ## Open decisions
 
