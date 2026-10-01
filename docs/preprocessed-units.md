@@ -1,6 +1,6 @@
 # Prepared hosted function units
 
-Status: implemented reference preparation experiment under [Proposal 0021](proposals/0021-preprocessed-function-units.md), profile `hosted-preprocessed-units-v1`. It extends [checked C units](c-units.md) with a fresh trusted preprocessing pass. Ordinary build/dev behavior is unchanged; objects and an executable are not produced.
+Status: implemented reference preparation experiment under [Proposal 0021](proposals/0021-preprocessed-function-units.md), profile `hosted-preprocessed-units-v1`. It extends [checked C units](c-units.md) with a fresh trusted preprocessing pass. Default build/dev behavior is unchanged; objects and an executable are not produced.
 
 ~~~sh
 python3 -m talven prepare-c-units examples/hello.tal --console --cc cc --timeout 30
@@ -18,4 +18,4 @@ Resource boundaries: 256 functions plus entry; 16 MiB preprocessing input and ra
 
 Ten focused tests cover strict splitting, stable unrelated units, complete receipt identities, invalid-source rejection before execution, drift rejection, environment hashing, fresh standalone probes, subprocess output/time limits and source preservation. Frozen units compile independently with strict warnings and no LTO; native tests verify exact UTF-8/NUL views across functions and all three borrowing fixtures with ASan/UBSan at `-O0`/`-O2`. CI repeats native tests on declared Linux hosts. No preparation-speed, memory, agent-token or incremental-build improvement is established.
 
-The separate [private object-reuse API](object-reuse.md) now tests bounded last-successful storage, byte verification and fresh linking under an explicit trusted stable-toolchain contract. Complete toolchain dependency identity, publication freshness, cancellation and development integration remain separate work. A frozen C hash plus driver receipt is not a complete authenticated cache key.
+The separate [private object-reuse API](object-reuse.md) now tests bounded last-successful storage, byte verification and fresh linking under an explicit trusted stable-toolchain contract. The [opt-in native watcher](native-watch.md) now adds cancellable compiler steps and source-freshness checks before restart. Complete toolchain dependency identity and atomic filesystem publication remain open. A frozen C hash plus driver receipt is not a complete authenticated cache key.

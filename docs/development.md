@@ -1,6 +1,6 @@
 # Development watch and restart
 
-Status: experimental single-file development command. It uses the shared Python frontend and C11 backend for **full native builds**, with optional persistent function-check reuse. Incremental parsing, C object caches, UI/browser refresh, and state-preserving hot reload remain unimplemented. See [the staged design](proposals/0010-fast-compiler-and-development-reload.md), [watch/restart proposal](proposals/0012-development-watch-and-restart.md), and [persistent-checking proposal](proposals/0016-persistent-function-checking.md).
+Status: experimental single-file development command. Default mode uses the shared Python frontend and C11 backend for **full native builds**, with optional persistent function-check reuse. A separate [opt-in native object mode](native-watch.md) fully checks/preprocesses current source and reuses verified private objects under an explicit stable-toolchain contract. Incremental parsing, UI/browser refresh, and state-preserving hot reload remain unimplemented. See [the staged design](proposals/0010-fast-compiler-and-development-reload.md), [watch/restart proposal](proposals/0012-development-watch-and-restart.md), and [persistent-checking proposal](proposals/0016-persistent-function-checking.md).
 
 ## Try it
 
@@ -24,7 +24,7 @@ This opt-in mode parses each source revision afresh and validates all declaratio
 
 Only immutable successful facts are cached; invalid revisions return current errors and do not publish partial cache updates. The compiler hash is pinned for the session; changed compiler files produce `E0501` requiring restart. Parsing limits still apply. The default mode checks all functions each time.
 
-C emission and compilation still run in full, and every replacement process starts fresh. The cache can contain successful frontend facts from a revision whose native build later failed or was superseded; it does not establish native acceptance. There is no disk cache, incremental parser, native Rust reuse, or state preservation. This mode demonstrates dependency-aware reuse without claiming a measured speedup.
+C emission and compilation still run in full in this check-only mode, and every replacement process starts fresh. The cache can contain successful frontend facts from a revision whose native build later failed or was superseded; it does not establish native acceptance. There is no disk cache, incremental parser, native Rust reuse, or state preservation. This mode demonstrates dependency-aware reuse without claiming a measured speedup. The [native object mode](native-watch.md) is a separate mutually exclusive experiment; the session rules below describe default/check-only behavior where native mode has not explicitly supplied its own command/storage contract.
 
 ## Session contract
 

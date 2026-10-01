@@ -69,11 +69,14 @@ def main(argv: list[str] | None = None) -> int:
     prepared.add_argument("--cc", default="cc", help="Trusted GCC/Clang-compatible C compiler executable")
     prepared.add_argument("--console", action="store_true")
     prepared.add_argument("--timeout", type=interval, default=30.0, metavar="SECONDS")
-    dev = commands.add_parser("dev", help="Watch one source, fully rebuild, and restart after successful edits")
+    dev = commands.add_parser("dev", help="Watch one source, build, and restart after successful edits")
     dev.add_argument("source", type=Path)
     dev.add_argument("--cc", default="cc", help="Trusted C compiler executable (one path, no shell command)")
     dev.add_argument("--console", action="store_true")
-    dev.add_argument("--incremental-check", action="store_true", help="Reuse unchanged function checks in this session; C builds still run in full")
+    dev_modes = dev.add_mutually_exclusive_group()
+    dev_modes.add_argument("--incremental-check", action="store_true", help="Reuse unchanged function checks in this session; C builds still run in full")
+    dev_modes.add_argument("--incremental-build", action="store_true", help="Experimental private native object reuse; current source checks remain full")
+    dev.add_argument("--stable-toolchain", action="store_true", help="Assert a trusted stable toolchain for experimental native object reuse")
     dev.add_argument("--events", type=Path, help="Create a new JSONL session receipt file")
     dev.add_argument("--poll-interval", type=interval, default=0.05, metavar="SECONDS")
     dev.add_argument("--debounce", type=interval, default=0.1, metavar="SECONDS")
@@ -96,6 +99,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "fmt" and args.json and not args.check:
         parser.error("fmt --json requires --check")
     if args.command == "dev":
+        if args.incremental_build != args.stable_toolchain:
+            parser.error("dev --incremental-build requires --stable-toolchain, and --stable-toolchain applies only to that mode")
         from .dev import run_dev
         return run_dev(args)
     if args.command == "lsp":

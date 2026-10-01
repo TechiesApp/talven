@@ -1,6 +1,6 @@
 # Private native object reuse
 
-Status: reference API experiment under [Proposal 0022](proposals/0022-private-object-reuse.md), build profile `hosted-object-reuse-v1`, with a synchronous build method and a [shared pollable driver](build-pipeline.md). It uses [fresh prepared units](preprocessed-units.md), compiles eligible changed functions separately, and always links a current candidate. Ordinary CLI build/dev behavior is unchanged. There is no disk cache shared across sessions, watcher integration or hot reload.
+Status: reference API experiment under [Proposal 0022](proposals/0022-private-object-reuse.md), build profile `hosted-object-reuse-v1`, with a synchronous build method and a [shared pollable driver](build-pipeline.md). It uses [fresh prepared units](preprocessed-units.md), compiles eligible changed functions separately, and always links a current candidate. Default CLI build/dev behavior is unchanged; [opt-in watcher integration](native-watch.md) handles fresh deployment separately. There is no disk cache shared across sessions or hot reload.
 
 ~~~python
 from pathlib import Path
