@@ -1229,15 +1229,34 @@ fn check_declarations(
     Ok(index)
 }
 
-pub fn analyze(source: &str) -> Result<Program> {
+struct Parsed {
+    records: Vec<Record>,
+    functions: Vec<Function>,
+    expressions: Vec<Expr>,
+}
+
+fn parse_program(source: &str) -> Result<Parsed> {
     let mut parser = Parser {
         tokens: lex(source)?,
         index: 0,
         expressions: Vec::new(),
     };
-    let (mut records, functions) = parser.program()?;
-    let mut expressions = parser.expressions;
+    let (records, functions) = parser.program()?;
+    let expressions = parser.expressions;
     check_depth(&functions, &expressions)?;
+    Ok(Parsed {
+        records,
+        functions,
+        expressions,
+    })
+}
+
+fn check_program(parsed: Parsed) -> Result<Program> {
+    let Parsed {
+        mut records,
+        functions,
+        mut expressions,
+    } = parsed;
     let record_index = check_declarations(&mut records, &functions)?;
     let mut signatures = BTreeMap::new();
     for f in &functions {
@@ -1283,6 +1302,28 @@ pub fn analyze(source: &str) -> Result<Program> {
         expressions,
         console,
     })
+}
+
+pub fn analyze(source: &str) -> Result<Program> {
+    check_program(parse_program(source)?)
+}
+
+#[derive(Debug)]
+pub struct AnalysisTiming {
+    pub parse_ns: u128,
+    pub check_ns: u128,
+}
+
+/// Measure successful full analysis without exposing an unchecked emission path.
+/// Ordinary analyze does not read a clock; both paths use the same private stages.
+pub fn analyze_measured(source: &str) -> Result<(Program, AnalysisTiming)> {
+    let started = std::time::Instant::now();
+    let parsed = parse_program(source)?;
+    let parse_ns = started.elapsed().as_nanos();
+    let started = std::time::Instant::now();
+    let program = check_program(parsed)?;
+    let check_ns = started.elapsed().as_nanos();
+    Ok((program, AnalysisTiming { parse_ns, check_ns }))
 }
 
 /// Checked arithmetic helpers, in the reference's definition order.
@@ -1900,5 +1941,34 @@ mod tests {
         )
         .unwrap();
         assert!(neg.contains("tv_narrow(int64_t") && !neg.contains("tv_add("));
+    }
+
+    #[test]
+    fn measured_analysis_preserves_checked_emission_and_rejections() {
+        for source in [
+            "fn main() -> i32 { let mut x = 1; x = x + 2; return x; }",
+            "struct P { x: i32 } fn bump(p: &mut P) -> i32 { p.x = p.x + 1; return p.x; } fn main() -> i32 { let mut p = P { x: 1 }; return bump(&mut p); }",
+            "fn main() -> i32 { return print(\"hé🙂\\n\"); }",
+        ] {
+            let ordinary = analyze(source).unwrap();
+            let (measured, _) = analyze_measured(source).unwrap();
+            assert_eq!(
+                emit_c(&ordinary, true).unwrap(),
+                emit_c(&measured, true).unwrap()
+            );
+        }
+        for source in [
+            "fn main() -> i32 { return false; }",
+            "fn main() -> i32 { return @; }",
+            "struct P { x: i32 } fn f(p: P) -> i32 { let q = p; return p.x; }",
+            "struct P { x: i32 } fn f(p: &P) -> i32 { p.x = 1; return p.x; }",
+        ] {
+            let ordinary = analyze(source).unwrap_err();
+            let measured = analyze_measured(source).unwrap_err();
+            assert_eq!(
+                (ordinary.code, ordinary.message, ordinary.span),
+                (measured.code, measured.message, measured.span)
+            );
+        }
     }
 }

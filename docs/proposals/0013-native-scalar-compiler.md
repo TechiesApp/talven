@@ -66,3 +66,7 @@ Native borrowing and mutation parity, shared formatter/context/LSP interfaces, d
 ## Call-scoped borrowing follow-up
 
 The implemented `native-call-borrows-v1` profile adds the accepted [Proposal 0003](0003-call-scoped-borrowing.md) semantics: nonescaping named-record loans, explicit reborrowing, mutable fields, argument-order conflicts and destination checks after value evaluation. The differential suite no longer exempts borrowing/mutation through `E0801`; all language diagnostics and emitted C must match the reference. Dedicated native sanitizer execution covers the existing ordering and reborrow fixtures. This extends conformance, not the historical measured workload or production compiler selection.
+
+## In-process measurement follow-up
+
+The [native phase baseline](../native-phase-baseline.md) separates full parsing/depth validation, declaration/body checking and hosted C emission within one native process. The normal compiler path retains the same private stages without clock reads. Fixed greeting, chain, scalar-store and borrowing inputs require reference C equality and independent native execution before timing receipts are accepted. This provides evidence for selecting later optimization work; it does not measure startup, native builds, persistent reuse or select a production backend.

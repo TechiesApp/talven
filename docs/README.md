@@ -67,6 +67,7 @@ Each increment keeps its own *evidence* record, with hosts, tool versions, and t
 | Tooling baseline | [Method](tooling-baseline.md) and [evidence](tooling-baseline-evidence.md) |
 | Persistent function checking | [Measurement method](incremental-checking-baseline.md) and [evidence](incremental-checking-evidence.md) |
 | Native compiler prototype | [Native compiler evidence](native-compiler-evidence.md) |
+| Native in-process phases | [Measurement method](native-phase-baseline.md), [local evidence](native-phase-evidence.md) |
 
 ## Project
 

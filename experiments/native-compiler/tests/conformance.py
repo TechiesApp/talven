@@ -49,6 +49,34 @@ class NativePrototypeTests(unittest.TestCase):
         hello = self.run_native((ROOT / "examples/hello.tal").read_text(), console=True)
         self.assertEqual((0, b"Hello, world!\n", b""), (hello.returncode, hello.stdout, hello.stderr))
 
+    def test_inprocess_measurement_preserves_source_emission_and_reports_core_boundaries(self):
+        source = 'fn main() -> i32 { let mut x = 1; x = x + 1; print("hé🙂"); return x - 2; }'
+        result = self.command(source, 'measure')
+        self.assertEqual(0, result.returncode, result.stderr)
+        receipt = json.loads(result.stdout)
+        self.assertEqual('talven.native-inprocess.v1', receipt['schema'])
+        self.assertEqual(source, receipt['source'])
+        self.assertEqual(len(source.encode()), receipt['source_bytes'])
+        self.assertEqual(emit_c(analyze(source), console=True), receipt['generated_c'])
+        self.assertEqual(['warmup'] + ['measured'] * 10, [s['phase'] for s in receipt['samples']])
+        for sample in receipt['samples']:
+            self.assertGreaterEqual(sample['analysis_ns'], sample['parse_ns'] + sample['check_ns'])
+            self.assertTrue(all(type(sample[k]) is int and sample[k] >= 0
+                                for k in ('parse_ns', 'check_ns', 'analysis_ns', 'emit_ns')))
+        invalid = self.command('fn main() -> i32 { return false; }', 'measure')
+        self.assertEqual(1, invalid.returncode)
+        self.assertEqual('E0201', json.loads(invalid.stdout)['diagnostics'][0]['code'])
+
+    def test_inprocess_measurement_rejects_invalid_or_duplicate_limits(self):
+        for flags in (['--iterations', '0'], ['--iterations', '101'], ['--iterations', '-1'],
+                      ['--warmups', '11'], ['--warmups', 'nan'], ['--iterations', '1.0'],
+                      ['--iterations', '1', '--iterations', '2'], ['--warmups'], ['--unknown', '1']):
+            with self.subTest(flags=flags):
+                result = subprocess.run([str(BINARY), 'measure', 'does-not-exist.tal', *flags],
+                                        capture_output=True, timeout=5)
+                self.assertEqual(2, result.returncode)
+                self.assertEqual(b'', result.stdout)
+
     def test_source_order_and_short_circuit(self):
         source = '''fn mark(s: str) -> i32 { return print(s); }
 fn add(a: i32, b: i32) -> i32 { return a + b; }
