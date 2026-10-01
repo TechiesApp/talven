@@ -108,7 +108,8 @@ def run(args):
                          native / 'build.rs', native / 'Cargo.toml', native / 'Cargo.lock',
                          Path(__file__).resolve(), ROOT / 'scripts/measure-native-prototype.py',
                          ROOT / 'scripts/measure-incremental.py', ROOT / 'scripts/measure-tooling.py',
-                         ROOT / 'experiments/tooling_workloads.py', ROOT / 'examples/hello.tal'])
+                         ROOT / 'experiments/tooling_workloads.py', ROOT / 'experiments/__init__.py',
+                         *ROOT.joinpath('examples').glob('*.tal')])
         for path in inputs:
             relative = path.relative_to(ROOT)
             archived = out / 'inputs' / relative
