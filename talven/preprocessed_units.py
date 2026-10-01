@@ -121,7 +121,7 @@ def executable_hash(path):
         return digest.hexdigest()
 
 
-def prepare_c_units(source, *, cc='cc', console=False, timeout=30):
+def _prepare_c_units(source, *, cc='cc', console=False, timeout=30):
     if type(timeout) not in (int, float) or not 0.01 <= timeout <= 60:
         raise ValueError('Preparation timeout must be between 0.01 and 60 seconds')
     pinned = compiler_hash()
@@ -149,7 +149,7 @@ def prepare_c_units(source, *, cc='cc', console=False, timeout=30):
     units = split_preprocessed(output.decode('utf-8'), identities)
     if before != executable_hash(executable) or pinned != compiler_hash():
         raise CompileError('E0501', 'Compiler inputs changed during C unit preparation; retry with a stable toolchain', Span(0, 0))
-    return {'schema': 'talven.preprocessed-units.v1', 'profile': 'hosted-preprocessed-units-v1',
+    receipt = {'schema': 'talven.preprocessed-units.v1', 'profile': 'hosted-preprocessed-units-v1',
             'language_profile': PROFILE,
             'source_hash': source_hash(source), 'compiler_hash': pinned, 'console': console,
             'compiler': {'executable_hash': before, 'version': version, 'target': target,
@@ -159,3 +159,8 @@ def prepare_c_units(source, *, cc='cc', console=False, timeout=30):
             'normalization': 'Own <stdin> line-marker numbers become 1; system markers/flags retained',
             'units': [{'id': identity, 'c': generated, 'c_hash': source_hash(generated)}
                       for identity, generated in units.items()]}
+    return receipt, executable, environment
+
+
+def prepare_c_units(source, *, cc='cc', console=False, timeout=30):
+    return _prepare_c_units(source, cc=cc, console=console, timeout=timeout)[0]
