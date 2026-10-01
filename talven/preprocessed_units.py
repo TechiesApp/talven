@@ -18,6 +18,7 @@ from . import PROFILE
 from .context import compiler_hash, encode, source_hash
 from .frontend import CompileError, Span, analyze
 from .c_command import run_bounded
+from .c_pipeline import CompilerRequest, run_steps
 
 MAX_PREPARED_BYTES = 64 * 1024 * 1024
 FLAGS = ('-std=c11', '-O2', '-Wall', '-Wextra', '-pedantic-errors')
@@ -86,7 +87,7 @@ class DriverProbe:
     target: str
 
 
-def _prepare_c_units(source, *, cc='cc', console=False, timeout=30, probe=None):
+def _prepare_c_units_steps(source, *, cc='cc', console=False, timeout=30, probe=None):
     if type(timeout) not in (int, float) or not 0.01 <= timeout <= 60:
         raise ValueError('Preparation timeout must be between 0.01 and 60 seconds')
     pinned = compiler_hash()
@@ -108,16 +109,17 @@ def _prepare_c_units(source, *, cc='cc', console=False, timeout=30, probe=None):
         remaining = timeout - (time.monotonic() - started)
         if remaining <= 0:
             raise failure('C unit preparation timed out')
-        return run_bounded([str(executable), *arguments], data, environment, remaining, limit, cwd=working_directory)
+        return (yield CompilerRequest('prepare', (str(executable), *arguments), data, environment,
+                                      remaining, limit, working_directory))
 
     probe_identity = (str(executable), before, environment_hash, working_directory_hash)
     probe_reused = isinstance(probe, DriverProbe) and probe.identity == probe_identity
     if probe_reused:
         version, target = probe.version, probe.target
     else:
-        version = command(['--version']).decode('utf-8')
-        target = command(['-dumpmachine']).decode('utf-8').strip()
-    output = command([*FLAGS, '-E', '-x', 'c', '-'], preprocessing_input.encode('utf-8'), MAX_C_UNIT_BYTES)
+        version = (yield from command(['--version'])).decode('utf-8')
+        target = (yield from command(['-dumpmachine'])).decode('utf-8').strip()
+    output = yield from command([*FLAGS, '-E', '-x', 'c', '-'], preprocessing_input.encode('utf-8'), MAX_C_UNIT_BYTES)
     units = split_preprocessed(output.decode('utf-8'), identities)
     if before != executable_hash(executable) or pinned != compiler_hash():
         raise CompileError('E0501', 'Compiler inputs changed during C unit preparation; retry with a stable toolchain', Span(0, 0))
@@ -134,6 +136,11 @@ def _prepare_c_units(source, *, cc='cc', console=False, timeout=30, probe=None):
             'units': [{'id': identity, 'c': generated, 'c_hash': source_hash(generated)}
                       for identity, generated in units.items()]}
     return receipt, executable, environment, DriverProbe(probe_identity, version, target), working_directory
+
+
+def _prepare_c_units(source, *, cc='cc', console=False, timeout=30, probe=None):
+    return run_steps(_prepare_c_units_steps(source, cc=cc, console=console, timeout=timeout, probe=probe),
+                     {'prepare': run_bounded})
 
 
 def prepare_c_units(source, *, cc='cc', console=False, timeout=30):

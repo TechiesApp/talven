@@ -1,6 +1,6 @@
 """Private last-successful object reuse under an explicit stable-toolchain contract.
 
-This synchronous experimental API never watches, publishes to a user-selected
+This experimental API never watches, publishes to a user-selected
 path or executes a program. It is not a cross-session or authenticated cache.
 """
 
@@ -15,7 +15,9 @@ import time
 
 from .context import compiler_hash, encode, source_hash
 from .frontend import CompileError, Span
-from .preprocessed_units import FLAGS, _prepare_c_units, executable_hash, failure, run_bounded
+from . import preprocessed_units
+from .preprocessed_units import FLAGS, _prepare_c_units_steps, executable_hash, failure, run_bounded
+from .c_pipeline import BuildPipeline, CompilerRequest, run_steps
 
 OBJECT_FLAGS = (*FLAGS, '-Werror', '-fno-lto')
 MAX_ARTIFACT_BYTES = 16 * 1024 * 1024
@@ -72,6 +74,13 @@ class UnitBuildSession:
         self._probe = None
 
     def build(self, source):
+        return run_steps(self._build_steps(source), {'prepare': preprocessed_units.run_bounded,
+                                                    'compile': run_bounded, 'link': run_bounded})
+
+    def start_build(self, source):
+        return BuildPipeline(self._build_steps(source))
+
+    def _build_steps(self, source):
         if self._closed or self._busy:
             raise ValueError('Unit build session is closed or already building')
         if compiler_hash() != self._compiler_hash:
@@ -87,7 +96,7 @@ class UnitBuildSession:
             return value
 
         try:
-            prepared, executable, environment, probe, working_directory = _prepare_c_units(
+            prepared, executable, environment, probe, working_directory = yield from _prepare_c_units_steps(
                 source, cc=self.cc, console=self.console, timeout=remaining(), probe=self._probe)
             if prepared['compiler_hash'] != self._compiler_hash:
                 raise CompileError('E0501', 'Compiler inputs changed; restart the unit build session', Span(0, 0))
@@ -116,9 +125,8 @@ class UnitBuildSession:
                         stream.write(data)
                     reused.append(identity)
                 else:
-                    run_bounded([str(executable), *OBJECT_FLAGS, '-x', 'cpp-output', '-c', '-', '-o', str(obj)],
-                                unit['c'].encode('utf-8'), environment, remaining(), 64 * 1024,
-                                cwd=working_directory)
+                    yield CompilerRequest('compile', (str(executable), *OBJECT_FLAGS, '-x', 'cpp-output', '-c', '-', '-o', str(obj)),
+                                          unit['c'].encode('utf-8'), environment, remaining(), 64 * 1024, working_directory)
                     data = artifact_bytes(obj)
                     compiled.append(identity)
                 total += len(data)
@@ -127,8 +135,8 @@ class UnitBuildSession:
                 cache[identity] = (key, obj, digest(data))
                 objects.append(obj)
             program = candidate / 'program'
-            run_bounded([str(executable), *OBJECT_FLAGS, *map(str, objects), '-o', str(program)],
-                        b'', environment, remaining(), 64 * 1024, cwd=working_directory)
+            yield CompilerRequest('link', (str(executable), *OBJECT_FLAGS, *map(str, objects), '-o', str(program)),
+                                  b'', environment, remaining(), 64 * 1024, working_directory)
             program_hash = digest(artifact_bytes(program))
             # The linker might alter input objects: verify every candidate before promotion.
             if any(digest(artifact_bytes(path)) != expected for _, path, expected in cache.values()):

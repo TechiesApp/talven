@@ -63,6 +63,7 @@ Status definitions:
 | D49 | Proposed | Freeze fresh trusted preprocessing into bounded function units while preserving host-header context | [Proposal 0021](proposals/0021-preprocessed-function-units.md); checked current source, strict splitting and driver/input byte identities; object reuse, complete toolchain trust and native build publication remain separate |
 | D50 | Proposed | Reuse bounded private last-successful objects under an explicit trusted stable-toolchain contract, with fresh checking/preprocessing/linking | [Proposal 0022](proposals/0022-private-object-reuse.md); synchronous API experiment, object integrity and atomic session-cache promotion; ordinary build/watch integration and comparative improvements remain open |
 | D51 | Proposed | Own bounded pollable compiler commands so later native build stages can preserve observation and cancellation | [Proposal 0023](proposals/0023-pollable-compiler-commands.md); non-waiting read steps, unreaped group identity and compatibility wrapper; watcher object reuse/publication remain separate |
+| D52 | Proposed | Share one current-source object-build continuation between blocking and polling drivers, unwinding cancelled candidates before promotion | [Proposal 0024](proposals/0024-pollable-object-builds.md); bounded immutable requests, queued deadlines and last-successful retention; source watcher/application publication remain separate |
 
 ## Open decisions
 
