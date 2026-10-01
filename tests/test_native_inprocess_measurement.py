@@ -70,6 +70,17 @@ class NativeInprocessMeasurementTests(unittest.TestCase):
             self.assertFalse(report['complete'])
             self.assertIsNone(report['summary'])
             self.assertIn('error', report)
+            # The shared workload factory reads examples even when those cases are
+            # filtered out. Replaying the archive must not depend on the checkout.
+            replay = subprocess.run([sys.executable, '-I', '-c',
+                                     'import importlib.util, sys; '
+                                     's = importlib.util.spec_from_file_location("replay", sys.argv[1]); '
+                                     'm = importlib.util.module_from_spec(s); s.loader.exec_module(m); '
+                                     'print(",".join(w["id"] for w in m.workloads()))',
+                                     str(out / 'inputs/scripts/measure-native-inprocess.py')],
+                                    capture_output=True, timeout=15)
+            self.assertEqual(0, replay.returncode, replay.stderr)
+            self.assertEqual(b'hello,chain-32,chain-128,stores-128,borrowing\n', replay.stdout)
             before = (out / 'report.json').read_bytes()
             self.assertEqual(1, subprocess.run(command, capture_output=True, timeout=15).returncode)
             self.assertEqual(before, (out / 'report.json').read_bytes())

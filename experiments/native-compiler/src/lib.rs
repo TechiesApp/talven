@@ -1368,15 +1368,18 @@ fn console_definition() -> &'static str {
 struct Emitter<'a> {
     expressions: &'a [Expr],
     records: &'a [Record],
-    lines: Vec<String>,
+    output: String,
     indent: usize,
     counter: usize,
     used: [bool; 7],
 }
 impl Emitter<'_> {
     fn line(&mut self, text: impl AsRef<str>) {
-        self.lines
-            .push(format!("{}{}", "    ".repeat(self.indent), text.as_ref()));
+        for _ in 0..self.indent {
+            self.output.push_str("    ");
+        }
+        self.output.push_str(text.as_ref());
+        self.output.push('\n');
     }
     fn temp(&mut self, ty: Ty, value: String) -> String {
         self.counter += 1;
@@ -1579,15 +1582,11 @@ pub fn emit_c(program: &Program, console: bool) -> Result<String> {
     let mut emitter = Emitter {
         expressions: &program.expressions,
         records: &program.records,
-        lines: HEADER.iter().map(|line| line.to_string()).collect(),
+        output: String::new(),
         indent: 0,
         counter: 0,
         used: [false; 7],
     };
-    if program.console {
-        emitter.lines.push(console_definition().into());
-    }
-    let helpers_at = emitter.lines.len();
     for record in &program.records {
         emitter.line(format!("struct tv_s_{} {{", record.name.text));
         for (name, ty) in &record.resolved {
@@ -1614,15 +1613,41 @@ pub fn emit_c(program: &Program, console: bool) -> Result<String> {
     // add, sub, mul, and neg narrow through tv_narrow.
     used[0] = used[1..5].iter().any(|u| *u);
     let definitions = helper_definitions();
-    let mut helpers: Vec<String> = (0..HELPER_NAMES.len())
-        .filter(|i| used[*i])
-        .map(|i| definitions[i].to_string())
-        .collect();
-    if !helpers.is_empty() {
-        helpers.insert(0, HOSTED_TRAP.into());
+    let needs_trap = used.iter().any(|u| *u);
+    let prefix_bytes = HEADER.iter().map(|line| line.len() + 1).sum::<usize>()
+        + if program.console {
+            console_definition().len() + 1
+        } else {
+            0
+        }
+        + if needs_trap { HOSTED_TRAP.len() + 1 } else { 0 }
+        + definitions
+            .iter()
+            .zip(used)
+            .filter(|(_, used)| *used)
+            .map(|(definition, _)| definition.len() + 1)
+            .sum::<usize>();
+    let mut output = String::with_capacity(prefix_bytes + emitter.output.len());
+    for line in HEADER {
+        output.push_str(line);
+        output.push('\n');
     }
-    emitter.lines.splice(helpers_at..helpers_at, helpers);
-    Ok(emitter.lines.join("\n") + "\n")
+    if program.console {
+        output.push_str(console_definition());
+        output.push('\n');
+    }
+    if needs_trap {
+        output.push_str(HOSTED_TRAP);
+        output.push('\n');
+    }
+    for (definition, used) in definitions.iter().zip(used) {
+        if used {
+            output.push_str(definition);
+            output.push('\n');
+        }
+    }
+    output.push_str(&emitter.output);
+    Ok(output)
 }
 
 #[cfg(test)]

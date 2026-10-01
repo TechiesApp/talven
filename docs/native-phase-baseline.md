@@ -50,3 +50,5 @@ Rust tests compare measured/ordinary emission and rejections. Native conformance
 This evidence can guide work on native parsing/checking/emission and a later backend comparison. It does not select Rust or a backend for production, establish editor responsiveness, prove general speedups or measure model/token/dollar effectiveness.
 
 [Local macOS ARM64 observations](native-phase-evidence.md) retain an actual 50-iteration run and its limits.
+
+The subsequent [emitter buffer comparison](native-emitter-evidence.md) records three interleaved pairs and an archive-replay repair. The runner retains all top-level examples read by the shared workload factory, including filtered cases, and its package initializer.
