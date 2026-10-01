@@ -97,7 +97,7 @@ Run the test suite with `python3 -m unittest discover -s tests`. For editor supp
 | --- | --- |
 | Language | `i32`, `bool`, static UTF-8 `str`, functions, `let`, mutable scalar locals and reassignment, `if`/`else`, records of scalars, checked arithmetic |
 | Safety | Affine moves, call-scoped `&`/`&mut` borrows, field mutation, strict types, overflow and division traps |
-| Tooling | `check`, `fmt`, `context`, `build`, `emit-c`, `dev` (watch/restart with opt-in function-check reuse), `edit` previews, and an LSP with completion, call signatures and semantic highlighting |
+| Tooling | `check`, `fmt`, `context`, `build`, `emit-c`, experimental [C units](docs/c-units.md), `dev` (watch/restart with opt-in function-check reuse), `edit` previews, and an LSP with completion, call signatures and semantic highlighting |
 | Targets | Native executables through C11 on Linux x86-64 and ARM64 (in CI) and macOS; a no-libc Linux mode |
 | Agent evaluation | A reproducible harness with paired source-only and compiler-context conditions, independent native acceptance, and priced token accounting |
 | Native compiler | A Rust prototype with scalars, text, records, moves, call-scoped borrowing and mutation, checked against the reference by differential and sanitizer suites |
