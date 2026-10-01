@@ -121,6 +121,37 @@ class DevelopmentTests(unittest.TestCase):
         self.write("recovered")
         self.wait_event("exited", 5)
 
+    def test_incremental_checks_rebuild_current_program_and_recover_invalid_edits(self):
+        source = ('fn greeting() -> str { return "first\\n"; }\n'
+                  'fn main() -> i32 { return print(greeting()); }\n')
+        self.save(source.encode())
+        self.start("--incremental-check")
+        self.wait_event("exited", 1)
+        first = self.wait_event("checked", 1)
+        self.assertEqual(["greeting", "main"], first["checked"])
+        self.assertEqual([], first["reused"])
+        changed = source.replace("first", "other")
+        self.save(changed.encode())
+        self.wait_event("exited", 2)
+        second = self.wait_event("checked", 2)
+        self.assertEqual(["greeting"], second["checked"])
+        self.assertEqual(["main"], second["reused"])
+        self.save(changed.replace('return "other\\n";', 'return false;').encode())
+        self.assertEqual("E0201", self.wait_event("rejected", 3)["diagnostic"]["code"])
+        self.save(("// shifted source\n" + changed).encode())
+        self.wait_event("exited", 4)
+        repaired = self.wait_event("checked", 4)
+        self.assertEqual([], repaired["checked"])
+        self.assertEqual(["greeting", "main"], repaired["reused"])
+        self.stop()
+        self.stdout.seek(0)
+        self.assertEqual(b"first\nother\nother\n", self.stdout.read())
+        records = self.records()
+        self.assertEqual("incremental", records[0]["frontend_mode"])
+        self.assertTrue(all(row["build_mode"] == "full" for row in records
+                            if row["event"] in ("building", "started")))
+        self.assertFalse(any(row["event"] == "checked" and row["revision"] == 3 for row in records))
+
     def test_save_burst_is_coalesced_and_unchanged_bytes_do_not_restart(self):
         self.start("--debounce", "0.4")
         self.write("second")

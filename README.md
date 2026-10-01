@@ -97,10 +97,10 @@ Run the test suite with `python3 -m unittest discover -s tests`. For editor supp
 | --- | --- |
 | Language | `i32`, `bool`, static UTF-8 `str`, functions, `let`, mutable scalar locals and reassignment, `if`/`else`, records of scalars, checked arithmetic |
 | Safety | Affine moves, call-scoped `&`/`&mut` borrows, field mutation, strict types, overflow and division traps |
-| Tooling | `check`, `fmt`, `context`, `build`, `emit-c`, `dev` (watch and restart), `edit` previews, and an LSP |
+| Tooling | `check`, `fmt`, `context`, `build`, `emit-c`, `dev` (watch/restart with opt-in function-check reuse), `edit` previews, and an LSP |
 | Targets | Native executables through C11 on Linux x86-64 and ARM64 (in CI) and macOS; a no-libc Linux mode |
 | Agent evaluation | A reproducible harness with paired source-only and compiler-context conditions, independent native acceptance, and priced token accounting |
-| Native compiler | A Rust prototype of the scalar, text, and by-value record subset (no borrowing yet), kept identical to the reference by a differential suite |
+| Native compiler | A Rust prototype with scalars, text, records, moves, call-scoped borrowing and mutation, checked against the reference by differential and sanitizer suites |
 
 Not built yet: loops, heap allocation, generics, modules, concurrency, a package manager, and GPU backends. See the [roadmap](docs/roadmap.md).
 
@@ -119,7 +119,7 @@ The [requirements](docs/requirements.md) set the long-term direction, and the [r
 Talven is at the stage where one contribution can shape the language. Good places to start:
 
 - **Harder agent tasks.** The first pilot hit a ceiling; the harness needs tasks that models fail without compiler help. See [experiments](experiments/README.md).
-- **The native compiler.** Port records and borrowing to the [Rust prototype](experiments/native-compiler/README.md). The differential suite tells you when it matches the reference.
+- **The native compiler.** Extend tooling parity and benchmark the [Rust prototype](experiments/native-compiler/README.md). The differential suite tells you when it matches the reference.
 - **Editor support.** Completion, semantic tokens, and incremental parsing in the LSP.
 - **Language design.** Loops, allocation, and error handling go through [design proposals](docs/proposals/README.md).
 

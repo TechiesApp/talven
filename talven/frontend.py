@@ -582,17 +582,21 @@ class Checker:
             if self.skip is not None and fn.name.text in self.skip:
                 continue
             try:
-                self.function = fn
-                state = State()
-                for name, typ in fn.params:
-                    self.bind(name, typ.text, state)
-                if self.block(fn.body, state):
-                    self.error("E0205", f"Function {fn.name.text} must return {fn.result.text} on every path", fn.name.span)
+                self.check_function(fn)
             except CompileError as error:
                 if self.skip is None:
                     raise
                 self.errors.append(error)
         return Analysis(self.source, self.program, self.records, self.functions, self.references)
+
+    def check_function(self, fn: Function):
+        """Check one body after every declaration and public contract is validated."""
+        self.function = fn
+        state = State()
+        for name, typ in fn.params:
+            self.bind(name, typ.text, state)
+        if self.block(fn.body, state):
+            self.error("E0205", f"Function {fn.name.text} must return {fn.result.text} on every path", fn.name.span)
 
     def block(self, statements: list[Statement], state: State) -> bool:
         """Return whether control can fall through the block."""

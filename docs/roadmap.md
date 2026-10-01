@@ -36,13 +36,15 @@ The static-text increment, [Proposal 0011](proposals/0011-static-text-and-consol
 
 The [watch/restart increment](development.md), specified in [Proposal 0012](proposals/0012-development-watch-and-restart.md), adds a single-file development session with full builds, observed revision receipts, failed-edit recovery, stale candidate suppression, and process cleanup. It does not implement incremental compilation or preserve application state.
 
+[Proposal 0016](proposals/0016-persistent-function-checking.md) adds opt-in persistent reference function checking to that session. Exact source and dependency contracts govern reuse; fresh parsing and declaration validation preserve current references and diagnostics. Native C builds still run in full. Incremental parsing, object reuse, representative performance evidence and state preservation remain open.
+
 The [native scalar compiler experiment](../experiments/native-compiler/README.md), specified in [Proposal 0013](proposals/0013-native-scalar-compiler.md), adds an independent Rust checker/C emitter for a declared scalar/static-text overlap and a correctness-gated comparison runner. The native experiment now checks by-value records, moves, call-scoped borrowing, record mutation, and scalar reassignment against the reference with differential and sanitizer tests. Shared tooling parity, production selection and incremental compilation remain open.
 
 ### Planned next increments
 
 These are proposed follow-ups, not implemented features or a new claim that M1 is complete. [Proposal 0010](proposals/0010-fast-compiler-and-development-reload.md) records the owner-requested fast compiler and development refresh requirements.
 
-1. Extend the bounded native experiment toward record/borrowing and tooling parity, and prototype persistent dependency-aware compilation before broad runtime expansion. Preserve reference behavior and independent acceptance; evaluate Rust and fast backend candidates such as Cranelift using representative measurements. Neither is selected yet.
+1. Extend the native experiment toward tooling parity and measure persistent function checking before broad runtime expansion. Define native artifact reuse separately. Preserve reference behavior and independent acceptance; evaluate Rust and fast backend candidates such as Cranelift using representative measurements. Neither is selected yet.
 2. Add restricted, opt-in hot reload after module/state contracts and safe execution boundaries are defined. Interface/layout/initialization changes may require restart. Concurrency participation needs the later M2 lifetime rules.
 
 Measure actual save-to-diagnostic and save-to-running-revision latency, cache reuse, memory and correctness. Release builds should omit development reload support. This work starts before the broader M5 toolkit; controlled agent evaluation remains a separate M1 gate, with no paid run authorized by this plan.
