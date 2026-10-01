@@ -22,6 +22,7 @@ Pick the path that matches why you are here. Documents marked *evidence* record 
 | [Formatting](formatting.md) | The canonical formatter shared by the CLI and the LSP |
 | [Editor completion](editor-completion.md) | Current-document names, fields, scope and unchecked recovery |
 | [Semantic highlighting](semantic-highlighting.md) | Current checked symbol roles, assignment markers and lexical fallback |
+| [Call signature help](editor-signatures.md) | Current parameter contracts, active arguments and unchecked recovery |
 | [Development watch and restart](development.md) | `talven dev`: restart on save and optionally reuse function checks |
 | [Edit previews](edit-validation.md) | Checking a candidate edit against an exact source revision |
 | [Freestanding Linux execution](freestanding.md) | Building without libc or an allocator |
