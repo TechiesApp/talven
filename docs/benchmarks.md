@@ -160,6 +160,9 @@ python3 scripts/plot-benchmarks.py build/language-benchmark.json --out build/cha
 # Offline tooling baseline
 python3 scripts/measure-tooling.py --out build/tooling-baseline
 
+# Actual full/native watcher edit receipts with native task acceptance
+python3 scripts/measure-native-watch.py --out build/native-watch-baseline --stable-toolchain
+
 # Agent pilot (requires a signed-in Claude Code CLI; spends subscription usage)
 python3 experiments/adapters/claude_code_cli.py --write-config build/cli.json --model claude-opus-5-5 --effort high
 python3 -m experiments run --adapter build/cli.json --max-cost-usd 10 --out build/pilot
