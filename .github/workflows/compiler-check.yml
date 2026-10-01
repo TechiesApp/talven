@@ -112,6 +112,33 @@ jobs:
           assert result.stderr == b'', result.stderr
           print('Hello World: exact stdout, empty stderr, exit 0')
           PY
+      - name: Run explicit native and diagnostic test manifests
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          import subprocess
+          result = subprocess.run(['python3', '-m', 'talven', 'test', 'examples/tests.json', '--json'],
+                                  capture_output=True, timeout=240)
+          destination = Path('build/native-tests.json')
+          destination.parent.mkdir(exist_ok=True)
+          destination.write_bytes(result.stdout)
+          report = json.loads(result.stdout)
+          assert result.returncode == 0, (result.returncode, result.stderr, report)
+          assert report['complete'] and report['ok'], report
+          assert report['schema'] == 'talven.test-report.v1', report
+          assert report['profile'] == 'hosted-i32-tests-v1', report
+          assert report['summary'] == {'passed': 7, 'failed': 0}, report
+          print('Seven declared native/output/diagnostic cases passed')
+          PY
+      - name: Preserve native test receipts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: native-tests-${{ matrix.arch }}-python-${{ matrix.python }}
+          path: build/native-tests.json
+          if-no-files-found: error
+          retention-days: 30
       - name: Link and execute without libc or a heap allocator
         env:
           TALVEN_EXPECT_ARCH: ${{ matrix.arch }}

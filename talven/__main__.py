@@ -32,6 +32,11 @@ def main(argv: list[str] | None = None) -> int:
     check = commands.add_parser("check", help="Parse and type/ownership-check without execution")
     check.add_argument("source", type=Path)
     check.add_argument("--json", action="store_true")
+    test = commands.add_parser("test", help="Run bounded hosted native cases from an explicit JSON manifest")
+    test.add_argument("manifest", type=Path)
+    test.add_argument("--json", action="store_true", help="Emit bounded current test receipts")
+    test.add_argument("--cc", default="cc", help="Trusted GCC/Clang-compatible C11 compiler executable")
+    test.add_argument("--timeout", type=lambda value: interval(value), default=30.0, metavar="SECONDS")
     fmt = commands.add_parser("fmt", help="Format source with one canonical, token-preserving layout")
     fmt.add_argument("source", type=Path)
     mode = fmt.add_mutually_exclusive_group()
@@ -117,6 +122,20 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "lsp":
         from .lsp import serve
         return serve(sys.stdin.buffer, sys.stdout.buffer)
+    if args.command == "test":
+        from .test_runner import run_tests
+        receipt = run_tests(args.manifest, cc=args.cc, timeout=args.timeout)
+        if args.json:
+            print(encode(receipt), end='')
+        else:
+            for case in receipt['cases']:
+                print(('PASS ' if case['ok'] else 'FAIL ') + case['id'])
+                if case['diagnostic']:
+                    print(case['diagnostic']['code'] + ': ' + case['diagnostic']['message'])
+            if receipt['diagnostic']:
+                print(receipt['diagnostic']['code'] + ': ' + receipt['diagnostic']['message'])
+            print(f"{receipt['summary']['passed']} passed, {receipt['summary']['failed']} failed")
+        return 0 if receipt['ok'] else 1
     if args.command == "edit":
         if args.edit_command == "snapshot":
             receipt = snapshot_source(args.source, include_source=args.include_source,

@@ -68,6 +68,7 @@ Status definitions:
 | D54 | Proposed | Select own/direct-callee type declarations for opt-in hosted units, retaining global record layouts and fresh current checks | [Proposal 0026](proposals/0026-local-function-contracts.md); [local function contracts](local-function-contracts.md), separate profile/cache identities and actual native acceptance; default profiles remain unchanged |
 | D55 | Proposed | Reuse callers under explicit current call type contracts while refreshing displayed signatures from fresh declarations | [Proposal 0027](proposals/0027-current-call-type-contracts.md); [selected persistent check mode](call-type-contracts.md), exact own source, current record/call types and reference descriptions; default dependency identities remain unchanged |
 | D56 | Proposed | Reconstruct current function bodies from exact last-successful immutable grammar while freshly lexing all source and parsing declarations | [Proposal 0028](proposals/0028-function-body-syntax-reuse.md); [body syntax experiment](body-syntax.md), current spans, fresh mutable AST/types, semantic validation and shared limits; default parsing unchanged |
+| D57 | Proposed | Run bounded explicit native/output or first-diagnostic cases through the shared frontend, capturing full signed main results with a private C driver | [Proposal 0029](proposals/0029-native-test-manifests.md); [test manifests](testing.md), exact expectations and bounded current receipts; no new syntax, packages, foreign ABI or hostile-code sandbox |
 
 ## Open decisions
 

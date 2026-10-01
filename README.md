@@ -89,7 +89,7 @@ python3 -m talven context examples/vectors.tal --symbol dot   # agent context fo
 python3 -m talven dev examples/hello.tal --console            # rebuild and restart on save
 ~~~
 
-Run the test suite with `python3 -m unittest discover -s tests`. For editor support, point an LSP client at `python3 -m talven lsp`.
+Run the compiler test suite with `python3 -m unittest discover -s tests`. Run the declared native/output/diagnostic examples with `python3 -m talven test examples/tests.json`; see [test manifests](docs/testing.md). For editor support, point an LSP client at `python3 -m talven lsp`.
 
 ## What works today
 
@@ -97,7 +97,7 @@ Run the test suite with `python3 -m unittest discover -s tests`. For editor supp
 | --- | --- |
 | Language | `i32`, `bool`, static UTF-8 `str`, functions, `let`, mutable scalar locals and reassignment, `if`/`else`, records of scalars, checked arithmetic |
 | Safety | Affine moves, call-scoped `&`/`&mut` borrows, field mutation, strict types, overflow and division traps |
-| Tooling | `check`, `fmt`, `context`, `build`, `emit-c`, experimental [C units](docs/c-units.md) with opt-in [local function contracts](docs/local-function-contracts.md), `dev` (watch/restart with separate opt-in [check](docs/development.md) or [native object](docs/native-watch.md) reuse), `edit` previews, and an LSP with completion, call signatures and semantic highlighting |
+| Tooling | `check`, `fmt`, `context`, `build`, [native test manifests](docs/testing.md), `emit-c`, experimental [C units](docs/c-units.md) with opt-in [local function contracts](docs/local-function-contracts.md), `dev` (watch/restart with separate opt-in [check](docs/development.md) or [native object](docs/native-watch.md) reuse), `edit` previews, and an LSP with completion, call signatures and semantic highlighting |
 | Targets | Native executables through C11 on Linux x86-64 and ARM64 (in CI) and macOS; a no-libc Linux mode |
 | Agent evaluation | A reproducible harness with paired source-only and compiler-context conditions, independent native acceptance, and priced token accounting |
 | Native compiler | A Rust prototype with scalars, text, records, moves, call-scoped borrowing and mutation, checked against the reference by differential and sanitizer suites |
