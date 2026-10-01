@@ -1,6 +1,6 @@
 # Agent-first workflow
 
-Status: broader proposed interfaces and evaluation plan. [M1a](prototype.md) implements bounded context lookup, structured diagnostics, and basic LSP features through one frontend. [M1b](formatting.md) adds shared CLI/LSP formatting. [M1c](borrowing.md) adds call-scoped borrow contracts to context v2 and matching LSP diagnostics/hover. [Read-only edit previews](edit-validation.md) add source/compiler revision guards and candidate diagnostics. Provider caching, persistent semantic caches, atomic file application, and comparative model evaluations remain future work.
+Status: broader proposed interfaces and evaluation plan. [M1a](prototype.md) implements bounded context lookup, structured diagnostics, and basic LSP features through one frontend. [M1b](formatting.md) adds shared CLI/LSP formatting. [M1c](borrowing.md) adds call-scoped borrow contracts to context v2 and matching LSP diagnostics/hover. [Read-only edit previews](edit-validation.md) add source/compiler revision guards and candidate diagnostics. [Development sessions](development.md#persistent-function-checks) optionally reuse successful function checks; broader semantic caching and atomic file application remain future work.
 
 ## Optimize completed work
 

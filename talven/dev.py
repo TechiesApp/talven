@@ -1,4 +1,4 @@
-"""Single-file full builds and process restarts. No persistent compiler or hot reload."""
+"""Single-file builds/restarts with optional persistent function checking; no hot reload."""
 
 import argparse
 from dataclasses import dataclass
@@ -18,6 +18,7 @@ import time
 from .backend import emit_c
 from .context import compiler_hash
 from .frontend import CompileError, MAX_SOURCE_BYTES, Span, analyze
+from .incremental import IncrementalFrontend
 from .native import compiler_command
 
 MAX_BUILD_OUTPUT = 64 * 1024
@@ -115,6 +116,7 @@ class Session:
         self.build = None
         self.program = None
         self.cancelled = 0
+        self.frontend = IncrementalFrontend() if args.incremental_check else None
 
     def event(self, name, job=None, **fields):
         row = {"schema": "talven.dev.v1", "event": name}
@@ -168,7 +170,10 @@ class Session:
             if job.snapshot.error:
                 raise CompileError(job.snapshot.code, job.snapshot.error, Span(0, 0))
             source = job.snapshot.data.decode("utf-8")
-            generated = emit_c(analyze(source), console=self.args.console)
+            analysis = self.frontend.analyze(source) if self.frontend else analyze(source)
+            generated = emit_c(analysis, console=self.args.console)
+            if self.frontend:
+                self.event("checked", job, frontend_mode="incremental", **self.frontend.stats)
             self.observe()
             if self.cancelled or job.revision != self.revision:
                 self.event("superseded", job)
@@ -253,6 +258,7 @@ class Session:
         previous = {sig: signal.signal(sig, cancel) for sig in (signal.SIGINT, signal.SIGTERM)}
         try:
             self.event("session_started", build_mode="full", source=str(self.args.source),
+                       frontend_mode="incremental" if self.frontend else "full",
                        compiler_hash=compiler_hash(), cc=self.args.cc,
                        poll_interval_seconds=self.args.poll_interval, debounce_seconds=self.args.debounce,
                        build_timeout_seconds=self.args.build_timeout, stop_timeout_seconds=self.args.stop_timeout)

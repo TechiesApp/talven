@@ -20,7 +20,7 @@ Pick the path that matches why you are here. Documents marked *evidence* record 
 | [Borrowing guide](borrowing.md) | Shared and exclusive borrows, mutation, and evaluation order in depth |
 | [Mutable scalar proposal](proposals/0015-mutable-scalar-locals.md) | The implemented integer/boolean reassignment experiment and its limits |
 | [Formatting](formatting.md) | The canonical formatter shared by the CLI and the LSP |
-| [Development watch and restart](development.md) | `talven dev`: rebuild and restart on save |
+| [Development watch and restart](development.md) | `talven dev`: restart on save and optionally reuse function checks |
 | [Edit previews](edit-validation.md) | Checking a candidate edit against an exact source revision |
 | [Freestanding Linux execution](freestanding.md) | Building without libc or an allocator |
 | [Native compiler prototype](../experiments/native-compiler/README.md) | The Rust implementation of the scalar subset |

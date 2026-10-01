@@ -65,6 +65,7 @@ def main(argv: list[str] | None = None) -> int:
     dev.add_argument("source", type=Path)
     dev.add_argument("--cc", default="cc", help="Trusted C compiler executable (one path, no shell command)")
     dev.add_argument("--console", action="store_true")
+    dev.add_argument("--incremental-check", action="store_true", help="Reuse unchanged function checks in this session; C builds still run in full")
     dev.add_argument("--events", type=Path, help="Create a new JSONL session receipt file")
     dev.add_argument("--poll-interval", type=interval, default=0.05, metavar="SECONDS")
     dev.add_argument("--debounce", type=interval, default=0.1, metavar="SECONDS")

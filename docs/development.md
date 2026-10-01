@@ -1,6 +1,6 @@
 # Development watch and restart
 
-Status: experimental single-file development command. It uses the existing Python frontend and C11 backend for **full builds**. Incremental compilation, persistent compiler caches, UI/browser refresh, and state-preserving hot reload remain unimplemented. See [the staged design](proposals/0010-fast-compiler-and-development-reload.md) and [this increment's proposal](proposals/0012-development-watch-and-restart.md).
+Status: experimental single-file development command. It uses the shared Python frontend and C11 backend for **full native builds**, with optional persistent function-check reuse. Incremental parsing, C object caches, UI/browser refresh, and state-preserving hot reload remain unimplemented. See [the staged design](proposals/0010-fast-compiler-and-development-reload.md), [watch/restart proposal](proposals/0012-development-watch-and-restart.md), and [persistent-checking proposal](proposals/0016-persistent-function-checking.md).
 
 ## Try it
 
@@ -13,6 +13,18 @@ python3 -m talven dev examples/hello.tal --console
 The command prints the greeting, continues watching after the program exits, and rebuilds/reruns it when the source bytes change. Edit the greeting and save. A syntax/type/borrow error is reported; correcting the file triggers another build. Ctrl-C shuts down the session and its current compiler/program groups. `--console` retains the [explicit POSIX output contract](text-console.md).
 
 The initial target evidence is Linux ARM64 and x86-64 through native CI. The implementation requires POSIX process groups and rejects other operating systems. A passing local test on another POSIX host does not establish a full platform support profile.
+
+## Persistent function checks
+
+~~~sh
+python3 -m talven dev examples/hello.tal --console --incremental-check
+~~~
+
+This opt-in mode parses each source revision afresh and validates all declarations, then reuses function checks whose exact source, direct callee signatures and referenced record schemas match the last successful revision. Body-only edits need not recheck callers. Signature/schema changes invalidate dependent checks. Reference positions are reconstructed for the current revision, so moved declarations and new comments do not retain old locations.
+
+Only immutable successful facts are cached; invalid revisions return current errors and do not publish partial cache updates. The compiler hash is pinned for the session; changed compiler files produce `E0501` requiring restart. Parsing limits still apply. The default mode checks all functions each time.
+
+C emission and compilation still run in full, and every replacement process starts fresh. The cache can contain successful frontend facts from a revision whose native build later failed or was superseded; it does not establish native acceptance. There is no disk cache, incremental parser, native Rust reuse, or state preservation. This mode demonstrates dependency-aware reuse without claiming a measured speedup.
 
 ## Session contract
 
@@ -43,8 +55,9 @@ Every record has `schema: talven.dev.v1`, `event`, `revision`, and `source_hash`
 
 | Event | Meaning and additional fields |
 | --- | --- |
-| `session_started` | Revision 0, null source hash; source path, compiler hash, selected `cc`, full build mode, and configured timing limits |
+| `session_started` | Revision 0, null source hash; source path, compiler hash, selected `cc`, full build mode, `frontend_mode: full` or `incremental`, and configured timing limits |
 | `observed` | New source state; not a claim of valid syntax or successful build |
+| `checked` | Opt-in incremental mode only, after successful frontend analysis and C emission; `frontend_mode: incremental`, `checked` and `reused` function-name lists in declaration order. Does not establish native build success or current publication |
 | `building` | C compiler process created; revision/hash, compiler PID and `build_mode: full` |
 | `superseded` | Candidate discarded because a newer observation or cancellation prevented publication |
 | `rejected` | Frontend, input, build, or launch failure; structured `diagnostic` with the same codes/ranges as CLI analysis where applicable |
@@ -55,11 +68,13 @@ Every record has `schema: talven.dev.v1`, `event`, `revision`, and `source_hash`
 
 Candidate/program events include `observed_to_event_seconds`, computed from a monotonic clock since that revision was observed. This includes debounce and completed synchronous work. It excludes unknown time between an editor save and observation and is **not save-to-readiness latency**. An observed revision coalesced before any attempt has only an `observed` record. A build cancelled during session shutdown need not receive a terminal candidate event. Use `started`, `stopped`, and `exited` to track the active process separately from the newest observed/rejected revision.
 
-This increment makes no comparative throughput, memory, cache-reuse, token-saving, or latency claim. Representative performance evaluation must retain inputs/edits, environment, compiler/toolchain versions and flags, repetition order, failed attempts, and correctness criteria. The [existing offline baseline](tooling-baseline.md) measures different, standalone command boundaries.
+Receipts report actual function-check reuse, without a comparative throughput, memory, token-saving, or latency claim. Representative performance evaluation must retain inputs/edits, environment, compiler/toolchain versions and flags, repetition order, failed attempts, and correctness criteria. The [existing offline baseline](tooling-baseline.md) measures different, standalone command boundaries.
 
 ## Verification
 
 `tests/test_dev.py` runs actual native greetings and repairs, unchanged-timestamp edits, missing/invalid/nonregular source recovery, save coalescing, stale candidate cancellation, build timeout/output limits, source/receipt protection, and process exit reporting. Explicit test-only compiler/process doubles exercise delayed builds, failed native compilation, TERM-resistant shutdown, edits during shutdown, and failed startup. Those doubles do not establish native Talven APIs for sleeping, signals, or long-running services.
+
+`tests/test_incremental.py` compares fresh and reused analyses, emitted C, context and reference locations through successful and invalid edits. The development integration test changes a helper's output, verifies caller reuse, repairs an invalid revision, and executes each fresh native program.
 
 Run `python3 -m unittest discover -s tests -v` for the full suite. CI requires successful runs without skips on its declared Linux hosts; [compiler checks](../.github/workflows/compiler-check.yml) also run borrowing sanitizers, native examples, independent offline agent acceptance, freestanding execution, and the existing tooling baseline. Live provider calls remain outside this increment.
 
