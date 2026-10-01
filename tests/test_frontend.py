@@ -37,7 +37,7 @@ class FrontendTests(unittest.TestCase):
             ("E0001", 'fn main() -> i32 { return @; }'),
             ("E0201", 'fn main() -> i32 { return "bad"; }'),
             ("E0002", "fn main() -> i32 { return 1 }"),
-            ("E0002", "fn main() -> i32 { let x = 1; x = 2; return x; }"),
+            ("E0303", "fn main() -> i32 { let x = 1; x = 2; return x; }"),
             ("E0101", "fn f() -> unknown { return 1; }"),
             ("E0101", "fn f() -> i32 { return missing; }"),
             ("E0101", "fn f() -> i32 { return missing(); }"),

@@ -150,6 +150,6 @@ Scalar reassignment is now the most common single failure across all pilots, at 
 
 ## Next steps
 
-1. **Decide whether to add mutable scalar locals and reassignment** through a design proposal. They are the dominant first-attempt failure: agents expect them, and their absence costs repairs.
+1. **Evaluate the mutable scalar experiment** in [Proposal 0015](proposals/0015-mutable-scalar-locals.md), implemented in compiler `0.5.0-dev`. The results above describe the recorded earlier compiler; no new agent success or cost measurement is implied by this implementation.
 2. **Rerun the large corpus with more repetitions on Haiku 4.5** to test the first-attempt gain (6–1 here) with enough pairs to be conclusive.
 3. **Keep growing the corpus toward multi-file programs** once modules exist.

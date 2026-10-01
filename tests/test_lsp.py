@@ -184,6 +184,23 @@ class LspTests(unittest.TestCase):
         self.assertEqual(2, len(param["result"]))
         self.assertIsNone(self.request("textDocument/references", "", 0)["result"])
 
+    def test_scalar_write_hover_definition_references_and_rename(self):
+        source = 'fn main() -> i32 { let mut x = 1; x = x + 1; return x; }'
+        self.open(source)
+        offset = source.index('x = x')
+        hover = self.request('textDocument/hover', source, offset)['result']
+        self.assertEqual('x: i32 (mutable local)', hover['contents']['value'])
+        definition = self.request('textDocument/definition', source, offset)['result']
+        self.assertEqual(self.position(source, source.index('x = 1')), definition['range']['start'])
+        refs = self.request('textDocument/references', source, offset, context={'includeDeclaration': True})
+        self.assertEqual(4, len(refs['result']))
+        edits = self.request('textDocument/rename', source, offset, newName='count')['result']['changes'][URI]
+        for edit in reversed(edits):
+            start, end = edit['range']['start']['character'], edit['range']['end']['character']
+            source = source[:start] + edit['newText'] + source[end:]
+        analyze(source)
+        self.assertEqual(4, source.count('count'))
+
     def test_rename_edits_every_use_and_keeps_the_program_valid(self):
         source = ("struct Counter { value: i32 }\nfn add(c: &mut Counter) -> i32 { c.value = c.value + 1; return c.value; }\n"
                   "fn main() -> i32 { let mut c = Counter { value: 1 }; return add(&mut c); }")

@@ -41,6 +41,15 @@ class EditValidationTests(unittest.TestCase):
         self.assertEqual(encode(receipt), encode(snapshot_source(self.source)))
         self.assertEqual(VALID, snapshot_source(self.source, include_source=True)["untrusted_source_text"])
 
+    def test_preview_accepts_scalar_mutation_without_writing_source(self):
+        candidate = 'fn main() -> i32 { let mut x = 1; x = x + 1; return x - 2; }\n'
+        self.candidate.write_text(candidate, encoding='utf-8')
+        receipt = validate_edit(self.source, self.candidate,
+                                expected_source_hash=source_hash(VALID),
+                                expected_compiler_hash=compiler_hash())
+        self.assertTrue(receipt['ok'])
+        self.assertEqual(VALID, self.source.read_text())
+
     def test_snapshot_accepts_invalid_syntax_and_preserves_crlf_hash(self):
         raw = b"fn broken(\r\n"
         self.source.write_bytes(raw)

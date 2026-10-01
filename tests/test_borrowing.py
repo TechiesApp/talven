@@ -92,7 +92,6 @@ class BorrowingTests(unittest.TestCase):
 
     def test_only_named_record_places_and_scalar_field_writes(self):
         cases = ["fn f(x: &i32) -> i32 { return 0; }",
-                 "fn f() -> i32 { let mut x = 1; return x; }",
                  "fn f() -> i32 { return read(&P { x: 1 }); }",
                  "fn f(p: P) -> i32 { return read(&p.x); }",
                  "fn f(p: P) -> i32 { return read(& &p); }",

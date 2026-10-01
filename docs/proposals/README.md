@@ -42,3 +42,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0012 | [Development watch and restart](0012-development-watch-and-restart.md) | Accepted |
 | 0013 | [Native scalar compiler experiment](0013-native-scalar-compiler.md) | Accepted |
 | 0014 | [Live pilot readiness for agent evaluation](0014-live-pilot-readiness.md) | Accepted |
+| 0015 | [Mutable scalar locals](0015-mutable-scalar-locals.md) | Draft; implemented experiment |

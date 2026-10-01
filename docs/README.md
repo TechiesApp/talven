@@ -18,6 +18,7 @@ Pick the path that matches why you are here. Documents marked *evidence* record 
 | [Prototype guide](prototype.md) | Commands, diagnostics, compiler context, the LSP, and design tradeoffs |
 | [Static text and console output](text-console.md) | `str`, `print`, and the Hello World contract |
 | [Borrowing guide](borrowing.md) | Shared and exclusive borrows, mutation, and evaluation order in depth |
+| [Mutable scalar proposal](proposals/0015-mutable-scalar-locals.md) | The implemented integer/boolean reassignment experiment and its limits |
 | [Formatting](formatting.md) | The canonical formatter shared by the CLI and the LSP |
 | [Development watch and restart](development.md) | `talven dev`: rebuild and restart on save |
 | [Edit previews](edit-validation.md) | Checking a candidate edit against an exact source revision |

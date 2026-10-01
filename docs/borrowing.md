@@ -44,7 +44,7 @@ The shared/exclusive distinction uses familiar terminology from systems language
 | Stored or returned reference | Rejected, including local reference bindings and reference fields in records |
 | Unsupported places | Scalars, field-only borrows, record temporaries, nested references, and assignment through temporary records |
 
-Records still contain only `i32` and `bool` fields. There is no general binding reassignment, dereference operator, pointer arithmetic, nullable reference, heap allocator, destructor, closure, global mutable value, FFI, async operation, or thread in this profile. `let mut` on a scalar is deliberately rejected until broader variable mutation is specified.
+Records still contain only `i32` and `bool` fields. Compiler `0.5.0-dev` adds fixed-type reassignment for initialized `let mut` `i32`/`bool` locals; see [Proposal 0015](proposals/0015-mutable-scalar-locals.md). There is no whole-record/text reassignment, dereference operator, pointer arithmetic, nullable reference, heap allocator, destructor, closure, global mutable value, FFI, async operation, or thread in this profile. Scalar borrowing remains unsupported; scalar reassignment creates no reference or new loan lifetime.
 
 Passing a borrowed parameter requires an explicit new borrow expression. `read(parameter)` is rejected; `read(&parameter)` borrows the same underlying record. `&mut` to `&` conversion is not implicit: spell the desired shared borrow at the call. Bare references cannot become owned records.
 
