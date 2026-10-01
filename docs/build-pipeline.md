@@ -1,6 +1,6 @@
 # Pollable private object builds
 
-Status: implemented reference API experiment under [Proposal 0024](proposals/0024-pollable-object-builds.md). `UnitBuildSession.start_build(source)` provides a pollable driver for the same [private object build](object-reuse.md) that `build(source)` drives synchronously. Ordinary CLI build/dev remain unchanged; source watching and application publication are separate.
+Status: implemented reference API experiment under [Proposal 0024](proposals/0024-pollable-object-builds.md). `UnitBuildSession.start_build(source)` provides a pollable driver for the same [private object build](object-reuse.md) that `build(source)` drives synchronously. Default CLI build/dev remain unchanged; the separate [opt-in watcher mode](native-watch.md) handles source freshness and application publication.
 
 ~~~python
 import time

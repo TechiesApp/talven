@@ -1,4 +1,4 @@
-"""Single-file builds/restarts with optional persistent function checking; no hot reload."""
+"""Single-file builds/restarts with optional check or native object reuse; no hot reload."""
 
 import argparse
 from dataclasses import dataclass
@@ -104,6 +104,8 @@ class Job:
     process: subprocess.Popen | None
     started: float
     output: bytearray
+    pipeline: object | None = None
+    compiler_pid: int | None = None
 
 
 class Session:
@@ -117,6 +119,12 @@ class Session:
         self.program = None
         self.cancelled = 0
         self.frontend = IncrementalFrontend() if args.incremental_check else None
+        self.units = None
+        self.build_mode = "units" if args.incremental_build else "full"
+        if args.incremental_build:
+            from .unit_build import UnitBuildSession
+            self.units = UnitBuildSession(stable_toolchain=args.stable_toolchain, cc=args.cc,
+                                          console=args.console, timeout=args.build_timeout)
 
     def event(self, name, job=None, **fields):
         row = {"schema": "talven.dev.v1", "event": name}
@@ -135,7 +143,8 @@ class Session:
             start = diagnostic["range"]["start"]
             description = (f"{self.args.source}:{start['line'] + 1}:{start['character'] + 1}: "
                            f"{diagnostic['code']}: {diagnostic['message']}")
-        print(f"talven dev: {name} revision {row['revision']} {description}".rstrip(), file=sys.stderr, flush=True)
+        if name != "compiler_step":
+            print(f"talven dev: {name} revision {row['revision']} {description}".rstrip(), file=sys.stderr, flush=True)
 
     def observe(self):
         snapshot = read_source(self.args.source)
@@ -149,10 +158,13 @@ class Session:
         self.event("rejected", job, diagnostic=error.diagnostic(source))
 
     def discard(self, job):
-        stop_group(job.process, self.args.stop_timeout)
-        if job.process.stdout:
-            job.process.stdout.close()
-        shutil.rmtree(job.directory)
+        if job.pipeline is not None:
+            job.pipeline.close()
+        elif job.process is not None:
+            stop_group(job.process, self.args.stop_timeout)
+            if job.process.stdout:
+                job.process.stdout.close()
+        shutil.rmtree(job.directory, ignore_errors=True)
 
     def stop_program(self, reason):
         if self.program:
@@ -170,6 +182,17 @@ class Session:
             if job.snapshot.error:
                 raise CompileError(job.snapshot.code, job.snapshot.error, Span(0, 0))
             source = job.snapshot.data.decode("utf-8")
+            if self.units is not None:
+                job.pipeline = self.units.start_build(source)
+                self.observe()
+                if self.cancelled or job.revision != self.revision:
+                    self.discard(job)
+                    self.event("superseded", job)
+                    return
+                self.build = job
+                job.compiler_pid = job.pipeline.pid
+                self.event("building", job, build_mode="units", pid=job.compiler_pid, stage=job.pipeline.stage)
+                return
             analysis = self.frontend.analyze(source) if self.frontend else analyze(source)
             generated = emit_c(analysis, console=self.args.console)
             if self.frontend:
@@ -188,7 +211,7 @@ class Session:
             os.set_blocking(job.process.stdout.fileno(), False)
             self.event("building", job, build_mode="full", pid=job.process.pid)
         except (OSError, UnicodeError) as error:
-            if job.process is not None:
+            if job.process is not None or job.pipeline is not None:
                 self.build = None
                 self.discard(job)
             else:
@@ -205,6 +228,9 @@ class Session:
             self.build = None
             self.discard(job)
             self.event("superseded", job)
+            return
+        if job.pipeline is not None:
+            self.check_unit_build(job)
             return
         # Read at most one budget per tick so a noisy compiler cannot starve watching.
         try:
@@ -230,6 +256,51 @@ class Session:
         self.build = None
         stop_group(job.process, self.args.stop_timeout)
         job.process.stdout.close()
+        self.start_candidate(job)
+
+    def check_unit_build(self, job):
+        try:
+            if not job.pipeline.poll():
+                if job.pipeline.pid != job.compiler_pid:
+                    job.compiler_pid = job.pipeline.pid
+                    self.event("compiler_step", job, build_mode="units", pid=job.compiler_pid, stage=job.pipeline.stage)
+                return
+            self.build = None
+            result = job.pipeline.result
+            receipt = result.receipt
+            if receipt["source_hash"] != job.snapshot.digest:
+                raise CompileError("E0501", "Native candidate describes a different source snapshot", Span(0, 0))
+            self.event("compiled", job, build_mode="units", compiled=receipt["compiled"], reused=receipt["reused"],
+                       driver_probe_reused=receipt["driver_probe_reused"], object_bytes=receipt["object_bytes"],
+                       executable_hash=receipt["executable_hash"])
+            self.observe()
+            if self.cancelled or job.revision != self.revision:
+                self.discard(job)
+                self.event("superseded", job)
+                return
+            # Deployment owns a separate verified copy, independent of cache replacement.
+            from .unit_build import artifact_bytes
+            data = artifact_bytes(result.executable)
+            if hashlib.sha256(data).hexdigest() != receipt["executable_hash"]:
+                raise CompileError("E0402", "Native candidate executable changed before deployment", Span(0, 0))
+            job.directory.mkdir()
+            executable = job.directory / "program"
+            with executable.open("xb") as stream:
+                stream.write(data)
+            executable.chmod(0o700)
+            job.pipeline.close()
+            job.pipeline = None
+            self.start_candidate(job)
+        except (OSError, UnicodeError) as error:
+            self.build = None
+            self.discard(job)
+            self.reject(job, CompileError("E0901", str(error), Span(0, 0)))
+        except CompileError as error:
+            self.build = None
+            self.discard(job)
+            self.reject(job, error, job.snapshot.data.decode("utf-8"))
+
+    def start_candidate(self, job):
         self.observe()
         if self.cancelled or job.revision != self.revision:
             shutil.rmtree(job.directory)
@@ -246,7 +317,7 @@ class Session:
             job.process = subprocess.Popen([str(job.directory / "program")],
                                            stdin=subprocess.DEVNULL, start_new_session=True)
             self.program = job
-            self.event("started", job, pid=job.process.pid, build_mode="full")
+            self.event("started", job, pid=job.process.pid, build_mode=self.build_mode)
         except OSError as error:
             shutil.rmtree(job.directory)
             self.reject(job, CompileError("E0901", f"Program launch failed: {error}", Span(0, 0)))
@@ -257,11 +328,12 @@ class Session:
 
         previous = {sig: signal.signal(sig, cancel) for sig in (signal.SIGINT, signal.SIGTERM)}
         try:
-            self.event("session_started", build_mode="full", source=str(self.args.source),
+            self.event("session_started", build_mode=self.build_mode, source=str(self.args.source),
                        frontend_mode="incremental" if self.frontend else "full",
                        compiler_hash=compiler_hash(), cc=self.args.cc,
                        poll_interval_seconds=self.args.poll_interval, debounce_seconds=self.args.debounce,
-                       build_timeout_seconds=self.args.build_timeout, stop_timeout_seconds=self.args.stop_timeout)
+                       build_timeout_seconds=self.args.build_timeout, stop_timeout_seconds=self.args.stop_timeout,
+                       stable_toolchain_required=self.units is not None)
             while not self.cancelled:
                 self.observe()
                 if self.program and exit_status(self.program.process) is not None:
@@ -272,7 +344,8 @@ class Session:
                 if (not self.cancelled and self.build is None and self.attempted != self.revision
                         and time.monotonic() - self.observed >= self.args.debounce):
                     self.begin_build()
-                time.sleep(self.args.poll_interval)
+                time.sleep(min(self.args.poll_interval, 0.005) if self.build and self.build.pipeline is not None
+                           else self.args.poll_interval)
             return 128 + self.cancelled
         finally:
             try:
@@ -281,7 +354,11 @@ class Session:
                         self.discard(self.build)
                         self.build = None
                 finally:
-                    self.stop_program("session shutdown")
+                    try:
+                        self.stop_program("session shutdown")
+                    finally:
+                        if self.units is not None:
+                            self.units.close()
                 self.event("session_stopped", signal=self.cancelled)
             finally:
                 for sig, handler in previous.items():
