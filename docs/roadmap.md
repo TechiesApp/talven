@@ -52,7 +52,7 @@ The [native phase baseline](native-phase-baseline.md) now isolates full lex/pars
 
 ### Planned next increments
 
-[Proposal 0020](proposals/0020-hosted-function-c-units.md) now defines [hosted function C units](c-units.md) through the shared reference lowering. Stable local temporary numbering and conservative repeated contracts provide an independently tested emission boundary; native object caching, development integration and comparative build costs remain open.
+[Proposal 0020](proposals/0020-hosted-function-c-units.md) now defines [hosted function C units](c-units.md) through the shared reference lowering. Stable local temporary numbering and conservative repeated contracts provide an independently tested emission boundary. [Proposal 0021](proposals/0021-preprocessed-function-units.md) adds [fresh prepared units](preprocessed-units.md) with strict boundaries and expanded input identities; native object caching, development integration and comparative build costs remain open.
 
 These are proposed follow-ups, not implemented features or a new claim that M1 is complete. [Proposal 0010](proposals/0010-fast-compiler-and-development-reload.md) records the owner-requested fast compiler and development refresh requirements.
 

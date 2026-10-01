@@ -270,3 +270,37 @@ def emit_c_units(analysis: Analysis, *, console: bool = False) -> dict[str, str]
             raise CompileError("E0005", "Hosted C unit text exceeds the 16 MiB experiment limit", Span(0, 0))
         units[identity] = generated
     return units
+
+
+def emit_preprocess_units(analysis: Analysis, *, console: bool = False) -> tuple[str, list[str]]:
+    """One preprocessing input with reserved boundaries, not a C translation unit.
+
+    Repeated static definitions are separated after preprocessing. Common headers
+    expand once; every resulting C unit receives the same expanded contracts.
+    """
+    needs_console = emission_options(analysis, False, console)
+    if len(analysis.program.functions) > MAX_C_UNITS:
+        raise CompileError("E0005", "Hosted C units exceed the 256-function experiment limit", Span(0, 0))
+    prefix = Emitter()
+    headers_at = emit_prefix(prefix, analysis, False, False)
+    if needs_console:
+        prefix.lines[headers_at:headers_at] = ['#include <errno.h>', '#include <unistd.h>']
+    prefix.line('extern int tv_unit_header_boundary;')
+    segments, identities = ['\n'.join(prefix.lines) + '\n'], []
+    for index, fn in enumerate([*analysis.program.functions, None]):
+        emitter = Emitter()
+        if fn is None:
+            identity = 'entry'
+            emitter.line('int main(void) { return (int)tv_f_main(); }')
+        else:
+            identity = 'fn:' + fn.name.text
+            if 'print' in fn.calls:
+                emitter.lines.append(CONSOLE[CONSOLE.index('static int32_t tv_console_print'):])
+            emit_function(emitter, fn)
+        segments.append(finish_c(emitter, 0))
+        segments.append(f'extern int tv_unit_boundary_{index};\n')
+        identities.append(identity)
+    result = ''.join(segments)
+    if len(result.encode('utf-8')) > MAX_C_UNIT_BYTES:
+        raise CompileError('E0005', 'C unit preprocessing input exceeds the 16 MiB experiment limit', Span(0, 0))
+    return result, identities

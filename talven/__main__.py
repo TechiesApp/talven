@@ -64,6 +64,11 @@ def main(argv: list[str] | None = None) -> int:
     def interval(value):
         from .dev import interval as parse_interval
         return parse_interval(value)
+    prepared = commands.add_parser("prepare-c-units", help="Freeze experimental function C units through a trusted preprocessor; no native build")
+    prepared.add_argument("source", type=Path)
+    prepared.add_argument("--cc", default="cc", help="Trusted GCC/Clang-compatible C compiler executable")
+    prepared.add_argument("--console", action="store_true")
+    prepared.add_argument("--timeout", type=interval, default=30.0, metavar="SECONDS")
     dev = commands.add_parser("dev", help="Watch one source, fully rebuild, and restart after successful edits")
     dev.add_argument("source", type=Path)
     dev.add_argument("--cc", default="cc", help="Trusted C compiler executable (one path, no shell command)")
@@ -135,6 +140,13 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         if args.command == "context" and args.expect_source_hash not in (None, source_hash(source)):
             raise CompileError("E0501", "Source revision changed; request fresh context before editing", Span(0, 0))
+        if args.command == "prepare-c-units":
+            from .preprocessed_units import MAX_PREPARED_BYTES, prepare_c_units
+            receipt = encode(prepare_c_units(source, cc=args.cc, console=args.console, timeout=args.timeout))
+            if len(receipt.encode('utf-8')) > MAX_PREPARED_BYTES:
+                raise CompileError('E0005', 'Prepared C unit receipt exceeds the 64 MiB experiment limit', Span(0, 0))
+            print(receipt, end='')
+            return 0
         if args.command == "check":
             _, reported = check_source(source)
             if reported:
@@ -200,7 +212,7 @@ def main(argv: list[str] | None = None) -> int:
         failure = error
     failures = reported if reported and failure is reported[0] else [failure]
     diagnostics = [error.diagnostic(source) for error in failures]
-    if args.command in ("context", "emit-c-units") or getattr(args, "json", False):
+    if args.command in ("context", "emit-c-units", "prepare-c-units") or getattr(args, "json", False):
         print(encode({"schema": "talven.diagnostics.v1", "ok": False, "diagnostics": diagnostics}), end="")
     else:
         for error, diagnostic in zip(failures, diagnostics):
