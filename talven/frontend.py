@@ -341,7 +341,7 @@ class Parser:
             return Statement("if", Span(start, self.tokens[self.index - 1].span.end),
                              expr, then=then, otherwise=otherwise)
         expr = self.expression()
-        target = expr if expr.kind == "field" and self.accept("=") else None
+        target = expr if self.accept("=") else None
         if target is not None:
             expr = self.expression()
         end = self.take(";").span.end
@@ -484,14 +484,16 @@ class Checker:
     def bind(self, name: Token, typ: str, state: State, mutable: bool = False):
         if name.text in state.bindings:
             self.error("E0102", f"Duplicate or shadowed binding {name.text}", name.span)
-        if mutable and typ not in self.records:
-            self.error("E0305", "let mut currently supports owned records with scalar fields", name.span)
+        if mutable and typ not in SCALARS and typ not in self.records:
+            self.error("E0305", "let mut supports i32, bool, or owned records with scalar fields", name.span)
         state.bindings[name.text] = Binding(typ, name.span, mutable)
         self.reference(name.span, name.span, self.binding_description(name.text, state.bindings[name.text]))
 
     def binding_description(self, name: str, binding: Binding) -> str:
         mode = borrow_mode(binding.typ)
-        detail = f" ({mode} borrow; call-scoped)" if mode else " (mutable owner)" if binding.mutable else ""
+        detail = (f" ({mode} borrow; call-scoped)" if mode else
+                  " (mutable local)" if binding.mutable and binding.typ in SCALARS else
+                  " (mutable owner)" if binding.mutable else "")
         return f"{name}: {binding.typ}{detail}"
 
     def lookup(self, expr: Expr, state: State) -> Binding:
@@ -530,8 +532,15 @@ class Checker:
 
     def assignment(self, stmt: Statement, state: State):
         target = stmt.target
+        if target.kind == "name":
+            binding = self.lookup(target, state)
+            if binding.typ not in SCALARS:
+                self.error("E0305", "Whole-binding assignment supports only i32 or bool locals", target.span)
+            self.require_mutable(target, binding)
+            self.same_type(self.expr(stmt.expr, state), binding.typ, stmt.expr.span)
+            return
         if target.kind != "field" or target.args[0].kind != "name":
-            self.error("E0305", "Assignment requires a scalar field of a named record binding", target.span)
+            self.error("E0305", "Assignment requires a named scalar local or a scalar field of a named record binding", target.span)
         typ = self.expr(target, state, consume=False)
         place = target.args[0]
         self.require_mutable(place, state.bindings[place.value])

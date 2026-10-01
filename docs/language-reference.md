@@ -1,6 +1,6 @@
 # Talven language reference
 
-Profile: `m1-static-text-v1` (compiler `0.4.0-dev`). This page is the complete, normative summary of what the reference compiler accepts. It omits rationale, tooling, and validation evidence; follow the links at the end for those. Anything not listed here is not supported.
+Profile: `m1-scalar-mutation-v1` (compiler `0.5.0-dev`). This page is the complete, normative summary of what the reference compiler accepts. It omits rationale, tooling, and validation evidence; follow the links at the end for those. Anything not listed here is not supported.
 
 ## Source text
 
@@ -24,6 +24,7 @@ param          = identifier, ":", ( type | "&", ["mut"], record_name ) ;
 type           = "i32" | "bool" | "str" | record_name ;
 block          = "{", { statement }, "}" ;
 statement      = "let", ["mut"], identifier, [ ":", type ], "=", expression, ";"
+               | identifier, "=", expression, ";"
                | identifier, ".", identifier, "=", expression, ";"
                | "return", expression, ";"
                | "if", "(", expression, ")", block, [ "else", block ]
@@ -95,14 +96,16 @@ Borrows exist only as call arguments and last until that call returns:
 Mutation:
 
 - `name.field = value;` requires a `let mut` record owner or an `&mut` parameter (E0303).
-- `let mut` is only allowed for records (E0305). There is no reassignment of whole bindings.
-- To mutate an owned by-value parameter, move it into a `let mut` local first.
+- `let mut` allows `i32`, `bool`, and owned records; mutable `str` is E0305.
+- `name = value;` requires a `let mut` scalar local (E0303) and the same `i32`/`bool` type (E0201). Record and `str` reassignment are E0305.
+- Parameters stay immutable. Copy a scalar parameter or move a record parameter into a `let mut` local to mutate it. Copying or moving into plain `let` does not preserve mutation permission.
+- Writes to an outer scalar local persist across continuing branches; branch-local names still do not escape.
 
 ## Evaluation
 
 - Operands, call arguments, and record initializers evaluate left to right.
 - A loan starts when its argument is evaluated. It stays active while later arguments evaluate and ends when the call returns, so `f(&mut r, r.x)` is E0302 but `f(r.x, g(&mut r))` is allowed.
-- In a field assignment, the right side is evaluated first, then stored. Parentheses around the target are transparent; the target must still be a field of a named record (E0305).
+- In any assignment, the right side is evaluated first, then stored. Parentheses around the target are transparent; the target must be a mutable scalar local or a field of a named record (E0305). Assignment is a statement, not an expression; chained and compound assignments are unsupported.
 - `+ - * unary-` trap on overflow. `/` and `%` trap on a zero divisor and on `-2147483648 / -1` or `% -1`. Division truncates toward zero; `%` takes the dividend's sign.
 - Hosted traps abort the process. Recursion depth is not bounded.
 
@@ -158,4 +161,4 @@ fn main() -> i32 {
 
 ## Not in this profile
 
-Loops, general reassignment, arrays, heap allocation, string operations, modules or imports, generics, closures, concurrency, input, file access, and foreign calls. The [prototype guide](prototype.md) (tooling and contracts), [borrowing guide](borrowing.md) (rationale and lowering), and [text and console guide](text-console.md) (output details) describe the same profile in more depth.
+Loops, whole-record/text reassignment, arrays, heap allocation, string operations, modules or imports, generics, closures, concurrency, input, file access, and foreign calls. The [prototype guide](prototype.md) (tooling and contracts), [borrowing guide](borrowing.md) (rationale and lowering), and [text and console guide](text-console.md) (output details) describe the same profile in more depth.

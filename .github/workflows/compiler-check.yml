@@ -101,6 +101,8 @@ jobs:
           ./build/vectors
           python3 -m talven build examples/borrowing.tal -o build/borrowing
           ./build/borrowing
+          python3 -m talven build examples/scalars.tal -o build/scalars
+          ./build/scalars
           python3 -m talven build examples/hello.tal --console -o build/hello
           python3 - <<'PY'
           import subprocess

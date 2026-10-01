@@ -134,7 +134,7 @@ def context(analysis: Analysis, symbol: str | None = None, max_bytes: int = 1638
                         "resources": "affine scalar-field records; call-scoped borrows; no heap, destructors, or FFI",
                         "text": "str copies a static immutable UTF-8 byte view; embedded NUL is data; no text operators",
                         "borrows": "explicit named-record arguments; shared reads or one exclusive writer; references cannot escape",
-                        "mutation": "scalar fields of let mut owners or &mut parameters; assignment evaluates its value before storing",
+                        "mutation": "let mut i32/bool locals keep their type; scalar fields of let mut owners or &mut parameters; assignment evaluates its value before storing",
                         "trust": "hashes identify inputs; they do not authenticate stored or remote content"}}
     if include_body:
         for fact in result["functions"]:

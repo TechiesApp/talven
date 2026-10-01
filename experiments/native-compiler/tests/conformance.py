@@ -91,7 +91,7 @@ fn main() -> i32 {
             result = self.command(source)
             self.assertEqual(0, result.returncode, result.stderr)
             self.assertTrue(json.loads(result.stdout)["ok"])
-            self.assertEqual("native-scalar-text-v1", json.loads(result.stdout)["profile"])
+            self.assertEqual("native-scalar-mutation-v1", json.loads(result.stdout)["profile"])
 
     def test_supported_rejections_agree_with_reference_codes(self):
         sources = ['fn main() -> i32 { return false; }', 'fn f() -> i32 { let x = 0; }',
@@ -154,7 +154,7 @@ fn main() -> i32 {
             self.assertEqual("E0801", json.loads(result.stdout)["diagnostics"][0]["code"])
         # Without records, borrow/field/mutation syntax always fails with the reference diagnostic.
         for source in ["fn f(x: &A) -> i32 { return 0; }", "fn f(x: &i32) -> i32 { return 0; }",
-                       "fn f() -> i32 { let mut x = 0; return x; }", "fn f(x: i32) -> i32 { return x.y; }",
+                       "fn f() -> i32 { let mut x = \"a\"; return 0; }", "fn f(x: i32) -> i32 { return x.y; }",
                        "fn f() -> i32 { return P { x: 1 }; }"]:
             with self.subTest(source=source):
                 with self.assertRaises(CompileError) as caught:

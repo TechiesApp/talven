@@ -1,0 +1,21 @@
+fn adjust(value: i32, increase: bool) -> i32 {
+    let mut result = value;
+    let mut changed = false;
+    if (increase) {
+        result = result + 2;
+        changed = true;
+    } else {
+        result = result - 2;
+    }
+    if (changed) {
+        return result;
+    }
+    return result + 4;
+}
+
+fn main() -> i32 {
+    if (adjust(40, true) != 42) {
+        return 1;
+    }
+    return adjust(40, false) - 42;
+}

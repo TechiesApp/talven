@@ -1,6 +1,6 @@
 # Reference compiler guide
 
-Status: experimental implementation of `m1-static-text-v1`, building on M1a/M1b/M1c. The grammar and file extension `.tal` are prototype choices. The broader language design remains under development.
+Status: experimental implementation of `m1-scalar-mutation-v1` (compiler `0.5.0-dev`), building on M1a/M1b/M1c. The grammar and file extension `.tal` are prototype choices. The broader language design remains under development.
 
 [M1b](formatting.md) introduced canonical formatting and native CI. [M1c](borrowing.md) extends the grammar below with call-scoped borrowing and record-field mutation, with a new context schema. See the [M1c validation record](borrowing-validation.md); earlier M1a/M1b records remain historical evidence.
 
@@ -41,6 +41,7 @@ type       = scalar | "str" | record_name ;
 scalar     = "i32" | "bool" ;
 block      = "{", { statement }, "}" ;
 statement  = "let", ["mut"], identifier, [":", type], "=", expression, ";"
+           | identifier, "=", expression, ";"
            | identifier, ".", identifier, "=", expression, ";"
            | "return", expression, ";"
            | "if", "(", expression, ")", block, ["else", block]
@@ -53,7 +54,7 @@ Precedence, from weakest to strongest: `||`, `&&`, equality (`==`, `!=`), ordere
 
 Functions and record types have distinct declarations in one global namespace; duplicate global names and names replacing scalar types, `str`, or `print` are rejected. Calls always name global functions or builtins. Local bindings and parameters occupy a local namespace; shadowing an existing local binding is rejected. Branch-local names do not escape their block. Functions may refer to later declarations and may recurse.
 
-All parameters and return types are explicit. Local types may be inferred. Every reachable function path must return the declared type. Unreachable statements after an unconditional return are rejected. `if` conditions require `bool`; parentheses around the condition avoid ambiguity with record literals.
+All parameters and return types are explicit. Local types may be inferred. Initialized `let mut` locals of `i32` and `bool` support fixed-type reassignment; parameters stay immutable. Assignment evaluates its value before storing, and outer local updates persist across continuing branches. Whole-record/text reassignment and assignment expressions are unsupported; see [Proposal 0015](proposals/0015-mutable-scalar-locals.md). Every reachable function path must return the declared type. Unreachable statements after an unconditional return are rejected. `if` conditions require `bool`; parentheses around the condition avoid ambiguity with record literals.
 
 ## Values and ownership
 

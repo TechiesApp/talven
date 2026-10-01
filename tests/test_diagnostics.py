@@ -52,7 +52,8 @@ class DiagnosticsTests(unittest.TestCase):
     def test_independent_errors_are_all_reported(self):
         _, errors = check_source(MULTI.read_text(encoding="utf-8"))
         self.assertEqual({"E0002", "E0304", "E0102", "E0301"}, {error.code for error in errors})
-        self.assertGreaterEqual(len(errors), 7)
+        # sum3's two scalar assignments became valid in the 0.5 profile.
+        self.assertEqual(5, len(errors))
 
     def test_one_error_is_reported_once_without_cascades(self):
         for source in ("fn main() -> i32 { let x = 1; let x = 2; return x; }",
@@ -71,7 +72,7 @@ class DiagnosticsTests(unittest.TestCase):
                                 capture_output=True, text=True, timeout=30)
         self.assertEqual(1, result.returncode)
         diagnostics = json.loads(result.stdout)["diagnostics"]
-        self.assertGreaterEqual(len(diagnostics), 7)
+        self.assertEqual(5, len(diagnostics))
         text = subprocess.run([sys.executable, "-m", "talven", "check", str(MULTI)],
                               capture_output=True, text=True, timeout=30)
         self.assertEqual(len(diagnostics), len(text.stderr.strip().splitlines()))

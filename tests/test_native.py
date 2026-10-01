@@ -35,6 +35,45 @@ class NativeTests(unittest.TestCase):
     def test_vector_example_runs(self):
         self.assertEqual(0, self.compile_run(Path("examples/vectors.tal").read_text()).returncode)
 
+    def test_scalar_assignment_branches_copies_and_traps(self):
+        source = '''fn f(input: i32, pick: bool) -> i32 {
+            let mut x = input;
+            let snapshot = x;
+            let mut flag = pick;
+            if (flag) { x = x + 2; flag = false; }
+            else { x = x - 3; }
+            x = x + snapshot;
+            if (flag) { return 99; }
+            return x;
+        }
+        fn main() -> i32 {
+            if (f(5, true) != 12) { return 1; }
+            if (f(5, false) != 7) { return 2; }
+            return 0;
+        }'''
+        for optimization in ('-O0', '-O2'):
+            with self.subTest(optimization=optimization):
+                self.assertEqual(0, self.compile_run(source, optimization, sanitizer=True).returncode)
+                result = self.compile_run('fn main() -> i32 { let mut x = 2147483647; '
+                                          'x = x + 1; return x; }', optimization, sanitizer=True)
+                self.assertNotEqual(0, result.returncode)
+                self.assertNotIn('runtime error:', result.stderr)
+
+    def test_scalar_assignment_rhs_keeps_borrow_and_call_order(self):
+        source = '''struct P { x: i32 }
+        fn bump(p: &mut P) -> i32 { p.x = p.x + 1; return p.x; }
+        fn main() -> i32 {
+            let mut p = P { x: 3 };
+            let mut x = 10;
+            x = x + bump(&mut p) + bump(&mut p);
+            if (x != 19) { return 1; }
+            if (p.x != 5) { return 2; }
+            return 0;
+        }'''
+        for optimization in ('-O0', '-O2'):
+            with self.subTest(optimization=optimization):
+                self.assertEqual(0, self.compile_run(source, optimization, sanitizer=True).returncode)
+
     def test_borrowing_example_and_side_effect_order_with_ubsan(self):
         paths = [Path("examples/borrowing.tal"), *sorted(Path("tests/fixtures").glob("borrowing-*.tal"))]
         self.assertEqual(3, len(paths))

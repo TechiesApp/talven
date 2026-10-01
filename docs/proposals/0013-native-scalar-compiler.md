@@ -58,3 +58,7 @@ Records are supported natively without borrowing: declarations, literals, field 
 ## Unresolved questions
 
 Native borrowing and mutation parity, shared formatter/context/LSP interfaces, diagnostic compatibility beyond the differential corpus, native build driver and packaging, persistent dependency queries, incremental codegen/linking, alternative backends, representative performance budgets and memory measurements remain open. Hot reload still requires explicit module/state/lifetime contracts.
+
+## Scalar mutation follow-up
+
+[Proposal 0015](0015-mutable-scalar-locals.md) advances the implemented experiment to `native-scalar-mutation-v1`: initialized mutable local declarations and fixed-type integer/boolean assignment are supported, while record borrowing and field assignment retain the explicit `E0801` boundary. The earlier subset description above records the preceding increment.

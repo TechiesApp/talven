@@ -8,7 +8,7 @@ also carry an independent Python oracle for exit status and stdout.
 The only accepted divergences are listed in EXPECTED_DIVERGENCES (fixed cases) or follow
 the documented rule: a program which the reference parses successfully, which declares a
 struct, and which uses borrowing or mutation (a borrowed parameter type, a borrow
-expression, `let mut`, or a field assignment) receives native E0801. Every other program,
+expression or a field assignment) receives native E0801. Every other program,
 including by-value record programs, must match exactly. No provider calls.
 """
 from concurrent.futures import ThreadPoolExecutor
@@ -49,8 +49,6 @@ EXPECTED_DIVERGENCES = {
     "edge/record-borrow-scalar-param": "E0801",
     "edge/record-borrow-argument": "E0801",
     "edge/record-borrow-let": "E0801",
-    "edge/record-let-mut": "E0801",
-    "edge/record-let-mut-scalar": "E0801",
     "edge/record-field-assign": "E0801",
     "edge/record-borrow-before-error": "E0801",
     "experiments/corpora/hard-v1/reborrow.tal": "E0801",
@@ -63,7 +61,7 @@ EXPECTED_DIVERGENCES = {
 
 
 def uses_borrow_or_mutation(program: Program) -> bool:
-    """A borrowed parameter type, a borrow expression, `let mut`, or a field assignment."""
+    """A borrowed parameter type, a borrow expression, or a field assignment."""
     if any(typ.text.startswith("&") for fn in program.functions for _, typ in fn.params):
         return True
     pending = [stmt for fn in program.functions for stmt in fn.body]
@@ -74,7 +72,7 @@ def uses_borrow_or_mutation(program: Program) -> bool:
                 return True
             pending.extend([*node.args, *(child for _, child in node.fields)])
             continue
-        if node.mutable or node.kind == "assign":
+        if node.target is not None and node.target.kind == "field":
             return True
         pending.extend([node.expr, *node.then, *node.otherwise])
     return False
@@ -132,6 +130,22 @@ def edge_cases():
         "edge/let-mut-scalar": fn("let mut x = 1; return x;"),
         "edge/let-mut-annotated": fn("let mut x: i32 = 1; return x;"),
         "edge/let-mut-bad-value": fn("let mut x = missing; return 0;"),
+        "edge/scalar-assign": fn("let mut x = 1; x = x + 41; return x;"),
+        "edge/bool-assign": fn("let mut x = false; x = !x; return x;", "bool"),
+        "edge/scalar-assign-parens": fn("let mut x = 1; ((x)) = 2; return x;"),
+        "edge/scalar-assign-type": fn("let mut x = 1; x = false; return x;"),
+        "edge/bool-assign-type": fn("let mut x = false; x = 1; return 0;"),
+        "edge/scalar-assign-copy-permission": fn("let mut x = 1; let y = x; y = 2; return y;"),
+        "edge/scalar-assign-branch-scope": fn("if (true) { let mut x = 1; } x = 2; return 0;"),
+        "edge/scalar-assign-unknown": fn("x = 1; return 0;"),
+        "edge/scalar-assign-expression": fn("let mut x = 1; (x + 1) = 2; return 0;"),
+        "edge/scalar-assign-literal": fn("1 = 2; return 0;"),
+        "edge/scalar-assign-call": fn("f() = 2; return 0;"),
+        "edge/scalar-assign-chain": fn("let mut x = 1; x = x = 2; return x;"),
+        "edge/scalar-assign-text": fn('let s = "x"; s = "y"; return 0;'),
+        "edge/scalar-mut-text": fn('let mut s = "x"; return 0;'),
+        "edge/scalar-assign-overflow": 'fn main() -> i32 { let mut x = 2147483647; x = x + 1; return x; }',
+        "edge/scalar-assign-short-circuit": 'fn bomb() -> bool { return 1 / 0 == 1; } fn main() -> i32 { let mut b = true; b = b || bomb(); if (b) { return 7; } return 1; }',
         "edge/borrow-param": "fn f(x: &i32) -> i32 { return 0; }",
         "edge/borrow-mut-unknown": "fn f(x: &mut Unknown) -> i32 { return 0; }",
         "edge/borrow-result": "fn f() -> &i32 { return 0; }",
@@ -336,6 +350,8 @@ def record_cases():
         "edge/record-borrow-let": main("let p = make(1); let q = &p; return 0;"),
         "edge/record-let-mut": main("let mut p = make(1); return p.x;"),
         "edge/record-let-mut-scalar": main("let mut x = 1; return x;"),
+        "edge/record-whole-assign": main("let mut p = make(1); p = make(2); return p.x;"),
+        "edge/record-revive-assign": main("let mut p = make(1); let q = p; p = q; return 0;"),
         "edge/record-field-assign": main("let p = make(1); p.x = 2; return p.x;"),
         "edge/record-borrow-before-error": point + "fn f() -> i32 { return 0; } fn f() -> i32 { return take(&p); }",
     }
@@ -370,10 +386,15 @@ class Oracle:
             value = self.evaluate(stmt.expr, env)
             if stmt.kind == "let":
                 env[stmt.name.text] = value
+            elif stmt.kind == "assign":
+                assert stmt.target.kind == "name", "oracle supports scalar assignment only"
+                env[stmt.target.value] = value
             elif stmt.kind == "return":
                 return True, value
             elif stmt.kind == "if":
-                done, result = self.block(stmt.then if value else stmt.otherwise, dict(env))
+                branch = dict(env)
+                done, result = self.block(stmt.then if value else stmt.otherwise, branch)
+                env.update((name, branch[name]) for name in env)
                 if done:
                     return True, result
         return False, None
@@ -644,6 +665,15 @@ def generated_cases():
     rng = random.Random(SEED)
     generator = ProgramGenerator(rng)
     programs = {f"generated/program-{i:03}": generator.program() for i in range(GENERATED_PROGRAMS)}
+    for i in range(64):
+        initial, delta = rng.randrange(-100, 101), rng.randrange(-50, 51)
+        flag = rng.choice(('true', 'false'))
+        programs[f"generated/scalar-mutation-{i:03}"] = (
+            'fn adjust(input: i32, pick: bool) -> i32 { '
+            f'let mut x = input; let mut b = pick; let before = x; '
+            f'if (b) {{ x = x + {delta}; b = !b; }} else {{ x = x - {delta}; }} '
+            'if (b) { x = x * 2; } x = x + before; return x; } '
+            f'fn main() -> i32 {{ return adjust({initial}, {flag}); }}')
     seeds = [*programs.values(), *(s.decode() for n, s in fixed_cases().items()
                                    if n.startswith("examples/") or n.startswith("edge/recursion"))]
     mutations = {f"generated/mutation-{i:03}": mutate(rng, rng.choice(seeds)) for i in range(MUTATIONS)}
@@ -732,7 +762,7 @@ class DifferentialCorpusTests(unittest.TestCase):
             with self.subTest(case=name):
                 self.assertIn(reference.returncode, (0, 1), reference.stderr)
                 self.assertIn(native.returncode, (0, 1), native.stderr)
-                self.assertEqual(json.loads(native.stdout)["profile"], "native-scalar-text-v1")
+                self.assertEqual(json.loads(native.stdout)["profile"], "native-scalar-mutation-v1")
                 ref_ok, ref_diagnostics = diagnostic_view(reference.stdout)
                 nat_ok, nat_diagnostics = diagnostic_view(native.stdout)
                 if expected is None:
