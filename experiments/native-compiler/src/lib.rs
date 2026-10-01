@@ -6,6 +6,7 @@
 //! Named record borrows are explicit, call-scoped, and nonescaping; ordered lowering
 //! preserves loan scope and mutations without a runtime borrow registry.
 use std::collections::{BTreeMap, BTreeSet};
+use std::fmt::Write;
 use std::ops::Range;
 
 pub const PROFILE: &str = "native-call-borrows-v1";
@@ -1374,18 +1375,17 @@ struct Emitter<'a> {
     used: [bool; 7],
 }
 impl Emitter<'_> {
-    fn line(&mut self, text: impl AsRef<str>) {
+    fn line(&mut self, text: impl std::fmt::Display) {
         for _ in 0..self.indent {
             self.output.push_str("    ");
         }
-        self.output.push_str(text.as_ref());
-        self.output.push('\n');
+        writeln!(self.output, "{text}").expect("writing to a String is infallible");
     }
     fn temp(&mut self, ty: Ty, value: String) -> String {
         self.counter += 1;
         let name = format!("tv_tmp_{}", self.counter);
         let ctype = ty.c(self.records);
-        self.line(format!("{ctype} {name} = {value};"));
+        self.line(format_args!("{ctype} {name} = {value};"));
         name
     }
     fn helper(&mut self, name: &str) -> String {
@@ -1426,14 +1426,14 @@ impl Emitter<'_> {
             ExprKind::Text(value) => {
                 self.counter += 1;
                 let name = format!("tv_text_{}", self.counter);
-                self.line(format!("static const uint8_t {name}[] = {{"));
+                self.line(format_args!("static const uint8_t {name}[] = {{"));
                 for chunk in value.as_bytes().chunks(16) {
                     let bytes = chunk
                         .iter()
                         .map(|b| format!("0x{b:02x}"))
                         .collect::<Vec<_>>()
                         .join(", ");
-                    self.line(format!("    {bytes},"));
+                    self.line(format_args!("    {bytes},"));
                 }
                 if value.is_empty() {
                     self.line("    0");
@@ -1469,10 +1469,10 @@ impl Emitter<'_> {
                 if op == "&&" || op == "||" {
                     let result = self.temp(Ty::Bool, left);
                     let negate = if op == "||" { "!" } else { "" };
-                    self.line(format!("if ({negate}{result}) {{"));
+                    self.line(format_args!("if ({negate}{result}) {{"));
                     self.indent += 1;
                     let right = self.expr(*b);
-                    self.line(format!("{result} = {right};"));
+                    self.line(format_args!("{result} = {right};"));
                     self.indent -= 1;
                     self.line("}");
                     return result;
@@ -1519,13 +1519,13 @@ impl Emitter<'_> {
                     let name = &stmt.name.as_ref().expect("let name").text;
                     let ty = self.expressions[stmt.expr].ty.expect("checked let");
                     let ctype = ty.c(self.records);
-                    self.line(format!("{ctype} tv_v_{name} = {value};"));
-                    self.line(format!("(void)tv_v_{name};"));
+                    self.line(format_args!("{ctype} tv_v_{name} = {value};"));
+                    self.line(format_args!("(void)tv_v_{name};"));
                 }
-                StmtKind::Return => self.line(format!("return {value};")),
-                StmtKind::Expr => self.line(format!("(void)({value});")),
+                StmtKind::Return => self.line(format_args!("return {value};")),
+                StmtKind::Expr => self.line(format_args!("(void)({value});")),
                 StmtKind::If => {
-                    self.line(format!("if ({value}) {{"));
+                    self.line(format_args!("if ({value}) {{"));
                     self.indent += 1;
                     self.block(&stmt.then);
                     self.indent -= 1;
@@ -1537,7 +1537,7 @@ impl Emitter<'_> {
                 }
                 StmtKind::Assign => {
                     let target = stmt.target.expect("assignment target");
-                    self.line(format!("{} = {value};", self.place(target)));
+                    self.line(format_args!("{} = {value};", self.place(target)));
                 }
             }
         }
@@ -1588,21 +1588,21 @@ pub fn emit_c(program: &Program, console: bool) -> Result<String> {
         used: [false; 7],
     };
     for record in &program.records {
-        emitter.line(format!("struct tv_s_{} {{", record.name.text));
+        emitter.line(format_args!("struct tv_s_{} {{", record.name.text));
         for (name, ty) in &record.resolved {
             let ctype = ty.c(&program.records);
-            emitter.line(format!("    {ctype} tv_m_{name};"));
+            emitter.line(format_args!("    {ctype} tv_m_{name};"));
         }
         emitter.line("};");
     }
     for f in &program.functions {
-        emitter.line(format!("{};", signature(program, f)));
+        emitter.line(format_args!("{};", signature(program, f)));
     }
     for f in &program.functions {
-        emitter.line(format!("{} {{", signature(program, f)));
+        emitter.line(format_args!("{} {{", signature(program, f)));
         emitter.indent += 1;
         for (name, _) in &f.params {
-            emitter.line(format!("(void)tv_v_{};", name.text));
+            emitter.line(format_args!("(void)tv_v_{};", name.text));
         }
         emitter.block(&f.body);
         emitter.indent -= 1;
