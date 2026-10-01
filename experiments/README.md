@@ -74,10 +74,12 @@ The original corpus, its fixture, and historical reports remain available. Chang
 | `grade-bands` | Map a score to a band | `else if` and chained comparisons do not exist |
 | `recursive-reborrow` | Call `add` once per step through a `&mut` parameter | Reborrows must be explicit: `add(&mut c, d)` |
 | `snapshot-before-move` | `total(p) * 10 + p.a` | Arguments evaluate left to right, so `p.a` after `total(p)` is a use after move |
-| `no-shadowing` | Clamp, triple, round to even, and offset | Shadowing, even of parameters, is rejected; so is scalar `let mut` |
-| `multi-error-repair` | Repair a program with six such errors | Diagnostics arrive one at a time |
+| `no-shadowing` | Clamp, triple, round to even, and offset | Shadowing, even of parameters, is rejected; a separate mutable scalar local is allowed in the current profile |
+| `multi-error-repair` | Repair a program with six such errors | Chained comparisons, implicit reborrows, move misuse and other language-rule errors; current checks report up to 20 diagnostics |
 
 The [hard verifier](hard_verifier.py) owns the acceptance. It checks exact contracts, keeps protected helpers token-identical, and uses a wrapper that counts `add` calls. C harnesses compute the expected values with 64-bit arithmetic over edge inputs. Tests confirm that every reference solution passes, every starter fails, and one habit mistake per task is rejected for the intended reason. See the [live pilots](../docs/pilot-evidence.md#second-pilot-the-hard-corpus) for results.
+
+Task IDs/instructions and acceptance stay versioned independently of the compiler. Current compiler `0.5.0-dev`, profile `m1-scalar-mutation-v1`, accepts initialized mutable `i32`/`bool` locals and fixed-type reassignment; parameters remain immutable. Older pilot reports describe their archived compiler, under which scalar reassignment was rejected. [Proposal 0015](../docs/proposals/0015-mutable-scalar-locals.md) records the implementation change, not new model results. Comparisons across profiles require fresh controlled trials with each compiler/source/acceptance identity recorded; historical runs are not relabeled.
 
 ### Large-program corpus
 

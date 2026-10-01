@@ -1,6 +1,6 @@
 # Static text and optional console output
 
-Status: implemented experimental increment, compiler `0.4.0-dev`, language profile `m1-static-text-v1`, formatter `m1-static-text-layout-v1`, context `talven.context.v2`. It preserves the [M1c borrowing rules](borrowing.md). [Proposal 0011](proposals/0011-static-text-and-console-output.md) remains Draft; neither full M1 nor a production compiler is complete.
+Status: implemented experimental increment, introduced in compiler `0.4.0-dev`, language profile `m1-static-text-v1`, formatter `m1-static-text-layout-v1`, context `talven.context.v2`. Current compiler `0.5.0-dev` preserves these text/output contracts under `m1-scalar-mutation-v1` and `m1-scalar-mutation-layout-v1`, adding [mutable scalar locals](proposals/0015-mutable-scalar-locals.md). It preserves the [M1c borrowing rules](borrowing.md). [Proposal 0011](proposals/0011-static-text-and-console-output.md) remains Draft; neither full M1 nor a production compiler is complete.
 
 ## Run Hello World
 
@@ -45,7 +45,7 @@ fn main() -> i32 {
 
 Literals support ordinary Unicode source characters plus `\"`, `\\`, `\n`, `\r`, `\t`, and `\0`. Literal spelling is preserved by formatting; bytes are encoded as UTF-8 without normalization or locale conversion. Unknown escapes (including `\x` and `\u`), raw ASCII control characters, raw CR/LF, and missing closing quotes produce E0006. Use an actual Unicode source character when needed. A zero byte counts toward the length and is written normally. Text has no implicit trailing terminator.
 
-The source, token, and nesting limits in the [prototype guide](prototype.md) still apply. `str` supports immutable locals and function parameters/results only. No equality, ordering, arithmetic, concatenation, indexing, interpolation, heap-backed strings, or text fields in records are added. `let mut` and explicit borrows remain restricted to named records; `&str` is not supported. `str` and `print` are reserved global declaration names. Existing local-namespace rules still apply; calls resolve globally.
+The source, token, and nesting limits in the [prototype guide](prototype.md) still apply. `str` supports immutable locals and function parameters/results only. No equality, ordering, arithmetic, concatenation, indexing, interpolation, heap-backed strings, or text fields in records are added. Current `let mut` permits initialized `i32`/`bool` locals and owned records, while mutable text and record/text reassignment remain unsupported. Explicit borrows remain restricted to named records; `&str` is not supported. `str` and `print` are reserved global declaration names. Existing local-namespace rules still apply; calls resolve globally.
 
 ## Output contract and dependency boundary
 
@@ -71,7 +71,7 @@ Static text can be emitted with `--freestanding` without console or allocator de
 
 Analysis is shared by CLI, context, read-only edit previews, and LSP. Checking or formatting a print call does not execute it or invoke a C compiler. LSP hover describes the builtin contract; definition returns no source location for a builtin. Normal text bindings and user functions retain source navigation. Formatting treats a literal as one token: comment markers and delimiters inside it remain text.
 
-Context keeps `talven.context.v2` and its existing borrowed-parameter facts. The new language profile adds:
+Context keeps `talven.context.v2` and its existing borrowed-parameter facts. The static-text increment added the following facts, retained in the current scalar-mutation profile:
 
 - `str` parameters with `passing: "copy"`.
 - A `builtins` array for builtin calls in selected source functions and their direct source callees. Builtins are separate from source declarations and source-function `dependencies`.

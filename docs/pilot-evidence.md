@@ -142,7 +142,7 @@ The run cost $6.95 at list-price equivalent.
 What it shows:
 
 - **For Haiku, the signature index doubled first-attempt success.** It went from 5 to 10 of 16 (discordant pairs 6–1, exact p = 0.13), with fewer attempts and 28% lower cost. This is the first time compiler context has pointed toward better correctness. With 16 pairs it is still not conclusive.
-- **For Sonnet at `low`, one habit hid everything else.** In 30 of its 32 first attempts, it wrote a mutable running value (`let mut result = v; result = f(result);`). Talven has no scalar reassignment, so every such attempt was a syntax error in both conditions. The feedback then led it to a correct program with new bindings.
+- **For Sonnet at `low`, one habit hid everything else.** In 30 of its 32 first attempts, it wrote a mutable running value (`let mut result = v; result = f(result);`). The compiler recorded for that run had no scalar reassignment, so every such attempt was a syntax error in both conditions. The feedback then led it to a correct program with new bindings. Current compiler `0.5.0-dev` implements this scalar operation; these historical results do not measure the newer profile.
 - **Pooled across models, first attempts favored compiler context 6–2** (exact p = 0.29).
 - **Signature mistakes still happened in both conditions,** for example passing `&a` to a helper that takes `&mut Account`.
 
