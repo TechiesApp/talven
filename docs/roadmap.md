@@ -44,6 +44,8 @@ The [editor completion increment](editor-completion.md), specified in [Proposal 
 
 [Proposal 0018](proposals/0018-semantic-highlighting.md) adds [full semantic highlighting](semantic-highlighting.md) from current checked declarations/references, with lexical-only fallback on invalid edits. Range/delta requests, richer modifiers, incremental parsing and measured editor responsiveness remain open.
 
+[Proposal 0019](proposals/0019-current-call-signatures.md) adds [current call signatures](editor-signatures.md) and active argument selection through shared syntax. Checked declarations expose parameter passing and borrow permission; recovered invalid-source declarations remain explicitly unchecked. Richer type/loan-aware queries and measured responsiveness remain open.
+
 The [native scalar compiler experiment](../experiments/native-compiler/README.md), specified in [Proposal 0013](proposals/0013-native-scalar-compiler.md), adds an independent Rust checker/C emitter for a declared scalar/static-text overlap and a correctness-gated comparison runner. The native experiment now checks by-value records, moves, call-scoped borrowing, record mutation, and scalar reassignment against the reference with differential and sanitizer tests. Shared tooling parity, production selection and incremental compilation remain open.
 
 The [native phase baseline](native-phase-baseline.md) now isolates full lex/parse/depth checking, declaration/body checking and C emission inside one process on verified initial workloads. It keeps correctness and input/build identities explicit, without inferring startup, C build or incremental performance from those phase timings.

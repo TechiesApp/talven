@@ -1,4 +1,4 @@
-"""Bounded stdio LSP: sync, diagnostics, navigation, rename, formatting, completion.
+"""Bounded stdio LSP with shared diagnostics, navigation and editor queries.
 
 Documents are analyzed from editor-supplied text. The server never opens a URI,
 executes a compiler subprocess, installs a dependency, or runs source programs.
@@ -15,6 +15,7 @@ from .completion import completion_items
 from .formatter import format_source
 from .frontend import BUILTINS, KEYWORDS, SCALARS, Analysis, CompileError, Span, analyze, check_source, source_range
 from .semantic_tokens import TOKEN_MODIFIERS, TOKEN_TYPES, semantic_tokens
+from .signature_help import signature_help
 import re
 
 MAX_MESSAGE_BYTES = 1024 * 1024
@@ -197,6 +198,7 @@ class Server:
                     "hoverProvider": True, "definitionProvider": True, "documentSymbolProvider": True,
                     "documentFormattingProvider": True, "referencesProvider": True, "renameProvider": True,
                     "completionProvider": {"resolveProvider": False, "triggerCharacters": ["."]},
+                    "signatureHelpProvider": {"triggerCharacters": ["(", ","]},
                     "semanticTokensProvider": {"legend": {"tokenTypes": TOKEN_TYPES, "tokenModifiers": TOKEN_MODIFIERS},
                                                "full": True, "range": False}},
                     "serverInfo": {"name": "talven", "version": VERSION}})
@@ -259,6 +261,14 @@ class Server:
                 if doc is None:
                     raise ValueError("Document is not open")
                 self.send(id=identity, result=semantic_tokens(doc.source, doc.analysis))
+            elif method == "textDocument/signatureHelp":
+                doc = self.documents.get(params["textDocument"]["uri"])
+                if doc is None:
+                    raise ValueError("Document is not open")
+                offset = offset_at(doc.source, params["position"])
+                if offset is None:
+                    raise ValueError("Invalid signature-help position")
+                self.send(id=identity, result=signature_help(doc.source, offset, doc.analysis))
             elif method in ("textDocument/hover", "textDocument/definition", "textDocument/documentSymbol"):
                 doc = self.documents.get(params["textDocument"]["uri"])
                 result = [] if method.endswith("documentSymbol") else None

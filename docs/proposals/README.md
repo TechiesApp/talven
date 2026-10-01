@@ -46,3 +46,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0016 | [Persistent function checking](0016-persistent-function-checking.md) | Draft; implemented experiment |
 | 0017 | [Current-document completion](0017-current-document-completion.md) | Draft; implemented experiment |
 | 0018 | [Current-document semantic highlighting](0018-semantic-highlighting.md) | Draft; implemented experiment |
+| 0019 | [Current-document call signature help](0019-current-call-signatures.md) | Draft; implemented experiment |
