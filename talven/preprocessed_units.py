@@ -9,17 +9,15 @@ from dataclasses import dataclass
 import os
 from pathlib import Path
 import re
-import selectors
 import shutil
 import stat
-import subprocess
-import tempfile
 import time
 
 from .backend import MAX_C_UNIT_BYTES, MAX_C_UNITS, emit_preprocess_units
 from . import PROFILE
 from .context import compiler_hash, encode, source_hash
 from .frontend import CompileError, Span, analyze
+from .c_command import run_bounded
 
 MAX_PREPARED_BYTES = 64 * 1024 * 1024
 FLAGS = ('-std=c11', '-O2', '-Wall', '-Wextra', '-pedantic-errors')
@@ -68,47 +66,6 @@ def split_preprocessed(output, identities):
             line.strip() and not OWN_LINE.fullmatch(line) for line in pending):
         raise failure('Incomplete or trailing preprocessed unit output')
     return units
-
-
-def run_bounded(command, data, environment, timeout, stdout_limit=MAX_C_UNIT_BYTES, *, cwd=None):
-    # Reuse the established POSIX child/group cleanup and unreaped-exit logic.
-    from .dev import exit_status, stop_group
-    if os.name != 'posix' or not hasattr(os, 'waitid'):
-        raise CompileError('E0901', 'C unit preparation requires POSIX process groups and waitid', Span(0, 0))
-    started, process = time.monotonic(), None
-    output = {'stdout': bytearray(), 'stderr': bytearray()}
-    try:
-        with tempfile.TemporaryFile() as input_file, selectors.DefaultSelector() as selector:
-            input_file.write(data)
-            input_file.seek(0)
-            process = subprocess.Popen(command, stdin=input_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                       env=environment, cwd=cwd, start_new_session=True)
-            for label, stream in (('stdout', process.stdout), ('stderr', process.stderr)):
-                os.set_blocking(stream.fileno(), False)
-                selector.register(stream, selectors.EVENT_READ, label)
-            while selector.get_map() or exit_status(process) is None:
-                if time.monotonic() - started >= timeout:
-                    raise failure('C unit preparation command timed out')
-                for key, _ in selector.select(0.01):
-                    chunk = os.read(key.fileobj.fileno(), 32768)
-                    if not chunk:
-                        selector.unregister(key.fileobj)
-                    else:
-                        output[key.data].extend(chunk)
-                        limit = stdout_limit if key.data == 'stdout' else 64 * 1024
-                        if len(output[key.data]) > limit:
-                            raise failure('C unit preparation command output exceeded its limit')
-            if exit_status(process) != 0:
-                detail = bytes(output['stderr'] or output['stdout'])[:64 * 1024].decode('utf-8', errors='replace').strip()
-                raise failure('C unit preparation command failed: ' + detail)
-        return bytes(output['stdout'])
-    except OSError as error:
-        raise CompileError('E0901', str(error), Span(0, 0)) from None
-    finally:
-        if process is not None:
-            stop_group(process, 0.1)
-            process.stdout.close()
-            process.stderr.close()
 
 
 def executable_hash(path):
