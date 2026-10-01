@@ -61,6 +61,7 @@ Status definitions:
 | D47 | Proposed | Show bounded current direct-call signatures and argument passing contracts through shared syntax and current checked facts | [Proposal 0019](proposals/0019-current-call-signatures.md); reference LSP experiment, nested argument selection and explicitly unchecked recovered declarations; no call validation, source application or performance claim |
 | D48 | Proposed | Emit checked hosted function C units with stable local temporaries and repeated current global contracts before designing object reuse | [Proposal 0020](proposals/0020-hosted-function-c-units.md); reference lowering experiment, bounded unit receipts and independent separate-object native/sanitizer checks; no object cache, new build mode or speed claim |
 | D49 | Proposed | Freeze fresh trusted preprocessing into bounded function units while preserving host-header context | [Proposal 0021](proposals/0021-preprocessed-function-units.md); checked current source, strict splitting and driver/input byte identities; object reuse, complete toolchain trust and native build publication remain separate |
+| D50 | Proposed | Reuse bounded private last-successful objects under an explicit trusted stable-toolchain contract, with fresh checking/preprocessing/linking | [Proposal 0022](proposals/0022-private-object-reuse.md); synchronous API experiment, object integrity and atomic session-cache promotion; ordinary build/watch integration and comparative improvements remain open |
 
 ## Open decisions
 
