@@ -121,6 +121,7 @@ class Session:
         self.frontend = IncrementalFrontend() if args.incremental_check else None
         self.units = None
         self.build_mode = "units" if args.incremental_build else "full"
+        self.fast_full_poll = args.poll_interval >= args.build_timeout / 2
         if args.incremental_build:
             from .unit_build import UnitBuildSession
             self.units = UnitBuildSession(stable_toolchain=args.stable_toolchain, cc=args.cc,
@@ -334,8 +335,13 @@ class Session:
                        poll_interval_seconds=self.args.poll_interval, debounce_seconds=self.args.debounce,
                        build_timeout_seconds=self.args.build_timeout, stop_timeout_seconds=self.args.stop_timeout,
                        stable_toolchain_required=self.units is not None)
+            next_observation = 0.0
             while not self.cancelled:
-                self.observe()
+                # Full compiler completion can be polled without rereading source every tick.
+                if (self.build is None or self.build.pipeline is not None or not self.fast_full_poll
+                        or time.monotonic() >= next_observation):
+                    self.observe()
+                    next_observation = time.monotonic() + self.args.poll_interval
                 if self.program and exit_status(self.program.process) is not None:
                     job, self.program = self.program, None
                     self.discard(job)
@@ -344,7 +350,8 @@ class Session:
                 if (not self.cancelled and self.build is None and self.attempted != self.revision
                         and time.monotonic() - self.observed >= self.args.debounce):
                     self.begin_build()
-                time.sleep(min(self.args.poll_interval, 0.005) if self.build and self.build.pipeline is not None
+                time.sleep(min(self.args.poll_interval, 0.005)
+                           if self.build and (self.build.pipeline is not None or self.fast_full_poll)
                            else self.args.poll_interval)
             return 128 + self.cancelled
         finally:
