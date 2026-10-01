@@ -14,6 +14,8 @@ Current repository contribution: requirements and architecture are documented. T
 
 Initial increment: **M1a reference compiler**. Implemented parsing, strict scalar types, affine scalar-field records, functions, conditionals, structured diagnostics, deterministic bounded context, C11 lowering, and a basic LSP. See [actual validation](prototype-validation.md). This increment does not complete the full M1 gate.
 
+Developer test workflow: [Proposal 0029](proposals/0029-native-test-manifests.md) adds bounded [native test manifests](testing.md) using the shared frontend and ordinary C lowering, with explicit full signed main-result/output or first-diagnostic expectations. It supplies a test command for the implemented single-file subset; package/documentation tooling and broader M1 evaluation gates remain open.
+
 Following increment: **M1b formatting and native checks**. The CLI and LSP share a token-preserving canonical formatter, with explicit file writes and structured check diagnostics. Native CI declares Linux x86-64 and ARM64 jobs; see [M1b scope](formatting.md) and [its execution evidence](formatting-validation.md). The next increment, **M1c call-scoped borrowing**, implements shared/exclusive record parameters, field mutation, source-order native lowering, and context v2; see [its scope](borrowing.md) and [validation](borrowing-validation.md). Controlled model evaluation remains open.
 
 Prototype parsing, strict types, functions, basic data types, a limited ownership model, deterministic diagnostics, a formatter, and compiler-derived context lookup.

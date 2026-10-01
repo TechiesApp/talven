@@ -26,6 +26,8 @@ The vector example exits with status zero when its calculation is correct. For v
 
 The [development command](development.md) watches one file, fully rebuilds changed snapshots, and restarts after successful fresh builds. It reuses the same frontend/backend and build flags, with no language-profile change or emitted development runtime.
 
+The [native test command](testing.md), `python3 -m talven test examples/tests.json`, runs explicit single-file cases for full signed main results, exact stdout/stderr or the first current compiler diagnostic. It adds no language syntax and requires trusted local native execution for runtime cases.
+
 The [edit preview commands](edit-validation.md) add read-only `edit snapshot` and `edit validate` operations. Snapshots provide exact identities even for broken source; validation checks a separate complete candidate against mandatory source/compiler hashes and reports frontend diagnostics and declaration differences. No source application or native execution occurs.
 
 ## Implemented grammar
@@ -133,6 +135,7 @@ Commands read source only from regular files; FIFOs and devices produce E0901 wi
 | E0501 / E0502 | Stale source / context byte budget |
 | E0601 / E0602 / E0603 / E0604 | Noncanonical layout / formatting output limit / unsupported in-place target / token-preservation failure; see [formatting](formatting.md) |
 | E0701 / E0702 / E0703 | Invalid edit-preview request / compiler revision mismatch / preview output budget; see [edit previews](edit-validation.md) |
+| E0801 / E0802 | Invalid test manifest/expectation setup / malformed native full-result protocol; see [test manifests](testing.md) |
 | E0901 | File, encoding, process-launch, or build-timeout failure |
 
 ## Editor integration

@@ -1,0 +1,12 @@
+{
+  "schema": "talven.test-manifest.v1",
+  "cases": [
+    {"id": "vectors", "source": "vectors.tal"},
+    {"id": "borrowing", "source": "borrowing.tal"},
+    {"id": "scalars", "source": "scalars.tal"},
+    {"id": "hello", "source": "hello.tal", "console": true, "stdout": "Hello, world!\n"},
+    {"id": "type-error", "source": "invalid/type.tal", "diagnostic": "E0201"},
+    {"id": "move-error", "source": "invalid/moved.tal", "diagnostic": "E0301"},
+    {"id": "borrow-error", "source": "invalid/borrow-conflict.tal", "diagnostic": "E0302"}
+  ]
+}
