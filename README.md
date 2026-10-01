@@ -97,7 +97,7 @@ Run the test suite with `python3 -m unittest discover -s tests`. For editor supp
 | --- | --- |
 | Language | `i32`, `bool`, static UTF-8 `str`, functions, `let`, mutable scalar locals and reassignment, `if`/`else`, records of scalars, checked arithmetic |
 | Safety | Affine moves, call-scoped `&`/`&mut` borrows, field mutation, strict types, overflow and division traps |
-| Tooling | `check`, `fmt`, `context`, `build`, `emit-c`, `dev` (watch/restart with opt-in function-check reuse), `edit` previews, and an LSP with name/field completion |
+| Tooling | `check`, `fmt`, `context`, `build`, `emit-c`, `dev` (watch/restart with opt-in function-check reuse), `edit` previews, and an LSP with completion and semantic highlighting |
 | Targets | Native executables through C11 on Linux x86-64 and ARM64 (in CI) and macOS; a no-libc Linux mode |
 | Agent evaluation | A reproducible harness with paired source-only and compiler-context conditions, independent native acceptance, and priced token accounting |
 | Native compiler | A Rust prototype with scalars, text, records, moves, call-scoped borrowing and mutation, checked against the reference by differential and sanitizer suites |
@@ -120,7 +120,7 @@ Talven is at the stage where one contribution can shape the language. Good place
 
 - **Harder agent tasks.** The first pilot hit a ceiling; the harness needs tasks that models fail without compiler help. See [experiments](experiments/README.md).
 - **The native compiler.** Extend tooling parity and benchmark the [Rust prototype](experiments/native-compiler/README.md). The differential suite tells you when it matches the reference.
-- **Editor support.** Semantic tokens, richer completion and incremental parsing in the LSP.
+- **Editor support.** Richer completion, semantic-token deltas and incremental parsing in the LSP.
 - **Language design.** Loops, allocation, and error handling go through [design proposals](docs/proposals/README.md).
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) for setup, checks, and the pull-request process. The [documentation index](docs/README.md) lists every guide, design document, and evidence record.

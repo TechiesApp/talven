@@ -14,6 +14,7 @@ from . import VERSION
 from .completion import completion_items
 from .formatter import format_source
 from .frontend import BUILTINS, KEYWORDS, SCALARS, Analysis, CompileError, Span, analyze, check_source, source_range
+from .semantic_tokens import TOKEN_MODIFIERS, TOKEN_TYPES, semantic_tokens
 import re
 
 MAX_MESSAGE_BYTES = 1024 * 1024
@@ -195,7 +196,9 @@ class Server:
                     "positionEncoding": "utf-16", "textDocumentSync": {"openClose": True, "change": 1},
                     "hoverProvider": True, "definitionProvider": True, "documentSymbolProvider": True,
                     "documentFormattingProvider": True, "referencesProvider": True, "renameProvider": True,
-                    "completionProvider": {"resolveProvider": False, "triggerCharacters": ["."]}},
+                    "completionProvider": {"resolveProvider": False, "triggerCharacters": ["."]},
+                    "semanticTokensProvider": {"legend": {"tokenTypes": TOKEN_TYPES, "tokenModifiers": TOKEN_MODIFIERS},
+                                               "full": True, "range": False}},
                     "serverInfo": {"name": "talven", "version": VERSION}})
                 return None
             if not self.initialized:
@@ -251,6 +254,11 @@ class Server:
                 if offset is None:
                     raise ValueError("Invalid completion position")
                 self.send(id=identity, result=completion_items(doc.source, offset, doc.analysis, doc.version))
+            elif method == "textDocument/semanticTokens/full":
+                doc = self.documents.get(params["textDocument"]["uri"])
+                if doc is None:
+                    raise ValueError("Document is not open")
+                self.send(id=identity, result=semantic_tokens(doc.source, doc.analysis))
             elif method in ("textDocument/hover", "textDocument/definition", "textDocument/documentSymbol"):
                 doc = self.documents.get(params["textDocument"]["uri"])
                 result = [] if method.endswith("documentSymbol") else None

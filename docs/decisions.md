@@ -57,6 +57,7 @@ Status definitions:
 | D43 | Proposed | Initialized mutable `i32`/`bool` locals and fixed-type scalar reassignment, preserving immutable parameters, record moves, and call-scoped borrowing | [Proposal 0015](proposals/0015-mutable-scalar-locals.md); implemented `0.5.0-dev` experiment; design acceptance and new live evaluation remain separate |
 | D44 | Proposed | Reuse successful function checks using exact current source and dependency contracts, with fresh parsing/references and full native rebuilding | [Proposal 0016](proposals/0016-persistent-function-checking.md); opt-in reference experiment; invalidation is tested, [local timings](incremental-checking-evidence.md) do not establish a consistent speedup |
 | D45 | Proposed | Offer bounded current-document identifier completion through shared syntax, with current checked facts or explicitly unchecked recovered declarations | [Proposal 0017](proposals/0017-current-document-completion.md); reference LSP experiment; plain UTF-16 edits, lexical scope, no source application/execution or measured agent benefit |
+| D46 | Proposed | Derive full current-document semantic highlighting from shared lexing and resolved references, clearing semantic facts on invalid edits | [Proposal 0018](proposals/0018-semantic-highlighting.md); reference LSP experiment; UTF-16 relative tokens, declaration/write markers, bounded full results, no range/delta or performance claim |
 
 ## Open decisions
 
