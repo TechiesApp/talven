@@ -33,3 +33,25 @@ The store-heavy input emitted 243,313 bytes of identical C. Its buffer medians w
 Local validation passed 13 Rust tests, 15 native conformance tests, all 840 differential cases, five native comparison tests and six native ASan/UBSan borrow executions at `-O0`/`-O2`. The reference suite passed 343 tests with one Linux-only test skipped locally; Linux CI enforces zero skips. Rust formatting and Clippy passed.
 
 Archive replay also revealed that the shared workload factory reads unselected example inputs. The runner now retains all top-level example sources and the experiments package initializer, so replay resolves the archived package and workload source without the original checkout. A focused regression executes the archived workload factory in an isolated Python subprocess, in addition to existing malformed/partial receipt and no-overwrite tests. The original phase observation's selected sources/results remain unchanged; its archive predates this retention repair.
+
+## Direct line formatting follow-up
+
+The native emitter subsequently writes `format_args!` directly into the body buffer through `std::fmt::Write`, removing the temporary input string used for each formatted line. Expression/temporary names and C value strings remain owned because later lowering steps use them. Output order and bytes retain the same contract; no allocation counter or peak-memory observation was collected.
+
+A second [public comparison extract](../experiments/results/native-direct-formatting-macos-arm64-20261001.json) records three AB/BA/AB pairs (A: body buffer with preformatted lines; B: direct line formatting). Each suite again uses all five workloads, one ordinary preflight, two warmups and 20 measured iterations per workload. All 30 native acceptance executions passed, with identical sources and generated C identities. All 32 input identities match between conditions except the native library source. The same method, C/Rust flags and hardware apply; baseline native inputs/binary were frozen from the preceding body-buffer experiment and the shared reference inputs updated identically for both conditions.
+
+The working tree was based on `06ef745`; reference compiler hash was `8feabf1f63fc043ae3712ff0b8fe0da36f307855d1e66bda3f97a5f4940e26b1`, including the new signature-help module. Interval: 09:18:57–09:19:09 UTC. Desktop apps were open, with no validation jobs intentionally running; scheduler/cache/thermal conditions remained uncontrolled. Raw receipts and both frozen input versions remain under ignored `build/native-format-paired/` and `build/native-format-baseline-inputs/`. The full comparison SHA-256 is `88de989565b83eb364eaeae0cdc679baec5968d765e24461b94c07648489cbda`. The extract retains all 660 phase samples and source/build identities, omitting absolute command paths/raw streams and embedded native source text. No model/tokenizer or cost measurement was performed.
+
+Cells are **emission median milliseconds for pair 1, pair 2, pair 3**, each based on 20 measured iterations; no outlier was removed.
+
+| Workload | Body buffer / preformatted lines | Direct line formatting |
+| --- | --- | --- |
+| hello | 0.003083, 0.003396, 0.003396 | 0.002521, 0.002646, 0.003167 |
+| chain-32 | 0.064895, 0.118875, 0.063562 | 0.047292, 0.054395, 0.046000 |
+| chain-128 | 0.255895, 0.228396, 0.351083 | 0.168499, 0.176271, 0.169020 |
+| stores-128 | 1.402459, 1.206750, 1.365895 | 1.620270, 0.792230, 0.826417 |
+| borrowing | 0.007188, 0.006875, 0.007292 | 0.006271, 0.015605, 0.005812 |
+
+Both chain workloads had lower direct-formatting medians in all pairs. The first store-heavy pair and second borrowing pair were slower with direct formatting. This preserves evidence of variability rather than averaging it into an unconditional speedup. Keeping the change removes a clear formatting allocation step, but this small run does not establish a general performance guarantee, memory gain or full-build/editor improvement. Earlier runs are not pooled with this comparison.
+
+Rust formatting/Clippy and 13 tests, 15 native conformance tests, all 840 differential cases, five comparison tests and six native ASan/UBSan borrow executions passed locally. The full reference suite passed 351 tests with one Linux-only static-text sanitizer case skipped on this macOS host. Required Linux CI remains the native-host gate.
