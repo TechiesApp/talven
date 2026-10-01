@@ -15,6 +15,34 @@ SPEC.loader.exec_module(measurement)
 
 
 class IncrementalMeasurementTests(unittest.TestCase):
+    def test_call_type_runner_retains_selected_mode_and_complete_input_archive(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            out = Path(temporary) / 'run'
+            args = argparse.Namespace(out=str(out), cc='cc', repetitions=1, warmups=0, timeout=10,
+                                      expect_arch=None, environment_note='fixture measurement', call_type_contracts=True)
+            with patch.object(measurement, 'workloads', return_value=[measurement.workloads()[0]]):
+                self.assertEqual(0, measurement.run(args))
+            report = json.loads((out/'report.json').read_text())
+            self.assertTrue(report['complete'] and report['passed'] and report['call_type_contracts'])
+            self.assertIn('experiments/__init__.py', report['inputs'])
+            self.assertIn('examples/borrowing.tal', report['inputs'])
+            selected = next(s for s in report['samples'] if s['mode']=='incremental' and s['revision']=='contract')
+            self.assertEqual(['step_0'], selected['reuse']['checked'])
+
+    def test_call_type_workloads_reuse_renamed_caller_with_current_full_facts(self):
+        for workload in measurement.workloads():
+            frontend = IncrementalFrontend(call_type_contracts=True)
+            for revision in workload['revisions']:
+                with self.subTest(workload=workload['id'], revision=revision['id']):
+                    actual, error = measurement.checked(frontend.analyze, revision['source'])
+                    expected, full_error = measurement.checked(measurement.analyze, revision['source'])
+                    self.assertEqual((expected, full_error), (actual, error))
+                    if revision['id'] == 'contract':
+                        self.assertEqual(['step_0'], frontend.stats['checked'])
+                        self.assertIn('step_1', frontend.stats['reused'])
+                    elif revision['id'] == 'schema':
+                        self.assertEqual(['read', 'bump', 'main'], frontend.stats['checked'])
+
     def test_workload_edits_have_expected_reuse_and_current_full_results(self):
         self.assertEqual(['chain-32', 'chain-128', 'stores-128', 'borrowing'],
                          [w['id'] for w in measurement.workloads()])

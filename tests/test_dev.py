@@ -166,6 +166,34 @@ class DevelopmentTests(unittest.TestCase):
         self.stdout.seek(0)
         self.assertEqual(b"latest\n", self.stdout.read())
 
+    def test_call_type_checks_reuse_callers_after_parameter_rename_and_repair(self):
+        source = ('fn message(value: i32) -> str { return "current\\n"; } '
+                  'fn main() -> i32 { return print(message(1)); }\n')
+        self.save(source.encode())
+        self.start('--incremental-check', '--call-type-contracts')
+        self.wait_event('exited', 1)
+        self.assertTrue(self.records()[0]['call_type_contracts'])
+        changed = source.replace('value: i32', 'input: i32')
+        self.save(changed.encode())
+        self.wait_event('exited', 2)
+        checked = self.wait_event('checked', 2)
+        self.assertEqual(['message'], checked['checked'])
+        self.assertEqual(['main'], checked['reused'])
+        self.save(changed.replace('input: i32', 'input: bool').encode())
+        self.assertEqual('E0201', self.wait_event('rejected', 3)['diagnostic']['code'])
+        self.save(('// shifted 😀\n' + changed).encode())
+        self.wait_event('exited', 4)
+        self.assertEqual([], self.wait_event('checked', 4)['checked'])
+        self.stop()
+        self.stdout.seek(0)
+        self.assertEqual(b'current\ncurrent\ncurrent\n', self.stdout.read())
+
+    def test_call_type_flag_requires_check_reuse_and_rejects_native_mode(self):
+        for flags in (['--call-type-contracts'], ['--call-type-contracts', '--incremental-build', '--stable-toolchain']):
+            result = subprocess.run([sys.executable, '-m', 'talven', 'dev', str(self.source), *flags], capture_output=True, timeout=5)
+            self.assertEqual(2, result.returncode)
+            self.assertIn(b'requires --incremental-check', result.stderr)
+
     def test_edit_during_slow_compile_discards_candidate(self):
         cc = self.wrapper("(root / 'cc-pid').write_text(str(os.getpid()))\n"
                           "while not (root / 'release').exists(): time.sleep(.01)\n"

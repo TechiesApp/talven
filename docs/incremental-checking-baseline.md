@@ -37,3 +37,7 @@ Memory/RSS, cold filesystem caches, process startup, incremental parsing, increm
 ## Continuous verification
 
 `tests/test_incremental_measurement.py` validates edit validity, dependency invalidation and repair reuse, rejects partial/unverified summaries, and checks that missing analysis cannot become a successful report. Compiler CI runs the measurement on its declared Linux hosts and retains the complete directories as artifacts. Local observations belong in a separate evidence record with their full provenance and limitations.
+
+The explicit [current call type contract option](call-type-contracts.md) allows parameter-name changes to preserve caller checks while rebuilding displayed signatures from current declarations. Default signature identities remain unchanged; full current parsing and native rebuilding still apply.
+
+[Three paired local comparisons](call-contracts-evidence.md) retain current native-accepted workloads, exact complete analysis/context/C and 2,016 samples including warmups. Recheck counts improve for parameter renames; timings remain mixed and defaults remain unchanged.
