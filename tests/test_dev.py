@@ -185,6 +185,17 @@ class DevelopmentTests(unittest.TestCase):
         self.start("--cc", cc, "--build-timeout", "0.3")
         self.assertIn("timed out", self.wait_event("rejected", 1)["diagnostic"]["message"])
 
+    def test_fast_compiler_does_not_time_out_when_source_poll_interval_is_longer(self):
+        # Test-only executable double isolates completion/timeout handling from C performance.
+        cc = self.wrapper("out = pathlib.Path(sys.argv[sys.argv.index('-o') + 1])\n"
+                          "out.write_text('#!' + sys.executable + '\\nprint(\"completed\")\\n')\n"
+                          "out.chmod(0o700)\n")
+        self.start("--cc", cc, "--poll-interval", "1", "--debounce", "0.01", "--build-timeout", "0.5")
+        self.assertEqual(0, self.wait_event("exited", 1)["returncode"])
+        self.assertFalse(any(row["event"] == "rejected" for row in self.records()))
+        self.stdout.seek(0)
+        self.assertEqual(b"completed\n", self.stdout.read())
+
     def test_compiler_output_limit_is_reported(self):
         cc = self.wrapper("os.write(2, b'x' * 200000)\ntime.sleep(30)\n")
         self.start("--cc", cc, "--build-timeout", "5")
