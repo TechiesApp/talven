@@ -3,13 +3,12 @@
 //!
 //! The lexer, parser, checker, and emitter follow `talven/frontend.py` and `talven/backend.py`
 //! in order, codes, messages, and spans. Records are affine by-value values with scalar fields.
-//! Record borrowing and field mutation are unsupported: a program that declares a struct and
-//! uses a borrowed parameter type, a borrow expression, or a field assignment receives
-//! `E0801`. Without records, that syntax always receives the reference's diagnostics.
+//! Named record borrows are explicit, call-scoped, and nonescaping; ordered lowering
+//! preserves loan scope and mutations without a runtime borrow registry.
 use std::collections::{BTreeMap, BTreeSet};
 use std::ops::Range;
 
-pub const PROFILE: &str = "native-scalar-mutation-v1";
+pub const PROFILE: &str = "native-call-borrows-v1";
 pub const MAX_SOURCE: usize = 256 * 1024;
 const MAX_TOKENS: usize = 16384;
 const MAX_AST_DEPTH: usize = 128;
@@ -251,17 +250,29 @@ enum Ty {
     Text,
     /// An index into the program's record declarations.
     Record(usize),
+    Borrowed(usize, bool),
 }
 impl Ty {
     fn is_copy(self) -> bool {
         !matches!(self, Self::Record(_))
     }
-    fn name(self, records: &[Record]) -> &str {
+    fn name(self, records: &[Record]) -> String {
         match self {
-            Self::Int => "i32",
-            Self::Bool => "bool",
-            Self::Text => "str",
-            Self::Record(index) => &records[index].name.text,
+            Self::Int => "i32".into(),
+            Self::Bool => "bool".into(),
+            Self::Text => "str".into(),
+            Self::Record(index) => records[index].name.text.clone(),
+            Self::Borrowed(index, exclusive) => format!(
+                "{}{}",
+                if exclusive { "&mut " } else { "&" },
+                records[index].name.text
+            ),
+        }
+    }
+    fn record(self) -> Option<usize> {
+        match self {
+            Self::Record(index) | Self::Borrowed(index, _) => Some(index),
+            _ => None,
         }
     }
     fn c(self, records: &[Record]) -> String {
@@ -270,6 +281,11 @@ impl Ty {
             Self::Bool => "bool".into(),
             Self::Text => "tv_str".into(),
             Self::Record(index) => format!("struct tv_s_{}", records[index].name.text),
+            Self::Borrowed(index, exclusive) => format!(
+                "{}struct tv_s_{} *",
+                if exclusive { "" } else { "const " },
+                records[index].name.text
+            ),
         }
     }
 }
@@ -283,7 +299,7 @@ enum ExprKind {
     /// A record literal: its name, then each written field label and value in source order.
     Record(String, Vec<(Token, usize)>),
     Field(String, usize),
-    Borrow(usize),
+    Borrow(bool, usize),
     Unary(String, usize),
     Binary(String, usize, usize),
 }
@@ -299,7 +315,7 @@ impl Expr {
         match &self.kind {
             ExprKind::Call(_, args) => args.clone(),
             ExprKind::Record(_, fields) => fields.iter().map(|(_, value)| *value).collect(),
-            ExprKind::Field(_, child) | ExprKind::Borrow(child) | ExprKind::Unary(_, child) => {
+            ExprKind::Field(_, child) | ExprKind::Borrow(_, child) | ExprKind::Unary(_, child) => {
                 vec![*child]
             }
             ExprKind::Binary(_, a, b) => vec![*a, *b],
@@ -538,10 +554,10 @@ impl Parser {
         let token = self.current().clone();
         let mut left;
         if self.accept("&") {
-            self.accept("mut");
+            let exclusive = self.accept("mut");
             let child = self.expression(7, frame + 1)?;
             let end = self.expressions[child].span.end;
-            left = self.add(ExprKind::Borrow(child), token.span.start..end);
+            left = self.add(ExprKind::Borrow(exclusive, child), token.span.start..end);
         } else if matches!(token.kind(), "-" | "!") {
             self.index += 1;
             let child = self.expression(7, frame + 1)?;
@@ -665,40 +681,6 @@ fn check_depth(functions: &[Function], expressions: &[Expr]) -> Result<()> {
     Ok(())
 }
 
-/// The first borrow or mutation construct, in source order: a borrowed parameter type, a
-/// borrow expression or a field assignment. With records declared these are the
-/// native profile's unsupported features (`E0801`); without records the reference always
-/// rejects them, and the checker below reports the reference's diagnostic instead.
-fn borrow_or_mutation(functions: &[Function], expressions: &[Expr]) -> Option<Range<usize>> {
-    fn statements(body: &[Stmt], expressions: &[Expr], spans: &mut Vec<Range<usize>>) {
-        for stmt in body {
-            if stmt
-                .target
-                .is_some_and(|target| matches!(expressions[target].kind, ExprKind::Field(..)))
-            {
-                spans.push(stmt.span.clone());
-            }
-            statements(&stmt.then, expressions, spans);
-            statements(&stmt.otherwise, expressions, spans);
-        }
-    }
-    let mut spans: Vec<Range<usize>> = expressions
-        .iter()
-        .filter(|e| matches!(e.kind, ExprKind::Borrow(_)))
-        .map(|e| e.span.clone())
-        .collect();
-    for f in functions {
-        spans.extend(
-            f.params
-                .iter()
-                .filter(|(_, ty)| ty.text.starts_with('&'))
-                .map(|(_, ty)| ty.span.clone()),
-        );
-        statements(&f.body, expressions, &mut spans);
-    }
-    spans.into_iter().min_by_key(|span| span.start)
-}
-
 fn same(actual: Ty, expected: Ty, span: Range<usize>, records: &[Record]) -> Result<()> {
     if actual == expected {
         Ok(())
@@ -743,8 +725,7 @@ fn type_name(token: &Token, parameter: bool, records: &BTreeMap<String, usize>) 
     };
     match (base, ty) {
         (None, _) => Ok(ty),
-        // Borrowed record parameters are rejected before checking (`E0801`).
-        (Some(_), Ty::Record(_)) => Err(unsupported(token.span.clone())),
+        (Some(_), Ty::Record(index)) => Ok(Ty::Borrowed(index, text.starts_with("&mut "))),
         (Some(_), _) => Err(error(
             "E0305",
             "Only named records can be borrowed in this profile",
@@ -752,20 +733,13 @@ fn type_name(token: &Token, parameter: bool, records: &BTreeMap<String, usize>) 
         )),
     }
 }
-fn unsupported(span: Range<usize>) -> Error {
-    error(
-        "E0801",
-        "Native experiment does not support record borrowing or field mutation (&, &mut, field assignment); use the reference compiler",
-        span,
-    )
-}
-
 /// Local bindings and the owned records that may have moved on some path.
 #[derive(Clone, Default)]
 struct State {
     bindings: BTreeMap<String, Ty>,
     moved: BTreeSet<String>,
     mutable: BTreeSet<String>,
+    loans: BTreeMap<String, bool>,
 }
 struct Checker<'a> {
     expressions: &'a mut [Expr],
@@ -847,12 +821,12 @@ impl Checker<'_> {
         }
         Ok(reachable)
     }
-    /// Field assignment always fails here: with records declared it is rejected before
-    /// checking (`E0801`), and without records a scalar binding has no field.
+    /// Destinations are checked before the value; the final store cannot revive an owner.
     fn assignment(&mut self, stmt: &Stmt, state: &mut State) -> Result<()> {
         let target = stmt.target.expect("assignment target");
-        if let ExprKind::Name(name) = &self.expressions[target].kind {
+        if matches!(self.expressions[target].kind, ExprKind::Name(_)) {
             let ty = self.lookup(target, state)?;
+            self.expressions[target].ty = Some(ty);
             if !matches!(ty, Ty::Int | Ty::Bool) {
                 return Err(error(
                     "E0305",
@@ -860,18 +834,16 @@ impl Checker<'_> {
                     self.expressions[target].span.clone(),
                 ));
             }
-            if !state.mutable.contains(name) {
-                return Err(error(
-                    "E0303",
-                    format!("Mutating {name} requires a let mut owner or an &mut parameter"),
-                    self.expressions[target].span.clone(),
-                ));
-            }
+            self.require_mutable(target, ty, state)?;
             let actual = self.expr(stmt.expr, state, true)?;
             return self.same(actual, ty, self.expressions[stmt.expr].span.clone());
         }
-        let place = match &self.expressions[target].kind {
-            ExprKind::Field(_, place) => *place,
+        let place = match self.expressions[target].kind {
+            ExprKind::Field(_, place)
+                if matches!(self.expressions[place].kind, ExprKind::Name(_)) =>
+            {
+                place
+            }
             _ => {
                 return Err(error(
                     "E0305",
@@ -880,15 +852,48 @@ impl Checker<'_> {
                 ));
             }
         };
-        if !matches!(self.expressions[place].kind, ExprKind::Name(_)) {
+        let ty = self.expr(target, state, false)?;
+        self.require_mutable(place, self.lookup(place, state)?, state)?;
+        self.access(place, state, "write")?;
+        let actual = self.expr(stmt.expr, state, true)?;
+        self.same(actual, ty, self.expressions[stmt.expr].span.clone())?;
+        self.lookup(place, state)?;
+        self.access(place, state, "write")
+    }
+    fn require_mutable(&self, index: usize, ty: Ty, state: &State) -> Result<()> {
+        let ExprKind::Name(name) = &self.expressions[index].kind else {
+            unreachable!("mutable place");
+        };
+        if !matches!(ty, Ty::Borrowed(_, true)) && !state.mutable.contains(name) {
             return Err(error(
-                "E0305",
-                "Assignment requires a named scalar local or a scalar field of a named record binding",
-                self.expressions[target].span.clone(),
+                "E0303",
+                format!("Mutating {name} requires a let mut owner or an &mut parameter"),
+                self.expressions[index].span.clone(),
             ));
         }
-        self.expr(target, state, false)?;
-        Err(unsupported(stmt.span.clone()))
+        Ok(())
+    }
+    fn access(&self, index: usize, state: &State, action: &str) -> Result<()> {
+        let ExprKind::Name(name) = &self.expressions[index].kind else {
+            unreachable!("loan place");
+        };
+        if let Some(exclusive) = state.loans.get(name)
+            && (*exclusive || action != "read")
+        {
+            let (article, mode) = if *exclusive {
+                ("an", "exclusive")
+            } else {
+                ("a", "shared")
+            };
+            return Err(error(
+                "E0302",
+                format!(
+                    "Cannot {action} {name}: an earlier argument holds {article} {mode} borrow until its call returns"
+                ),
+                self.expressions[index].span.clone(),
+            ));
+        }
+        Ok(())
     }
     fn lookup(&self, index: usize, state: &State) -> Result<Ty> {
         let expr = &self.expressions[index];
@@ -911,28 +916,46 @@ impl Checker<'_> {
         }
         Ok(*ty)
     }
-    /// A borrow argument always fails without records; report the reference's first reason.
-    fn borrow(&self, index: usize, state: &State) -> Result<Ty> {
-        let ExprKind::Borrow(place) = self.expressions[index].kind else {
-            unreachable!("borrow expression")
+    fn borrow(&mut self, index: usize, state: &mut State) -> Result<Ty> {
+        let ExprKind::Borrow(exclusive, place) = self.expressions[index].kind else {
+            unreachable!("borrow expression");
         };
         let span = self.expressions[place].span.clone();
-        if !matches!(self.expressions[place].kind, ExprKind::Name(_)) {
+        let ExprKind::Name(name) = self.expressions[place].kind.clone() else {
             return Err(error(
                 "E0305",
                 "Borrow a named record binding; temporaries, fields, and nested references are unsupported",
                 span,
             ));
+        };
+        let binding = self.lookup(place, state)?;
+        self.expressions[place].ty = Some(binding);
+        let Some(record) = binding.record() else {
+            return Err(error(
+                "E0305",
+                "Only named records can be borrowed in this profile",
+                span,
+            ));
+        };
+        if exclusive {
+            self.require_mutable(place, binding, state)?;
         }
-        self.lookup(place, state)?;
-        Err(error(
-            "E0305",
-            "Only named records can be borrowed in this profile",
-            span,
-        ))
+        self.access(
+            place,
+            state,
+            if exclusive {
+                "borrow exclusively"
+            } else {
+                "read"
+            },
+        )?;
+        state.loans.insert(name, exclusive);
+        let ty = Ty::Borrowed(record, exclusive);
+        self.expressions[index].ty = Some(ty);
+        Ok(ty)
     }
     fn argument(&mut self, index: usize, state: &mut State) -> Result<Ty> {
-        if matches!(self.expressions[index].kind, ExprKind::Borrow(_)) {
+        if matches!(self.expressions[index].kind, ExprKind::Borrow(..)) {
             self.borrow(index, state)
         } else {
             self.expr(index, state, true)
@@ -960,6 +983,22 @@ impl Checker<'_> {
             ExprKind::Text(_) => Ty::Text,
             ExprKind::Name(name) => {
                 let ty = self.lookup(index, state)?;
+                if consume && matches!(ty, Ty::Borrowed(..)) {
+                    return Err(error(
+                        "E0304",
+                        "Borrowed parameters cannot be used as owned values; reborrow explicitly in a call",
+                        span,
+                    ));
+                }
+                self.access(
+                    index,
+                    state,
+                    if consume && !ty.is_copy() {
+                        "move"
+                    } else {
+                        "read"
+                    },
+                )?;
                 if consume && !ty.is_copy() {
                     state.moved.insert(name);
                 }
@@ -967,8 +1006,8 @@ impl Checker<'_> {
             }
             ExprKind::Field(name, child) => {
                 let base = self.expr(child, state, false)?;
-                let field = match base {
-                    Ty::Record(record) => self.records[record]
+                let field = match base.record() {
+                    Some(record) => self.records[record]
                         .resolved
                         .iter()
                         .find(|(field, _)| *field == name),
@@ -1045,13 +1084,33 @@ impl Checker<'_> {
                         span,
                     ));
                 }
-                for (arg, expected) in args.iter().zip(params) {
-                    let actual = self.argument(*arg, state)?;
-                    self.same(actual, expected, self.expressions[*arg].span.clone())?;
-                }
+                let outer_loans = state.loans.clone();
+                let checked = (|| {
+                    for (arg, expected) in args.iter().zip(params) {
+                        let actual = if matches!(self.expressions[*arg].kind, ExprKind::Borrow(..))
+                        {
+                            self.borrow(*arg, state)?
+                        } else if matches!(expected, Ty::Borrowed(..)) {
+                            return Err(error(
+                                "E0304",
+                                format!(
+                                    "Pass {} explicitly with &name or &mut name",
+                                    expected.name(self.records)
+                                ),
+                                self.expressions[*arg].span.clone(),
+                            ));
+                        } else {
+                            self.expr(*arg, state, true)?
+                        };
+                        self.same(actual, expected, self.expressions[*arg].span.clone())?;
+                    }
+                    Ok(())
+                })();
+                state.loans = outer_loans;
+                checked?;
                 result
             }
-            ExprKind::Borrow(_) => {
+            ExprKind::Borrow(..) => {
                 return Err(error(
                     "E0304",
                     "Borrow expressions are allowed only as direct call arguments; references cannot be stored or returned",
@@ -1179,12 +1238,6 @@ pub fn analyze(source: &str) -> Result<Program> {
     let (mut records, functions) = parser.program()?;
     let mut expressions = parser.expressions;
     check_depth(&functions, &expressions)?;
-    // Record borrowing and field mutation still require the reference compiler.
-    if !records.is_empty()
-        && let Some(span) = borrow_or_mutation(&functions, &expressions)
-    {
-        return Err(unsupported(span));
-    }
     let record_index = check_declarations(&mut records, &functions)?;
     let mut signatures = BTreeMap::new();
     for f in &functions {
@@ -1296,6 +1349,21 @@ impl Emitter<'_> {
         self.used[index.expect("known helper")] = true;
         format!("tv_{name}")
     }
+    fn place(&self, index: usize) -> String {
+        let expr = &self.expressions[index];
+        match &expr.kind {
+            ExprKind::Name(name) => {
+                let name = format!("tv_v_{name}");
+                if matches!(expr.ty, Some(Ty::Borrowed(..))) {
+                    format!("(*{name})")
+                } else {
+                    name
+                }
+            }
+            ExprKind::Field(name, child) => format!("({}).tv_m_{name}", self.place(*child)),
+            _ => unreachable!("checked addressable place"),
+        }
+    }
     fn expr(&mut self, index: usize) -> String {
         let expr = &self.expressions[index];
         let ty = expr.ty.expect("checked expression");
@@ -1383,7 +1451,7 @@ impl Emitter<'_> {
             ExprKind::Field(name, child) => {
                 // A named base is read in place; any other base is evaluated to a temporary.
                 let record = match &self.expressions[*child].kind {
-                    ExprKind::Name(base) => format!("tv_v_{base}"),
+                    ExprKind::Name(_) => self.place(*child),
                     _ => self.expr(*child),
                 };
                 // Capture the scalar now, as the reference does.
@@ -1396,7 +1464,7 @@ impl Emitter<'_> {
                     .collect::<Vec<_>>();
                 self.temp(ty, format!("(struct tv_s_{name}){{{}}}", values.join(", ")))
             }
-            ExprKind::Borrow(_) => unreachable!("rejected by the checker"),
+            ExprKind::Borrow(_, child) => self.temp(ty, format!("&({})", self.place(*child))),
         }
     }
     fn block(&mut self, body: &[Stmt]) {
@@ -1425,10 +1493,7 @@ impl Emitter<'_> {
                 }
                 StmtKind::Assign => {
                     let target = stmt.target.expect("assignment target");
-                    let ExprKind::Name(name) = &self.expressions[target].kind else {
-                        unreachable!("record field assignment is rejected by the checker");
-                    };
-                    self.line(format!("tv_v_{name} = {value};"));
+                    self.line(format!("{} = {value};", self.place(target)));
                 }
             }
         }
@@ -1612,33 +1677,75 @@ mod tests {
     const POINT: &str = "struct P { x: i32, y: bool }\n";
 
     #[test]
-    fn borrowing_and_mutation_in_record_programs_are_unsupported() {
-        let cases = [
-            ("fn f(p: &P) -> i32 { return p.x; }", "&P"),
-            ("fn f(p: &mut P) -> i32 { return p.x; }", "&mut P"),
-            ("fn f(x: &i32) -> i32 { return 0; }", "&i32"),
-            (
-                "fn g(p: P) -> i32 { return 0; } fn f(p: P) -> i32 { return g(&p); }",
-                "&p",
-            ),
-            ("fn f(p: P) -> i32 { p.x = 1; return 0; }", "p.x = 1;"),
-            // The first construct in source order, before any other check.
-            (
-                "fn f() -> i32 { return 0; } fn f() -> i32 { let mut q = 1; return g(&q); }",
-                "&q",
-            ),
-        ];
-        for (body, construct) in cases {
-            let source = format!("{POINT}{body}");
-            let (code, message, span) = failure(&source);
-            assert_eq!("E0801", code, "{source}");
-            assert!(message.contains("record borrowing or field mutation"));
-            assert_eq!(construct, &source[span], "{source}");
+    fn call_borrows_check_permissions_conflicts_and_escapes() {
+        let helpers = "fn read(p: &P) -> i32 { return p.x; } fn bump(p: &mut P) -> i32 { p.x = p.x + 1; return p.x; } fn value(p: &mut P, x: i32) -> i32 { return x; } fn shared(a: &P, b: &P) -> i32 { return a.x + b.x; }";
+        for body in [
+            "let mut p = P { x: 1, y: false }; bump(&mut p); return read(&p);",
+            "let p = P { x: 1, y: false }; return shared(&p, &p);",
+            "let mut p = P { x: 1, y: false }; p.x = bump(&mut p) + 1; return p.x;",
+            "let mut p = P { x: 1, y: false }; return value(&mut p, 0);",
+        ] {
+            assert!(analyze(&format!("{POINT}{helpers}fn main() -> i32 {{ {body} }}")).is_ok());
         }
-        // Borrowed results and annotations keep the reference's E0304; field types keep E0204.
+        for (body, expected) in [
+            (
+                "let p = P { x: 1, y: false }; return bump(&mut p);",
+                "E0303",
+            ),
+            (
+                "let mut p = P { x: 1, y: false }; return value(&mut p, p.x);",
+                "E0302",
+            ),
+            (
+                "let mut p = P { x: 1, y: false }; return value(&mut p, read(&p));",
+                "E0302",
+            ),
+            ("let mut p = P { x: 1, y: false }; return read(p);", "E0304"),
+            (
+                "let mut p = P { x: 1, y: false }; let q = p; return read(&p);",
+                "E0301",
+            ),
+            (
+                "let mut p = P { x: 1, y: false }; p.x = read(p); return 0;",
+                "E0304",
+            ),
+            (
+                "let mut p = P { x: 1, y: false }; return read(&mut p);",
+                "E0201",
+            ),
+        ] {
+            assert_eq!(
+                expected,
+                failure(&format!("{POINT}{helpers}fn main() -> i32 {{ {body} }}")).0
+            );
+        }
+        assert!(
+            analyze(&format!(
+                "{POINT}{helpers}fn forward(p: &mut P) -> i32 {{ bump(&mut p); return read(&p); }}"
+            ))
+            .is_ok()
+        );
+        assert_eq!(
+            "E0303",
+            failure(&format!(
+                "{POINT}{helpers}fn f(p: &P) -> i32 {{ return bump(&mut p); }}"
+            ))
+            .0
+        );
         assert_eq!(
             "E0304",
             failure(&format!("{POINT}fn f(p: P) -> &P {{ return p; }}")).0
+        );
+        assert_eq!(
+            "E0304",
+            failure(&format!(
+                "{POINT}fn f(p: &P) -> i32 {{ let q = p; return 0; }}"
+            ))
+            .0
+        );
+        assert_eq!(
+            "E0305",
+            failure(&format!("{POINT}fn f(p: &i32) -> i32 {{ return 0; }}")).0
         );
         assert_eq!("E0204", failure("struct Q { p: &Q }").0);
     }

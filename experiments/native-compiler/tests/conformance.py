@@ -91,7 +91,7 @@ fn main() -> i32 {
             result = self.command(source)
             self.assertEqual(0, result.returncode, result.stderr)
             self.assertTrue(json.loads(result.stdout)["ok"])
-            self.assertEqual("native-scalar-mutation-v1", json.loads(result.stdout)["profile"])
+            self.assertEqual("native-call-borrows-v1", json.loads(result.stdout)["profile"])
 
     def test_supported_rejections_agree_with_reference_codes(self):
         sources = ['fn main() -> i32 { return false; }', 'fn f() -> i32 { let x = 0; }',
@@ -145,17 +145,21 @@ fn main() -> i32 {
                 diagnostics = json.loads(self.command(source).stdout)["diagnostics"]
                 self.assertEqual(expected, {**diagnostics[0], "source": "talven"} if diagnostics else None)
 
-    def test_borrowing_and_mutation_are_unsupported_only_with_records(self):
-        for source in ["struct A { x: i32 } fn f(a: &A) -> i32 { return a.x; }",
-                       "struct A { x: i32 } fn f() -> i32 { let mut a = A { x: 1 }; a.x = 2; return a.x; }",
-                       (ROOT / "examples/borrowing.tal").read_text()]:
-            result = self.command(source)
-            self.assertEqual(1, result.returncode)
-            self.assertEqual("E0801", json.loads(result.stdout)["diagnostics"][0]["code"])
-        # Without records, borrow/field/mutation syntax always fails with the reference diagnostic.
+    def test_borrowing_and_mutation_match_reference(self):
+        for path in ("examples/borrowing.tal", "tests/fixtures/borrowing-order.tal",
+                     "tests/fixtures/borrowing-reborrow.tal"):
+            source = (ROOT / path).read_text()
+            self.assertEqual(0, self.command(source).returncode)
+            generated = self.command(source, "emit-c")
+            self.assertEqual(0, generated.returncode, generated.stderr)
+            self.assertEqual(emit_c(analyze(source)).encode(), generated.stdout)
+            result = self.run_native(source, sanitizer=True)
+            self.assertEqual((0, b"", b""), (result.returncode, result.stdout, result.stderr))
         for source in ["fn f(x: &A) -> i32 { return 0; }", "fn f(x: &i32) -> i32 { return 0; }",
-                       "fn f() -> i32 { let mut x = \"a\"; return 0; }", "fn f(x: i32) -> i32 { return x.y; }",
-                       "fn f() -> i32 { return P { x: 1 }; }"]:
+                       'fn f() -> i32 { let mut x = "a"; return 0; }',
+                       "struct A { x: i32 } fn f(p: &A) -> i32 { p.x = 1; return p.x; }",
+                       "struct A { x: i32 } fn f(p: &A) -> i32 { let q = p; return 0; }",
+                       (ROOT / "examples/invalid/borrow-conflict.tal").read_text()]:
             with self.subTest(source=source):
                 with self.assertRaises(CompileError) as caught:
                     analyze(source)

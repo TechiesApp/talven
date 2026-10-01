@@ -62,3 +62,7 @@ Native borrowing and mutation parity, shared formatter/context/LSP interfaces, d
 ## Scalar mutation follow-up
 
 [Proposal 0015](0015-mutable-scalar-locals.md) advances the implemented experiment to `native-scalar-mutation-v1`: initialized mutable local declarations and fixed-type integer/boolean assignment are supported, while record borrowing and field assignment retain the explicit `E0801` boundary. The earlier subset description above records the preceding increment.
+
+## Call-scoped borrowing follow-up
+
+The implemented `native-call-borrows-v1` profile adds the accepted [Proposal 0003](0003-call-scoped-borrowing.md) semantics: nonescaping named-record loans, explicit reborrowing, mutable fields, argument-order conflicts and destination checks after value evaluation. The differential suite no longer exempts borrowing/mutation through `E0801`; all language diagnostics and emitted C must match the reference. Dedicated native sanitizer execution covers the existing ordering and reborrow fixtures. This extends conformance, not the historical measured workload or production compiler selection.

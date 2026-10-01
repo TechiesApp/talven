@@ -127,6 +127,7 @@ jobs:
           python3 experiments/native-compiler/tests/conformance.py
           python3 experiments/native-compiler/tests/differential.py
           python3 experiments/native-compiler/tests/comparison.py
+          python3 scripts/check-borrow-sanitizers.py --native experiments/native-compiler/target/release/talven-native
       - name: Compare verified overlapping native and reference workloads
         if: matrix.native
         run: python3 scripts/measure-native-prototype.py --native experiments/native-compiler/target/release/talven-native --expect-arch '${{ matrix.arch }}' --out build/native-comparison --repetitions 3 --warmups 1 --environment-note 'GitHub Actions shared runner; Rust 1.96.0 Cargo release defaults recorded in manifest'

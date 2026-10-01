@@ -28,7 +28,7 @@ def validate_output(operation, implementation, output):
     if operation == "check":
         expected = {"schema": "talven.diagnostics.v1", "ok": True, "diagnostics": []}
         if implementation == "native":
-            expected["profile"] = "native-scalar-mutation-v1"
+            expected["profile"] = "native-call-borrows-v1"
         base.require(json.loads(output) == expected, "incorrect diagnostic receipt")
     else:
         base.require(bool(output.strip()), "empty emitted C")

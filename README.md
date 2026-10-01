@@ -64,7 +64,7 @@ fn main() -> i32 {
 | **Speed** | The native checker handles a **2,400-line** program in about **4–7 ms**, including process start-up. That is faster than `clang`, `go`, `rustc`, `javac`, and `tsc` checking the same program |
 | **Run time** | Compiled programs run at native speed with overflow checks: level with Go on recursive `fib(35)`, ahead of Java and TypeScript |
 | **Size** | Hello World is a **33 KB** executable with no runtime to install; a program with no libc links to **2,800 bytes** |
-| **Correctness** | 300+ tests, a 738-case differential suite between two independent compilers, and sanitizers, with CI on Linux x86-64 and ARM64 |
+| **Correctness** | 300+ tests, a 840-case differential suite between two independent compilers, and sanitizers, with CI on Linux x86-64 and ARM64 |
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/benchmarks/check-dark.svg">
