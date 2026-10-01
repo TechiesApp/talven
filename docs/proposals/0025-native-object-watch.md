@@ -32,4 +32,4 @@ Require existing watch behavior and shared compiler/native/sanitizer suites to p
 
 ## Remaining work
 
-Measure representative actual save-to-diagnostic/running-revision behavior with retained current inputs and independent task acceptance before claiming improvement. Production backend/default selection, incremental parsing/shared native tooling, finer dependencies, imports, readiness and state-preserving reload require separate evidence/design. Acceptance remains separate from this experiment.
+The [actual watcher runner](../native-watch-baseline.md) now records initial/atomic-edit-to-receipt behavior with retained inputs and independent native task checks. Representative readiness, long-running shutdown and concurrent-edit latency still need separate measurements before broader improvement claims. Production backend/default selection, incremental parsing/shared native tooling, finer dependencies, imports, readiness and state-preserving reload require separate evidence/design. Acceptance remains separate from this experiment.
