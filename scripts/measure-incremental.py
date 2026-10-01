@@ -129,13 +129,15 @@ def verify_native(recorder, cc, directory, generated, oracle):
 def run(args):
     call_type_contracts = getattr(args, 'call_type_contracts', False)
     base.require(type(call_type_contracts) is bool, 'call type contracts must be an explicit boolean')
+    reuse_body_syntax = getattr(args, 'reuse_body_syntax', False)
+    base.require(type(reuse_body_syntax) is bool, 'body syntax reuse must be an explicit boolean')
     out, cc, arch = base.preflight(args.out, args.repetitions, args.warmups, args.timeout, args.cc, args.expect_arch)
     out.mkdir(parents=True)
     (out / "commands").mkdir()
     report = {"schema": "talven.incremental-comparison.v1", "complete": False, "passed": False,
               "summary": None, "commands": [], "samples": [], "inputs": {}, "workloads": [],
               "started_at": datetime.now(timezone.utc).isoformat(), "repetitions": args.repetitions,
-              "warmups": args.warmups, "call_type_contracts": call_type_contracts,
+              "warmups": args.warmups, "call_type_contracts": call_type_contracts, "reuse_body_syntax": reuse_body_syntax,
               "compiler_hash": base.compiler_hash(), "profile": PROFILE,
               "compiler_version": VERSION, "python": platform.python_version(),
               "python_executable": base.fingerprint(Path(sys.executable)),
@@ -148,8 +150,8 @@ def run(args):
               "c_flags": [*base.FLAGS, "-fno-lto"], "verification_timeout_seconds": args.timeout,
               "clock": {"implementation": time.get_clock_info("perf_counter").implementation,
                         "resolution_seconds": time.get_clock_info("perf_counter").resolution},
-              "timed_boundary": "In-process analysis including full parsing/declarations and incremental identity hashing; initial includes session construction. Verification and C builds excluded.",
-              "unmeasured": ["startup", "incremental parsing", "native Rust reuse", "native builds", "save-to-running latency", "memory", "model/token/cost effectiveness"]}
+              "timed_boundary": "In-process analysis including full lexing/declarations, selected full/body grammar and incremental identity hashing; initial includes session construction. Verification and C builds excluded.",
+              "unmeasured": ["startup", "incremental tokenization", "native Rust reuse", "native builds", "save-to-running latency", "memory", "model/token/cost effectiveness"]}
     recorder = base.Recorder(out, report, args.timeout)
     recorder.save()
     try:
@@ -202,11 +204,13 @@ def run(args):
                             recorder.save()
                             started = time.perf_counter_ns()
                             if mode == "incremental" and frontend is None:
-                                frontend = IncrementalFrontend(call_type_contracts=call_type_contracts)
+                                frontend = IncrementalFrontend(call_type_contracts=call_type_contracts,
+                                                               reuse_body_syntax=reuse_body_syntax)
                             actual, diagnostic = checked(frontend.analyze if mode == "incremental" else analyze, revision["source"])
                             sample["elapsed_ns"] = time.perf_counter_ns() - started
                             sample["diagnostic"] = diagnostic
                             sample["reuse"] = frontend.stats if mode == "incremental" else None
+                            sample["parsing"] = frontend.parse_stats if mode == "incremental" else None
                             wanted, error, generated, facts = expected[revision["id"]]
                             base.require(diagnostic == error and actual == wanted, "analysis/diagnostic mismatch")
                             if actual:
@@ -241,6 +245,7 @@ def main():
     parser.add_argument("--expect-arch", choices=("aarch64", "x86_64"))
     parser.add_argument("--environment-note", default="unspecified")
     parser.add_argument("--call-type-contracts", action="store_true", help="Select caller type dependencies with current reference descriptions")
+    parser.add_argument("--reuse-body-syntax", action="store_true", help="Select exact last-successful body grammar with fresh lexing/declarations")
     try:
         return run(parser.parse_args())
     except (base.MeasurementError, OSError, ValueError) as error:

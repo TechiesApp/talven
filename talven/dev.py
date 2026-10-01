@@ -118,7 +118,8 @@ class Session:
         self.build = None
         self.program = None
         self.cancelled = 0
-        self.frontend = IncrementalFrontend(call_type_contracts=args.call_type_contracts) if args.incremental_check else None
+        self.frontend = IncrementalFrontend(call_type_contracts=args.call_type_contracts,
+                                           reuse_body_syntax=args.reuse_body_syntax) if args.incremental_check else None
         self.units = None
         self.build_mode = "units" if args.incremental_build else "full"
         self.fast_full_poll = args.poll_interval >= args.build_timeout / 2
@@ -198,7 +199,8 @@ class Session:
             analysis = self.frontend.analyze(source) if self.frontend else analyze(source)
             generated = emit_c(analysis, console=self.args.console)
             if self.frontend:
-                self.event("checked", job, frontend_mode="incremental", **self.frontend.stats)
+                self.event("checked", job, frontend_mode="incremental", parsing=self.frontend.parse_stats,
+                           **self.frontend.stats)
             self.observe()
             if self.cancelled or job.revision != self.revision:
                 self.event("superseded", job)
@@ -337,7 +339,7 @@ class Session:
                        poll_interval_seconds=self.args.poll_interval, debounce_seconds=self.args.debounce,
                        build_timeout_seconds=self.args.build_timeout, stop_timeout_seconds=self.args.stop_timeout,
                        stable_toolchain_required=self.units is not None, local_contracts=self.args.local_contracts,
-                       call_type_contracts=self.args.call_type_contracts)
+                       call_type_contracts=self.args.call_type_contracts, reuse_body_syntax=self.args.reuse_body_syntax)
             next_observation = 0.0
             while not self.cancelled:
                 # Full compiler completion can be polled without rereading source every tick.

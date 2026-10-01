@@ -58,3 +58,5 @@ Correctness tests establish reuse behavior; they do not establish a latency or m
 Representative measurement, native/tooling integration, declaration-level dependencies, bounded cache accounting, C artifact reuse and hot-reload state contracts remain separate work. Acceptance of this proposal remains separate from its experimental implementation.
 
 The explicit [current call type contract option](../call-type-contracts.md) allows parameter-name changes to preserve caller checks while rebuilding displayed signatures from current declarations. Default signature identities remain unchanged; full current parsing and native rebuilding still apply.
+
+The independent [body syntax option](../body-syntax.md) reconstructs unchanged body grammar while still scanning the complete current source, parsing declarations afresh and validating current semantics. Default full parsing remains; native builds stay full. The checking runner retains actual parser work for both conditions.

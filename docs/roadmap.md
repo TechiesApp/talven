@@ -66,6 +66,8 @@ Measure actual save-to-diagnostic and save-to-running-revision latency, cache re
 
 [Proposal 0027](proposals/0027-current-call-type-contracts.md) adds [current call type contracts](call-type-contracts.md) for persistent checks. This remains separate from object reuse: current descriptions are refreshed, full source is parsed, and native C rebuilds in full.
 
+[Proposal 0028](proposals/0028-function-body-syntax-reuse.md) adds explicit [function-body syntax reuse](body-syntax.md): fresh whole-source lexing/current declarations, exact last-successful immutable grammar and current mutable reconstruction. Semantic checks remain independent and native builds full; default parsing and editor recovery are unchanged.
+
 ## M2: Memory and concurrency foundations
 
 Add allocator interfaces, containers, typed failures, structured tasks, cancellation, synchronization, and a selected optional executor.

@@ -290,10 +290,13 @@ class Parser:
         self.take("->")
         result = self.type_token()
         errors = len(self.errors)
-        body = self.block()
+        body = self.function_body(name.text)
         if len(self.errors) > errors:
             self.broken.add(name.text)
         functions.append(Function(name, params, result, body, Span(start, self.tokens[self.index - 1].span.end)))
+
+    def function_body(self, name: str) -> list[Statement]:
+        return self.block()
 
     def block(self) -> list[Statement]:
         self.enter()

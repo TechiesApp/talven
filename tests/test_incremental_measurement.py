@@ -15,6 +15,22 @@ SPEC.loader.exec_module(measurement)
 
 
 class IncrementalMeasurementTests(unittest.TestCase):
+    def test_body_syntax_runner_verifies_selected_parsing_work_and_current_facts(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            out = Path(temporary) / 'run'
+            args = argparse.Namespace(out=str(out), cc='cc', repetitions=1, warmups=0, timeout=10,
+                                      expect_arch=None, environment_note='fixture measurement',
+                                      call_type_contracts=True, reuse_body_syntax=True)
+            with patch.object(measurement, 'workloads', return_value=[measurement.workloads()[0]]):
+                self.assertEqual(0, measurement.run(args))
+            report = json.loads((out/'report.json').read_text())
+            self.assertTrue(report['complete'] and report['passed'] and report['reuse_body_syntax'])
+            initial = next(s for s in report['samples'] if s['mode']=='incremental' and s['revision']=='initial')
+            trivia = next(s for s in report['samples'] if s['mode']=='incremental' and s['revision']=='trivia')
+            self.assertEqual([], initial['parsing']['reused'])
+            self.assertEqual([], trivia['parsing']['parsed'])
+            self.assertEqual(trivia['reuse']['reused'], trivia['parsing']['reused'])
+
     def test_call_type_runner_retains_selected_mode_and_complete_input_archive(self):
         with tempfile.TemporaryDirectory() as temporary:
             out = Path(temporary) / 'run'
