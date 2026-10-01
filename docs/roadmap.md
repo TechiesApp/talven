@@ -57,6 +57,7 @@ The [native phase baseline](native-phase-baseline.md) now isolates full lex/pars
 These are proposed follow-ups, not implemented features or a new claim that M1 is complete. [Proposal 0010](proposals/0010-fast-compiler-and-development-reload.md) records the owner-requested fast compiler and development refresh requirements.
 
 1. Extend the native experiment toward tooling parity and measure persistent function checking before broad runtime expansion. Define native artifact reuse separately. Preserve reference behavior and independent acceptance; evaluate Rust and fast backend candidates such as Cranelift using representative measurements. Neither is selected yet.
+   The [private-object rebuild comparison](object-rebuild-baseline.md) now retains fresh native acceptance of actual reused objects; [local evidence](object-rebuild-evidence.md) shows mixed edit costs and substantially higher cold/contract costs, without a consistent improvement or default-watch integration.
 2. Add restricted, opt-in hot reload after module/state contracts and safe execution boundaries are defined. Interface/layout/initialization changes may require restart. Concurrency participation needs the later M2 lifetime rules.
 
 Measure actual save-to-diagnostic and save-to-running-revision latency, cache reuse, memory and correctness. Release builds should omit development reload support. This work starts before the broader M5 toolkit; controlled agent evaluation remains a separate M1 gate, with no paid run authorized by this plan.
