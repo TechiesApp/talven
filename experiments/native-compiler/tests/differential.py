@@ -5,11 +5,8 @@ Programs both compilers accept are emitted with and without --console; the emitt
 must be byte-identical, and each C output is compiled and executed. Generated programs
 also carry an independent Python oracle for exit status and stdout.
 
-The only accepted divergences are listed in EXPECTED_DIVERGENCES (fixed cases) or follow
-the documented rule: a program which the reference parses successfully, which declares a
-struct, and which uses borrowing or mutation (a borrowed parameter type, a borrow
-expression or a field assignment) receives native E0801. Every other program,
-including by-value record programs, must match exactly. No provider calls.
+The only accepted divergence is host-specific invalid UTF-8 error wording. All checked
+record moves, borrowing, mutation, and diagnostics must otherwise match. No provider calls.
 """
 from concurrent.futures import ThreadPoolExecutor
 import json
@@ -24,7 +21,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
-from talven.frontend import CompileError, Expr, MAX_SOURCE_BYTES, Program, analyze, parse
+from talven.frontend import Expr, MAX_SOURCE_BYTES, analyze
 
 BINARY = Path(os.environ.get("TALVEN_NATIVE", ROOT / "experiments/native-compiler/target/release/talven-native")).resolve()
 REFERENCE = [sys.executable, "-B", "-m", "talven"]
@@ -35,62 +32,15 @@ CC = ["cc", "-std=c11", "-O2", "-Wall", "-Wextra", "-pedantic-errors", "-Werror"
 
 # Fixed cases whose native result is documented to differ: case -> expected native code.
 # "E0901-message" means the code matches but the host decoder's error text differs.
-EXPECTED_DIVERGENCES = {
-    "examples/borrowing.tal": "E0801",
-    "examples/invalid/borrow-conflict.tal": "E0801",
-    "tests/fixtures/borrowing-order.tal": "E0801",
-    "tests/fixtures/borrowing-reborrow.tal": "E0801",
-    "experiments/corpora/borrowing-v1/order.tal": "E0801",
-    "experiments/corpora/borrowing-v1/overlap.tal": "E0801",
-    "experiments/corpora/borrowing-v1/permission.tal": "E0801",
-    "experiments/corpora/borrowing-v1/reborrow.tal": "E0801",
-    "edge/record-borrow-param": "E0801",
-    "edge/record-borrow-mut-param": "E0801",
-    "edge/record-borrow-scalar-param": "E0801",
-    "edge/record-borrow-argument": "E0801",
-    "edge/record-borrow-let": "E0801",
-    "edge/record-field-assign": "E0801",
-    "edge/record-borrow-before-error": "E0801",
-    "experiments/corpora/hard-v1/reborrow.tal": "E0801",
-    "experiments/corpora/large-v1/pipeline40.tal": "E0801",
-    "experiments/corpora/large-v1/pipeline80.tal": "E0801",
-    "experiments/corpora/large-v1/pipeline140.tal": "E0801",
-    "experiments/corpora/large-v1/pipeline200.tal": "E0801",
-    "edge/invalid-utf8": "E0901-message",
-}
-
-
-def uses_borrow_or_mutation(program: Program) -> bool:
-    """A borrowed parameter type, a borrow expression, or a field assignment."""
-    if any(typ.text.startswith("&") for fn in program.functions for _, typ in fn.params):
-        return True
-    pending = [stmt for fn in program.functions for stmt in fn.body]
-    while pending:
-        node = pending.pop()
-        if isinstance(node, Expr):
-            if node.kind == "borrow":
-                return True
-            pending.extend([*node.args, *(child for _, child in node.fields)])
-            continue
-        if node.target is not None and node.target.kind == "field":
-            return True
-        pending.extend([node.expr, *node.then, *node.otherwise])
-    return False
+EXPECTED_DIVERGENCES = {"edge/invalid-utf8": "E0901-message"}
 
 
 def rule_divergence(source: bytes):
-    """The documented rule: reference-parseable struct programs that borrow or mutate get E0801."""
     try:
-        text = source.decode("utf-8")
+        source.decode("utf-8")
     except UnicodeDecodeError:
         return "E0901-message"
-    if len(source) > MAX_SOURCE_BYTES:
-        return None
-    try:
-        program = parse(text)
-    except CompileError:
-        return None
-    return "E0801" if program.records and uses_borrow_or_mutation(program) else None
+    return None
 
 
 def fn(body: str, result: str = "i32", params: str = "") -> str:
@@ -357,11 +307,72 @@ def record_cases():
     }
 
 
+def borrow_cases():
+    prefix = """struct P { x: i32 }
+    fn read(p: &P) -> i32 { return p.x; }
+    fn bump(p: &mut P) -> i32 { p.x = p.x + 1; return p.x; }
+    fn take(p: P) -> i32 { return p.x; }
+    fn shared(a: &P, b: &P) -> i32 { return a.x + b.x; }
+    fn mixed(a: &mut P, b: &P) -> i32 { return b.x; }
+    fn exclusive(a: &mut P, b: &mut P) -> i32 { return a.x; }
+    fn exclusive_value(a: &mut P, x: i32) -> i32 { return x; }
+    fn shared_value(a: &P, x: i32) -> i32 { return x; }
+    fn values(a: i32, b: i32) -> i32 { return a + b; }
+    """
+    bodies = [
+        "return shared(&p, &p);",
+        "return mixed(&mut p, &p);",
+        "return mixed(&mut p, &q);",
+        "return exclusive(&mut p, &mut p);",
+        "return exclusive(&mut p, &mut q);",
+        "return exclusive_value(&mut p, p.x);",
+        "return exclusive_value(&mut p, read(&p));",
+        "return exclusive_value(&mut p, bump(&mut p));",
+        "return shared_value(&p, bump(&mut p));",
+        "return shared_value(&p, take(p));",
+        "return shared_value(&p, values(read(&p), bump(&mut p)));",
+        "return shared_value(&p, values(read(&p), read(&p)));",
+        "return values(p.x, bump(&mut p));",
+        "return values(bump(&mut p), bump(&mut p));",
+        "p.x = bump(&mut p) + 1; return take(p);",
+        "p.x = take(p); return 0;",
+        "take(p); p.x = 1; return 0;",
+        "if (true) { take(p); } return read(&p);",
+        "if (false) { return take(p); } return read(&p);",
+        "let r = &p; return 0;",
+        "return read(p);",
+        "return read(&mut p);",
+        "return bump(&p);",
+        "return read(&P { x: 1 });",
+        "return read(&p.x);",
+        "return read(& &p);",
+        "(P { x: 1 }).x = 2; return 0;",
+        "p.x = false; return 0;",
+        "let mut x = 0; x = values(p.x, bump(&mut p)); return x;",
+    ]
+    result = {f"edge/borrow-scope-{i:02}": prefix + "fn main() -> i32 { let mut p = P { x: 1 }; let mut q = P { x: 9 }; " + body + " }"
+              for i, body in enumerate(bodies)}
+    for i, body in enumerate([
+        "fn f(p: &mut P) -> i32 { bump(&mut p); return read(&p); }",
+        "fn f(p: &P) -> i32 { return bump(&mut p); }",
+        "fn f(p: &P) -> i32 { p.x = 1; return 0; }",
+        "fn f(p: &P) -> P { return p; }",
+        "fn f(p: &P) -> i32 { let q = p; return 0; }",
+        "fn f(p: &P) -> i32 { return read(p); }",
+        "fn f(p: P) -> i32 { let mut q = p; return bump(&mut q); }",
+        "fn f(p: &mut P) -> i32 { return exclusive(&mut p, &mut p); }",
+        "fn f(p: &mut P) -> i32 { return shared_value(&p, bump(&mut p)); }",
+    ]):
+        result[f"edge/reborrow-{i:02}"] = prefix + body
+    return {name: source.encode() for name, source in result.items()}
+
+
 def fixed_cases():
     paths = sorted({*ROOT.glob("examples/*.tal"), *ROOT.glob("examples/invalid/*.tal"),
                     *ROOT.glob("tests/fixtures/*.tal"), *ROOT.glob("experiments/corpora/*/*.tal")})
     cases = {str(path.relative_to(ROOT)): path.read_bytes() for path in paths}
     cases.update(edge_cases())
+    cases.update(borrow_cases())
     return cases
 
 
@@ -387,8 +398,11 @@ class Oracle:
             if stmt.kind == "let":
                 env[stmt.name.text] = value
             elif stmt.kind == "assign":
-                assert stmt.target.kind == "name", "oracle supports scalar assignment only"
-                env[stmt.target.value] = value
+                if stmt.target.kind == "name":
+                    env[stmt.target.value] = value
+                else:
+                    record = self.evaluate(stmt.target.args[0], env)
+                    record[stmt.target.value] = value
             elif stmt.kind == "return":
                 return True, value
             elif stmt.kind == "if":
@@ -415,8 +429,10 @@ class Oracle:
             return value
         if kind == "name":
             return env[value]
+        if kind == "borrow":
+            return env[expr.args[0].value]
         if kind == "record":
-            # Records are immutable here, so a dictionary models the moved value exactly.
+            # Borrowed parameters share this dictionary; checked moves forbid owner reuse.
             return {name.text: self.evaluate(child, env) for name, child in expr.fields}
         if kind == "field":
             return self.evaluate(expr.args[0], env)[value]
@@ -674,6 +690,20 @@ def generated_cases():
             f'if (b) {{ x = x + {delta}; b = !b; }} else {{ x = x - {delta}; }} '
             'if (b) { x = x * 2; } x = x + before; return x; } '
             f'fn main() -> i32 {{ return adjust({initial}, {flag}); }}')
+    for i in range(64):
+        initial, delta = rng.randrange(-100, 101), rng.randrange(-30, 31)
+        flag = rng.choice(('true', 'false'))
+        programs[f"generated/borrow-mutation-{i:03}"] = (
+            'struct P { x: i32 } '
+            'fn read(p: &P) -> i32 { return p.x; } '
+            'fn bump(p: &mut P, delta: i32) -> i32 { p.x = p.x + delta; return p.x; } '
+            'fn forward(p: &mut P, delta: i32) -> i32 { return bump(&mut p, delta); } '
+            'fn pair(a: i32, b: i32) -> i32 { return a * 2 + b; } '
+            f'fn main() -> i32 {{ let mut p = P {{ x: {initial} }}; '
+            f'let snapshot = read(&p); let mut x = pair(p.x, forward(&mut p, {delta})); '
+            f'if ({flag}) {{ p.x = bump(&mut p, {delta}) + 1; x = x + p.x; }} '
+            f'else {{ x = x - bump(&mut p, {delta}); }} '
+            f'x = x + pair(bump(&mut p, 1), bump(&mut p, 2)); return x + snapshot; }}')
     seeds = [*programs.values(), *(s.decode() for n, s in fixed_cases().items()
                                    if n.startswith("examples/") or n.startswith("edge/recursion"))]
     mutations = {f"generated/mutation-{i:03}": mutate(rng, rng.choice(seeds)) for i in range(MUTATIONS)}
@@ -762,7 +792,7 @@ class DifferentialCorpusTests(unittest.TestCase):
             with self.subTest(case=name):
                 self.assertIn(reference.returncode, (0, 1), reference.stderr)
                 self.assertIn(native.returncode, (0, 1), native.stderr)
-                self.assertEqual(json.loads(native.stdout)["profile"], "native-scalar-mutation-v1")
+                self.assertEqual(json.loads(native.stdout)["profile"], "native-call-borrows-v1")
                 ref_ok, ref_diagnostics = diagnostic_view(reference.stdout)
                 nat_ok, nat_diagnostics = diagnostic_view(native.stdout)
                 if expected is None:
@@ -771,11 +801,8 @@ class DifferentialCorpusTests(unittest.TestCase):
                     continue
                 used.add(expected)
                 self.assertFalse(nat_ok)
-                if expected == "E0801":
-                    self.assertEqual("E0801", nat_diagnostics[0][0])
-                else:
-                    self.assertEqual(("E0901", "E0901"), (ref_diagnostics[0][0], nat_diagnostics[0][0]))
-        self.assertEqual({"E0801", "E0901-message"}, used)
+                self.assertEqual(("E0901", "E0901"), (ref_diagnostics[0][0], nat_diagnostics[0][0]))
+        self.assertEqual({"E0901-message"}, used)
 
     def test_emitted_c_is_byte_identical_or_fails_identically(self):
         for name, results in self.emits.items():

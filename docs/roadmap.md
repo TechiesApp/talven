@@ -36,7 +36,7 @@ The static-text increment, [Proposal 0011](proposals/0011-static-text-and-consol
 
 The [watch/restart increment](development.md), specified in [Proposal 0012](proposals/0012-development-watch-and-restart.md), adds a single-file development session with full builds, observed revision receipts, failed-edit recovery, stale candidate suppression, and process cleanup. It does not implement incremental compilation or preserve application state.
 
-The [native scalar compiler experiment](../experiments/native-compiler/README.md), specified in [Proposal 0013](proposals/0013-native-scalar-compiler.md), adds an independent Rust checker/C emitter for a declared scalar/static-text overlap and a correctness-gated comparison runner. Native records/borrowing, shared tooling parity, production selection and incremental compilation remain open.
+The [native scalar compiler experiment](../experiments/native-compiler/README.md), specified in [Proposal 0013](proposals/0013-native-scalar-compiler.md), adds an independent Rust checker/C emitter for a declared scalar/static-text overlap and a correctness-gated comparison runner. The native experiment now checks by-value records, moves, call-scoped borrowing, record mutation, and scalar reassignment against the reference with differential and sanitizer tests. Shared tooling parity, production selection and incremental compilation remain open.
 
 ### Planned next increments
 

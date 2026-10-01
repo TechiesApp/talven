@@ -1,6 +1,6 @@
 # Native compiler experiment evidence
 
-This record concerns the bounded [native scalar/static-text experiment](../experiments/native-compiler/README.md). It is separate from the broader reference compiler's conformance and the existing Python tooling baseline. Borrowing/mutation and shared editor/agent tooling are not implemented natively; by-value records were ported after the run recorded below.
+This record concerns the bounded [native scalar/static-text experiment](../experiments/native-compiler/README.md). It is separate from the broader reference compiler's conformance and the existing Python tooling baseline. By-value records, call-scoped borrowing, field mutation and scalar reassignment were ported after the timing run recorded below. Shared editor/agent tooling remains unimplemented natively. See the [current native scope](../experiments/native-compiler/README.md#declared-subset); the historical timing samples do not measure these extensions.
 
 ## Correctness criteria
 
