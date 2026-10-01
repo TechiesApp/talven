@@ -2,8 +2,10 @@
 
 Each task states the required behavior over its full input domain. The tasks
 are chosen so that habits from other languages (loops, shadowing, `else if`,
-mutable scalars, implicit reborrows, reading a moved value, unchecked
-overflow) produce programs Talven rejects or that trap at runtime.
+implicit reborrows, reading a moved value, unchecked overflow) produce
+programs Talven rejects or that trap at runtime. The current scalar-mutation
+profile permits initialized mutable i32/bool locals; task/corpus identity
+does not substitute for the compiler/profile identity recorded by a run.
 """
 
 HARD_CORPUS = "m1-hard-tasks-v1"
