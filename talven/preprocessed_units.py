@@ -5,6 +5,7 @@ are byte identities, not authenticated toolchain or native-acceptance evidence.
 """
 
 import hashlib
+from dataclasses import dataclass
 import os
 from pathlib import Path
 import re
@@ -69,7 +70,7 @@ def split_preprocessed(output, identities):
     return units
 
 
-def run_bounded(command, data, environment, timeout, stdout_limit=MAX_C_UNIT_BYTES):
+def run_bounded(command, data, environment, timeout, stdout_limit=MAX_C_UNIT_BYTES, *, cwd=None):
     # Reuse the established POSIX child/group cleanup and unreaped-exit logic.
     from .dev import exit_status, stop_group
     if os.name != 'posix' or not hasattr(os, 'waitid'):
@@ -81,7 +82,7 @@ def run_bounded(command, data, environment, timeout, stdout_limit=MAX_C_UNIT_BYT
             input_file.write(data)
             input_file.seek(0)
             process = subprocess.Popen(command, stdin=input_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                       env=environment, start_new_session=True)
+                                       env=environment, cwd=cwd, start_new_session=True)
             for label, stream in (('stdout', process.stdout), ('stderr', process.stderr)):
                 os.set_blocking(stream.fileno(), False)
                 selector.register(stream, selectors.EVENT_READ, label)
@@ -121,7 +122,14 @@ def executable_hash(path):
         return digest.hexdigest()
 
 
-def _prepare_c_units(source, *, cc='cc', console=False, timeout=30):
+@dataclass(frozen=True)
+class DriverProbe:
+    identity: tuple[str, str, str, str]
+    version: str
+    target: str
+
+
+def _prepare_c_units(source, *, cc='cc', console=False, timeout=30, probe=None):
     if type(timeout) not in (int, float) or not 0.01 <= timeout <= 60:
         raise ValueError('Preparation timeout must be between 0.01 and 60 seconds')
     pinned = compiler_hash()
@@ -130,6 +138,8 @@ def _prepare_c_units(source, *, cc='cc', console=False, timeout=30):
     environment['LC_ALL'] = 'C'
     # Hash the effective inherited environment without retaining values in receipts.
     environment_hash = source_hash(encode(environment))
+    working_directory = os.getcwd()
+    working_directory_hash = source_hash(working_directory)
     selected = shutil.which(cc, path=environment.get('PATH'))
     if selected is None:
         raise CompileError('E0901', 'C compiler executable was not found', Span(0, 0))
@@ -141,10 +151,15 @@ def _prepare_c_units(source, *, cc='cc', console=False, timeout=30):
         remaining = timeout - (time.monotonic() - started)
         if remaining <= 0:
             raise failure('C unit preparation timed out')
-        return run_bounded([str(executable), *arguments], data, environment, remaining, limit)
+        return run_bounded([str(executable), *arguments], data, environment, remaining, limit, cwd=working_directory)
 
-    version = command(['--version']).decode('utf-8')
-    target = command(['-dumpmachine']).decode('utf-8').strip()
+    probe_identity = (str(executable), before, environment_hash, working_directory_hash)
+    probe_reused = isinstance(probe, DriverProbe) and probe.identity == probe_identity
+    if probe_reused:
+        version, target = probe.version, probe.target
+    else:
+        version = command(['--version']).decode('utf-8')
+        target = command(['-dumpmachine']).decode('utf-8').strip()
     output = command([*FLAGS, '-E', '-x', 'c', '-'], preprocessing_input.encode('utf-8'), MAX_C_UNIT_BYTES)
     units = split_preprocessed(output.decode('utf-8'), identities)
     if before != executable_hash(executable) or pinned != compiler_hash():
@@ -152,14 +167,16 @@ def _prepare_c_units(source, *, cc='cc', console=False, timeout=30):
     receipt = {'schema': 'talven.preprocessed-units.v1', 'profile': 'hosted-preprocessed-units-v1',
             'language_profile': PROFILE,
             'source_hash': source_hash(source), 'compiler_hash': pinned, 'console': console,
+            'driver_probe_reused': probe_reused,
             'compiler': {'executable_hash': before, 'version': version, 'target': target,
-                         'flags': list(FLAGS), 'environment_hash': environment_hash},
+                         'flags': list(FLAGS), 'environment_hash': environment_hash,
+                         'working_directory_hash': working_directory_hash},
             'preprocessing_input_hash': source_hash(preprocessing_input),
             'raw_preprocessed_hash': hashlib.sha256(output).hexdigest(),
             'normalization': 'Own <stdin> line-marker numbers become 1; system markers/flags retained',
             'units': [{'id': identity, 'c': generated, 'c_hash': source_hash(generated)}
                       for identity, generated in units.items()]}
-    return receipt, executable, environment
+    return receipt, executable, environment, DriverProbe(probe_identity, version, target), working_directory
 
 
 def prepare_c_units(source, *, cc='cc', console=False, timeout=30):

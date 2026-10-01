@@ -1,7 +1,9 @@
 import os
 from pathlib import Path
 import signal
+import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -191,3 +193,97 @@ class UnitBuildTests(unittest.TestCase):
                         result = session.build(source + '\n// reused sanitizer objects\n')
                         self.assertEqual([], result.receipt['compiled'])
                         self.assertEqual((0, b'', b''), execute(result.executable))
+
+    def test_stable_driver_probes_reuse_but_every_current_revision_preprocesses(self):
+        commands = []
+        def record(command, *args, **kwargs):
+            commands.append(command)
+            return run_bounded(command, *args, **kwargs)
+        with UnitBuildSession(stable_toolchain=True) as session, \
+                patch('talven.preprocessed_units.run_bounded', side_effect=record):
+            first = session.build(SOURCE)
+            self.assertFalse(first.receipt['driver_probe_reused'])
+            self.assertEqual(3, len(commands))
+            commands.clear()
+            changed = SOURCE.replace('return 7;', 'return 9;')
+            second = session.build(changed)
+            self.assertTrue(second.receipt['driver_probe_reused'])
+            self.assertEqual(1, len(commands))
+            self.assertIn('-E', commands[0])
+            self.assertEqual(['fn:value'], second.receipt['compiled'])
+            self.assertEqual(ordinary_result(changed), execute(second.executable))
+            commands.clear()
+            with patch.dict(os.environ, {'TALVEN_UNIT_BUILD_PROBE_ENV': 'new-synthetic-value'}):
+                result = session.build(changed)
+            self.assertFalse(result.receipt['driver_probe_reused'])
+            self.assertEqual(3, len(commands))
+            self.assertEqual([], result.receipt['reused'])
+            # Returning to the older environment requires probing again: only last success is retained.
+            commands.clear()
+            result = session.build(changed)
+            self.assertFalse(result.receipt['driver_probe_reused'])
+            self.assertEqual(3, len(commands))
+
+    def test_failed_new_driver_identity_does_not_replace_successful_probe(self):
+        with UnitBuildSession(stable_toolchain=True) as session:
+            session.build(SOURCE)
+            retained = session._probe
+            def fail_link(command, *args, **kwargs):
+                if '-c' not in command:
+                    raise CompileError('E0402', 'test link failure', Span(0, 0))
+                return run_bounded(command, *args, **kwargs)
+            with patch.dict(os.environ, {'TALVEN_UNIT_BUILD_PROBE_ENV': 'failed-new-value'}), \
+                    patch('talven.unit_build.run_bounded', side_effect=fail_link), self.assertRaises(CompileError):
+                session.build(SOURCE)
+            self.assertIs(retained, session._probe)
+            repaired = session.build(SOURCE)
+            self.assertTrue(repaired.receipt['driver_probe_reused'])
+            self.assertEqual([], repaired.receipt['compiled'])
+            session.close()
+            self.assertIsNone(session._probe)
+
+    def test_actual_working_directory_changes_invalidate_probes_and_objects(self):
+        commands = []
+        def record(command, *args, **kwargs):
+            commands.append((command, kwargs['cwd']))
+            return run_bounded(command, *args, **kwargs)
+        original_directory = os.getcwd()
+        with tempfile.TemporaryDirectory() as temporary, UnitBuildSession(stable_toolchain=True) as session, \
+                patch('talven.preprocessed_units.run_bounded', side_effect=record):
+            first = session.build(SOURCE)
+            commands.clear()
+            try:
+                os.chdir(temporary)
+                result = session.build(SOURCE)
+                self.assertFalse(result.receipt['driver_probe_reused'])
+                self.assertEqual([], result.receipt['reused'])
+                self.assertEqual(3, len(commands))
+                self.assertTrue(all(directory == os.getcwd() for _, directory in commands))
+                self.assertNotEqual(first.receipt['compiler']['working_directory_hash'],
+                                    result.receipt['compiler']['working_directory_hash'])
+                self.assertEqual((0, b'', b''), execute(result.executable))
+            finally:
+                os.chdir(original_directory)
+
+    def test_changed_driver_executable_bytes_force_fresh_probes_and_compilation(self):
+        commands = []
+        def record(command, *args, **kwargs):
+            commands.append(command)
+            return run_bounded(command, *args, **kwargs)
+        with tempfile.TemporaryDirectory() as temporary:
+            wrapper = Path(temporary) / 'compiler with spaces'
+            actual = str(Path(shutil.which('cc')).resolve())
+            wrapper.write_text(f'#!{sys.executable}\nimport os, sys\nos.execv({actual!r}, [{actual!r}, *sys.argv[1:]])\n')
+            wrapper.chmod(0o700)
+            with UnitBuildSession(stable_toolchain=True, cc=str(wrapper)) as session, \
+                    patch('talven.preprocessed_units.run_bounded', side_effect=record):
+                first = session.build(SOURCE)
+                commands.clear()
+                wrapper.write_text(wrapper.read_text() + '# changed driver bytes\n')
+                result = session.build(SOURCE)
+                self.assertFalse(result.receipt['driver_probe_reused'])
+                self.assertEqual(3, len(commands))
+                self.assertEqual([], result.receipt['reused'])
+                self.assertNotEqual(first.receipt['compiler']['executable_hash'],
+                                    result.receipt['compiler']['executable_hash'])
+                self.assertEqual((0, b'', b''), execute(result.executable))

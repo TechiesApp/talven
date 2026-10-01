@@ -54,6 +54,7 @@ class UnitBuildSession:
         self._temporary = tempfile.TemporaryDirectory(prefix='talven-unit-session-')
         self._root = Path(self._temporary.name)
         self._cache, self._successful, self._closed, self._busy = {}, None, False, False
+        self._probe = None
 
     def __enter__(self):
         if self._closed:
@@ -68,6 +69,7 @@ class UnitBuildSession:
             raise ValueError('Cannot close a unit build session during a build')
         self._temporary.cleanup()
         self._cache, self._successful, self._closed = {}, None, True
+        self._probe = None
 
     def build(self, source):
         if self._closed or self._busy:
@@ -85,8 +87,8 @@ class UnitBuildSession:
             return value
 
         try:
-            prepared, executable, environment = _prepare_c_units(
-                source, cc=self.cc, console=self.console, timeout=remaining())
+            prepared, executable, environment, probe, working_directory = _prepare_c_units(
+                source, cc=self.cc, console=self.console, timeout=remaining(), probe=self._probe)
             if prepared['compiler_hash'] != self._compiler_hash:
                 raise CompileError('E0501', 'Compiler inputs changed; restart the unit build session', Span(0, 0))
             candidate = Path(tempfile.mkdtemp(prefix='candidate-', dir=self._root))
@@ -115,7 +117,8 @@ class UnitBuildSession:
                     reused.append(identity)
                 else:
                     run_bounded([str(executable), *OBJECT_FLAGS, '-x', 'cpp-output', '-c', '-', '-o', str(obj)],
-                                unit['c'].encode('utf-8'), environment, remaining(), 64 * 1024)
+                                unit['c'].encode('utf-8'), environment, remaining(), 64 * 1024,
+                                cwd=working_directory)
                     data = artifact_bytes(obj)
                     compiled.append(identity)
                 total += len(data)
@@ -125,7 +128,7 @@ class UnitBuildSession:
                 objects.append(obj)
             program = candidate / 'program'
             run_bounded([str(executable), *OBJECT_FLAGS, *map(str, objects), '-o', str(program)],
-                        b'', environment, remaining(), 64 * 1024)
+                        b'', environment, remaining(), 64 * 1024, cwd=working_directory)
             program_hash = digest(artifact_bytes(program))
             # The linker might alter input objects: verify every candidate before promotion.
             if any(digest(artifact_bytes(path)) != expected for _, path, expected in cache.values()):
@@ -138,6 +141,7 @@ class UnitBuildSession:
                        'source_hash': prepared['source_hash'], 'compiler_hash': self._compiler_hash,
                        'language_profile': prepared['language_profile'], 'console': prepared['console'],
                        'compiler': prepared['compiler'], 'flags': list(OBJECT_FLAGS),
+                       'driver_probe_reused': prepared['driver_probe_reused'],
                        'stable_toolchain_required': True, 'compiled': compiled, 'reused': reused,
                        'objects': [{'id': unit['id'], 'c_hash': unit['c_hash'],
                                     'key': cache[unit['id']][0], 'object_hash': cache[unit['id']][2]}
@@ -147,6 +151,7 @@ class UnitBuildSession:
             result = UnitBuild(program, receipt)
             previous_directory = self._successful
             self._cache, self._successful = cache, candidate
+            self._probe = probe
             candidate = None
             if previous_directory is not None:
                 shutil.rmtree(previous_directory, ignore_errors=True)
