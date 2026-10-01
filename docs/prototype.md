@@ -137,7 +137,7 @@ Commands read source only from regular files; FIFOs and devices produce E0901 wi
 
 ## Editor integration
 
-The separate [`emit-c-units` experiment](c-units.md) emits checked hosted function units as bounded JSON for investigating later native object reuse. It uses ordinary lowering and does not change build/dev behavior or provide a cache.
+The separate [`emit-c-units` experiment](c-units.md) emits checked hosted function units as bounded JSON for investigating later native object reuse. The [prepared-unit command](preprocessed-units.md) adds fresh trusted preprocessing and exact expanded input identities. Both use ordinary lowering and do not change build/dev behavior or provide a cache.
 
 Launch `python3 -m talven lsp` through an LSP client, with the repository root available on `PYTHONPATH` or as the process working directory. No editor extension is bundled.
 

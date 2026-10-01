@@ -60,6 +60,7 @@ Status definitions:
 | D46 | Proposed | Derive full current-document semantic highlighting from shared lexing and resolved references, clearing semantic facts on invalid edits | [Proposal 0018](proposals/0018-semantic-highlighting.md); reference LSP experiment; UTF-16 relative tokens, declaration/write markers, bounded full results, no range/delta or performance claim |
 | D47 | Proposed | Show bounded current direct-call signatures and argument passing contracts through shared syntax and current checked facts | [Proposal 0019](proposals/0019-current-call-signatures.md); reference LSP experiment, nested argument selection and explicitly unchecked recovered declarations; no call validation, source application or performance claim |
 | D48 | Proposed | Emit checked hosted function C units with stable local temporaries and repeated current global contracts before designing object reuse | [Proposal 0020](proposals/0020-hosted-function-c-units.md); reference lowering experiment, bounded unit receipts and independent separate-object native/sanitizer checks; no object cache, new build mode or speed claim |
+| D49 | Proposed | Freeze fresh trusted preprocessing into bounded function units while preserving host-header context | [Proposal 0021](proposals/0021-preprocessed-function-units.md); checked current source, strict splitting and driver/input byte identities; object reuse, complete toolchain trust and native build publication remain separate |
 
 ## Open decisions
 
