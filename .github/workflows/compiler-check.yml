@@ -149,3 +149,17 @@ jobs:
           path: build/tooling-baseline/
           if-no-files-found: error
           retention-days: 30
+      - name: Compare persistent and full function checking over verified edits
+        env:
+          LC_ALL: C
+          PYTHONHASHSEED: '0'
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python3 scripts/measure-incremental.py --expect-arch '${{ matrix.arch }}' --out build/incremental-comparison --repetitions 3 --warmups 1 --environment-note 'GitHub Actions shared runner; in-process reference checks; verification outside timing'
+      - name: Preserve persistent checking evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: incremental-comparison-${{ matrix.arch }}-python-${{ matrix.python }}
+          path: build/incremental-comparison/
+          if-no-files-found: error
+          retention-days: 30

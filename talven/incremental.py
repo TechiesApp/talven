@@ -46,6 +46,7 @@ def contract(checker, key):
 @dataclass(frozen=True)
 class Entry:
     source: str
+    origin: int
     types: tuple
     calls: tuple
     dependencies: tuple
@@ -60,6 +61,7 @@ class ReusingChecker(Checker):
         self.checked = []
         self.reused = []
         self.locations = None
+        self.destinations = None
 
     def check_function(self, fn):
         name = fn.name.text
@@ -67,21 +69,28 @@ class ReusingChecker(Checker):
         entry = self.previous.get(name)
         if self.locations is None:
             self.locations = declarations(self)
+            self.destinations = {span: key for key, span in self.locations.items()}
         locations = self.locations
-        nodes = list(expressions(fn.body))
-        if (entry and entry.source == raw and len(entry.types) == len(nodes)
+        if (entry and entry.source == raw
                 and all(contract(self, key) == value for key, value in entry.dependencies)):
-            for expr, typ in zip(nodes, entry.types):
+            # Exact function text and pinned compiler inputs imply the same
+            # parsed expression order; walk it once without a temporary list.
+            for expr, typ in zip(expressions(fn.body), entry.types, strict=True):
                 expr.typ = typ
             fn.calls.update(entry.calls)
-            for relative, destination, description in entry.references:
-                span = Span(relative.start + fn.span.start, relative.end + fn.span.start)
+            shift = fn.span.start - entry.origin
+            local_definitions = {}
+            for original, destination, description in entry.references:
+                span = Span(original.start + shift, original.end + shift) if shift else original
                 if destination is None:
                     definition = None
                 elif isinstance(destination, tuple):
                     definition = locations[destination]
                 else:
-                    definition = Span(destination.start + fn.span.start, destination.end + fn.span.start)
+                    if destination not in local_definitions:
+                        local_definitions[destination] = (Span(destination.start + shift, destination.end + shift)
+                                                          if shift else destination)
+                    definition = local_definitions[destination]
                 self.references.append(Reference(span, definition, description))
             self.next[name] = entry
             self.reused.append(name)
@@ -89,18 +98,17 @@ class ReusingChecker(Checker):
 
         start = len(self.references)
         super().check_function(fn)
+        nodes = list(expressions(fn.body))
         keys = {('function', called) for called in fn.calls if called in self.functions}
         types = [fn.result.text, *(t.text for _, t in fn.params), *(expr.typ for expr in nodes)]
         keys.update(('record', base_type(typ)) for typ in types if base_type(typ) in self.records)
-        destinations = {span: key for key, span in locations.items()}
         saved = []
         for ref in self.references[start:]:
-            relative = Span(ref.span.start - fn.span.start, ref.span.end - fn.span.start)
-            destination = destinations.get(ref.definition)
+            destination = self.destinations.get(ref.definition)
             if ref.definition is not None and destination is None:
-                destination = Span(ref.definition.start - fn.span.start, ref.definition.end - fn.span.start)
-            saved.append((relative, destination, ref.description))
-        self.next[name] = Entry(raw, tuple(expr.typ for expr in nodes), tuple(sorted(fn.calls)),
+                destination = ref.definition
+            saved.append((ref.span, destination, ref.description))
+        self.next[name] = Entry(raw, fn.span.start, tuple(expr.typ for expr in nodes), tuple(sorted(fn.calls)),
                                 tuple((key, contract(self, key)) for key in sorted(keys)), tuple(saved))
         self.checked.append(name)
 
