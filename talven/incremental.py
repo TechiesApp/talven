@@ -121,10 +121,15 @@ class ReusingChecker(Checker):
 class IncrementalFrontend:
     """Bounded to one successful revision; callers receive a fresh current Analysis."""
 
-    def __init__(self, *, call_type_contracts=False):
+    def __init__(self, *, call_type_contracts=False, reuse_body_syntax=False):
         if type(call_type_contracts) is not bool:
             raise ValueError('Call type contracts must be an explicit boolean')
         self.call_type_contracts = call_type_contracts
+        if type(reuse_body_syntax) is not bool:
+            raise ValueError('Body syntax reuse must be an explicit boolean')
+        self.reuse_body_syntax = reuse_body_syntax
+        self._syntax = {}
+        self.parse_stats = {'parsed': [], 'reused': []}
         self.identity = compiler_hash()
         self.entries = {}
         self.stats = {'checked': [], 'reused': []}
@@ -132,10 +137,20 @@ class IncrementalFrontend:
     def analyze(self, source):
         if type(self.call_type_contracts) is not bool:
             raise ValueError('Call type contracts must be an explicit boolean')
+        if type(self.reuse_body_syntax) is not bool:
+            raise ValueError('Body syntax reuse must be an explicit boolean')
         self.stats = {'checked': [], 'reused': []}
+        self.parse_stats = {'parsed': [], 'reused': []}
         if compiler_hash() != self.identity:
             raise CompileError('E0501', 'Compiler inputs changed; restart the persistent frontend session', Span(0, 0))
-        checker = ReusingChecker(source, parse(source), self.entries, call_type_contracts=self.call_type_contracts)
+        parser = None
+        if self.reuse_body_syntax:
+            from .body_syntax import parse_bodies
+            program, parser = parse_bodies(source, self._syntax, self.parse_stats)
+        else:
+            program = parse(source)
+            self.parse_stats['parsed'] = [fn.name.text for fn in program.functions]
+        checker = ReusingChecker(source, program, self.entries, call_type_contracts=self.call_type_contracts)
         try:
             result = checker.check()
         except RecursionError:
@@ -143,5 +158,6 @@ class IncrementalFrontend:
         finally:
             self.stats = {'checked': checker.checked, 'reused': checker.reused}
         # Invalid revisions never replace the last successful cache or return its Analysis.
-        self.entries = checker.next
+        syntax = parser.successful_facts() if parser is not None else {}
+        self.entries, self._syntax = checker.next, syntax
         return result

@@ -41,3 +41,7 @@ Memory/RSS, cold filesystem caches, process startup, incremental parsing, increm
 The explicit [current call type contract option](call-type-contracts.md) allows parameter-name changes to preserve caller checks while rebuilding displayed signatures from current declarations. Default signature identities remain unchanged; full current parsing and native rebuilding still apply.
 
 [Three paired local comparisons](call-contracts-evidence.md) retain current native-accepted workloads, exact complete analysis/context/C and 2,016 samples including warmups. Recheck counts improve for parameter renames; timings remain mixed and defaults remain unchanged.
+
+The independent [body syntax option](body-syntax.md) reconstructs unchanged body grammar while still scanning the complete current source, parsing declarations afresh and validating current semantics. Default full parsing remains; native builds stay full. The checking runner retains actual parser work for both conditions.
+
+[Three paired local comparisons](body-syntax-evidence.md) retain native-accepted workloads, current complete analysis/context/C and 2,016 samples including warmups. Warm edit and initial/invalid/schema costs remain mixed; default parsing stays unchanged.

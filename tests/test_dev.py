@@ -194,6 +194,35 @@ class DevelopmentTests(unittest.TestCase):
             self.assertEqual(2, result.returncode)
             self.assertIn(b'requires --incremental-check', result.stderr)
 
+    def test_body_syntax_watcher_retains_current_output_and_distinguishes_parse_work(self):
+        source = ('fn greeting(unused: i32) -> str { return "current\\n"; } '
+                  'fn main() -> i32 { return print(greeting(1)); }\n')
+        self.save(source.encode())
+        self.start('--incremental-check', '--reuse-body-syntax', '--call-type-contracts')
+        self.wait_event('exited', 1)
+        self.assertTrue(self.records()[0]['reuse_body_syntax'])
+        changed = '// shifted 😀\n' + source.replace('unused: i32', 'input: i32')
+        self.save(changed.encode())
+        self.wait_event('exited', 2)
+        receipt = self.wait_event('checked', 2)
+        self.assertEqual({'parsed': [], 'reused': ['greeting', 'main']}, receipt['parsing'])
+        self.assertEqual(['greeting'], receipt['checked'])
+        self.assertEqual(['main'], receipt['reused'])
+        self.save(changed.replace('input: i32', 'input: bool').encode())
+        self.assertEqual('E0201', self.wait_event('rejected', 3)['diagnostic']['code'])
+        self.save(changed.replace('current', 'other').encode())
+        self.wait_event('exited', 4)
+        self.assertEqual(['greeting'], self.wait_event('checked', 4)['parsing']['parsed'])
+        self.stop()
+        self.stdout.seek(0)
+        self.assertEqual(b'current\ncurrent\nother\n', self.stdout.read())
+
+    def test_body_syntax_flag_requires_explicit_check_mode(self):
+        for flags in (['--reuse-body-syntax'], ['--reuse-body-syntax', '--incremental-build', '--stable-toolchain']):
+            result = subprocess.run([sys.executable, '-m', 'talven', 'dev', str(self.source), *flags], capture_output=True, timeout=5)
+            self.assertEqual(2, result.returncode)
+            self.assertIn(b'requires --incremental-check', result.stderr)
+
     def test_edit_during_slow_compile_discards_candidate(self):
         cc = self.wrapper("(root / 'cc-pid').write_text(str(os.getpid()))\n"
                           "while not (root / 'release').exists(): time.sleep(.01)\n"

@@ -67,6 +67,7 @@ Status definitions:
 | D53 | Proposed | Integrate explicit opt-in private native object reuse into source-aware watch/restart with verified separate deployment copies | [Proposal 0025](proposals/0025-native-object-watch.md); full current checks, cancellation/freshness, last-successful native retention and restart; no default speed claim or state preservation |
 | D54 | Proposed | Select own/direct-callee type declarations for opt-in hosted units, retaining global record layouts and fresh current checks | [Proposal 0026](proposals/0026-local-function-contracts.md); [local function contracts](local-function-contracts.md), separate profile/cache identities and actual native acceptance; default profiles remain unchanged |
 | D55 | Proposed | Reuse callers under explicit current call type contracts while refreshing displayed signatures from fresh declarations | [Proposal 0027](proposals/0027-current-call-type-contracts.md); [selected persistent check mode](call-type-contracts.md), exact own source, current record/call types and reference descriptions; default dependency identities remain unchanged |
+| D56 | Proposed | Reconstruct current function bodies from exact last-successful immutable grammar while freshly lexing all source and parsing declarations | [Proposal 0028](proposals/0028-function-body-syntax-reuse.md); [body syntax experiment](body-syntax.md), current spans, fresh mutable AST/types, semantic validation and shared limits; default parsing unchanged |
 
 ## Open decisions
 
