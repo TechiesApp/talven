@@ -1,4 +1,4 @@
-"""Bounded stdio LSP: sync, diagnostics, navigation, references, rename, symbols, formatting.
+"""Bounded stdio LSP: sync, diagnostics, navigation, rename, formatting, completion.
 
 Documents are analyzed from editor-supplied text. The server never opens a URI,
 executes a compiler subprocess, installs a dependency, or runs source programs.
@@ -11,6 +11,7 @@ import json
 from typing import BinaryIO
 
 from . import VERSION
+from .completion import completion_items
 from .formatter import format_source
 from .frontend import BUILTINS, KEYWORDS, SCALARS, Analysis, CompileError, Span, analyze, check_source, source_range
 import re
@@ -193,7 +194,8 @@ class Server:
                 self.send(id=identity, result={"capabilities": {
                     "positionEncoding": "utf-16", "textDocumentSync": {"openClose": True, "change": 1},
                     "hoverProvider": True, "definitionProvider": True, "documentSymbolProvider": True,
-                    "documentFormattingProvider": True, "referencesProvider": True, "renameProvider": True},
+                    "documentFormattingProvider": True, "referencesProvider": True, "renameProvider": True,
+                    "completionProvider": {"resolveProvider": False, "triggerCharacters": ["."]}},
                     "serverInfo": {"name": "talven", "version": VERSION}})
                 return None
             if not self.initialized:
@@ -241,6 +243,14 @@ class Server:
                 edits = [] if formatted == doc.source else [
                     {"range": source_range(doc.source, Span(0, len(doc.source))), "newText": formatted}]
                 self.send(id=identity, result=edits)
+            elif method == "textDocument/completion":
+                doc = self.documents.get(params["textDocument"]["uri"])
+                if doc is None:
+                    raise ValueError("Document is not open")
+                offset = offset_at(doc.source, params["position"])
+                if offset is None:
+                    raise ValueError("Invalid completion position")
+                self.send(id=identity, result=completion_items(doc.source, offset, doc.analysis, doc.version))
             elif method in ("textDocument/hover", "textDocument/definition", "textDocument/documentSymbol"):
                 doc = self.documents.get(params["textDocument"]["uri"])
                 result = [] if method.endswith("documentSymbol") else None

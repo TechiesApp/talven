@@ -40,6 +40,8 @@ The [watch/restart increment](development.md), specified in [Proposal 0012](prop
 
 The [in-process edit baseline](incremental-checking-baseline.md) now checks full/reused analyses against independent native acceptance and retains CI receipts. Its [local observations](incremental-checking-evidence.md) show that reuse is often slower on small functions and does not establish a consistent speedup. Keep the mode opt-in and investigate parsing/allocation/native integration before claiming the speed requirement is met.
 
+The [editor completion increment](editor-completion.md), specified in [Proposal 0017](proposals/0017-current-document-completion.md), adds scoped current names and named-record fields through the shared frontend. Recovered invalid source is explicitly unchecked and never reuses stale semantic facts. Semantic tokens, richer type-directed queries and workspace/incremental parsing remain open; no editor latency or agent-cost result is claimed.
+
 The [native scalar compiler experiment](../experiments/native-compiler/README.md), specified in [Proposal 0013](proposals/0013-native-scalar-compiler.md), adds an independent Rust checker/C emitter for a declared scalar/static-text overlap and a correctness-gated comparison runner. The native experiment now checks by-value records, moves, call-scoped borrowing, record mutation, and scalar reassignment against the reference with differential and sanitizer tests. Shared tooling parity, production selection and incremental compilation remain open.
 
 ### Planned next increments
