@@ -47,3 +47,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0017 | [Current-document completion](0017-current-document-completion.md) | Draft; implemented experiment |
 | 0018 | [Current-document semantic highlighting](0018-semantic-highlighting.md) | Draft; implemented experiment |
 | 0019 | [Current-document call signature help](0019-current-call-signatures.md) | Draft; implemented experiment |
+| 0020 | [Hosted function C units](0020-hosted-function-c-units.md) | Draft; implemented experiment |

@@ -38,6 +38,8 @@ This is the initial meaning of live reload for native Talven programs. Browser r
 
 [Proposal 0016](0016-persistent-function-checking.md) now implements opt-in reference function-check reuse with fresh parsing and full native rebuilding. Its [measurement harness](../incremental-checking-baseline.md) separates checking from native compilation and restart. This is partial stage-B implementation, without artifact reuse or a completed speed objective.
 
+[Proposal 0020](0020-hosted-function-c-units.md) now supplies a separately tested hosted function-unit emission boundary. It does not compile/cache objects or change development builds; preprocessing/toolchain/object identities and publication remain separate follow-ups.
+
 Keep a compiler service alive during development. Reuse parsing/analysis results and compiled artifacts through an explicit dependency graph. Recheck and regenerate changed units plus everything affected by changed contracts, types, borrowing permissions, constants or inlined bodies. Relink when necessary; restart does not inherently require recompiling unchanged code.
 
 Cache identity must cover relevant source/dependency inputs, compiler/schema versions, target, options and toolchain assumptions. A stable function signature cannot validate an artifact that embedded a changed callee body. Reject and rebuild corrupt or incompatible cache entries, recording why. Reuse must not relax ownership rules or independently required acceptance checks.

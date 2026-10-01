@@ -7,9 +7,9 @@ import subprocess
 import sys
 import tempfile
 
-from . import VERSION
-from .backend import emit_c
-from .context import agent_context, context, encode, source_hash
+from . import PROFILE, VERSION
+from .backend import MAX_C_UNIT_BYTES, emit_c, emit_c_units
+from .context import agent_context, compiler_hash, context, encode, source_hash
 from .edit_validation import HASH_PATTERN, snapshot_source, validate_edit
 from .formatter import format_source
 from .frontend import CompileError, MAX_SOURCE_BYTES, Span, analyze, check_source
@@ -53,6 +53,9 @@ def main(argv: list[str] | None = None) -> int:
     emit.add_argument("-o", "--output", type=Path)
     emit.add_argument("--freestanding", action="store_true")
     emit.add_argument("--console", action="store_true", help="Enable optional hosted POSIX stdout writes")
+    units = commands.add_parser("emit-c-units", help="Emit experimental checked hosted C11 units as JSON; no native build")
+    units.add_argument("source", type=Path)
+    units.add_argument("--console", action="store_true")
     build = commands.add_parser("build", help="Invoke a trusted local C compiler to build a native executable")
     build.add_argument("source", type=Path)
     build.add_argument("-o", "--output", type=Path, required=True)
@@ -150,6 +153,16 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "context":
             print(context(result, args.symbol, args.max_bytes, args.expect_source_hash,
                           args.freestanding, args.include_body), end="")
+        elif args.command == "emit-c-units":
+            units = emit_c_units(result, console=args.console)
+            receipt = encode({"schema": "talven.c-units.v1", "profile": "hosted-c11-units-v1",
+                              "language_profile": PROFILE, "compiler_hash": compiler_hash(),
+                              "source_hash": source_hash(source), "console": args.console,
+                              "units": [{"id": name, "c_hash": source_hash(code), "c": code}
+                                        for name, code in units.items()]})
+            if len(receipt.encode("utf-8")) > MAX_C_UNIT_BYTES:
+                raise CompileError("E0005", "Hosted C unit receipt exceeds the 16 MiB experiment limit", Span(0, 0))
+            print(receipt, end="")
         else:
             output = args.output
             if output is not None and (output.resolve() == args.source.resolve()
@@ -187,7 +200,7 @@ def main(argv: list[str] | None = None) -> int:
         failure = error
     failures = reported if reported and failure is reported[0] else [failure]
     diagnostics = [error.diagnostic(source) for error in failures]
-    if args.command == "context" or getattr(args, "json", False):
+    if args.command in ("context", "emit-c-units") or getattr(args, "json", False):
         print(encode({"schema": "talven.diagnostics.v1", "ok": False, "diagnostics": diagnostics}), end="")
     else:
         for error, diagnostic in zip(failures, diagnostics):
