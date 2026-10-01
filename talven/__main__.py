@@ -56,6 +56,7 @@ def main(argv: list[str] | None = None) -> int:
     units = commands.add_parser("emit-c-units", help="Emit experimental checked hosted C11 units as JSON; no native build")
     units.add_argument("source", type=Path)
     units.add_argument("--console", action="store_true")
+    units.add_argument("--local-contracts", action="store_true", help="Experimental own/direct-callee ABI prototypes; retain global record layouts")
     build = commands.add_parser("build", help="Invoke a trusted local C compiler to build a native executable")
     build.add_argument("source", type=Path)
     build.add_argument("-o", "--output", type=Path, required=True)
@@ -68,6 +69,7 @@ def main(argv: list[str] | None = None) -> int:
     prepared.add_argument("source", type=Path)
     prepared.add_argument("--cc", default="cc", help="Trusted GCC/Clang-compatible C compiler executable")
     prepared.add_argument("--console", action="store_true")
+    prepared.add_argument("--local-contracts", action="store_true", help="Experimental selected ABI prototypes inside prepared function units")
     prepared.add_argument("--timeout", type=interval, default=30.0, metavar="SECONDS")
     dev = commands.add_parser("dev", help="Watch one source, build, and restart after successful edits")
     dev.add_argument("source", type=Path)
@@ -77,6 +79,7 @@ def main(argv: list[str] | None = None) -> int:
     dev_modes.add_argument("--incremental-check", action="store_true", help="Reuse unchanged function checks in this session; C builds still run in full")
     dev_modes.add_argument("--incremental-build", action="store_true", help="Experimental private native object reuse; current source checks remain full")
     dev.add_argument("--stable-toolchain", action="store_true", help="Assert a trusted stable toolchain for experimental native object reuse")
+    dev.add_argument("--local-contracts", action="store_true", help="Experimental local function contracts; requires incremental native builds")
     dev.add_argument("--events", type=Path, help="Create a new JSONL session receipt file")
     dev.add_argument("--poll-interval", type=interval, default=0.05, metavar="SECONDS")
     dev.add_argument("--debounce", type=interval, default=0.1, metavar="SECONDS")
@@ -101,6 +104,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "dev":
         if args.incremental_build != args.stable_toolchain:
             parser.error("dev --incremental-build requires --stable-toolchain, and --stable-toolchain applies only to that mode")
+        if args.local_contracts and not args.incremental_build:
+            parser.error("dev --local-contracts requires --incremental-build --stable-toolchain")
         from .dev import run_dev
         return run_dev(args)
     if args.command == "lsp":
@@ -147,7 +152,8 @@ def main(argv: list[str] | None = None) -> int:
             raise CompileError("E0501", "Source revision changed; request fresh context before editing", Span(0, 0))
         if args.command == "prepare-c-units":
             from .preprocessed_units import MAX_PREPARED_BYTES, prepare_c_units
-            receipt = encode(prepare_c_units(source, cc=args.cc, console=args.console, timeout=args.timeout))
+            receipt = encode(prepare_c_units(source, cc=args.cc, console=args.console, timeout=args.timeout,
+                                            local_contracts=args.local_contracts))
             if len(receipt.encode('utf-8')) > MAX_PREPARED_BYTES:
                 raise CompileError('E0005', 'Prepared C unit receipt exceeds the 64 MiB experiment limit', Span(0, 0))
             print(receipt, end='')
@@ -171,8 +177,9 @@ def main(argv: list[str] | None = None) -> int:
             print(context(result, args.symbol, args.max_bytes, args.expect_source_hash,
                           args.freestanding, args.include_body), end="")
         elif args.command == "emit-c-units":
-            units = emit_c_units(result, console=args.console)
-            receipt = encode({"schema": "talven.c-units.v1", "profile": "hosted-c11-units-v1",
+            units = emit_c_units(result, console=args.console, local_contracts=args.local_contracts)
+            receipt = encode({"schema": "talven.c-units.v1",
+                              "profile": "hosted-c11-local-contracts-v1" if args.local_contracts else "hosted-c11-units-v1",
                               "language_profile": PROFILE, "compiler_hash": compiler_hash(),
                               "source_hash": source_hash(source), "console": args.console,
                               "units": [{"id": name, "c_hash": source_hash(code), "c": code}

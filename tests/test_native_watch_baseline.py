@@ -22,6 +22,21 @@ def args(out):
 
 
 class NativeWatchBaselineTests(unittest.TestCase):
+    def test_local_contract_watcher_measurement_rebuilds_only_renamed_definition(self):
+        selected = [measurement.workloads()[0]]
+        with tempfile.TemporaryDirectory() as temporary, patch.object(measurement, 'workloads', return_value=selected):
+            out = Path(temporary) / 'local'
+            options = args(out)
+            options.local_contracts = True
+            self.assertEqual(0, measurement.run(options))
+            report = json.loads((out / 'report.json').read_text())
+            self.assertTrue(report['passed'] and report['complete'] and report['local_contracts'])
+            rows = measurement.read_events(out / report['sessions'][1]['path'] / 'events.jsonl')
+            contract = next(row for row in rows if row['event'] == 'compiled' and row['revision'] == 4)
+            self.assertEqual('hosted-object-local-contracts-v1', contract['profile'])
+            self.assertEqual(['fn:step_0'], contract['compiled'])
+            self.assertEqual(33, len(contract['reused']))
+
     def test_real_sessions_archive_current_tasks_reuse_rejections_and_clean_shutdown(self):
         selected = [measurement.workloads()[-1]]
         with tempfile.TemporaryDirectory() as temporary, patch.object(measurement, 'workloads', return_value=selected):

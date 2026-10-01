@@ -125,7 +125,8 @@ class Session:
         if args.incremental_build:
             from .unit_build import UnitBuildSession
             self.units = UnitBuildSession(stable_toolchain=args.stable_toolchain, cc=args.cc,
-                                          console=args.console, timeout=args.build_timeout)
+                                          console=args.console, timeout=args.build_timeout,
+                                          local_contracts=args.local_contracts)
 
     def event(self, name, job=None, **fields):
         row = {"schema": "talven.dev.v1", "event": name}
@@ -271,7 +272,8 @@ class Session:
             receipt = result.receipt
             if receipt["source_hash"] != job.snapshot.digest:
                 raise CompileError("E0501", "Native candidate describes a different source snapshot", Span(0, 0))
-            self.event("compiled", job, build_mode="units", compiled=receipt["compiled"], reused=receipt["reused"],
+            self.event("compiled", job, build_mode="units", profile=receipt["profile"],
+                       compiled=receipt["compiled"], reused=receipt["reused"],
                        driver_probe_reused=receipt["driver_probe_reused"], object_bytes=receipt["object_bytes"],
                        executable_hash=receipt["executable_hash"])
             self.observe()
@@ -334,7 +336,7 @@ class Session:
                        compiler_hash=compiler_hash(), cc=self.args.cc,
                        poll_interval_seconds=self.args.poll_interval, debounce_seconds=self.args.debounce,
                        build_timeout_seconds=self.args.build_timeout, stop_timeout_seconds=self.args.stop_timeout,
-                       stable_toolchain_required=self.units is not None)
+                       stable_toolchain_required=self.units is not None, local_contracts=self.args.local_contracts)
             next_observation = 0.0
             while not self.cancelled:
                 # Full compiler completion can be polled without rereading source every tick.

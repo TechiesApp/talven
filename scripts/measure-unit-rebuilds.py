@@ -47,9 +47,10 @@ def full_build(source, cc, program, timeout):
     return source_hash(generated)
 
 
-def validate_work(receipt, source, pinned, identifiers):
+def validate_work(receipt, source, pinned, identifiers, *, local_contracts=False):
     base.require(isinstance(receipt, dict) and receipt.get('schema') == 'talven.unit-build.v1'
-                 and receipt.get('profile') == 'hosted-object-reuse-v1', 'unexpected build receipt')
+                 and receipt.get('profile') == ('hosted-object-local-contracts-v1' if local_contracts
+                                                else 'hosted-object-reuse-v1'), 'unexpected build receipt')
     base.require(receipt.get('source_hash') == source_hash(source) and receipt.get('compiler_hash') == pinned,
                  'unit receipt describes a different source/compiler')
     base.require(receipt.get('language_profile') == PROFILE and receipt.get('console') is False
@@ -96,6 +97,8 @@ def run(args):
     out, cc, arch = base.preflight(args.out, args.repetitions, args.warmups, args.timeout, args.cc, args.expect_arch)
     base.require(0.01 <= args.timeout <= 60, 'unit build timeout must be 0.01..60 seconds')
     base.require(args.stable_toolchain is True, 'assert --stable-toolchain for this trusted local experiment')
+    local_contracts = getattr(args, 'local_contracts', False)
+    base.require(type(local_contracts) is bool, 'local contracts must be an explicit boolean')
     out.mkdir(parents=True)
     (out / 'commands').mkdir()
     report = {'schema': 'talven.unit-rebuild-baseline.v1', 'complete': False, 'passed': False,
@@ -106,7 +109,7 @@ def run(args):
               'os_release': platform.release(), 'python': platform.python_version(),
               'python_executable': base.fingerprint(Path(sys.executable)), 'c_executable': base.fingerprint(Path(cc)),
               'flags': list(OBJECT_FLAGS), 'timeout_seconds': args.timeout,
-              'stable_toolchain_required': True, 'environment_note': args.environment_note,
+              'stable_toolchain_required': True, 'local_contracts': local_contracts, 'environment_note': args.environment_note,
               'child_environment_overrides': base.ENVIRONMENT,
               'python_hash_seed_at_start': os.environ.get('PYTHONHASHSEED'),
               'garbage_collector': {'enabled': gc.isenabled(), 'thresholds': gc.get_threshold()},
@@ -171,7 +174,8 @@ def run(args):
                                     try:
                                         if mode == 'units':
                                             if session is None:
-                                                session = UnitBuildSession(stable_toolchain=True, cc=cc, timeout=args.timeout)
+                                                session = UnitBuildSession(stable_toolchain=True, cc=cc, timeout=args.timeout,
+                                                                           local_contracts=local_contracts)
                                             result = session.build(revision['source'])
                                             program = result.executable
                                         else:
@@ -193,7 +197,8 @@ def run(args):
                                         base.require(output == b'' and entry['stderr']['bytes'] == 0, 'current program output mismatch')
                                         if mode == 'units':
                                             sample['receipt'] = result.receipt
-                                            validate_work(result.receipt, revision['source'], report['compiler_hash'], identifiers)
+                                            validate_work(result.receipt, revision['source'], report['compiler_hash'], identifiers,
+                                                          local_contracts=local_contracts)
                                             base.require(result.receipt['executable_hash'] == sample['executable']['sha256'],
                                                          'retained candidate bytes differ from build receipt')
                                             oracle = directory / 'oracle.c'
@@ -250,6 +255,7 @@ def main():
     parser.add_argument('--expect-arch', choices=('aarch64', 'x86_64'))
     parser.add_argument('--environment-note', default='unspecified')
     parser.add_argument('--stable-toolchain', action='store_true', help='Assert a trusted toolchain stable throughout this run')
+    parser.add_argument('--local-contracts', action='store_true', help='Select the separate local function contract profile for native units')
     try:
         return run(parser.parse_args())
     except (base.MeasurementError, OSError, ValueError) as error:

@@ -46,12 +46,15 @@ class UnitBuild:
 
 
 class UnitBuildSession:
-    def __init__(self, *, stable_toolchain, cc='cc', console=False, timeout=30):
+    def __init__(self, *, stable_toolchain, cc='cc', console=False, timeout=30, local_contracts=False):
         if stable_toolchain is not True:
             raise ValueError('Object reuse requires an explicitly trusted stable toolchain for the session')
         if type(timeout) not in (int, float) or not 0.01 <= timeout <= 60:
             raise ValueError('Build timeout must be between 0.01 and 60 seconds')
+        if type(local_contracts) is not bool:
+            raise ValueError('Local contracts must be an explicit boolean')
         self.cc, self.console, self.timeout = cc, console, timeout
+        self.local_contracts = local_contracts
         self._compiler_hash = compiler_hash()
         self._temporary = tempfile.TemporaryDirectory(prefix='talven-unit-session-')
         self._root = Path(self._temporary.name)
@@ -97,12 +100,18 @@ class UnitBuildSession:
 
         try:
             prepared, executable, environment, probe, working_directory = yield from _prepare_c_units_steps(
-                source, cc=self.cc, console=self.console, timeout=remaining(), probe=self._probe)
+                source, cc=self.cc, console=self.console, timeout=remaining(), probe=self._probe,
+                local_contracts=self.local_contracts)
             if prepared['compiler_hash'] != self._compiler_hash:
                 raise CompileError('E0501', 'Compiler inputs changed; restart the unit build session', Span(0, 0))
             candidate = Path(tempfile.mkdtemp(prefix='candidate-', dir=self._root))
+            profiles = {'hosted-preprocessed-units-v1': 'hosted-object-reuse-v1',
+                        'hosted-preprocessed-local-contracts-v1': 'hosted-object-local-contracts-v1'}
+            if prepared['profile'] not in profiles:
+                raise failure('Unexpected prepared-unit emission profile')
+            profile = profiles[prepared['profile']]
             configuration = source_hash(encode({
-                'profile': 'hosted-object-reuse-v1', 'compiler_hash': self._compiler_hash,
+                'profile': profile, 'compiler_hash': self._compiler_hash,
                 'language_profile': prepared['language_profile'], 'console': prepared['console'],
                 'compiler': prepared['compiler'], 'flags': OBJECT_FLAGS,
                 'driver_path': str(executable)}))
@@ -145,7 +154,7 @@ class UnitBuildSession:
                     or compiler_hash() != self._compiler_hash):
                 raise CompileError('E0501', 'Compiler inputs changed during native unit build; restart the session', Span(0, 0))
             remaining()
-            receipt = {'schema': 'talven.unit-build.v1', 'profile': 'hosted-object-reuse-v1',
+            receipt = {'schema': 'talven.unit-build.v1', 'profile': profile,
                        'source_hash': prepared['source_hash'], 'compiler_hash': self._compiler_hash,
                        'language_profile': prepared['language_profile'], 'console': prepared['console'],
                        'compiler': prepared['compiler'], 'flags': list(OBJECT_FLAGS),

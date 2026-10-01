@@ -194,3 +194,17 @@ jobs:
           path: build/native-watch-baseline/
           if-no-files-found: error
           retention-days: 30
+      - name: Verify local-contract object rebuilds and actual watcher edits
+        run: |
+          python3 scripts/measure-unit-rebuilds.py --expect-arch '${{ matrix.arch }}' --out build/local-contract-rebuilds --repetitions 1 --warmups 0 --timeout 60 --stable-toolchain --local-contracts --environment-note 'GitHub Actions shared runner; explicit local contracts; actual-object native acceptance'
+          python3 scripts/measure-native-watch.py --expect-arch '${{ matrix.arch }}' --out build/local-contract-watch --repetitions 1 --warmups 0 --timeout 60 --stable-toolchain --local-contracts --environment-note 'GitHub Actions shared runner; explicit local contracts; actual watcher native acceptance'
+      - name: Preserve local-contract native evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: local-contracts-${{ matrix.arch }}-python-${{ matrix.python }}
+          path: |
+            build/local-contract-rebuilds/
+            build/local-contract-watch/
+          if-no-files-found: error
+          retention-days: 30

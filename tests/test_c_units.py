@@ -17,8 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 FLAGS = ['-std=c11', '-Wall', '-Wextra', '-Werror', '-pedantic-errors', '-fno-lto']
 
 
-def execute_units(source, *, console=False, optimization='-O2', sanitizer=False, driver=None):
-    units = emit_c_units(analyze(source), console=console)
+def execute_units(source, *, console=False, optimization='-O2', sanitizer=False, driver=None, local_contracts=False):
+    units = emit_c_units(analyze(source), console=console, local_contracts=local_contracts)
     with tempfile.TemporaryDirectory() as temporary:
         directory = Path(temporary)
         objects = []

@@ -104,6 +104,26 @@ class NativeWatchTests(unittest.TestCase):
         self.assertTrue(all(row['build_mode'] == 'units' for row in self.rows() if row['event'] == 'started'))
         self.assertTrue(any(row['event'] == 'compiler_step' and row['stage'] == 'link' for row in self.rows()))
 
+    def test_local_contract_watch_renames_only_rebuild_the_definition(self):
+        self.start('--local-contracts')
+        self.wait('exited', 1)
+        self.assertTrue(self.wait('session_started')['local_contracts'])
+        self.assertEqual('hosted-object-local-contracts-v1', self.wait('compiled', 1)['profile'])
+        renamed = SOURCE.replace('relay(s: str)', 'relay(text: str)').replace('return s;', 'return text;')
+        self.save(renamed)
+        self.wait('exited', 2)
+        receipt = self.wait('compiled', 2)
+        self.assertEqual(['fn:relay'], receipt['compiled'])
+        self.assertEqual(['fn:message', 'fn:main', 'entry'], receipt['reused'])
+        self.save(renamed.replace('return text;', 'return false;'))
+        self.assertEqual('E0201', self.wait('rejected', 3)['diagnostic']['code'])
+        self.save(renamed)
+        self.wait('exited', 4)
+        self.assertEqual([], self.wait('compiled', 4)['compiled'])
+        self.stop()
+        self.stdout.seek(0)
+        self.assertEqual(b'first\n' * 3, self.stdout.read())
+
     def test_superseded_preprocessing_is_cancelled_without_stale_restart(self):
         compiler = self.wrapper('if "-E" in sys.argv and (root/"delay").exists():\n'
                                 ' signal.signal(signal.SIGTERM,signal.SIG_IGN)\n'

@@ -62,6 +62,8 @@ These are proposed follow-ups, not implemented features or a new claim that M1 i
 
 Measure actual save-to-diagnostic and save-to-running-revision latency, cache reuse, memory and correctness. Release builds should omit development reload support. This work starts before the broader M5 toolkit; controlled agent evaluation remains a separate M1 gate, with no paid run authorized by this plan.
 
+[Proposal 0026](proposals/0026-local-function-contracts.md) adds explicit [local function contracts](local-function-contracts.md) for hosted units and native watch mode. It retains current full checks, global record layouts and default profiles while allowing unrelated declarations and parameter names to stop invalidating callers. Both native measurement runners accept `--local-contracts`; performance conclusions require retained comparative evidence.
+
 ## M2: Memory and concurrency foundations
 
 Add allocator interfaces, containers, typed failures, structured tasks, cancellation, synchronization, and a selected optional executor.
