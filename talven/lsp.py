@@ -12,6 +12,7 @@ from typing import BinaryIO
 
 from . import VERSION
 from .completion import completion_items
+from .document_changes import apply_changes
 from .formatter import format_source
 from .frontend import BUILTINS, KEYWORDS, SCALARS, Analysis, CompileError, Span, analyze, check_source, source_range
 from .semantic_tokens import TOKEN_MODIFIERS, TOKEN_TYPES, semantic_tokens
@@ -154,6 +155,7 @@ class Document:
     source: str
     version: int
     analysis: Analysis | None
+    synchronized: bool = True
 
 
 class Server:
@@ -165,6 +167,12 @@ class Server:
 
     def send(self, **fields):
         write_message(self.output, {"jsonrpc": "2.0", **fields})
+
+    def document(self, uri):
+        document = self.documents.get(uri)
+        if document is not None and not document.synchronized:
+            raise ValueError('Document requires a full replacement after a rejected change')
+        return document
 
     def update(self, uri: str, version: int, source: str):
         if not isinstance(uri, str) or type(version) is not int or not isinstance(source, str):
@@ -194,7 +202,7 @@ class Server:
             if method == "initialize" and not self.initialized:
                 self.initialized = True
                 self.send(id=identity, result={"capabilities": {
-                    "positionEncoding": "utf-16", "textDocumentSync": {"openClose": True, "change": 1},
+                    "positionEncoding": "utf-16", "textDocumentSync": {"openClose": True, "change": 2},
                     "hoverProvider": True, "definitionProvider": True, "documentSymbolProvider": True,
                     "documentFormattingProvider": True, "referencesProvider": True, "renameProvider": True,
                     "completionProvider": {"resolveProvider": False, "triggerCharacters": ["."]},
@@ -219,18 +227,28 @@ class Server:
                 doc = params["textDocument"]
                 self.update(doc["uri"], doc["version"], doc["text"])
             elif method == "textDocument/didChange":
-                doc, changes = params["textDocument"], params["contentChanges"]
-                if doc["uri"] not in self.documents:
+                doc, changes = params["textDocument"], params.get("contentChanges")
+                uri, version = doc['uri'], doc['version']
+                if not isinstance(uri, str) or type(version) is not int:
+                    raise ValueError('Invalid document identity/version')
+                previous = self.documents.get(uri)
+                if previous is None:
                     raise ValueError("Document is not open")
-                if not changes or any("range" in change for change in changes):
-                    raise ValueError("This server requires full document synchronization")
-                self.update(doc["uri"], doc["version"], changes[-1]["text"])
+                if version <= previous.version:
+                    return None
+                try:
+                    source = apply_changes(previous.source if previous.synchronized else None, changes)
+                except ValueError:
+                    previous.synchronized, previous.analysis, previous.version = False, None, version
+                    self.send(method='textDocument/publishDiagnostics', params={'uri': uri, 'diagnostics': []})
+                    raise
+                self.update(uri, version, source)
             elif method == "textDocument/didClose":
                 uri = params["textDocument"]["uri"]
                 self.documents.pop(uri, None)
                 self.send(method="textDocument/publishDiagnostics", params={"uri": uri, "diagnostics": []})
             elif method == "textDocument/formatting":
-                doc = self.documents.get(params["textDocument"]["uri"])
+                doc = self.document(params["textDocument"]["uri"])
                 if doc is None:
                     raise ValueError("Document is not open")
                 options = params.get("options")
@@ -249,7 +267,7 @@ class Server:
                     {"range": source_range(doc.source, Span(0, len(doc.source))), "newText": formatted}]
                 self.send(id=identity, result=edits)
             elif method == "textDocument/completion":
-                doc = self.documents.get(params["textDocument"]["uri"])
+                doc = self.document(params["textDocument"]["uri"])
                 if doc is None:
                     raise ValueError("Document is not open")
                 offset = offset_at(doc.source, params["position"])
@@ -257,12 +275,12 @@ class Server:
                     raise ValueError("Invalid completion position")
                 self.send(id=identity, result=completion_items(doc.source, offset, doc.analysis, doc.version))
             elif method == "textDocument/semanticTokens/full":
-                doc = self.documents.get(params["textDocument"]["uri"])
+                doc = self.document(params["textDocument"]["uri"])
                 if doc is None:
                     raise ValueError("Document is not open")
                 self.send(id=identity, result=semantic_tokens(doc.source, doc.analysis))
             elif method == "textDocument/signatureHelp":
-                doc = self.documents.get(params["textDocument"]["uri"])
+                doc = self.document(params["textDocument"]["uri"])
                 if doc is None:
                     raise ValueError("Document is not open")
                 offset = offset_at(doc.source, params["position"])
@@ -270,7 +288,7 @@ class Server:
                     raise ValueError("Invalid signature-help position")
                 self.send(id=identity, result=signature_help(doc.source, offset, doc.analysis))
             elif method in ("textDocument/hover", "textDocument/definition", "textDocument/documentSymbol"):
-                doc = self.documents.get(params["textDocument"]["uri"])
+                doc = self.document(params["textDocument"]["uri"])
                 result = [] if method.endswith("documentSymbol") else None
                 if doc and doc.analysis:
                     if method.endswith("documentSymbol"):
@@ -292,7 +310,7 @@ class Server:
                 self.send(id=identity, result=result)
             elif method in ("textDocument/references", "textDocument/rename"):
                 uri = params["textDocument"]["uri"]
-                doc = self.documents.get(uri)
+                doc = self.document(uri)
                 occurrences = symbol_occurrences(doc, params["position"]) if doc and doc.analysis else None
                 if method.endswith("references"):
                     include = (params.get("context") or {}).get("includeDeclaration", True)
