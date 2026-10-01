@@ -1,6 +1,6 @@
 # Pollable bounded compiler commands
 
-Status: implemented reference command primitive under [Proposal 0023](proposals/0023-pollable-compiler-commands.md). It is a cancellation/observation foundation for later [object-reuse watcher integration](object-reuse.md); ordinary build/dev remain unchanged. Prepared-unit and object-build APIs still run synchronously through the compatibility wrapper.
+Status: implemented reference command primitive under [Proposal 0023](proposals/0023-pollable-compiler-commands.md). It supports the [shared pollable object-build driver](build-pipeline.md) and later watcher integration; ordinary build/dev remain unchanged. Standalone preparation and `build(source)` retain their synchronous compatibility wrappers.
 
 `talven.c_command.BoundedCommand` owns one trusted command's POSIX process group, temporary stdin file, output pipes and readiness selector. Constructing it launches the command. `poll()` defaults to a non-waiting readiness check and returns `None` while pending, or exact stdout bytes after successful EOF and child exit. Empty stdout `b''` is a completed result, distinct from pending. `close()` cancels/cleans up the owned group, and context-manager exit calls it. Cleanup is idempotent. A successful terminal poll can return its retained result again; polling a cancelled/failed closed command is a usage error.
 
