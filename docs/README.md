@@ -63,6 +63,7 @@ Each increment keeps its own *evidence* record, with hosts, tool versions, and t
 | Freestanding execution | [Freestanding validation](freestanding-validation.md) |
 | Edit previews | [Edit preview evidence](edit-validation-evidence.md) |
 | Tooling baseline | [Method](tooling-baseline.md) and [evidence](tooling-baseline-evidence.md) |
+| Persistent function checking | [Measurement method](incremental-checking-baseline.md) and [evidence](incremental-checking-evidence.md) |
 | Native compiler prototype | [Native compiler evidence](native-compiler-evidence.md) |
 
 ## Project

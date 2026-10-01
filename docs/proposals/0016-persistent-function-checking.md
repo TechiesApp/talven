@@ -51,7 +51,7 @@ Changing only a helper body rechecks that helper and can reuse callers with unch
 
 Compare complete analyses, reference spans/descriptions, deterministic context and byte-identical emitted C against full checking through edit sequences. Test body edits, changed signatures and record schemas, added/removed declarations, source movement, compiler changes, invalid-edit recovery, input limits, and mutation of previously returned results. Execute a real development session and inspect both cache receipts and changed program output. Run the full reference suite and native differential suite.
 
-Correctness tests establish reuse behavior; they do not establish a latency or memory improvement. Future performance evidence must retain source revisions and edits, compiler identity, hardware, Python/C versions, flags, full/reuse condition order, repetitions, failed attempts, current-output correctness and raw timings.
+Correctness tests establish reuse behavior; they do not establish a latency or memory improvement. The [persistent-checking baseline](../incremental-checking-baseline.md) retains source revisions and edits, compiler identity, hardware, Python/C versions, flags, full/reuse condition order, repetitions, failed attempts, current-output correctness and raw timings. Memory and end-to-end development feedback remain separate measurements.
 
 ## Unresolved questions
 

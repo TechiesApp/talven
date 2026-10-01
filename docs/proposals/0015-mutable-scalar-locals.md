@@ -20,6 +20,8 @@ Whole-record and `str` reassignment, mutable `str` bindings, assignment expressi
 
 Use reference profile `m1-scalar-mutation-v1`, formatter profile `m1-scalar-mutation-layout-v1`, and native profile `native-scalar-mutation-v1`. Existing JSON shapes retain their schema versions; profile identities and compiler hashes invalidate older semantic context. The Rust experiment supports mutable local declarations, including record owners used only by value, and scalar assignment. Record borrowing and field assignment retain its explicit `E0801` boundary.
 
+Subsequent [native call-borrow work](../../experiments/native-compiler/README.md) extends this experiment under `native-call-borrows-v1`; record borrowing and field assignment now match the reference and participate in differential/sanitizer checks. The earlier profile boundary above describes this increment at introduction.
+
 ## Examples
 
 The experiment implements this example; the [language reference](../language-reference.md) is normative:

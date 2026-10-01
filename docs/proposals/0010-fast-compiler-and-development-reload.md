@@ -16,7 +16,7 @@ The existing compiler is Talven's own implementation, written in Python with a C
 
 ### Native compiler direction
 
-Treat fast startup, checking, builds and rebuilds after edits as explicit product requirements. Prototype a native compiler early, before broad runtime and ecosystem expansion. Rust is the leading candidate to evaluate, not a selected production dependency. [Proposal 0013](0013-native-scalar-compiler.md) now supplies a bounded [scalar/static-text experiment](../../experiments/native-compiler/README.md) through C11; records/borrowing, shared tooling parity and incremental compilation remain open. Retain the Python reference and independent behavioral acceptance: a replacement must demonstrate equivalent language semantics, diagnostics, borrowing, context and native results on its declared scope.
+Treat fast startup, checking, builds and rebuilds after edits as explicit product requirements. Prototype a native compiler early, before broad runtime and ecosystem expansion. Rust is the leading candidate to evaluate, not a selected production dependency. [Proposal 0013](0013-native-scalar-compiler.md) now supplies a bounded [native experiment](../../experiments/native-compiler/README.md) through C11, including records, moves, call-scoped borrowing and mutation; shared tooling parity and native incremental compilation remain open. Retain the Python reference and independent behavioral acceptance: a replacement must demonstrate equivalent language semantics, diagnostics, borrowing, context and native results on its declared scope.
 
 Evaluate frontend implementation and backend separately. Moving the frontend out of Python would not remove the current C compilation/linking stage. A native compiler executable also need not bundle its backend, linker, headers or system libraries; its distribution must disclose these dependencies. Self-hosting in Talven is a separate later choice, not a prerequisite for speed.
 
@@ -35,6 +35,8 @@ Provide an explicit development session which watches a selected source/workspac
 This is the initial meaning of live reload for native Talven programs. Browser refresh or UI redraw requires integration with a selected framework, which does not exist in Talven today.
 
 ### Stage B: Persistent incremental compilation
+
+[Proposal 0016](0016-persistent-function-checking.md) now implements opt-in reference function-check reuse with fresh parsing and full native rebuilding. Its [measurement harness](../incremental-checking-baseline.md) separates checking from native compilation and restart. This is partial stage-B implementation, without artifact reuse or a completed speed objective.
 
 Keep a compiler service alive during development. Reuse parsing/analysis results and compiled artifacts through an explicit dependency graph. Recheck and regenerate changed units plus everything affected by changed contracts, types, borrowing permissions, constants or inlined bodies. Relink when necessary; restart does not inherently require recompiling unchanged code.
 

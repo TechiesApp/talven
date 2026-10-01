@@ -1,0 +1,6888 @@
+{
+  "c_executable": {
+    "bytes": 200560,
+    "sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2"
+  },
+  "c_flags": [
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-pedantic-errors",
+    "-fno-lto"
+  ],
+  "c_target": "arm64-apple-darwin27.0.0",
+  "c_version": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+  "clock": {
+    "implementation": "mach_absolute_time()",
+    "resolution_seconds": 4.166666666666666e-08
+  },
+  "compiler_hash": "1108334f54d7617d79e495c5e289f622990dbab742b4b7fd781dd035ddf39578",
+  "compiler_version": "0.5.0-dev",
+  "complete": true,
+  "cpu_model": "Apple M4",
+  "environment_note": "Local macOS ARM64; development machine; immutable-span reuse optimization; other development applications open",
+  "finished_at": "2026-10-01T07:51:03.007713+00:00",
+  "garbage_collector": {
+    "enabled": true,
+    "thresholds": [
+      2000,
+      10,
+      10
+    ]
+  },
+  "git_revision": "ddba3283e963364743df1b236d5e5337670958d1",
+  "git_status": "M .github/workflows/compiler-check.yml\n M docs/README.md\n M docs/development.md\n M docs/proposals/0010-fast-compiler-and-development-reload.md\n M docs/proposals/0015-mutable-scalar-locals.md\n M docs/proposals/0016-persistent-function-checking.md\n M talven/incremental.py\n?? docs/incremental-checking-baseline.md\n?? scripts/measure-incremental.py\n?? tests/test_incremental_measurement.py",
+  "in_process_environment": {
+    "LC_ALL": "C",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0"
+  },
+  "inputs": {
+    "experiments/tooling_workloads.py": {
+      "bytes": 3599,
+      "sha256": "3596d3f588f3d384f180d1acec5b357cfa239029db46ccb02351a3020c9a72ad"
+    },
+    "scripts/measure-incremental.py": {
+      "bytes": 15014,
+      "sha256": "99078e19837d514061fea695e4f1ff1572939cc5995d47c56ad0ccaf32a49dd2"
+    },
+    "scripts/measure-tooling.py": {
+      "bytes": 18290,
+      "sha256": "b37aaff3df4ab583f30dd2224673bf037c9f0265dd053b87323a9e7319588354"
+    },
+    "talven/__init__.py": {
+      "bytes": 180,
+      "sha256": "07d62eabb70387d13288c22e19bd34137f57b91541d63a694afcd146ca325783"
+    },
+    "talven/__main__.py": {
+      "bytes": 11852,
+      "sha256": "300712242496057b5cd4772edacdaf6b6c660cb5836f18a0d3c5b52e1200f752"
+    },
+    "talven/backend.py": {
+      "bytes": 9502,
+      "sha256": "0de8622757f9cb451eada1abec510849bcc921b9bc231582bd821075cf005b63"
+    },
+    "talven/context.py": {
+      "bytes": 8226,
+      "sha256": "090fbd69eec861899f299d40b8415a1e4ab765425204823169d3023c50a19b5d"
+    },
+    "talven/dev.py": {
+      "bytes": 12422,
+      "sha256": "9a24e3ae310b0d51434a146be773d33f45f1da7109296e888864aab33967cb54"
+    },
+    "talven/edit_validation.py": {
+      "bytes": 11300,
+      "sha256": "4e6faf4e6d1f85a5e1642bf9a9a0480dd415b1cc1ec1d654623f4c50bf9ff4d3"
+    },
+    "talven/formatter.py": {
+      "bytes": 5934,
+      "sha256": "f4238109ff03e13cb95928856ee6646dac87b9311dc06e5ab11ab278c42e3650"
+    },
+    "talven/frontend.py": {
+      "bytes": 34942,
+      "sha256": "60d93534a43d2eb08a5b2e4c1eaae1a75d3ab7f6536a07ac6acc2bbbae94359f"
+    },
+    "talven/incremental.py": {
+      "bytes": 5693,
+      "sha256": "a421887eb14d2169ca1620ff4b43cbf5ca48d29bb3707e254abfb42fffe17959"
+    },
+    "talven/lsp.py": {
+      "bytes": 14745,
+      "sha256": "742cd5be07f5f183d5e9e525acf017ea3bd00e672da4a06392b4a5f11d8ea7fb"
+    },
+    "talven/native.py": {
+      "bytes": 224,
+      "sha256": "cca4f6d74fbcd407fd90a1a63ce0e78716e5dda2d1bae92a5546bd4a4ec18688"
+    },
+    "talven/source_edit.py": {
+      "bytes": 2350,
+      "sha256": "c98344818be1685774b95bca6ae61462064733d80f1e99b950152df4011066f9"
+    }
+  },
+  "machine": "aarch64",
+  "os_release": "27.0.0",
+  "passed": true,
+  "profile": "m1-scalar-mutation-v1",
+  "publication": "Derived extract: absolute command/executable paths and raw command streams omitted; every warmup/measured duration and checked/reused count retained. Complete local report remains under build/incremental-comparison-local-optimized/.",
+  "python": "3.14.7",
+  "python_executable": {
+    "bytes": 34640,
+    "sha256": "87d4df53fd91304be5bac391fb204643c36b7df2023c04a0953bcbc7d4fdf634"
+  },
+  "raw_report_sha256": "5065a7e1232b04eba1087a69b296f4ea109f64484f9ac5966c063addda0d10eb",
+  "repetitions": 7,
+  "samples": [
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1552375,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4631375,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 33,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1358292,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1568833,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1120416,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1564542,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 969417,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1927042,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 887750,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 1015083,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 836084,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1344458,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1305542,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1631083,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 33,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 963458,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1291083,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 982583,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1691375,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 953542,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1260000,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 892042,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 1536375,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 845291,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1219000,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1802833,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 33,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 956375,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1306958,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 956958,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1236958,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 967125,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1253333,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 949750,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 1138625,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 747083,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1141000,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 913125,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 976875,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1612708,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 33,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 942584,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1233625,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 954000,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1201167,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 937291,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1207000,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 874875,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 924333,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 790000,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1137916,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1564917,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 33,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 923542,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1198791,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 975625,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1296292,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 935458,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1188292,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 915542,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 1106292,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 730083,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1064666,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 899833,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 951417,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1751917,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 33,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 930125,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1262958,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 915875,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1252291,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 932708,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1390125,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 805291,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 933292,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 800584,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1193584,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1544166,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 33,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 948916,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1239666,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 969291,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1227625,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 945333,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1281500,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1017750,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 1154083,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 681917,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1287125,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 900000,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 989167,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 2702000,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 33,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 951416,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1210792,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 950500,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1187834,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 924291,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1169166,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 2,
+        "reused": 31
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 872792,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 1111667,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 861542,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1241208,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 0,
+        "reused": 33
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-32"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3581333,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4602166,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3462459,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 7463167,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3292459,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3890916,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3669459,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3808125,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 3220375,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 3306333,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3224083,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3602208,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3983542,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4990500,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3528333,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4593000,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3554042,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3887333,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3999333,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3878250,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 3246250,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 3296708,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3218084,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3631333,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4543334,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3825334,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3952833,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3529125,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4579958,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3462958,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3831959,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3836333,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 3591875,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 2990375,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4020084,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3286458,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3523417,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4982250,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 6086458,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4046166,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3481375,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3900375,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3420209,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3817209,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 3441458,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 3280583,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3221167,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4060166,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4458667,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3415042,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4150500,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3443292,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3764250,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3739875,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3675958,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3553833,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 3948208,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 2974959,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3613292,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3337542,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3820333,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4771875,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3927708,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4460917,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3666791,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4082666,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3560875,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3716458,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 3195917,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 3235500,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3146375,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3821542,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 8776125,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3702375,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4066417,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4031334,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 5152459,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3810542,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 7081958,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4372542,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 4399666,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 3913959,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 7260584,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3777084,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4173625,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 11065625,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 6867167,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 6444792,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 6921625,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 5606042,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4502625,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 4777958,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 3701834,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 1
+          },
+          "start": {
+            "character": 11,
+            "line": 1
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 3559167,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3828292,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3821959,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "chain-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 29821417,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 29314167,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 24690917,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 27464375,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 25006625,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 29271458,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 78091917,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 28593250,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 27078541,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 24085500,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 26268375,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 27583375,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 26676750,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 29213042,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 60517042,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 27054208,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 24942083,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 28341459,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 115556708,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 28414209,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 25444125,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 23401959,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 60665791,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 28025084,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 30678708,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 25104875,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 78336750,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 27434000,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 29454250,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 29296583,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 88560375,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 32123667,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 26303125,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 25249833,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 65856917,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 26569250,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 26478375,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 50893209,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 86745459,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 36681250,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 29431083,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 28329459,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 25414208,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 27967000,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 23034125,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 22259375,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 61100541,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 28086125,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 30848250,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 90507375,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 28245625,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 25903750,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 27092375,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 88323208,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 28768167,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 27525167,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 25808458,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 69374166,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 24842042,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 25196708,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 24326000,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 70880375,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 26128625,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 27970833,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 24368459,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 99686500,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 33044291,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 37386833,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 34859917,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 88124917,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 31446500,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 32940292,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 31381667,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 82607334,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 37057875,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 30989250,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 28637083,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 86752291,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 31318667,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 34194708,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 58779167,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 72677833,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 26102250,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 26601667,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 27153250,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 71933666,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 129,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 27207917,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 50458958,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 117659708,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 29582416,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 30032125,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 32430750,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 2,
+        "reused": 127
+      },
+      "revision": "contract",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 78464042,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected i32, found bool; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 16,
+            "line": 14
+          },
+          "start": {
+            "character": 11,
+            "line": 14
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 26296000,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 0,
+        "reused": 0
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 25690459,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 26269083,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 0,
+        "reused": 129
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "stores-128"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 2039292,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 3092292,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 191542,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 7232459,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 184041,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 556083,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 1
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 182958,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 546000,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 168750,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 410583,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 2
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 131791,
+      "mode": "full",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 723708,
+      "mode": "incremental",
+      "phase": "warmup",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 154125,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 693708,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 161542,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 438792,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 238250,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 801625,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 2,
+        "reused": 1
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 165584,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 870167,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 177041,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 464292,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 2
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 135084,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 372916,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 1,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 680042,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 130667,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 395666,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 128917,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 467167,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 2,
+        "reused": 1
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 128917,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 399709,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 135959,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 397083,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 0,
+        "reused": 2
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 141459,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 391292,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 134625,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 2,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 125208,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 612041,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 128875,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 365084,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 126084,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 394083,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 2,
+        "reused": 1
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 186542,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 447083,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 153000,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 394792,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 0,
+        "reused": 2
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 129750,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 852417,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 3,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 628167,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 133375,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 460084,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 162208,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 481250,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 2,
+        "reused": 1
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 133625,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 436792,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 149125,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 447250,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 0,
+        "reused": 2
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 152125,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 425541,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 163167,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 4,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 146875,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 668541,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 131208,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 613459,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 148709,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 426209,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 2,
+        "reused": 1
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 138333,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 408500,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 254375,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 810875,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 0,
+        "reused": 2
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 145375,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 425959,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 5,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1327083,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 154791,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 1446750,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 233416,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 504541,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 2,
+        "reused": 1
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 153583,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 482125,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 164250,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 437667,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 0,
+        "reused": 2
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 180208,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 458458,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 150500,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 6,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 118750,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 650708,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "initial",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 133166,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 440459,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "trivia",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 136709,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 414875,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 2,
+        "reused": 1
+      },
+      "revision": "body",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 138166,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 415000,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 3,
+        "reused": 0
+      },
+      "revision": "schema",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 151042,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": {
+        "code": "E0201",
+        "message": "Expected &mut P, found &P; implicit conversions are not supported",
+        "range": {
+          "end": {
+            "character": 67,
+            "line": 3
+          },
+          "start": {
+            "character": 65,
+            "line": 3
+          }
+        },
+        "severity": 1,
+        "source": "talven"
+      },
+      "elapsed_ns": 381208,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 0,
+        "reused": 2
+      },
+      "revision": "invalid",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 129584,
+      "mode": "full",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": null,
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    },
+    {
+      "diagnostic": null,
+      "elapsed_ns": 369250,
+      "mode": "incremental",
+      "phase": "measured",
+      "repetition": 7,
+      "reuse": {
+        "checked": 0,
+        "reused": 3
+      },
+      "revision": "repair",
+      "verified": true,
+      "workload": "borrowing"
+    }
+  ],
+  "schema": "talven.incremental-comparison.v1",
+  "started_at": "2026-10-01T07:50:50.211943+00:00",
+  "summary": [
+    {
+      "max_ns": 1305542,
+      "median_ns": 956375,
+      "min_ns": 923542,
+      "mode": "full",
+      "revision": "initial",
+      "samples": 7,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 2702000,
+      "median_ns": 1631083,
+      "min_ns": 1544166,
+      "mode": "incremental",
+      "revision": "initial",
+      "samples": 7,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 975625,
+      "median_ns": 956958,
+      "min_ns": 930125,
+      "mode": "full",
+      "revision": "trivia",
+      "samples": 7,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 1306958,
+      "median_ns": 1239666,
+      "min_ns": 1198791,
+      "mode": "incremental",
+      "revision": "trivia",
+      "samples": 7,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 982583,
+      "median_ns": 950500,
+      "min_ns": 915875,
+      "mode": "full",
+      "revision": "body",
+      "samples": 7,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 1691375,
+      "median_ns": 1236958,
+      "min_ns": 1187834,
+      "mode": "incremental",
+      "revision": "body",
+      "samples": 7,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 1017750,
+      "median_ns": 937291,
+      "min_ns": 915542,
+      "mode": "full",
+      "revision": "contract",
+      "samples": 7,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 1390125,
+      "median_ns": 1253333,
+      "min_ns": 1169166,
+      "mode": "incremental",
+      "revision": "contract",
+      "samples": 7,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 892042,
+      "median_ns": 805291,
+      "min_ns": 681917,
+      "mode": "full",
+      "revision": "invalid",
+      "samples": 7,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 1536375,
+      "median_ns": 1111667,
+      "min_ns": 924333,
+      "mode": "incremental",
+      "revision": "invalid",
+      "samples": 7,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 913125,
+      "median_ns": 861542,
+      "min_ns": 790000,
+      "mode": "full",
+      "revision": "repair",
+      "samples": 7,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 1287125,
+      "median_ns": 1193584,
+      "min_ns": 1064666,
+      "mode": "incremental",
+      "revision": "repair",
+      "samples": 7,
+      "workload": "chain-32"
+    },
+    {
+      "max_ns": 4173625,
+      "median_ns": 3820333,
+      "min_ns": 3415042,
+      "mode": "full",
+      "revision": "initial",
+      "samples": 7,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 11065625,
+      "median_ns": 4982250,
+      "min_ns": 4458667,
+      "mode": "incremental",
+      "revision": "initial",
+      "samples": 7,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 6867167,
+      "median_ns": 3927708,
+      "min_ns": 3443292,
+      "mode": "full",
+      "revision": "trivia",
+      "samples": 7,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 6444792,
+      "median_ns": 4150500,
+      "min_ns": 3952833,
+      "mode": "incremental",
+      "revision": "trivia",
+      "samples": 7,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 6921625,
+      "median_ns": 3666791,
+      "min_ns": 3462958,
+      "mode": "full",
+      "revision": "body",
+      "samples": 7,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 5606042,
+      "median_ns": 4082666,
+      "min_ns": 3764250,
+      "mode": "incremental",
+      "revision": "body",
+      "samples": 7,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 4502625,
+      "median_ns": 3836333,
+      "min_ns": 3420209,
+      "mode": "full",
+      "revision": "contract",
+      "samples": 7,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 7081958,
+      "median_ns": 3831959,
+      "min_ns": 3675958,
+      "mode": "incremental",
+      "revision": "contract",
+      "samples": 7,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 3913959,
+      "median_ns": 3246250,
+      "min_ns": 2974959,
+      "mode": "full",
+      "revision": "invalid",
+      "samples": 7,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 4399666,
+      "median_ns": 3559167,
+      "min_ns": 3235500,
+      "mode": "incremental",
+      "revision": "invalid",
+      "samples": 7,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 3828292,
+      "median_ns": 3286458,
+      "min_ns": 3146375,
+      "mode": "full",
+      "revision": "repair",
+      "samples": 7,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 7260584,
+      "median_ns": 3821959,
+      "min_ns": 3613292,
+      "mode": "incremental",
+      "revision": "repair",
+      "samples": 7,
+      "workload": "chain-128"
+    },
+    {
+      "max_ns": 90507375,
+      "median_ns": 26676750,
+      "min_ns": 24326000,
+      "mode": "full",
+      "revision": "initial",
+      "samples": 7,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 71933666,
+      "median_ns": 31381667,
+      "min_ns": 29213042,
+      "mode": "incremental",
+      "revision": "initial",
+      "samples": 7,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 86745459,
+      "median_ns": 27434000,
+      "min_ns": 25903750,
+      "mode": "full",
+      "revision": "trivia",
+      "samples": 7,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 78336750,
+      "median_ns": 36681250,
+      "min_ns": 27054208,
+      "mode": "incremental",
+      "revision": "trivia",
+      "samples": 7,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 117659708,
+      "median_ns": 29431083,
+      "min_ns": 24368459,
+      "mode": "full",
+      "revision": "body",
+      "samples": 7,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 99686500,
+      "median_ns": 28637083,
+      "min_ns": 27092375,
+      "mode": "incremental",
+      "revision": "body",
+      "samples": 7,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 115556708,
+      "median_ns": 32123667,
+      "min_ns": 25414208,
+      "mode": "full",
+      "revision": "contract",
+      "samples": 7,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 88560375,
+      "median_ns": 31318667,
+      "min_ns": 27967000,
+      "mode": "incremental",
+      "revision": "contract",
+      "samples": 7,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 78464042,
+      "median_ns": 34859917,
+      "min_ns": 23034125,
+      "mode": "full",
+      "revision": "invalid",
+      "samples": 7,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 88124917,
+      "median_ns": 26296000,
+      "min_ns": 22259375,
+      "mode": "incremental",
+      "revision": "invalid",
+      "samples": 7,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 61100541,
+      "median_ns": 26601667,
+      "min_ns": 25196708,
+      "mode": "full",
+      "revision": "repair",
+      "samples": 7,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 65856917,
+      "median_ns": 28025084,
+      "min_ns": 24842042,
+      "mode": "incremental",
+      "revision": "repair",
+      "samples": 7,
+      "workload": "stores-128"
+    },
+    {
+      "max_ns": 154791,
+      "median_ns": 133375,
+      "min_ns": 118750,
+      "mode": "full",
+      "revision": "initial",
+      "samples": 7,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 1327083,
+      "median_ns": 668541,
+      "min_ns": 612041,
+      "mode": "incremental",
+      "revision": "initial",
+      "samples": 7,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 233416,
+      "median_ns": 133166,
+      "min_ns": 128875,
+      "mode": "full",
+      "revision": "trivia",
+      "samples": 7,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 1446750,
+      "median_ns": 440459,
+      "min_ns": 365084,
+      "mode": "incremental",
+      "revision": "trivia",
+      "samples": 7,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 238250,
+      "median_ns": 136709,
+      "min_ns": 126084,
+      "mode": "full",
+      "revision": "body",
+      "samples": 7,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 801625,
+      "median_ns": 467167,
+      "min_ns": 394083,
+      "mode": "incremental",
+      "revision": "body",
+      "samples": 7,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 186542,
+      "median_ns": 149125,
+      "min_ns": 135959,
+      "mode": "full",
+      "revision": "schema",
+      "samples": 7,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 870167,
+      "median_ns": 436792,
+      "min_ns": 399709,
+      "mode": "incremental",
+      "revision": "schema",
+      "samples": 7,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 254375,
+      "median_ns": 153000,
+      "min_ns": 141459,
+      "mode": "full",
+      "revision": "invalid",
+      "samples": 7,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 810875,
+      "median_ns": 437667,
+      "min_ns": 381208,
+      "mode": "incremental",
+      "revision": "invalid",
+      "samples": 7,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 163167,
+      "median_ns": 135084,
+      "min_ns": 129584,
+      "mode": "full",
+      "revision": "repair",
+      "samples": 7,
+      "workload": "borrowing"
+    },
+    {
+      "max_ns": 852417,
+      "median_ns": 425541,
+      "min_ns": 369250,
+      "mode": "incremental",
+      "revision": "repair",
+      "samples": 7,
+      "workload": "borrowing"
+    }
+  ],
+  "system": "Darwin",
+  "timed_boundary": "In-process analysis including full parsing/declarations and incremental identity hashing; initial includes session construction. Verification and C builds excluded.",
+  "unmeasured": [
+    "startup",
+    "incremental parsing",
+    "native Rust reuse",
+    "native builds",
+    "save-to-running latency",
+    "memory",
+    "model/token/cost effectiveness"
+  ],
+  "verification_timeout_seconds": 30,
+  "warmups": 1,
+  "workloads": [
+    {
+      "criteria": "Exact full/reference analysis, C and context; three full-i32 chain results; main returns zero; invalid edit is E0201.",
+      "id": "chain-32",
+      "revisions": [
+        {
+          "diagnostic": null,
+          "id": "initial",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 34840,
+              "sha256": "2cacfa7474280740a9c8644ffe3f375eaa318fc90e90f7b67e60b3fb43a6261b"
+            },
+            "generated_c": {
+              "bytes": 9454,
+              "sha256": "f1e22d7704f336beb835cd642a3fbfe0147bd7d852fb0c3f967ffd0b52d8a234"
+            },
+            "oracle": {
+              "bytes": 270,
+              "sha256": "3986eead31a1c4e2a21796b54e1b3bd3aeaf347482ded579a3130bdefdabbbc8"
+            }
+          },
+          "source": {
+            "bytes": 2170,
+            "sha256": "90d4ddf2d2cecde01d170ccb7e223eceafff14cb48df0b4fdf3e20a62143823b"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "trivia",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 34840,
+              "sha256": "2cacfa7474280740a9c8644ffe3f375eaa318fc90e90f7b67e60b3fb43a6261b"
+            },
+            "generated_c": {
+              "bytes": 9454,
+              "sha256": "f1e22d7704f336beb835cd642a3fbfe0147bd7d852fb0c3f967ffd0b52d8a234"
+            },
+            "oracle": {
+              "bytes": 270,
+              "sha256": "3986eead31a1c4e2a21796b54e1b3bd3aeaf347482ded579a3130bdefdabbbc8"
+            }
+          },
+          "source": {
+            "bytes": 2186,
+            "sha256": "708ec53f1f4de20cc8b23affbf31ce0fa10b228f9539ec581db0aecd9433fd24"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "body",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 34840,
+              "sha256": "14a6877e3ef9bd1f437fee4b8d5e4380b66bfd8a4434bb5f55a6cccda32365ec"
+            },
+            "generated_c": {
+              "bytes": 9454,
+              "sha256": "97fd8c11d66bdbcd350bb7a159d4feb4292692447e9a3da25ffae2f76daf9081"
+            },
+            "oracle": {
+              "bytes": 270,
+              "sha256": "9e027c53437a85cf5f6000c02e2e43d64bb0a34a5a161f38eb0c6825e9db1f01"
+            }
+          },
+          "source": {
+            "bytes": 2170,
+            "sha256": "4be621e70ba9f20521a7096002761c685e922af50d3e4de07bee49289542740e"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "contract",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 34840,
+              "sha256": "14a6877e3ef9bd1f437fee4b8d5e4380b66bfd8a4434bb5f55a6cccda32365ec"
+            },
+            "generated_c": {
+              "bytes": 9454,
+              "sha256": "3c57957db4c7a5a596757f36b9d41273b760d4e38d670659ba3239531092f58d"
+            },
+            "oracle": {
+              "bytes": 270,
+              "sha256": "9e027c53437a85cf5f6000c02e2e43d64bb0a34a5a161f38eb0c6825e9db1f01"
+            }
+          },
+          "source": {
+            "bytes": 2170,
+            "sha256": "e42ef4e4f99e83af5cae81ffcdde9d57fd1e141113f9e183754c93f59efc194b"
+          }
+        },
+        {
+          "diagnostic": {
+            "code": "E0201",
+            "message": "Expected i32, found bool; implicit conversions are not supported",
+            "range": {
+              "end": {
+                "character": 16,
+                "line": 1
+              },
+              "start": {
+                "character": 11,
+                "line": 1
+              }
+            },
+            "severity": 1,
+            "source": "talven"
+          },
+          "id": "invalid",
+          "native_acceptance": null,
+          "source": {
+            "bytes": 2166,
+            "sha256": "ba1c2df804234f4d8f04f38c516a74eb63636ac79c3df96a29546c290b3e33b5"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "repair",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 34840,
+              "sha256": "14a6877e3ef9bd1f437fee4b8d5e4380b66bfd8a4434bb5f55a6cccda32365ec"
+            },
+            "generated_c": {
+              "bytes": 9454,
+              "sha256": "3c57957db4c7a5a596757f36b9d41273b760d4e38d670659ba3239531092f58d"
+            },
+            "oracle": {
+              "bytes": 270,
+              "sha256": "9e027c53437a85cf5f6000c02e2e43d64bb0a34a5a161f38eb0c6825e9db1f01"
+            }
+          },
+          "source": {
+            "bytes": 2170,
+            "sha256": "e42ef4e4f99e83af5cae81ffcdde9d57fd1e141113f9e183754c93f59efc194b"
+          }
+        }
+      ]
+    },
+    {
+      "criteria": "Exact full/reference analysis, C and context; three full-i32 chain results; main returns zero; invalid edit is E0201.",
+      "id": "chain-128",
+      "revisions": [
+        {
+          "diagnostic": null,
+          "id": "initial",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 38744,
+              "sha256": "d5c42cf1584f94fce949c6fa8d8635ac16e6d676f6ad26faf8543ec617b0a48d"
+            },
+            "generated_c": {
+              "bytes": 36127,
+              "sha256": "ccd5bf9ba83e2fdf095f84b0338999c97047b30e5e2c684c5a1721c9075d3588"
+            },
+            "oracle": {
+              "bytes": 275,
+              "sha256": "b877f50e8e8ad93c51f18c14e0116548ff897c6d8b2759f1c6b7e08fd2e7663b"
+            }
+          },
+          "source": {
+            "bytes": 8563,
+            "sha256": "c507333baed34f93c849a66db1428a21d9319b1ce62f1eef2daa332c7e5980a4"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "trivia",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 38744,
+              "sha256": "d5c42cf1584f94fce949c6fa8d8635ac16e6d676f6ad26faf8543ec617b0a48d"
+            },
+            "generated_c": {
+              "bytes": 36127,
+              "sha256": "ccd5bf9ba83e2fdf095f84b0338999c97047b30e5e2c684c5a1721c9075d3588"
+            },
+            "oracle": {
+              "bytes": 275,
+              "sha256": "b877f50e8e8ad93c51f18c14e0116548ff897c6d8b2759f1c6b7e08fd2e7663b"
+            }
+          },
+          "source": {
+            "bytes": 8579,
+            "sha256": "2e9c45760fd7909203a46fe6dc4c4db6590b7881bffa0bb8ec54ff785329de0c"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "body",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 38744,
+              "sha256": "981813a127f4fa69f9d7f5736356eb679bf800a45d340eaaf6e007e951cdacd2"
+            },
+            "generated_c": {
+              "bytes": 36127,
+              "sha256": "31ca55f3c324d7b8ce1fe0238043d802d0fc787741881401310683803dfab795"
+            },
+            "oracle": {
+              "bytes": 275,
+              "sha256": "487283c00ac8ec52699ac921a3d2e27f18fa2ff35fea8d2cfe8492b82d1fe6ae"
+            }
+          },
+          "source": {
+            "bytes": 8563,
+            "sha256": "7fb4fb6006775f047a8443dd000808ac7faf1d51d0664dee5447a08261865a56"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "contract",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 38744,
+              "sha256": "981813a127f4fa69f9d7f5736356eb679bf800a45d340eaaf6e007e951cdacd2"
+            },
+            "generated_c": {
+              "bytes": 36127,
+              "sha256": "550785c9335148939c11d06268016807483ad29dd77f82d045d6a187d4d65a57"
+            },
+            "oracle": {
+              "bytes": 275,
+              "sha256": "487283c00ac8ec52699ac921a3d2e27f18fa2ff35fea8d2cfe8492b82d1fe6ae"
+            }
+          },
+          "source": {
+            "bytes": 8563,
+            "sha256": "f481c29f453713fcc68687d89ba0bd0c7f007238bf28c46a7025b64882f4a1f2"
+          }
+        },
+        {
+          "diagnostic": {
+            "code": "E0201",
+            "message": "Expected i32, found bool; implicit conversions are not supported",
+            "range": {
+              "end": {
+                "character": 16,
+                "line": 1
+              },
+              "start": {
+                "character": 11,
+                "line": 1
+              }
+            },
+            "severity": 1,
+            "source": "talven"
+          },
+          "id": "invalid",
+          "native_acceptance": null,
+          "source": {
+            "bytes": 8559,
+            "sha256": "72fc0377d6127e6bae39722141455e88fc131c79a30e7e279e20ac2ed474c00c"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "repair",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 38744,
+              "sha256": "981813a127f4fa69f9d7f5736356eb679bf800a45d340eaaf6e007e951cdacd2"
+            },
+            "generated_c": {
+              "bytes": 36127,
+              "sha256": "550785c9335148939c11d06268016807483ad29dd77f82d045d6a187d4d65a57"
+            },
+            "oracle": {
+              "bytes": 275,
+              "sha256": "487283c00ac8ec52699ac921a3d2e27f18fa2ff35fea8d2cfe8492b82d1fe6ae"
+            }
+          },
+          "source": {
+            "bytes": 8563,
+            "sha256": "f481c29f453713fcc68687d89ba0bd0c7f007238bf28c46a7025b64882f4a1f2"
+          }
+        }
+      ]
+    },
+    {
+      "criteria": "Exact full/reference analysis, C and context; three full-i32 chain results; main returns zero; invalid edit is E0201.",
+      "id": "stores-128",
+      "revisions": [
+        {
+          "diagnostic": null,
+          "id": "initial",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 71976,
+              "sha256": "062e77e005d031703ec4c62374c8fbd98e6f3c8e3ae336ac1a1fc30fa6ece249"
+            },
+            "generated_c": {
+              "bytes": 243313,
+              "sha256": "2a8ff6b235647a86ec5b760ba83368d745b14791cc4bef6de9293ff14962a84a"
+            },
+            "oracle": {
+              "bytes": 275,
+              "sha256": "b877f50e8e8ad93c51f18c14e0116548ff897c6d8b2759f1c6b7e08fd2e7663b"
+            }
+          },
+          "source": {
+            "bytes": 41327,
+            "sha256": "1f93a9447cd77bb18295cfdad2825cbab1e618b1b4c4a774f1b3346efda203be"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "trivia",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 71976,
+              "sha256": "062e77e005d031703ec4c62374c8fbd98e6f3c8e3ae336ac1a1fc30fa6ece249"
+            },
+            "generated_c": {
+              "bytes": 243313,
+              "sha256": "2a8ff6b235647a86ec5b760ba83368d745b14791cc4bef6de9293ff14962a84a"
+            },
+            "oracle": {
+              "bytes": 275,
+              "sha256": "b877f50e8e8ad93c51f18c14e0116548ff897c6d8b2759f1c6b7e08fd2e7663b"
+            }
+          },
+          "source": {
+            "bytes": 41343,
+            "sha256": "31c0c22e3fc152bd618afc5e55911b71a568f46d8ae5b2a347a591e78e748e44"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "body",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 71976,
+              "sha256": "ee6a4118aef4cf8a7537d831458928f71d45c18872644b10ddb118225fe70171"
+            },
+            "generated_c": {
+              "bytes": 243313,
+              "sha256": "95ced6ee75bc41be6224a3ef2ef678f16b5acad94fe65f98e62272d1035b4dc5"
+            },
+            "oracle": {
+              "bytes": 275,
+              "sha256": "487283c00ac8ec52699ac921a3d2e27f18fa2ff35fea8d2cfe8492b82d1fe6ae"
+            }
+          },
+          "source": {
+            "bytes": 41327,
+            "sha256": "ea2a3ef60d3320c90a7271643ac055f669145ee21500ef4053a22ba7c8134ec2"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "contract",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 71976,
+              "sha256": "ee6a4118aef4cf8a7537d831458928f71d45c18872644b10ddb118225fe70171"
+            },
+            "generated_c": {
+              "bytes": 243313,
+              "sha256": "dfd332346a474c0b3c10341f81f440feb32c44579902a7d195a7ca5daef0caa1"
+            },
+            "oracle": {
+              "bytes": 275,
+              "sha256": "487283c00ac8ec52699ac921a3d2e27f18fa2ff35fea8d2cfe8492b82d1fe6ae"
+            }
+          },
+          "source": {
+            "bytes": 41327,
+            "sha256": "49b33e60919fa9a338185418478e2765ffb6fb5ee8567614757b41858b878592"
+          }
+        },
+        {
+          "diagnostic": {
+            "code": "E0201",
+            "message": "Expected i32, found bool; implicit conversions are not supported",
+            "range": {
+              "end": {
+                "character": 16,
+                "line": 14
+              },
+              "start": {
+                "character": 11,
+                "line": 14
+              }
+            },
+            "severity": 1,
+            "source": "talven"
+          },
+          "id": "invalid",
+          "native_acceptance": null,
+          "source": {
+            "bytes": 41324,
+            "sha256": "54ea3b06aeba4149ab40278e3921671877fad822b1d4f48fb1e55fa719916906"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "repair",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 71976,
+              "sha256": "ee6a4118aef4cf8a7537d831458928f71d45c18872644b10ddb118225fe70171"
+            },
+            "generated_c": {
+              "bytes": 243313,
+              "sha256": "dfd332346a474c0b3c10341f81f440feb32c44579902a7d195a7ca5daef0caa1"
+            },
+            "oracle": {
+              "bytes": 275,
+              "sha256": "487283c00ac8ec52699ac921a3d2e27f18fa2ff35fea8d2cfe8492b82d1fe6ae"
+            }
+          },
+          "source": {
+            "bytes": 41327,
+            "sha256": "49b33e60919fa9a338185418478e2765ffb6fb5ee8567614757b41858b878592"
+          }
+        }
+      ]
+    },
+    {
+      "criteria": "Exact full/reference analysis, C and context; read preserves owner; bump updates three full-i32 owners; added field preserved; main zero; invalid loan E0201.",
+      "id": "borrowing",
+      "revisions": [
+        {
+          "diagnostic": null,
+          "id": "initial",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 33656,
+              "sha256": "e3f3beb9a8ee5f9560b50da676aa9f06d57dd6b1d4b9931b496dc14d337e1871"
+            },
+            "generated_c": {
+              "bytes": 1584,
+              "sha256": "60ad93202c5841f0ea494b754eabe38c7232bf359322aaf9cf053abfd9999ae6"
+            },
+            "oracle": {
+              "bytes": 666,
+              "sha256": "70fe0b5a0636d8453814e5e841441f629b0ab4cafd39cb6b66af64f67af73ab1"
+            }
+          },
+          "source": {
+            "bytes": 185,
+            "sha256": "d9d869318885de2feebbdc75cf58ff51f340c1410a7c7565c8ab6f2cea9fd767"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "trivia",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 33656,
+              "sha256": "e3f3beb9a8ee5f9560b50da676aa9f06d57dd6b1d4b9931b496dc14d337e1871"
+            },
+            "generated_c": {
+              "bytes": 1584,
+              "sha256": "60ad93202c5841f0ea494b754eabe38c7232bf359322aaf9cf053abfd9999ae6"
+            },
+            "oracle": {
+              "bytes": 666,
+              "sha256": "70fe0b5a0636d8453814e5e841441f629b0ab4cafd39cb6b66af64f67af73ab1"
+            }
+          },
+          "source": {
+            "bytes": 201,
+            "sha256": "c0f022e80ef8a29592f99038d04765048dd79ae22f95776766b25acfa11b17ed"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "body",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 33656,
+              "sha256": "5187d1cb4752fdf4de2d95da322d6655fdf0d726fa744dc38fbce664d6467402"
+            },
+            "generated_c": {
+              "bytes": 1584,
+              "sha256": "29223c18a161c24df61f8efbf33b1a43d425adc60a831613232f330f4a4ebd17"
+            },
+            "oracle": {
+              "bytes": 666,
+              "sha256": "77b82b9e374fd44a0b4f11ce097dae78ce78d3430d6780badcae764be96639ea"
+            }
+          },
+          "source": {
+            "bytes": 185,
+            "sha256": "51688a0ab128fdcff80314744751e187e1dd1de97afe15b7a13fa88b73a4308c"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "schema",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 33656,
+              "sha256": "b60da88bd9f054d17fee3f37b8f0b8ec80ebcceda44d55e9ce90e921d0bc79c6"
+            },
+            "generated_c": {
+              "bytes": 1618,
+              "sha256": "f2b938344a518f2e70441c3b640d50394a85c3b7149cf9f2de87d7b0851bdbc3"
+            },
+            "oracle": {
+              "bytes": 776,
+              "sha256": "4de48b3b7a443ae00e431b7519f8a87876f4ec8c8ef849e5270bd40b9c627f13"
+            }
+          },
+          "source": {
+            "bytes": 204,
+            "sha256": "3954ba94903a2306e64d7db08464fb9dfee074d0a07f0bb63cfef08412a17603"
+          }
+        },
+        {
+          "diagnostic": {
+            "code": "E0201",
+            "message": "Expected &mut P, found &P; implicit conversions are not supported",
+            "range": {
+              "end": {
+                "character": 67,
+                "line": 3
+              },
+              "start": {
+                "character": 65,
+                "line": 3
+              }
+            },
+            "severity": 1,
+            "source": "talven"
+          },
+          "id": "invalid",
+          "native_acceptance": null,
+          "source": {
+            "bytes": 200,
+            "sha256": "d2642eeb0857d9d1b139bd7869decb149db22926f770cd83f60b9cae5f6ca6d9"
+          }
+        },
+        {
+          "diagnostic": null,
+          "id": "repair",
+          "native_acceptance": {
+            "executable": {
+              "bytes": 33656,
+              "sha256": "b60da88bd9f054d17fee3f37b8f0b8ec80ebcceda44d55e9ce90e921d0bc79c6"
+            },
+            "generated_c": {
+              "bytes": 1618,
+              "sha256": "f2b938344a518f2e70441c3b640d50394a85c3b7149cf9f2de87d7b0851bdbc3"
+            },
+            "oracle": {
+              "bytes": 776,
+              "sha256": "4de48b3b7a443ae00e431b7519f8a87876f4ec8c8ef849e5270bd40b9c627f13"
+            }
+          },
+          "source": {
+            "bytes": 204,
+            "sha256": "3954ba94903a2306e64d7db08464fb9dfee074d0a07f0bb63cfef08412a17603"
+          }
+        }
+      ]
+    }
+  ]
+}

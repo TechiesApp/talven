@@ -70,6 +70,8 @@ Candidate/program events include `observed_to_event_seconds`, computed from a mo
 
 Receipts report actual function-check reuse, without a comparative throughput, memory, token-saving, or latency claim. Representative performance evaluation must retain inputs/edits, environment, compiler/toolchain versions and flags, repetition order, failed attempts, and correctness criteria. The [existing offline baseline](tooling-baseline.md) measures different, standalone command boundaries.
 
+The [persistent-checking baseline](incremental-checking-baseline.md) compares in-process full and reused checks over retained edit sequences with independent native acceptance. Its checking timings exclude C builds and process restart.
+
 ## Verification
 
 `tests/test_dev.py` runs actual native greetings and repairs, unchanged-timestamp edits, missing/invalid/nonregular source recovery, save coalescing, stale candidate cancellation, build timeout/output limits, source/receipt protection, and process exit reporting. Explicit test-only compiler/process doubles exercise delayed builds, failed native compilation, TERM-resistant shutdown, edits during shutdown, and failed startup. Those doubles do not establish native Talven APIs for sleeping, signals, or long-running services.
