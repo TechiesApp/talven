@@ -77,6 +77,22 @@ class ResourceIntegrationTests(unittest.TestCase):
         for source in [*VALID, WORKLOAD]:
             analyze_resources(source)
 
+    def test_hosted_resource_return_paths_compile_strictly_with_and_without_matches(self):
+        # Both total nested matches and functions without a match need portable C exits.
+        sources = ('fn main()->i32{return 0;}',
+                   'fn main()->i32{region storage(1){}return 0;}', WORKLOAD)
+        with tempfile.TemporaryDirectory() as temporary:
+            binary = Path(temporary) / 'program'
+            for source in sources:
+                with self.subTest(source=source[:48]):
+                    generated = emit_c(analyze_resources(source))
+                    built = subprocess.run(['cc', '-std=c11', '-Wall', '-Wextra', '-Werror',
+                                            '-pedantic-errors', '-x', 'c', '-', '-o', str(binary)],
+                                           input=generated.encode(), capture_output=True, timeout=30)
+                    self.assertEqual((0, b''), (built.returncode, built.stderr))
+                    result = subprocess.run([str(binary)], capture_output=True, timeout=5)
+                    self.assertEqual((0, b'', b''), (result.returncode, result.stdout, result.stderr))
+
     def test_profiles_do_not_silently_inherit_opaque_builtin_names(self):
         source = 'struct Block{x:i32}struct Allocation{x:i32}fn reserve(b:Block)->i32{return b.x;}fn main()->i32{return reserve(Block{x:7});}'
         for analyze_selected in (analyze, analyze_outcomes):

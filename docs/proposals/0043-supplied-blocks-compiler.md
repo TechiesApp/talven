@@ -97,7 +97,9 @@ A region emits an ordinary C block containing `_Alignas(16) uint8_t
 tv_storage_NAME[CAPACITY]`, `tv_region tv_region_NAME`, and a call to
 `tv_source_init(&tv_region_NAME, tv_storage_NAME, CAPACITY)`. Reserve uses that stable
 descriptor address; other arguments and owners are evaluated once in existing
-source order. Other intrinsics call `tv_source_reserve`, `tv_source_release`,
+source order. Each resource function ends with an unreachable terminal trap after
+its checked body, making total source returns explicit for strict C compiler flow
+analysis. Other intrinsics call `tv_source_reserve`, `tv_source_release`,
 `tv_source_read`, and `tv_source_write`. A C compiler unable to satisfy required
 alignment rejects the build; frontend-only success is not target evidence.
 

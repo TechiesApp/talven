@@ -2394,6 +2394,9 @@ fn emit_c_mode(program: &Program, console: bool, library: bool) -> Result<String
             emitter.line(format_args!("(void)tv_v_{};", name.text));
         }
         emitter.block(&f.body);
+        if program.resources {
+            emitter.line("talven_trap();");
+        }
         emitter.indent -= 1;
         emitter.line("}");
     }
@@ -2404,7 +2407,7 @@ fn emit_c_mode(program: &Program, console: bool, library: bool) -> Result<String
     // add, sub, mul, and neg narrow through tv_narrow.
     used[0] = used[1..5].iter().any(|u| *u);
     let definitions = helper_definitions();
-    let needs_trap = emitter.outcome_match || used.iter().any(|u| *u);
+    let needs_trap = program.resources || emitter.outcome_match || used.iter().any(|u| *u);
     let prefix_bytes = HEADER.iter().map(|line| line.len() + 1).sum::<usize>()
         + if program.console {
             console_definition().len() + 1

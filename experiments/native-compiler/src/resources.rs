@@ -370,6 +370,29 @@ mod tests {
     }
 
     #[test]
+    fn resource_functions_guard_unexpected_fallthrough_with_one_shared_trap() {
+        let no_match = "fn main()->i32{region r(1){}return 0;}";
+        let c = emit_c(&analyze_resources(no_match).unwrap(), false).unwrap();
+        assert_eq!(c.matches(HOSTED_TRAP).count(), 1);
+        assert_eq!(c.matches("    talven_trap();\n}\n").count(), 1);
+        assert!(c.contains("    return INT32_C(0);\n    talven_trap();\n}"));
+
+        let nested = "fn main()->i32{region r(1){match(reserve(r,1,1)){Allocation::Granted(b){match(read_byte(&b,0)){ByteRead::Value(value){return release(b);}ByteRead::OutOfBounds{return release(b);}}}Allocation::InvalidRequest{return 1;}Allocation::Exhausted{return 2;}}}}";
+        let c = emit_c(&analyze_resources(nested).unwrap(), false).unwrap();
+        assert_eq!(c.matches(HOSTED_TRAP).count(), 1);
+        assert_eq!(c.matches("    talven_trap();\n}\n").count(), 1);
+        assert_eq!(c.matches("default: { talven_trap(); }").count(), 2);
+
+        let ordinary = "fn main()->i32{return 0;}";
+        for program in [
+            analyze(ordinary).unwrap(),
+            analyze_outcomes(ordinary).unwrap(),
+        ] {
+            assert!(!emit_c(&program, false).unwrap().contains("talven_trap"));
+        }
+    }
+
+    #[test]
     fn pending_and_match_payload_obligations_are_checked() {
         assert_eq!(
             failure(&region("let a=reserve(r,1,1);")).message,

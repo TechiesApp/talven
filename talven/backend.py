@@ -294,6 +294,8 @@ def emit_function(emitter, fn):
     for name, _ in fn.params:
         emitter.line(f"(void)tv_v_{name.text};")
     emitter.block(fn.body)
+    if emitter.resources:
+        emitter.line("talven_trap();")
     emitter.indent -= 1
     emitter.line("}")
 
