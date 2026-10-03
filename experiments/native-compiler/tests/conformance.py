@@ -81,8 +81,8 @@ fn Aname(v: i32) -> i32 { return v; }'''
             self.assertEqual((0, b""), (good.returncode, good.stderr))
             self.assertEqual("talven.agent-context.v2", json.loads(good.stdout)["schema"])
 
-    def test_context_requires_explicit_compact_mode_and_rejects_unsupported_options(self):
-        for flags in ([], ["--json"], ["--compact", "--compact"],
+    def test_compact_context_rejects_duplicate_and_focused_mode_options(self):
+        for flags in (["--compact", "--compact"],
                       ["--compact", "--json", "--json"], ["--compact", "--console"],
                       ["--compact", "--symbol", "f"], ["--compact", "--max-bytes", "100"],
                       ["--compact", "--include-body"], ["--compact", "--freestanding"],

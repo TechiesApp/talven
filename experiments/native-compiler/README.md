@@ -17,7 +17,7 @@ cc -std=c11 -O2 -Wall -Wextra -pedantic-errors build/native-hello.c -o build/nat
 ./build/native-hello
 ~~~
 
-Install the pinned Rust toolchain first if absent. This provides compact agent context and read-only canonical formatting, but not the full reference context API, native `build` driver, formatter file replacement/revision guards, LSP, watch integration, installer, freestanding backend, or incremental compiler. `emit-c` writes to stdout without modifying source. The shell/C compiler steps above remain explicit. Redirect to a separate output path: shell redirection can truncate a source before the compiler starts.
+Install the pinned Rust toolchain first if absent. This provides compact and bounded focused context and read-only canonical formatting, but not the full reference context API, native `build` driver, formatter file replacement/revision guards, LSP, watch integration, installer, freestanding backend, or incremental compiler. `emit-c` writes to stdout without modifying source. The shell/C compiler steps above remain explicit. Redirect to a separate output path: shell redirection can truncate a source before the compiler starts.
 
 The current hosted experiment targets Linux aarch64 and x86-64, exercised by the repository CI. macOS has an input-opening implementation and local tests, not a complete supported target profile. Other operating systems and other Linux architectures reject source opening rather than guess their `O_NONBLOCK` value. Both the compiler and generated executable may depend on host libraries; neither is a statically linked or single-dependency distribution claim. The compiler uses Rust's heap and standard library; emitted Talven text/arithmetic introduces no new language allocator or managed runtime.
 
@@ -42,11 +42,19 @@ The arena-based expression representation avoids recursively dropping an unbound
 
 `context SOURCE --compact` performs the same complete native analysis as `check`, then emits `talven.agent-context.v2`: `functions` contains every function signature sorted by name, and `records` contains every record sorted by name, with fields in declaration order and a by-value move reminder. Parameters retain their declared names, order, and `&R`/`&mut R` modes. Output matches `python3 -m talven context SOURCE --compact` byte for byte, including JSON key order and the final newline, on the differential corpus. This port is specified in [Proposal 0031](../../docs/proposals/0031-native-compact-agent-context.md).
 
-Checking/context do not require `main`, execute source, or require `--console` for a checked `print` call. Empty source produces empty arrays. Invalid source produces the structured native diagnostic envelope and no program facts, matching the reference context command's automatic JSON error mode. Optional `--json` is accepted for compatibility with the native check command; it does not change context output. The CLI requires `--compact` explicitly and rejects duplicate flags and unsupported full-context options before reading source.
+Checking/context do not require `main`, execute source, or require `--console` for a checked `print` call. Empty source produces empty arrays. Invalid source produces the structured native diagnostic envelope and no program facts, matching the reference context command's automatic JSON error mode. Optional `--json` is accepted for compatibility with the native check command; it does not change context output. The compact mode requires `--compact` explicitly and rejects focused-mode options before reading source.
 
 This whole-program index omits source/compiler hashes, byte budgets, symbol selection, bodies, dependency/caller/effect records, target metadata and revision checks. It is not the full `talven.context.v2` API or a cache receipt. Input retains the same regular-file, UTF-8, source/token/depth limits; output size follows the checked declarations, without a separate output-budget option. The native library exposes `agent_context(&Program)` through checked programs returned by `analyze` or `analyze_measured`. It never invokes the reference compiler or a model provider. The separate [agent-tool CLI baseline](../../docs/native-agent-tools-baseline.md) retains finite process costs; no core context latency, memory, token savings, or production parity claim is made.
 
 `--version` identifies the experimental CLI/profile. `--build-info` reports the Rust version, target, Cargo profile/optimization level, effective encoded Rust flags, target features/debug setting, present profile environment overrides, and exact compiler source/Cargo input text embedded at build time. The comparison requires those source bytes to match the archived checkout; a stale native executable is rejected. This adds embedded source bytes to the experimental binary size. The metadata and executable hashes are provenance data, not authenticated attestations; system linkers/libraries and complete external Cargo configuration are not bundled.
+
+## Focused context
+
+`context SOURCE --symbol NAME` returns a bounded `talven.native-context.v1` response with the selected function, direct callees, used record types, direct caller names, passing/borrow contracts and required console runtime. Omit `--symbol` for all functions/records. Add `--include-body` for exact selected function declarations under `untrusted_source_text`; comments remain data and dependency bodies are omitted. `--max-bytes N` defaults to 16384, accepts 1 through 1 MiB, and counts UTF-8 output including the newline. Oversized results fail with E0502 rather than returning partial facts.
+
+`--expect-source-hash HASH` rejects a stale SHA-256 source revision with E0501 before analysis. Successful output includes that exact buffer's source hash and an embedded native source/build identity, hosted target, native/language profiles and frontend-only validation. The native schema deliberately differs from the reference's full context v2: it has no Python identity, cache key or full rules. Common selected semantic facts and exact body text are checked against the reference across the differential corpus. See [Proposal 0034](../../docs/proposals/0034-native-focused-context.md) for the identity framing and failure ordering.
+
+Focused mode rejects duplicate/malformed flags and unsupported `--freestanding` before source I/O. Optional `--json` does not change output. Checking still covers the whole program; an invalid unrelated function prevents context facts. No execution, writes, caching, atomic freshness, native-build acceptance or measured agent/latency benefit is claimed. The hash identifies the source read by this invocation; edit previews require separate observed-file freshness checks.
 
 ## Canonical formatting
 
@@ -65,6 +73,7 @@ cargo +1.96.0 clippy --locked --offline --all-targets --manifest-path experiment
 cargo +1.96.0 test --locked --offline --manifest-path experiments/native-compiler/Cargo.toml
 python3 experiments/native-compiler/tests/conformance.py
 python3 experiments/native-compiler/tests/formatting.py
+python3 experiments/native-compiler/tests/context.py
 python3 experiments/native-compiler/tests/differential.py
 python3 experiments/native-compiler/tests/comparison.py
 python3 scripts/check-borrow-sanitizers.py --native experiments/native-compiler/target/release/talven-native

@@ -3,8 +3,8 @@ use std::fs::File;
 use std::io::{self, Read, Write};
 use std::path::Path;
 use talven_native::{
-    Error, MAX_SOURCE, PROFILE, agent_context, analyze, analyze_measured, emit_c, format_source,
-    line_character, receipt, size_error,
+    ContextOptions, Error, MAX_SOURCE, PROFILE, SOURCE_FILES, agent_context, analyze,
+    analyze_measured, emit_c, format_source, line_character, native_context, receipt, size_error,
 };
 fn main() {
     std::process::exit(run());
@@ -15,26 +15,17 @@ fn run() -> i32 {
         return measure(&args[1..]);
     }
     if args.len() == 1 && args[0] == "--build-info" {
-        let sources = [
-            ("Cargo.toml", include_str!("../Cargo.toml")),
-            ("Cargo.lock", include_str!("../Cargo.lock")),
-            ("build.rs", include_str!("../build.rs")),
-            ("src/main.rs", include_str!("main.rs")),
-            ("src/lib.rs", include_str!("lib.rs")),
-            ("src/format.rs", include_str!("format.rs")),
-            ("src/runtime.c", include_str!("runtime.c")),
-            ("src/console.c", include_str!("console.c")),
-        ]
-        .iter()
-        .map(|(name, contents)| {
-            format!(
-                "{}:{}",
-                talven_native::json(name),
-                talven_native::json(contents)
-            )
-        })
-        .collect::<Vec<_>>()
-        .join(",");
+        let sources = SOURCE_FILES
+            .iter()
+            .map(|(name, contents)| {
+                format!(
+                    "{}:{}",
+                    talven_native::json(name),
+                    talven_native::json(contents)
+                )
+            })
+            .collect::<Vec<_>>()
+            .join(",");
         let output = format!(
             "{{\"rustc\":{},\"target\":{},\"cargo_profile\":{},\"opt_level\":{},\"settings\":{},\"source_files\":{{{sources}}}}}\n",
             talven_native::json(env!("TALVEN_RUSTC")),
@@ -53,11 +44,14 @@ fn run() -> i32 {
         println!("Talven native experiment 0.1.0 ({PROFILE})");
         return 0;
     }
+    let context_request = if args.first().is_some_and(|a| a == "context") {
+        context_options(&args)
+    } else {
+        None
+    };
     let valid = args.len() >= 2
         && if args[0] == "context" {
-            args[2..].iter().filter(|a| *a == "--compact").count() == 1
-                && args[2..].iter().filter(|a| *a == "--json").count() <= 1
-                && args[2..].iter().all(|a| a == "--compact" || a == "--json")
+            context_request.is_some()
         } else if args[0] == "fmt" {
             args[2..].iter().filter(|a| *a == "--check").count() <= 1
                 && args[2..].iter().filter(|a| *a == "--json").count() <= 1
@@ -71,7 +65,7 @@ fn run() -> i32 {
         };
     if !valid {
         eprintln!(
-            "Usage: talven-native check SOURCE [--json] | emit-c SOURCE [--console] | context SOURCE --compact [--json] | fmt SOURCE [--check [--json]]"
+            "Usage: talven-native check SOURCE [--json] | emit-c SOURCE [--console] | context SOURCE [--compact | --symbol NAME] [--max-bytes N] [--include-body] [--expect-source-hash HASH] [--json] | fmt SOURCE [--check [--json]]"
         );
         return 2;
     }
@@ -97,6 +91,9 @@ fn run() -> i32 {
             } else {
                 Ok(formatted)
             };
+        }
+        if args[0] == "context" && !context_request.as_ref().unwrap().0 {
+            return native_context(&source, &context_request.as_ref().unwrap().1);
         }
         let program = analyze(&source)?;
         if args[0] == "emit-c" {
@@ -137,6 +134,60 @@ fn run() -> i32 {
             1
         }
     }
+}
+
+// Parse the complete request before source I/O; reject duplicates and unsupported combinations.
+fn context_options(args: &[OsString]) -> Option<(bool, ContextOptions<'_>)> {
+    if args.len() < 2 {
+        return None;
+    }
+    let mut options = ContextOptions::default();
+    let mut seen = std::collections::BTreeSet::new();
+    let mut index = 2;
+    while index < args.len() {
+        let flag = args[index].to_str()?;
+        if !seen.insert(flag) {
+            return None;
+        }
+        match flag {
+            "--compact" | "--json" => (),
+            "--include-body" => options.include_body = true,
+            "--symbol" | "--max-bytes" | "--expect-source-hash" => {
+                index += 1;
+                let value = args.get(index)?.to_str()?;
+                match flag {
+                    "--symbol" if !value.is_empty() && !value.starts_with("--") => {
+                        options.symbol = Some(value)
+                    }
+                    "--max-bytes"
+                        if !value.is_empty() && value.bytes().all(|b| b.is_ascii_digit()) =>
+                    {
+                        options.max_bytes = value.parse().ok()?
+                    }
+                    "--expect-source-hash"
+                        if value.len() == 64
+                            && value
+                                .bytes()
+                                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)) =>
+                    {
+                        options.expected_source_hash = Some(value)
+                    }
+                    _ => return None,
+                }
+            }
+            _ => return None,
+        }
+        index += 1;
+    }
+    let compact = seen.contains("--compact");
+    if compact
+        && seen
+            .iter()
+            .any(|flag| !matches!(*flag, "--compact" | "--json"))
+    {
+        return None;
+    }
+    Some((compact, options))
 }
 
 fn read_source(path: &Path) -> Result<String, Error> {

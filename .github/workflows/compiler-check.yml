@@ -153,6 +153,7 @@ jobs:
           cargo +1.96.0 build --release --offline --locked --manifest-path experiments/native-compiler/Cargo.toml
           python3 experiments/native-compiler/tests/conformance.py
           python3 experiments/native-compiler/tests/formatting.py
+          python3 experiments/native-compiler/tests/context.py
           python3 experiments/native-compiler/tests/differential.py
           python3 experiments/native-compiler/tests/comparison.py
           python3 scripts/check-borrow-sanitizers.py --native experiments/native-compiler/target/release/talven-native

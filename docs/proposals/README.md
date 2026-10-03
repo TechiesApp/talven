@@ -61,3 +61,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0031 | [Native compact agent context](0031-native-compact-agent-context.md) | Draft; implemented experiment |
 | 0032 | [Native canonical formatting](0032-native-canonical-formatting.md) | Draft; implemented experiment |
 | 0033 | [Codex subscription evaluation](0033-codex-subscription-evaluation.md) | Draft; implemented experiment |
+| 0034 | [Native focused context](0034-native-focused-context.md) | Draft; implemented experiment |
