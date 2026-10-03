@@ -88,7 +88,8 @@ Status definitions:
 
 | D68 | Proposed | Add explicitly selected concrete nominal outcomes with exhaustive consuming matches and per-path must-handle obligations | [Proposal 0040](proposals/0040-concrete-typed-outcomes.md); independent reference/native checking, exact C/formatter parity and sanitized variant/tag drivers; allocation, cleanup and concurrency remain separate |
 
-| D69 | Proposed | Start sequential resources with stable lexical supplied-storage regions, linear byte blocks and explicit consume-and-release calls | [Proposal 0041](proposals/0041-supplied-storage-regions.md); bounded single slot, allocation-instance identity, no block-bearing function results and independent rollback/ledger gates; specification only, no allocator implementation |
+| D69 | Proposed | Start sequential resources with stable lexical supplied-storage regions, linear byte blocks and explicit consume-and-release calls | [Proposal 0041](proposals/0041-supplied-storage-regions.md); bounded single slot, allocation-instance identity, no block-bearing function results and independent rollback/ledger gates; specification only, no Talven allocator implementation; standalone C prototype under D70 |
+| D70 | Accepted | Validate supplied-storage descriptor/owner behavior in a standalone C runtime before frontend integration | [Proposal 0042](proposals/0042-supplied-storage-c-runtime.md); independent ledger, exhaustive initialization faults, instance saturation, O0/O2 sanitizer/trap gates and exact-input receipts; C experiment only, no Talven allocation/lifetime support |
 
 ## Open decisions
 

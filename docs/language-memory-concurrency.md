@@ -12,6 +12,9 @@ typed-outcome companion. [Proposal 0041](proposals/0041-supplied-storage-regions
 specifies a possible sequential resource slice with stable lexical supplied storage,
 linear byte blocks and explicit release. Its allocator/lifetime rules are design-only;
 they do not change the existing call-scoped record loans or add returned heap owners.
+[Proposal 0042](proposals/0042-supplied-storage-c-runtime.md) tests the standalone
+C runtime representation with independent ledger, fault and sanitizer gates.
+Talven region lifetime checking and allocation emission remain unimplemented.
 
 ## Syntax principles
 
