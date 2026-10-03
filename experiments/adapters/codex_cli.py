@@ -90,6 +90,7 @@ def command(executable, model, effort, catalog, system, schema):
               'tools.update_plan.enabled': False, 'tools.experimental_request_user_input.enabled': False,
               'include_apps_instructions': False, 'include_collaboration_mode_instructions': False,
               'include_permissions_instructions': False, 'features.skip_host_skill_discovery': True,
+              'suppress_unstable_features_warning': True,
               'history.persistence': 'none', 'analytics.enabled': False}
     values.update({'features.' + feature: False for feature in DISABLED_FEATURES})
     for key, value in values.items():
@@ -119,7 +120,9 @@ def translate_events(data):
             item = event.get('item', {})
             if isinstance(item, dict) and isinstance(item.get('type'), str) and len(item['type']) <= 100:
                 item_kinds.add(item['type'])
-            if not isinstance(item, dict) or item.get('type') not in ('agent_message', 'reasoning'):
+            if isinstance(item, dict) and item.get('type') == 'error':
+                error = error or 'cli_error'
+            elif not isinstance(item, dict) or item.get('type') not in ('agent_message', 'reasoning'):
                 error = 'unexpected_tool_or_item'
             elif kind == 'item.completed' and item['type'] == 'agent_message':
                 candidates.append(item.get('text'))

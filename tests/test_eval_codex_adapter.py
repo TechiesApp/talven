@@ -39,6 +39,7 @@ class CodexAdapterTests(unittest.TestCase):
 
     def test_tools_failed_turns_and_multiple_completions_cannot_supply_edits(self):
         for extra in ([{'type': 'item.started', 'item': {'type': 'command_execution'}}],
+                      [{'type': 'item.completed', 'item': {'type': 'error', 'message': 'do not expose'}}],
                       [{'type': 'turn.failed', 'error': {'message': 'do not expose'}}],
                       [{'type': 'turn.completed', 'usage': {}}]):
             result, code = adapter.translate_events(events(extra=extra))
@@ -108,6 +109,7 @@ print({events()!r})
                 self.assertIn(flag, call['args'])
             self.assertIn('forced_login_method="chatgpt"', call['args'])
             self.assertIn('features.shell_tool=false', call['args'])
+            self.assertIn('suppress_unstable_features_warning=true', call['args'])
             path.write_text('{}')
             with self.assertRaises(ValueError):
                 adapter.run(request, str(cli), path, 10)
