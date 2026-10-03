@@ -10,13 +10,14 @@ Build with Rust/Cargo 1.96.0. There are no third-party crates. The checked-in lo
 cargo +1.96.0 build --release --offline --locked --manifest-path experiments/native-compiler/Cargo.toml
 experiments/native-compiler/target/release/talven-native check examples/hello.tal --json
 experiments/native-compiler/target/release/talven-native context examples/borrowing.tal --compact
+experiments/native-compiler/target/release/talven-native fmt examples/borrowing.tal --check --json
 mkdir -p build
 experiments/native-compiler/target/release/talven-native emit-c examples/hello.tal --console > build/native-hello.c
 cc -std=c11 -O2 -Wall -Wextra -pedantic-errors build/native-hello.c -o build/native-hello
 ./build/native-hello
 ~~~
 
-Install the pinned Rust toolchain first if absent. This provides compact agent context, but not the full reference context API, native `build` driver, formatter, LSP, watch integration, installer, freestanding backend, or incremental compiler. `emit-c` writes to stdout without modifying source. The shell/C compiler steps above remain explicit. Redirect to a separate output path: shell redirection can truncate a source before the compiler starts.
+Install the pinned Rust toolchain first if absent. This provides compact agent context and read-only canonical formatting, but not the full reference context API, native `build` driver, formatter file replacement/revision guards, LSP, watch integration, installer, freestanding backend, or incremental compiler. `emit-c` writes to stdout without modifying source. The shell/C compiler steps above remain explicit. Redirect to a separate output path: shell redirection can truncate a source before the compiler starts.
 
 The current hosted experiment targets Linux aarch64 and x86-64, exercised by the repository CI. macOS has an input-opening implementation and local tests, not a complete supported target profile. Other operating systems and other Linux architectures reject source opening rather than guess their `O_NONBLOCK` value. Both the compiler and generated executable may depend on host libraries; neither is a statically linked or single-dependency distribution claim. The compiler uses Rust's heap and standard library; emitted Talven text/arithmetic introduces no new language allocator or managed runtime.
 
@@ -47,12 +48,23 @@ This whole-program index omits source/compiler hashes, byte budgets, symbol sele
 
 `--version` identifies the experimental CLI/profile. `--build-info` reports the Rust version, target, Cargo profile/optimization level, effective encoded Rust flags, target features/debug setting, present profile environment overrides, and exact compiler source/Cargo input text embedded at build time. The comparison requires those source bytes to match the archived checkout; a stale native executable is rejected. This adds embedded source bytes to the experimental binary size. The metadata and executable hashes are provenance data, not authenticated attestations; system linkers/libraries and complete external Cargo configuration are not bundled.
 
+## Canonical formatting
+
+`fmt SOURCE` prints the reference's `m1-scalar-mutation-layout-v1` layout without writing source. `fmt SOURCE --check` returns 0 with `Formatting check passed` when source already matches, or 1 with E0601 when layout differs. Add `--check --json` for the existing native diagnostic envelope on success/failure. `--json` requires `--check`; duplicate flags, `--write`, revision-hash flags and other unsupported options return usage status 2 before reading source. See [Proposal 0032](../../docs/proposals/0032-native-canonical-formatting.md).
+
+The library `format_source(&str)` uses the shared native lexer and parser, without semantic checking or emission. It formats syntactically valid programs while types, moves or return paths are being repaired. Empty/whitespace-only input becomes empty output. Four-space indentation, LF endings, declaration separation, expression spacing and original trailing-comment attachment match the [reference layout](../../docs/formatting.md). Parentheses, leading zeros, quoted literals, field/argument order and trailing commas retain their spelling/order. Comments remain inert data; no configuration, directives or external tools are loaded.
+
+Formatting counts comments toward the 16384-token bound and enforces the shared source/parser-depth limits. Expanded output is bounded to 256 KiB, including indentation and newlines; overflow is E0602 and returns no partial formatted text. Before returning, the formatter re-lexes the whole output and verifies token/comment identity, reporting E0604 on a mismatch. The E0601 message names the native preview command rather than recommending the reference's unsupported native `--write` option. Input I/O messages retain the documented host-specific differences.
+
+This port does not apply edits, implement revision checks, atomic replacement, LSP formatting or tokenizer-specific budgets. Check mode verifies layout only. Output bytes match the reference on the differential corpus and comment/whitespace fixtures; no general-equivalence, measured formatter speed, memory or agent-cost claim follows. The new `src/format.rs` is embedded in build identity and independently checked for stale-source rejection.
+
 ## Verify and measure
 
 ~~~sh
 cargo +1.96.0 clippy --locked --offline --all-targets --manifest-path experiments/native-compiler/Cargo.toml -- -D warnings
 cargo +1.96.0 test --locked --offline --manifest-path experiments/native-compiler/Cargo.toml
 python3 experiments/native-compiler/tests/conformance.py
+python3 experiments/native-compiler/tests/formatting.py
 python3 experiments/native-compiler/tests/differential.py
 python3 experiments/native-compiler/tests/comparison.py
 python3 scripts/check-borrow-sanitizers.py --native experiments/native-compiler/target/release/talven-native
@@ -62,7 +74,9 @@ python3 scripts/measure-native-inprocess.py --native experiments/native-compiler
 
 Set `TALVEN_NATIVE` to a different already-built executable for the tests. The comparison command requires `--native`. Native acceptance needs `cc` with ASan/UBSan; failures are not skipped. The original reference suite still runs separately through `python3 -m unittest discover -s tests -v`.
 
-The differential suite (`tests/differential.py`) runs both CLIs on every example, invalid example, test fixture and corpus source, hand-written lexer/parser/checker/limit/record/mutation edge cases, 160 seeded random well-typed programs, 64 seeded scalar-mutation programs, 64 seeded borrowing/mutation programs, and 260 seeded token mutations. It compares ok/failure and the first diagnostic's code, message, severity and range; requires byte-identical compact context and `emit-c` output (with and without `--console`) or identical failures; and compiles and runs both C outputs with `-Werror`, comparing exit status and stdout with each other and, for generated programs, with an independent Python evaluator. The evaluator models scalar stores, record updates, borrowed aliases, and branch updates separately from C emission. The only allowlisted difference is `E0901` message text for invalid UTF-8; any semantic, context or emitted-code difference fails. Both compilers must agree on accepted and rejected borrowing programs.
+The differential suite (`tests/differential.py`) runs both CLIs on every example, invalid example, test fixture and corpus source, hand-written lexer/parser/checker/limit/record/mutation edge cases, 160 seeded random well-typed programs, 64 seeded scalar-mutation programs, 64 seeded borrowing/mutation programs, and 260 seeded token mutations. It compares ok/failure and the first diagnostic's code, message, severity and range; requires byte-identical canonical formatting, compact context and `emit-c` output (with and without `--console`) or identical failures; and compiles and runs both C outputs with `-Werror`, comparing exit status and stdout with each other and, for generated programs, with an independent Python evaluator. The evaluator models scalar stores, record updates, borrowed aliases, and branch updates separately from C emission. The only allowlisted difference is `E0901` message text for invalid UTF-8; any semantic, formatting, context or emitted-code difference fails. Both compilers must agree on accepted and rejected borrowing programs.
+
+The formatting suite additionally inserts a Unicode comment at every token boundary of a borrowing/scalar-mutation program and varies whitespace with a fixed seed, requiring reference bytes, idempotence, token identity, unchanged checked native lowering and successful check mode. Independent exact-layout fixtures, semantic-error repairs, UTF-8/comment/output limits, unsupported flags and nonregular files verify the read-only boundary. The declared native CI jobs run these tests alongside existing conformance.
 
 The conformance suite checks actual greeting bytes, static text lifetimes, ordered console calls, by-value record results and initializer order, short-circuit traps, independently computed integer results, overflow/division traps, loan conflicts, mutation permissions, reference escape rejection, limits, input paths, and selected diagnostic parity. The sanitizer script additionally compares native emitted C to the reference and executes all three borrowing fixtures at `-O0`/`-O2` with ASan/UBSan; CI requires this on both declared native hosts. Comparison tests check failure retention, immutable run destinations, complete verified sample counts, and that the unchanged chain oracle rejects an implementation which always returns zero.
 

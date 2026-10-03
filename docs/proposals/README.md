@@ -59,3 +59,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0029 | [Native test manifests](0029-native-test-manifests.md) | Draft; implemented experiment |
 | 0030 | [Incremental editor synchronization](0030-incremental-editor-synchronization.md) | Draft; implemented experiment |
 | 0031 | [Native compact agent context](0031-native-compact-agent-context.md) | Draft; implemented experiment |
+| 0032 | [Native canonical formatting](0032-native-canonical-formatting.md) | Draft; implemented experiment |

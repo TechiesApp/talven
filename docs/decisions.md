@@ -71,6 +71,7 @@ Status definitions:
 | D57 | Proposed | Run bounded explicit native/output or first-diagnostic cases through the shared frontend, capturing full signed main results with a private C driver | [Proposal 0029](proposals/0029-native-test-manifests.md); [test manifests](testing.md), exact expectations and bounded current receipts; no new syntax, packages, foreign ABI or hostile-code sandbox |
 | D58 | Proposed | Reconstruct bounded sequential UTF-16 editor deltas atomically, requiring full resynchronization after rejected newer batches | [Proposal 0030](proposals/0030-incremental-editor-synchronization.md); [editor synchronization](editor-synchronization.md), fresh shared checking, version ordering and blocked stale queries; no incremental parser or performance claim |
 | D59 | Proposed | Port the existing checked compact agent index to the standalone native compiler with byte-identical differential output | [Proposal 0031](proposals/0031-native-compact-agent-context.md); sorted current signatures/record fields, explicit compact mode and first-error rejection; full context v2, caching, native LSP and measured agent/latency benefits remain open |
+| D60 | Proposed | Port the reference's bounded token/comment-preserving layout to read-only native formatting and check mode | [Proposal 0032](proposals/0032-native-canonical-formatting.md); shared syntax-only validation, output/re-lex guards and exact module provenance; native replacement/revision guards, editor integration and measured benefits remain open |
 
 ## Open decisions
 

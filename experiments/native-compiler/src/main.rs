@@ -3,8 +3,8 @@ use std::fs::File;
 use std::io::{self, Read, Write};
 use std::path::Path;
 use talven_native::{
-    Error, MAX_SOURCE, PROFILE, agent_context, analyze, analyze_measured, emit_c, line_character,
-    receipt, size_error,
+    Error, MAX_SOURCE, PROFILE, agent_context, analyze, analyze_measured, emit_c, format_source,
+    line_character, receipt, size_error,
 };
 fn main() {
     std::process::exit(run());
@@ -21,6 +21,7 @@ fn run() -> i32 {
             ("build.rs", include_str!("../build.rs")),
             ("src/main.rs", include_str!("main.rs")),
             ("src/lib.rs", include_str!("lib.rs")),
+            ("src/format.rs", include_str!("format.rs")),
             ("src/runtime.c", include_str!("runtime.c")),
             ("src/console.c", include_str!("console.c")),
         ]
@@ -57,6 +58,12 @@ fn run() -> i32 {
             args[2..].iter().filter(|a| *a == "--compact").count() == 1
                 && args[2..].iter().filter(|a| *a == "--json").count() <= 1
                 && args[2..].iter().all(|a| a == "--compact" || a == "--json")
+        } else if args[0] == "fmt" {
+            args[2..].iter().filter(|a| *a == "--check").count() <= 1
+                && args[2..].iter().filter(|a| *a == "--json").count() <= 1
+                && args[2..].iter().all(|a| a == "--check" || a == "--json")
+                && (!args[2..].iter().any(|a| a == "--json")
+                    || args[2..].iter().any(|a| a == "--check"))
         } else {
             (args[0] == "check" || args[0] == "emit-c")
                 && args[2..].iter().all(|a| a == "--json" || a == "--console")
@@ -64,7 +71,7 @@ fn run() -> i32 {
         };
     if !valid {
         eprintln!(
-            "Usage: talven-native check SOURCE [--json] | emit-c SOURCE [--console] | context SOURCE --compact [--json]"
+            "Usage: talven-native check SOURCE [--json] | emit-c SOURCE [--console] | context SOURCE --compact [--json] | fmt SOURCE [--check [--json]]"
         );
         return 2;
     }
@@ -73,6 +80,24 @@ fn run() -> i32 {
     let mut source = String::new();
     let outcome: Result<String, Error> = (|| {
         source = read_source(Path::new(&args[1]))?;
+        if args[0] == "fmt" {
+            let formatted = format_source(&source)?;
+            return if args[2..].iter().any(|a| a == "--check") {
+                if formatted != source {
+                    Err(Error {
+                        code: "E0601",
+                        message: "Source is not canonically formatted; run talven-native fmt to preview the layout".into(),
+                        span: 0..0,
+                    })
+                } else if structured {
+                    Ok(receipt(&source, None))
+                } else {
+                    Ok("Formatting check passed\n".into())
+                }
+            } else {
+                Ok(formatted)
+            };
+        }
         let program = analyze(&source)?;
         if args[0] == "emit-c" {
             emit_c(&program, console)

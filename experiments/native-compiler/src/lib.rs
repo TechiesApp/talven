@@ -9,6 +9,9 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::fmt::Write;
 use std::ops::Range;
 
+mod format;
+pub use format::format_source;
+
 pub const PROFILE: &str = "native-call-borrows-v1";
 pub const MAX_SOURCE: usize = 256 * 1024;
 const MAX_TOKENS: usize = 16384;
@@ -83,6 +86,7 @@ enum TokenKind {
     Id,
     Int,
     Text,
+    Comment,
     Eof,
     /// Keywords and operators, whose kind is their spelling.
     Fixed,
@@ -99,6 +103,7 @@ impl Token {
             TokenKind::Id => "id",
             TokenKind::Int => "int",
             TokenKind::Text => "text",
+            TokenKind::Comment => "comment",
             TokenKind::Eof => "eof",
             TokenKind::Fixed => &self.text,
         }
@@ -156,6 +161,10 @@ fn is_space(rest: &[u8]) -> bool {
 }
 
 fn lex(source: &str) -> Result<Vec<Token>> {
+    lex_with_comments(source, false)
+}
+
+fn lex_with_comments(source: &str, include_comments: bool) -> Result<Vec<Token>> {
     if source.len() > MAX_SOURCE {
         return Err(size_error());
     }
@@ -191,7 +200,10 @@ fn lex(source: &str) -> Result<Vec<Token>> {
                 .iter()
                 .position(|b| matches!(b, b'\r' | b'\n'))
                 .unwrap_or(rest.len());
-            continue;
+            if !include_comments {
+                continue;
+            }
+            kind = TokenKind::Comment;
         } else if rest[0].is_ascii_digit() {
             at += rest.iter().take_while(|b| b.is_ascii_digit()).count();
             kind = TokenKind::Int;
