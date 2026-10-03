@@ -23,6 +23,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 from talven.frontend import Expr, MAX_SOURCE_BYTES, analyze
+from talven.context import context
 
 BINARY = Path(os.environ.get("TALVEN_NATIVE", ROOT / "experiments/native-compiler/target/release/talven-native")).resolve()
 REFERENCE = [sys.executable, "-B", "-m", "talven"]
@@ -741,6 +742,7 @@ class DifferentialCorpusTests(unittest.TestCase):
             cls.contexts = dict(zip(cls.cases, pool.map(cls.context_both, cls.cases)))
             cls.formats = dict(zip(cls.cases, pool.map(cls.format_both, cls.cases)))
             accepted = [n for n, (reference, native, _) in cls.checks.items() if reference.returncode == 0 == native.returncode]
+            cls.symbol_contexts = dict(zip(accepted, pool.map(cls.symbol_context, accepted)))
             cls.emits = dict(zip(accepted, pool.map(cls.emit_both, accepted)))
             runnable = [n for n, results in cls.emits.items() if results[True][0].returncode == 0]
             cls.runs = dict(zip(runnable, pool.map(cls.execute_both, runnable)))
@@ -760,6 +762,17 @@ class DifferentialCorpusTests(unittest.TestCase):
         path = str(cls.paths[name])
         return (run([*REFERENCE, "context", path, "--compact"]),
                 run([str(BINARY), "context", path, "--compact"]))
+
+    @classmethod
+    def symbol_context(cls, name):
+        analysis = analyze(cls.cases[name].decode())
+        symbols = sorted(analysis.functions) or sorted(analysis.records)
+        symbol = symbols[0] if symbols else None
+        flags = ["--symbol", symbol] if symbol else []
+        expected = json.loads(context(analysis, symbol, max_bytes=1048576, include_body=True))
+        native = run([str(BINARY), "context", str(cls.paths[name]), *flags,
+                      "--max-bytes", "1048576", "--include-body"])
+        return expected, native
 
     @classmethod
     def format_both(cls, name):
@@ -836,6 +849,16 @@ class DifferentialCorpusTests(unittest.TestCase):
                     else:
                         self.assertEqual(("E0901", "E0901"), (ref_errors[0][0], nat_errors[0][0]))
                     self.assertNotIn("functions", json.loads(native.stdout))
+
+    def test_selected_context_semantics_match_current_reference(self):
+        for name, (reference, native) in self.symbol_contexts.items():
+            with self.subTest(case=name):
+                self.assertEqual((0, b""), (native.returncode, native.stderr), native.stdout)
+                packet = json.loads(native.stdout)
+                self.assertEqual("talven.native-context.v1", packet["schema"])
+                for key in ("source_hash", "symbol", "include_body", "target", "validation",
+                            "functions", "dependencies", "records", "builtins", "required_runtime", "callers"):
+                    self.assertEqual(reference[key], packet[key], key)
 
     def test_canonical_formatting_is_byte_identical_or_fails_identically(self):
         for name, (reference, native) in self.formats.items():

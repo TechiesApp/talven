@@ -11,6 +11,9 @@ use std::ops::Range;
 
 mod format;
 pub use format::format_source;
+mod context;
+pub use context::SOURCE_FILES;
+pub use context::{ContextOptions, compiler_hash, native_context, source_hash};
 
 pub const PROFILE: &str = "native-call-borrows-v1";
 pub const MAX_SOURCE: usize = 256 * 1024;
@@ -365,6 +368,7 @@ pub struct Record {
 }
 #[derive(Debug)]
 struct Function {
+    span: Range<usize>,
     name: Token,
     params: Vec<(Token, Token)>,
     result: Token,
@@ -482,7 +486,7 @@ impl Parser {
                     resolved: Vec::new(),
                 });
             } else {
-                self.take("fn")?;
+                let start = self.take("fn")?.span.start;
                 let name = self.take("id")?;
                 self.take("(")?;
                 let params = self.pairs(")")?;
@@ -490,6 +494,7 @@ impl Parser {
                 let result = self.type_token()?;
                 let body = self.block(0)?;
                 functions.push(Function {
+                    span: start..self.tokens[self.index - 1].span.end,
                     name,
                     params,
                     result,

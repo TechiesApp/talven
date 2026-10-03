@@ -74,6 +74,8 @@ Status definitions:
 | D60 | Proposed | Port the reference's bounded token/comment-preserving layout to read-only native formatting and check mode | [Proposal 0032](proposals/0032-native-canonical-formatting.md); shared syntax-only validation, output/re-lex guards and exact module provenance; native replacement/revision guards, editor integration and measured benefits remain open |
 | D61 | Proposed | Evaluate pinned text-only Codex CLI through ChatGPT login with explicit invocation bounds and unknown dollar costs preserved | [Proposal 0033](proposals/0033-codex-subscription-evaluation.md); optional adapter and unchanged independent acceptance; invocation limits differ from token/quota/billing limits |
 
+| D62 | Proposed | Port bounded current symbol/dependency context to the native compiler with explicit native source/build identities | [Proposal 0034](proposals/0034-native-focused-context.md); shared semantic selection, exact optional bodies and byte/revision guards; caching, native LSP and live benefits remain open |
+
 ## Open decisions
 
 | Decision | Questions to resolve |

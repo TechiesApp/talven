@@ -74,7 +74,7 @@ def summarize(commands, repetitions, operations=CORE_OPERATIONS):
 
 
 def verify_build_sources(info, native_root):
-    names = {"Cargo.toml", "Cargo.lock", "build.rs", "src/main.rs", "src/lib.rs", "src/format.rs", "src/runtime.c", "src/console.c"}
+    names = {"Cargo.toml", "Cargo.lock", "build.rs", "src/main.rs", "src/lib.rs", "src/format.rs", "src/context.rs", "src/runtime.c", "src/console.c"}
     sources = info.get("source_files", {})
     base.require(set(sources) == names, "native build source manifest is missing or unexpected")
     for name in names:
