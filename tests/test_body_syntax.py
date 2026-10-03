@@ -24,7 +24,16 @@ class BodySyntaxTests(unittest.TestCase):
         expected = analyze(source)
         self.assertEqual(expected, result)
         self.assertEqual(context(expected), context(result))
-        self.assertEqual(emit_c(expected, console=True), emit_c(result, console=True))
+        try:
+            executable = emit_c(expected, console=True)
+        except CompileError as error:
+            with self.assertRaises(CompileError) as caught:
+                emit_c(result, console=True)
+            self.assertEqual(error.diagnostic(source), caught.exception.diagnostic(source))
+        else:
+            self.assertEqual(executable, emit_c(result, console=True))
+        self.assertEqual(emit_c(expected, console=True, library=True),
+                         emit_c(result, console=True, library=True))
         return result
 
     def rejected(self, source):

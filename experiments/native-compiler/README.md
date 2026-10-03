@@ -66,6 +66,12 @@ Budgets default to 16384 and accept 1 byte through 1 MiB, including the UTF-8 ne
 
 [Proposal 0035](../../docs/proposals/0035-native-edit-previews.md) specifies the native schemas and limits. Neither rereads nor hashes provide locking, atomic compare-and-swap or permission to apply an edit. An applying host must coordinate writers and check current identities. Independent native fixtures accept a correct borrow repair and reject a frontend-valid off-by-one repair at O0/O2. Native LSP integration, atomic application, caching and measured task-cost benefits remain open.
 
+## Hosted scalar C API units
+
+`emit-c-api SOURCE --module NAME --export FUNCTION [--export FUNCTION ...] [--console] [--max-bytes N]` freshly checks source and returns a `talven.c-api.v1` library/header receipt. It does not require `main` or run a C compiler. Selected public signatures allow only i32/bool parameters/results. Length-framed module names namespace public wrappers and compiler-private function/record tokens so independently compiled units can reuse private names. Default executable emission stays unchanged.
+
+Exact decoded C/header bytes, hashes and interface facts match the reference across eligible differential cases; native compiler identity remains distinct. The [C export guide](../../docs/c-api.md) uses two checked units and a libc `strtol` C caller. Standalone fixtures execute native/reference outputs under ASan/UBSan at O0/O2 and retain overflow traps. [Proposal 0036](../../docs/proposals/0036-hosted-scalar-c-api.md) defines budgets, failure ordering and scope. This does not provide Talven imports, foreign pointers/records/text exports, stable binary packages or measured bridge overhead. Generation performs no writes or program execution.
+
 ## Canonical formatting
 
 `fmt SOURCE` prints the reference's `m1-scalar-mutation-layout-v1` layout without writing source. `fmt SOURCE --check` returns 0 with `Formatting check passed` when source already matches, or 1 with E0601 when layout differs. Add `--check --json` for the existing native diagnostic envelope on success/failure. `--json` requires `--check`; duplicate flags, `--write`, revision-hash flags and other unsupported options return usage status 2 before reading source. See [Proposal 0032](../../docs/proposals/0032-native-canonical-formatting.md).
@@ -85,6 +91,7 @@ python3 experiments/native-compiler/tests/conformance.py
 python3 experiments/native-compiler/tests/formatting.py
 python3 experiments/native-compiler/tests/context.py
 python3 experiments/native-compiler/tests/edit.py
+python3 experiments/native-compiler/tests/c_api.py
 python3 experiments/native-compiler/tests/differential.py
 python3 experiments/native-compiler/tests/comparison.py
 python3 scripts/check-borrow-sanitizers.py --native experiments/native-compiler/target/release/talven-native

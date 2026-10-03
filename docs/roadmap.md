@@ -84,6 +84,8 @@ Measure actual save-to-diagnostic and save-to-running-revision latency, cache re
 
 [Proposal 0028](proposals/0028-function-body-syntax-reuse.md) adds explicit [function-body syntax reuse](body-syntax.md): fresh whole-source lexing/current declarations, exact last-successful immutable grammar and current mutable reconstruction. Semantic checks remain independent and native builds full; default parsing and editor recovery are unchanged.
 
+[Proposal 0036](proposals/0036-hosted-scalar-c-api.md) adds explicitly named [scalar C export units](c-api.md), generated headers and independently executed two-unit/libc callers. This begins a bounded foreign-interface contract; source-level modules/imports, foreign ownership/pointers, additional wrappers and M3 bridge-cost evidence remain open.
+
 ## M2: Memory and concurrency foundations
 
 Add allocator interfaces, containers, typed failures, structured tasks, cancellation, synchronization, and a selected optional executor.

@@ -10,6 +10,9 @@ fn main() {
 }
 fn run() -> i32 {
     let args: Vec<OsString> = std::env::args_os().skip(1).collect();
+    if args.first().is_some_and(|a| a == "emit-c-api") {
+        return c_api(&args[1..]);
+    }
     if args.first().is_some_and(|a| a == "edit") {
         return edit(&args[1..]);
     }
@@ -353,5 +356,78 @@ fn edit(args: &[OsString]) -> i32 {
         1
     } else {
         0
+    }
+}
+
+fn c_api(args: &[OsString]) -> i32 {
+    let usage = || {
+        eprintln!(
+            "Usage: talven-native emit-c-api SOURCE --module NAME --export FUNCTION [--export FUNCTION ...] [--console] [--max-bytes N]"
+        );
+        2
+    };
+    if args.is_empty() {
+        return usage();
+    }
+    let mut module = None;
+    let mut exports = Vec::new();
+    let mut console = false;
+    let mut max_bytes = 16 * 1024 * 1024;
+    let mut index = 1;
+    while index < args.len() {
+        let Some(flag) = args[index].to_str() else {
+            return usage();
+        };
+        match flag {
+            "--console" => console = true,
+            "--module" | "--export" | "--max-bytes" => {
+                index += 1;
+                let Some(value) = args.get(index).and_then(|a| a.to_str()) else {
+                    return usage();
+                };
+                if value.starts_with("--") {
+                    return usage();
+                }
+                match flag {
+                    "--module" => module = Some(value),
+                    "--export" => exports.push(value.to_string()),
+                    "--max-bytes" => {
+                        let Ok(parsed) = value.parse::<i64>() else {
+                            return usage();
+                        };
+                        max_bytes = usize::try_from(parsed).unwrap_or(0);
+                    }
+                    _ => unreachable!(),
+                }
+            }
+            _ => return usage(),
+        }
+        index += 1;
+    }
+    let Some(module) = module else {
+        return usage();
+    };
+    if exports.is_empty() {
+        return usage();
+    }
+    let mut source = String::new();
+    let outcome = (|| {
+        source = read_source(Path::new(&args[0]))?;
+        talven_native::emit_c_api(&source, module, &exports, console, max_bytes)
+    })();
+    match outcome {
+        Ok(output) => {
+            if io::stdout().lock().write_all(output.as_bytes()).is_ok() {
+                0
+            } else {
+                1
+            }
+        }
+        Err(failure) => {
+            let _ = io::stdout()
+                .lock()
+                .write_all(receipt(&source, Some(&failure)).as_bytes());
+            1
+        }
     }
 }

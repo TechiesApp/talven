@@ -155,6 +155,7 @@ jobs:
           python3 experiments/native-compiler/tests/formatting.py
           python3 experiments/native-compiler/tests/context.py
           python3 experiments/native-compiler/tests/edit.py
+          python3 experiments/native-compiler/tests/c_api.py
           python3 experiments/native-compiler/tests/differential.py
           python3 experiments/native-compiler/tests/comparison.py
           python3 scripts/check-borrow-sanitizers.py --native experiments/native-compiler/target/release/talven-native

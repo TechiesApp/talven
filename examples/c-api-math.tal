@@ -1,0 +1,17 @@
+fn helper(value: i32) -> i32 {
+    return value * 2;
+}
+
+fn adjust(value: i32) -> i32 {
+    if (value < -1000) {
+        return helper(-1000) + 1;
+    }
+    if (value > 1000) {
+        return helper(1000) + 1;
+    }
+    return helper(value) + 1;
+}
+
+fn accepts(value: i32) -> bool {
+    return value >= -1000 && value <= 1000;
+}

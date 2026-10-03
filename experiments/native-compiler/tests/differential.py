@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 from talven.frontend import Expr, MAX_SOURCE_BYTES, analyze
 from talven.context import context
+from talven.c_api import emit_c_api
 
 BINARY = Path(os.environ.get("TALVEN_NATIVE", ROOT / "experiments/native-compiler/target/release/talven-native")).resolve()
 REFERENCE = [sys.executable, "-B", "-m", "talven"]
@@ -743,6 +744,7 @@ class DifferentialCorpusTests(unittest.TestCase):
             cls.formats = dict(zip(cls.cases, pool.map(cls.format_both, cls.cases)))
             accepted = [n for n, (reference, native, _) in cls.checks.items() if reference.returncode == 0 == native.returncode]
             cls.symbol_contexts = dict(zip(accepted, pool.map(cls.symbol_context, accepted)))
+            cls.c_apis = dict(zip(accepted, pool.map(cls.c_api, accepted)))
             cls.emits = dict(zip(accepted, pool.map(cls.emit_both, accepted)))
             runnable = [n for n, results in cls.emits.items() if results[True][0].returncode == 0]
             cls.runs = dict(zip(runnable, pool.map(cls.execute_both, runnable)))
@@ -772,6 +774,19 @@ class DifferentialCorpusTests(unittest.TestCase):
         expected = json.loads(context(analysis, symbol, max_bytes=1048576, include_body=True))
         native = run([str(BINARY), "context", str(cls.paths[name]), *flags,
                       "--max-bytes", "1048576", "--include-body"])
+        return expected, native
+
+    @classmethod
+    def c_api(cls, name):
+        analysis = analyze(cls.cases[name].decode())
+        eligible = sorted(fn.name.text for fn in analysis.functions.values()
+                          if fn.result.text in ('i32', 'bool') and all(t.text in ('i32', 'bool') for _, t in fn.params))
+        if not eligible:
+            return None
+        exports = eligible[:1]
+        expected = emit_c_api(analysis, 'diff', exports, console=True)
+        native = run([str(BINARY), 'emit-c-api', str(cls.paths[name]), '--module', 'diff',
+                      '--export', exports[0], '--console'])
         return expected, native
 
     @classmethod
@@ -859,6 +874,18 @@ class DifferentialCorpusTests(unittest.TestCase):
                 for key in ("source_hash", "symbol", "include_body", "target", "validation",
                             "functions", "dependencies", "records", "builtins", "required_runtime", "callers"):
                     self.assertEqual(reference[key], packet[key], key)
+
+    def test_scalar_c_api_artifacts_match_current_reference(self):
+        for name, result in self.c_apis.items():
+            if result is None:
+                continue
+            reference, native = result
+            with self.subTest(case=name):
+                self.assertEqual((0, b''), (native.returncode, native.stderr), native.stdout)
+                packet = json.loads(native.stdout)
+                for key in reference:
+                    if key != 'compiler_hash':
+                        self.assertEqual(reference[key], packet[key], key)
 
     def test_canonical_formatting_is_byte_identical_or_fails_identically(self):
         for name, (reference, native) in self.formats.items():

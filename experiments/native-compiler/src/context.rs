@@ -11,6 +11,7 @@ pub const SOURCE_FILES: &[(&str, &str)] = &[
     ("src/context.rs", include_str!("context.rs")),
     ("src/input.rs", include_str!("input.rs")),
     ("src/edit.rs", include_str!("edit.rs")),
+    ("src/c_api.rs", include_str!("c_api.rs")),
     ("src/runtime.c", include_str!("runtime.c")),
     ("src/console.c", include_str!("console.c")),
 ];

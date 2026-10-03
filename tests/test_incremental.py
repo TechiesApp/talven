@@ -23,7 +23,16 @@ class IncrementalTests(unittest.TestCase):
         actual = self.frontend.analyze(source)
         expected = analyze(source)
         self.assertEqual(expected, actual)
-        self.assertEqual(emit_c(expected, console=True), emit_c(actual, console=True))
+        try:
+            executable = emit_c(expected, console=True)
+        except CompileError as error:
+            with self.assertRaises(CompileError) as caught:
+                emit_c(actual, console=True)
+            self.assertEqual(error.diagnostic(source), caught.exception.diagnostic(source))
+        else:
+            self.assertEqual(executable, emit_c(actual, console=True))
+        self.assertEqual(emit_c(expected, console=True, library=True),
+                         emit_c(actual, console=True, library=True))
         self.assertEqual(context(expected), context(actual))
         return actual
 

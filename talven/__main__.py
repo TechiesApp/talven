@@ -9,6 +9,7 @@ import tempfile
 
 from . import PROFILE, VERSION
 from .backend import MAX_C_UNIT_BYTES, emit_c, emit_c_units
+from .c_api import MAX_BYTES as MAX_C_API_BYTES, emit_c_api
 from .context import agent_context, compiler_hash, context, encode, source_hash
 from .edit_validation import HASH_PATTERN, snapshot_source, validate_edit
 from .formatter import format_source
@@ -58,6 +59,12 @@ def main(argv: list[str] | None = None) -> int:
     emit.add_argument("-o", "--output", type=Path)
     emit.add_argument("--freestanding", action="store_true")
     emit.add_argument("--console", action="store_true", help="Enable optional hosted POSIX stdout writes")
+    api = commands.add_parser("emit-c-api", help="Emit a named C11 scalar library/header receipt; no build")
+    api.add_argument("source", type=Path)
+    api.add_argument("--module", required=True)
+    api.add_argument("--export", dest="exports", action="append", required=True)
+    api.add_argument("--console", action="store_true")
+    api.add_argument("--max-bytes", type=int, default=MAX_C_API_BYTES)
     units = commands.add_parser("emit-c-units", help="Emit experimental checked hosted C11 units as JSON; no native build")
     units.add_argument("source", type=Path)
     units.add_argument("--console", action="store_true")
@@ -201,6 +208,8 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "context":
             print(context(result, args.symbol, args.max_bytes, args.expect_source_hash,
                           args.freestanding, args.include_body), end="")
+        elif args.command == "emit-c-api":
+            print(encode(emit_c_api(result, args.module, args.exports, console=args.console, max_bytes=args.max_bytes)), end="")
         elif args.command == "emit-c-units":
             units = emit_c_units(result, console=args.console, local_contracts=args.local_contracts)
             receipt = encode({"schema": "talven.c-units.v1",
@@ -249,7 +258,7 @@ def main(argv: list[str] | None = None) -> int:
         failure = error
     failures = reported if reported and failure is reported[0] else [failure]
     diagnostics = [error.diagnostic(source) for error in failures]
-    if args.command in ("context", "emit-c-units", "prepare-c-units") or getattr(args, "json", False):
+    if args.command in ("context", "emit-c-api", "emit-c-units", "prepare-c-units") or getattr(args, "json", False):
         print(encode({"schema": "talven.diagnostics.v1", "ok": False, "diagnostics": diagnostics}), end="")
     else:
         for error, diagnostic in zip(failures, diagnostics):

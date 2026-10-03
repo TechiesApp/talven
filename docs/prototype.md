@@ -135,6 +135,7 @@ Commands read source only from regular files; FIFOs and devices produce E0901 wi
 | E0501 / E0502 | Stale source / context byte budget |
 | E0601 / E0602 / E0603 / E0604 | Noncanonical layout / formatting output limit / unsupported in-place target / token-preservation failure; see [formatting](formatting.md) |
 | E0701 / E0702 / E0703 | Invalid edit-preview request / compiler revision mismatch / preview output budget; see [edit previews](edit-validation.md) |
+| E1001 / E1002 | Invalid scalar C API request / C API output budget; see [C exports](c-api.md) |
 | E0801 / E0802 | Invalid test manifest/expectation setup / malformed native full-result protocol; see [test manifests](testing.md) |
 | E0901 | File, encoding, process-launch, or build-timeout failure |
 
