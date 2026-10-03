@@ -3,7 +3,8 @@
 Every case runs both CLIs and compares ok/failure, diagnostic code, message and range.
 Programs both compilers accept are emitted with and without --console; the emitted C
 must be byte-identical, and each C output is compiled and executed. Generated programs
-also carry an independent Python oracle for exit status and stdout.
+also carry an independent Python oracle for exit status and stdout. Compact context
+must be byte-identical; rejected sources must not produce program facts.
 
 The only accepted divergence is host-specific invalid UTF-8 error wording. All checked
 record moves, borrowing, mutation, and diagnostics must otherwise match. No provider calls.
@@ -737,6 +738,7 @@ class DifferentialCorpusTests(unittest.TestCase):
             cls.paths[name] = path
         with ThreadPoolExecutor(max_workers=os.cpu_count() or 2) as pool:
             cls.checks = dict(zip(cls.cases, pool.map(cls.check_both, cls.cases)))
+            cls.contexts = dict(zip(cls.cases, pool.map(cls.context_both, cls.cases)))
             accepted = [n for n, (reference, native, _) in cls.checks.items() if reference.returncode == 0 == native.returncode]
             cls.emits = dict(zip(accepted, pool.map(cls.emit_both, accepted)))
             runnable = [n for n, results in cls.emits.items() if results[True][0].returncode == 0]
@@ -751,6 +753,12 @@ class DifferentialCorpusTests(unittest.TestCase):
         path = str(cls.paths[name])
         return (run([*REFERENCE, "check", path, "--json"]), run([str(BINARY), "check", path, "--json"]),
                 EXPECTED_DIVERGENCES.get(name) if name in cls.fixed else rule_divergence(cls.cases[name]))
+
+    @classmethod
+    def context_both(cls, name):
+        path = str(cls.paths[name])
+        return (run([*REFERENCE, "context", path, "--compact"]),
+                run([str(BINARY), "context", path, "--compact"]))
 
     @classmethod
     def emit_both(cls, name):
@@ -803,6 +811,25 @@ class DifferentialCorpusTests(unittest.TestCase):
                 self.assertFalse(nat_ok)
                 self.assertEqual(("E0901", "E0901"), (ref_diagnostics[0][0], nat_diagnostics[0][0]))
         self.assertEqual({"E0901-message"}, used)
+
+    def test_compact_context_is_byte_identical_or_fails_identically(self):
+        for name, (reference, native) in self.contexts.items():
+            with self.subTest(case=name):
+                self.assertIn(reference.returncode, (0, 1), reference.stderr)
+                self.assertEqual(reference.returncode, native.returncode, native.stderr)
+                self.assertEqual(reference.stderr, native.stderr)
+                if native.returncode == 0:
+                    self.assertEqual(reference.stdout, native.stdout)
+                    self.assertEqual("talven.agent-context.v2", json.loads(native.stdout)["schema"])
+                else:
+                    ref_ok, ref_errors = diagnostic_view(reference.stdout)
+                    nat_ok, nat_errors = diagnostic_view(native.stdout)
+                    self.assertFalse(ref_ok or nat_ok)
+                    if rule_divergence(self.cases[name]) is None:
+                        self.assertEqual(ref_errors, nat_errors)
+                    else:
+                        self.assertEqual(("E0901", "E0901"), (ref_errors[0][0], nat_errors[0][0]))
+                    self.assertNotIn("functions", json.loads(native.stdout))
 
     def test_emitted_c_is_byte_identical_or_fails_identically(self):
         for name, results in self.emits.items():

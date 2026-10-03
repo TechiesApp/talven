@@ -54,6 +54,8 @@ The [native scalar compiler experiment](../experiments/native-compiler/README.md
 
 The [native phase baseline](native-phase-baseline.md) now isolates full lex/parse/depth checking, declaration/body checking and C emission inside one process on verified initial workloads. It keeps correctness and input/build identities explicit, without inferring startup, C build or incremental performance from those phase timings.
 
+[Proposal 0031](proposals/0031-native-compact-agent-context.md) adds the standalone native [compact agent index](../experiments/native-compiler/README.md#compact-agent-context), checked against reference output throughout the differential corpus. Full context v2, native editor/formatter parity and measured context costs remain open.
+
 ### Planned next increments
 
 [Proposal 0020](proposals/0020-hosted-function-c-units.md) now defines [hosted function C units](c-units.md) through the shared reference lowering. Stable local temporary numbering and conservative repeated contracts provide an independently tested emission boundary. [Proposal 0021](proposals/0021-preprocessed-function-units.md) adds [fresh prepared units](preprocessed-units.md) with strict boundaries and expanded input identities. [Proposal 0022](proposals/0022-private-object-reuse.md) adds a [private object-reuse API](object-reuse.md) with fresh linking and last-successful retention under explicit toolchain assumptions; the [opt-in native watcher](native-watch.md) now integrates cancellable builds and restart freshness. [Measured rebuild costs](object-rebuild-evidence.md) are mixed; the [actual watcher runner](native-watch-baseline.md) now retains edit-to-receipt timings and actual native task checks.

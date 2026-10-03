@@ -48,3 +48,14 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0018 | [Current-document semantic highlighting](0018-semantic-highlighting.md) | Draft; implemented experiment |
 | 0019 | [Current-document call signature help](0019-current-call-signatures.md) | Draft; implemented experiment |
 | 0020 | [Hosted function C units](0020-hosted-function-c-units.md) | Draft; implemented experiment |
+| 0021 | [Preprocessed function units](0021-preprocessed-function-units.md) | Draft; implemented experiment |
+| 0022 | [Private object reuse](0022-private-object-reuse.md) | Draft; implemented experiment |
+| 0023 | [Pollable compiler commands](0023-pollable-compiler-commands.md) | Draft; implemented experiment |
+| 0024 | [Pollable object builds](0024-pollable-object-builds.md) | Draft; implemented experiment |
+| 0025 | [Native object watch](0025-native-object-watch.md) | Draft; implemented experiment |
+| 0026 | [Local function contracts](0026-local-function-contracts.md) | Draft; implemented experiment |
+| 0027 | [Current call type contracts](0027-current-call-type-contracts.md) | Draft; implemented experiment |
+| 0028 | [Function body syntax reuse](0028-function-body-syntax-reuse.md) | Draft; implemented experiment |
+| 0029 | [Native test manifests](0029-native-test-manifests.md) | Draft; implemented experiment |
+| 0030 | [Incremental editor synchronization](0030-incremental-editor-synchronization.md) | Draft; implemented experiment |
+| 0031 | [Native compact agent context](0031-native-compact-agent-context.md) | Draft; implemented experiment |
