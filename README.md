@@ -71,7 +71,7 @@ fn main() -> i32 {
   <img alt="Bar chart: time to type-check or compile a 2,400-line program. Talven native 6.5 ms, C 21.0 ms, Go 33.9 ms, Rust 71.0 ms, Talven Python reference 101.6 ms, TypeScript 431.5 ms, Java 482.1 ms." src="docs/assets/benchmarks/check-light.svg" width="760">
 </picture>
 
-Every number links to a reproducible record, along with its limits, in [Benchmarks and evidence](docs/benchmarks.md). That page also compares run time and footprint with C, Rust, Go, Java, and TypeScript. A separate [current-profile Codex pilot](docs/codex-pilot-evidence.md) passed six large-program trials on the first attempt; both context conditions hit a ceiling and dollar costs remain unknown.
+Every number links to a reproducible record, along with its limits, in [Benchmarks and evidence](docs/benchmarks.md). That page also compares run time and footprint with C, Rust, Go, Java, and TypeScript. A separate [current-profile Codex pilot](docs/codex-pilot-evidence.md) passed six large-program trials on the first attempt; an [eight-trial hard-task follow-up](docs/codex-hard-pilot-evidence.md) also passed immediately. Both context conditions hit ceilings and dollar costs remain unknown.
 
 ## Quick start
 

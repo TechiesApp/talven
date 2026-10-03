@@ -1,0 +1,44 @@
+{
+  "edits": {
+    "task.tal": "struct Meter {\n    level: i32\n}\n\nfn read(m: &Meter) -> i32 {\n    return m.level;\n}\n\nfn raise(m: &mut Meter, amount: i32) -> i32 {\n    m.level = m.level + amount;\n    return m.level;\n}\n\nfn in_range(x: i32, low: i32, high: i32) -> bool {\n    return low <= x && x <= high;\n}\n\nfn classify(x: i32) -> i32 {\n    if (x < 0) {\n        return -1;\n    } else {\n        if (x == 0) {\n            return 0;\n        }\n    }\n    return 1;\n}\n\nfn boost(m: &mut Meter, x: i32) -> i32 {\n    let before = read(&m);\n    let step = classify(x) * 10;\n    raise(&mut m, step);\n    return read(&m) - before;\n}\n\nfn scaled(x: i32) -> i32 {\n    let mut result = x * 2;\n    result = result + 3;\n    return result;\n}\n\nfn sum3(a: i32, b: i32, c: i32) -> i32 {\n    let mut total = a;\n    total = total + b;\n    total = total + c;\n    return total;\n}\n\nfn settle(m: Meter) -> i32 {\n    let kept = m;\n    return kept.level + kept.level;\n}\n\nfn main() -> i32 {\n    let mut meter = Meter { level: 5 };\n    if (boost(&mut meter, 3) != 10) {\n        return 1;\n    }\n    return 0;\n}\n"
+  },
+  "provider_metadata": {
+    "billing": "chatgpt-subscription",
+    "candidate_text": "{\"edits\":{\"task.tal\":\"struct Meter {\\n    level: i32\\n}\\n\\nfn read(m: &Meter) -> i32 {\\n    return m.level;\\n}\\n\\nfn raise(m: &mut Meter, amount: i32) -> i32 {\\n    m.level = m.level + amount;\\n    return m.level;\\n}\\n\\nfn in_range(x: i32, low: i32, high: i32) -> bool {\\n    return low <= x && x <= high;\\n}\\n\\nfn classify(x: i32) -> i32 {\\n    if (x < 0) {\\n        return -1;\\n    } else {\\n        if (x == 0) {\\n            return 0;\\n        }\\n    }\\n    return 1;\\n}\\n\\nfn boost(m: &mut Meter, x: i32) -> i32 {\\n    let before = read(&m);\\n    let step = classify(x) * 10;\\n    raise(&mut m, step);\\n    return read(&m) - before;\\n}\\n\\nfn scaled(x: i32) -> i32 {\\n    let mut result = x * 2;\\n    result = result + 3;\\n    return result;\\n}\\n\\nfn sum3(a: i32, b: i32, c: i32) -> i32 {\\n    let mut total = a;\\n    total = total + b;\\n    total = total + c;\\n    return total;\\n}\\n\\nfn settle(m: Meter) -> i32 {\\n    let kept = m;\\n    return kept.level + kept.level;\\n}\\n\\nfn main() -> i32 {\\n    let mut meter = Meter { level: 5 };\\n    if (boost(&mut meter, 3) != 10) {\\n        return 1;\\n    }\\n    return 0;\\n}\\n\"}}",
+    "catalog_sha256": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+    "cli_returncode": 0,
+    "cli_sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc",
+    "cli_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cli_version": "codex-cli 0.154.0",
+    "completed_turns": 1,
+    "event_types": [
+      "item.completed",
+      "thread.started",
+      "turn.completed",
+      "turn.started"
+    ],
+    "item_types": [
+      "agent_message"
+    ],
+    "model_identity": "CLI selector pinned; returned model snapshot unavailable",
+    "raw_usage": {
+      "cached_input_tokens": 0,
+      "input_tokens": 10064,
+      "output_tokens": 432
+    },
+    "request_sha256": "6972d068b108958a63f2ef5dd2603f18639cb9ba89cf3d6443727864c5ad581b",
+    "requested_model": "gpt-6-astra",
+    "response_sha256": "89f347da8b99ff8b5280cfface5058ab9a5584bb888793f144f4332f08da7cd8",
+    "transport": "codex-cli"
+  },
+  "schema": "talven.eval.response.v1",
+  "usage": {
+    "cache_write_input_tokens": null,
+    "cached_input_tokens": 0,
+    "input_tokens": 10064,
+    "model_cost_usd": null,
+    "output_tokens": 432,
+    "tool_cost_usd": null,
+    "usage_source": "Codex CLI turn.completed usage"
+  }
+}
