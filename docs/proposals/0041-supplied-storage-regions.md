@@ -238,3 +238,7 @@ region-aware frontend state/diagnostics in an implementation proposal, with boun
 source tests and ledger fixtures. Then implement the sequential supplied-block gate.
 This draft chooses the initial lifetime approach; it supplies no allocation execution
 evidence and does not complete M2's resource or concurrency milestones.
+
+[Proposal 0042](0042-supplied-storage-c-runtime.md) now implements the standalone C
+representation and independent runtime gates. The region-aware frontend and
+Talven allocation execution remain unimplemented.

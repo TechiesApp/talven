@@ -1,0 +1,419 @@
+{
+  "environment": {
+    "c_target": "arm64-apple-darwin27.0.0",
+    "c_version": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+    "logical_cpus": 10,
+    "machine": "arm64",
+    "release": "27.0.0",
+    "system": "Darwin"
+  },
+  "executions": [
+    {
+      "abort_probes": [
+        "stale",
+        "double",
+        "length",
+        "alignment",
+        "instance",
+        "read-released"
+      ],
+      "fault_injection": false,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O0",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DCAPACITY=1"
+      ],
+      "layout": {
+        "allocation_bytes": 40,
+        "block_bytes": 32,
+        "capacity": 1,
+        "descriptor_bytes": 48
+      },
+      "ledger_passed": true
+    },
+    {
+      "abort_probes": [
+        "stale",
+        "double",
+        "length",
+        "alignment",
+        "instance",
+        "read-released"
+      ],
+      "fault_injection": true,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O0",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DCAPACITY=1",
+        "-DTV_REGION_TEST_FAULT"
+      ],
+      "layout": {
+        "allocation_bytes": 40,
+        "block_bytes": 32,
+        "capacity": 1,
+        "descriptor_bytes": 48
+      },
+      "ledger_passed": true
+    },
+    {
+      "abort_probes": [
+        "stale",
+        "double",
+        "length",
+        "alignment",
+        "instance",
+        "read-released"
+      ],
+      "fault_injection": false,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O2",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DCAPACITY=1"
+      ],
+      "layout": {
+        "allocation_bytes": 40,
+        "block_bytes": 32,
+        "capacity": 1,
+        "descriptor_bytes": 48
+      },
+      "ledger_passed": true
+    },
+    {
+      "abort_probes": [
+        "stale",
+        "double",
+        "length",
+        "alignment",
+        "instance",
+        "read-released"
+      ],
+      "fault_injection": true,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O2",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DCAPACITY=1",
+        "-DTV_REGION_TEST_FAULT"
+      ],
+      "layout": {
+        "allocation_bytes": 40,
+        "block_bytes": 32,
+        "capacity": 1,
+        "descriptor_bytes": 48
+      },
+      "ledger_passed": true
+    },
+    {
+      "abort_probes": [
+        "stale",
+        "double",
+        "length",
+        "alignment",
+        "instance",
+        "read-released"
+      ],
+      "fault_injection": false,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O0",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DCAPACITY=32"
+      ],
+      "layout": {
+        "allocation_bytes": 40,
+        "block_bytes": 32,
+        "capacity": 32,
+        "descriptor_bytes": 48
+      },
+      "ledger_passed": true
+    },
+    {
+      "abort_probes": [
+        "stale",
+        "double",
+        "length",
+        "alignment",
+        "instance",
+        "read-released"
+      ],
+      "fault_injection": true,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O0",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DCAPACITY=32",
+        "-DTV_REGION_TEST_FAULT"
+      ],
+      "layout": {
+        "allocation_bytes": 40,
+        "block_bytes": 32,
+        "capacity": 32,
+        "descriptor_bytes": 48
+      },
+      "ledger_passed": true
+    },
+    {
+      "abort_probes": [
+        "stale",
+        "double",
+        "length",
+        "alignment",
+        "instance",
+        "read-released"
+      ],
+      "fault_injection": false,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O2",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DCAPACITY=32"
+      ],
+      "layout": {
+        "allocation_bytes": 40,
+        "block_bytes": 32,
+        "capacity": 32,
+        "descriptor_bytes": 48
+      },
+      "ledger_passed": true
+    },
+    {
+      "abort_probes": [
+        "stale",
+        "double",
+        "length",
+        "alignment",
+        "instance",
+        "read-released"
+      ],
+      "fault_injection": true,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O2",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DCAPACITY=32",
+        "-DTV_REGION_TEST_FAULT"
+      ],
+      "layout": {
+        "allocation_bytes": 40,
+        "block_bytes": 32,
+        "capacity": 32,
+        "descriptor_bytes": 48
+      },
+      "ledger_passed": true
+    },
+    {
+      "abort_probes": [
+        "stale",
+        "double",
+        "length",
+        "alignment",
+        "instance",
+        "read-released"
+      ],
+      "fault_injection": false,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O0",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DCAPACITY=4096"
+      ],
+      "layout": {
+        "allocation_bytes": 40,
+        "block_bytes": 32,
+        "capacity": 4096,
+        "descriptor_bytes": 48
+      },
+      "ledger_passed": true
+    },
+    {
+      "abort_probes": [
+        "stale",
+        "double",
+        "length",
+        "alignment",
+        "instance",
+        "read-released"
+      ],
+      "fault_injection": true,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O0",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DCAPACITY=4096",
+        "-DTV_REGION_TEST_FAULT"
+      ],
+      "layout": {
+        "allocation_bytes": 40,
+        "block_bytes": 32,
+        "capacity": 4096,
+        "descriptor_bytes": 48
+      },
+      "ledger_passed": true
+    },
+    {
+      "abort_probes": [
+        "stale",
+        "double",
+        "length",
+        "alignment",
+        "instance",
+        "read-released"
+      ],
+      "fault_injection": false,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O2",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DCAPACITY=4096"
+      ],
+      "layout": {
+        "allocation_bytes": 40,
+        "block_bytes": 32,
+        "capacity": 4096,
+        "descriptor_bytes": 48
+      },
+      "ledger_passed": true
+    },
+    {
+      "abort_probes": [
+        "stale",
+        "double",
+        "length",
+        "alignment",
+        "instance",
+        "read-released"
+      ],
+      "fault_injection": true,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O2",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DCAPACITY=4096",
+        "-DTV_REGION_TEST_FAULT"
+      ],
+      "layout": {
+        "allocation_bytes": 40,
+        "block_bytes": 32,
+        "capacity": 4096,
+        "descriptor_bytes": 48
+      },
+      "ledger_passed": true
+    }
+  ],
+  "inputs": [
+    {
+      "path": "experiments/supplied-storage/runtime.h",
+      "sha256": "52f65fc89784228d07c193d6a451859660db7ce7232799e63a8ceedadf14b60d",
+      "text": "/* Experimental hosted C11 single-slot runtime. No Talven source support.\n * Callers supply aligned storage and keep every descriptor alive while its\n * published owner is live. Initialization starts a fresh logical origin lifetime;\n * do not reinitialize while earlier tokens are considered valid. Descriptor fields\n * are private runtime state apart from explicitly controlled trusted test probes.\n * Metadata is not a foreign-pointer security boundary.\n * TV_REGION_TEST_FAULT enables only trusted test instrumentation.\n */\n#ifndef TALVEN_REGION_RUNTIME_V1_H\n#define TALVEN_REGION_RUNTIME_V1_H\n#include <stdbool.h>\n#include <stddef.h>\n#include <stdint.h>\n#include <stdlib.h>\n\ntypedef struct {\n    uint8_t *storage;\n    size_t capacity;\n    uint64_t instance;\n    size_t live_size;\n    size_t live_alignment;\n    bool occupied;\n} tv_region;\n\ntypedef struct {\n    tv_region *origin;\n    uint64_t instance;\n    size_t length;\n    size_t alignment;\n} tv_block;\n\nenum { TV_GRANTED = 0, TV_INVALID_REQUEST = 1, TV_EXHAUSTED = 2 };\ntypedef struct {\n    uint32_t tag;\n    union { tv_block block; } payload;\n} tv_allocation;\n\nenum { TV_READ_VALUE = 0, TV_READ_OUT_OF_BOUNDS = 1 };\ntypedef struct { uint32_t tag; int32_t value; } tv_byte_read;\nenum { TV_WRITTEN = 0, TV_WRITE_OUT_OF_BOUNDS = 1, TV_INVALID_BYTE = 2 };\n\n#ifdef TV_REGION_TEST_FAULT\nextern bool tv_region_test_fault(uint32_t step);\n#endif\n\nstatic inline void tv_region_require(bool condition) {\n    if (!condition) { abort(); }\n}\n\nstatic inline void tv_region_init(tv_region *region, uint8_t *storage, size_t capacity) {\n    tv_region_require(region != NULL && storage != NULL);\n    tv_region_require(capacity >= 1 && capacity <= 4096);\n    tv_region_require(((uintptr_t)storage % 16) == 0);\n    *region = (tv_region){.storage = storage, .capacity = capacity};\n}\n\nstatic inline tv_allocation tv_region_reserve(tv_region *region, int32_t size, int32_t alignment) {\n    tv_region_require(region != NULL);\n    if (size <= 0 || !(alignment == 1 || alignment == 2 || alignment == 4 ||\n                      alignment == 8 || alignment == 16)) {\n        return (tv_allocation){.tag = TV_INVALID_REQUEST};\n    }\n    if ((size_t)size > region->capacity || region->occupied || region->instance == UINT64_MAX) {\n        return (tv_allocation){.tag = TV_EXHAUSTED};\n    }\n    region->instance += UINT64_C(1);\n    region->occupied = true;\n    region->live_size = (size_t)size;\n    region->live_alignment = (size_t)alignment;\n#ifdef TV_REGION_TEST_FAULT\n    if (tv_region_test_fault(0)) { goto rollback; }\n#endif\n    for (size_t i = 0; i < (size_t)size; ++i) {\n#ifdef TV_REGION_TEST_FAULT\n        if (tv_region_test_fault((uint32_t)i + 1)) { goto rollback; }\n#endif\n        region->storage[i] = 0;\n    }\n#ifdef TV_REGION_TEST_FAULT\n    if (tv_region_test_fault((uint32_t)size + 1)) { goto rollback; }\n#endif\n    return (tv_allocation){.tag = TV_GRANTED, .payload.block = {\n        .origin = region, .instance = region->instance,\n        .length = (size_t)size, .alignment = (size_t)alignment\n    }};\n#ifdef TV_REGION_TEST_FAULT\nrollback:\n    region->occupied = false;\n    region->live_size = 0;\n    region->live_alignment = 0;\n    return (tv_allocation){.tag = TV_EXHAUSTED};\n#endif\n}\n\nstatic inline tv_region *tv_region_owner(tv_block block) {\n    tv_region_require(block.origin != NULL);\n    tv_region *region = block.origin;\n    tv_region_require(region->occupied && block.instance == region->instance &&\n                      block.length == region->live_size && block.alignment == region->live_alignment);\n    return region;\n}\n\nstatic inline int32_t tv_region_release(tv_block block) {\n    tv_region *region = tv_region_owner(block);\n    region->occupied = false;\n    region->live_size = 0;\n    region->live_alignment = 0;\n    return 0;\n}\n\nstatic inline tv_byte_read tv_region_read(const tv_block *block, int32_t index) {\n    tv_region_require(block != NULL);\n    tv_region *region = tv_region_owner(*block);\n    if (index < 0 || (size_t)index >= block->length) {\n        return (tv_byte_read){.tag = TV_READ_OUT_OF_BOUNDS};\n    }\n    return (tv_byte_read){.tag = TV_READ_VALUE, .value = region->storage[(size_t)index]};\n}\n\nstatic inline uint32_t tv_region_write(tv_block *block, int32_t index, int32_t value) {\n    tv_region_require(block != NULL);\n    tv_region *region = tv_region_owner(*block);\n    if (index < 0 || (size_t)index >= block->length) { return TV_WRITE_OUT_OF_BOUNDS; }\n    if (value < 0 || value > 255) { return TV_INVALID_BYTE; }\n    region->storage[(size_t)index] = (uint8_t)value;\n    return TV_WRITTEN;\n}\n#endif\n"
+    },
+    {
+      "path": "tests/fixtures/region-runtime-driver.c",
+      "sha256": "938b28a67a41b190652bef6ef1fc14e11e79a2df4cccc61344f4d2b125e6375a",
+      "text": "#include <limits.h>\n#include <stdio.h>\n#include <string.h>\n#include \"runtime.h\"\n#ifndef CAPACITY\n#define CAPACITY 32\n#endif\n#define REQUIRE(x) do { if (!(x)) { fprintf(stderr, \"oracle:%d\\n\", __LINE__); exit(41); } } while (0)\n\nstatic int32_t fail_at = -1;\nstatic uint32_t fault_calls;\nbool tv_region_test_fault(uint32_t step) {\n    REQUIRE(step == fault_calls);\n    fault_calls += 1;\n    return fail_at >= 0 && step == (uint32_t)fail_at;\n}\n\ntypedef struct {\n    uint8_t bytes[CAPACITY + 32];\n    uint64_t epoch;\n    bool live;\n    size_t size;\n    size_t alignment;\n    unsigned requests;\n    unsigned releases;\n} ledger;\n\nstatic void observe(tv_region *region, uint8_t *storage, const ledger *model) {\n    REQUIRE(region->storage == storage + 16);\n    REQUIRE(region->capacity == CAPACITY);\n    REQUIRE(region->instance == model->epoch);\n    REQUIRE(region->occupied == model->live);\n    REQUIRE(region->live_size == model->size);\n    REQUIRE(region->live_alignment == model->alignment);\n    REQUIRE(memcmp(storage, model->bytes, sizeof(model->bytes)) == 0);\n}\n\nstatic void fresh(tv_region *region, uint8_t *storage, ledger *model) {\n    memset(storage, 0xa5, CAPACITY + 32);\n    *model = (ledger){0};\n    memset(model->bytes, 0xa5, sizeof(model->bytes));\n    tv_region_init(region, storage + 16, CAPACITY);\n    observe(region, storage, model);\n}\n\nstatic tv_allocation reserve_checked(tv_region *region, uint8_t *storage, ledger *model,\n                                     int32_t size, int32_t alignment) {\n    bool valid = size > 0 && (alignment == 1 || alignment == 2 || alignment == 4 ||\n                              alignment == 8 || alignment == 16);\n    bool space = valid && (size_t)size <= CAPACITY && !model->live && model->epoch != UINT64_MAX;\n    uint32_t expected = !valid ? TV_INVALID_REQUEST : !space ? TV_EXHAUSTED : TV_GRANTED;\n    if (space) {\n        model->epoch += UINT64_C(1);\n        bool failed = fail_at >= 0 && fail_at <= size + 1;\n        size_t initialized = failed ? (fail_at <= 1 ? 0 : (size_t)fail_at - 1) : (size_t)size;\n        memset(model->bytes + 16, 0, initialized);\n        if (failed) { expected = TV_EXHAUSTED; }\n        else { model->live = true; model->size = (size_t)size; model->alignment = (size_t)alignment; }\n    }\n    fault_calls = 0;\n    tv_allocation result = tv_region_reserve(region, size, alignment);\n    model->requests += 1;\n    REQUIRE(result.tag == expected);\n#ifdef TV_REGION_TEST_FAULT\n    REQUIRE(fault_calls == (!space ? 0 : expected == TV_GRANTED ? (uint32_t)size + 2 : (uint32_t)fail_at + 1));\n#else\n    REQUIRE(fault_calls == 0);\n#endif\n    observe(region, storage, model);\n    if (expected == TV_GRANTED) {\n        REQUIRE(result.payload.block.origin == region);\n        REQUIRE(result.payload.block.instance == model->epoch);\n        REQUIRE(result.payload.block.length == model->size);\n        REQUIRE(result.payload.block.alignment == model->alignment);\n        REQUIRE(((uintptr_t)region->storage % model->alignment) == 0);\n    }\n    return result;\n}\n\nstatic void release_checked(tv_region *region, uint8_t *storage, ledger *model, tv_block block) {\n    REQUIRE(model->live && block.origin == region && block.instance == model->epoch);\n    REQUIRE(tv_region_release(block) == 0);\n    model->live = false;\n    model->size = model->alignment = 0;\n    model->releases += 1;\n    observe(region, storage, model);\n}\n\nstatic void accesses(tv_region *region, uint8_t *storage, ledger *model, tv_block block) {\n    int32_t indices[] = {INT32_MIN, -1, 0, (int32_t)block.length - 1, (int32_t)block.length, INT32_MAX};\n    int32_t values[] = {INT32_MIN, -1, 0, 1, 255, 256, INT32_MAX};\n    for (unsigned i = 0; i < sizeof(indices)/sizeof(indices[0]); ++i) {\n        for (unsigned v = 0; v < sizeof(values)/sizeof(values[0]); ++v) {\n            int32_t index = indices[i], value = values[v];\n            uint32_t expected = index < 0 || (size_t)index >= model->size ? TV_WRITE_OUT_OF_BOUNDS :\n                                value < 0 || value > 255 ? TV_INVALID_BYTE : TV_WRITTEN;\n            REQUIRE(tv_region_write(&block, index, value) == expected);\n            if (expected == TV_WRITTEN) { model->bytes[16 + (size_t)index] = (uint8_t)value; }\n            observe(region, storage, model);\n            tv_byte_read read = tv_region_read(&block, index);\n            bool valid = index >= 0 && (size_t)index < model->size;\n            REQUIRE(read.tag == (valid ? TV_READ_VALUE : TV_READ_OUT_OF_BOUNDS));\n            if (valid) { REQUIRE(read.value == model->bytes[16 + (size_t)index]); }\n        }\n    }\n}\n\nint main(int argc, char **argv) {\n    _Alignas(16) uint8_t storage[CAPACITY + 32];\n    tv_region region;\n    ledger model;\n    if (argc > 1) {\n        fresh(&region, storage, &model);\n        tv_block old = reserve_checked(&region, storage, &model, 1, 1).payload.block;\n        if (strcmp(argv[1], \"stale\") == 0) {\n            release_checked(&region, storage, &model, old);\n            (void)reserve_checked(&region, storage, &model, 1, 1);\n            (void)tv_region_release(old);\n        } else if (strcmp(argv[1], \"double\") == 0) {\n            release_checked(&region, storage, &model, old);\n            (void)tv_region_release(old);\n        } else if (strcmp(argv[1], \"length\") == 0) {\n            old.length += 1;\n            (void)tv_region_release(old);\n        } else if (strcmp(argv[1], \"alignment\") == 0) {\n            old.alignment = 16;\n            (void)tv_region_release(old);\n        } else if (strcmp(argv[1], \"instance\") == 0) {\n            old.instance = 0;\n            (void)tv_region_release(old);\n        } else if (strcmp(argv[1], \"read-released\") == 0) {\n            release_checked(&region, storage, &model, old);\n            (void)tv_region_read(&old, 0);\n        } else { return 42; }\n        return 0; /* A negative contract probe must abort, never return normally. */\n    }\n    int32_t sizes[] = {INT32_MIN, -1, 0, 1, CAPACITY, CAPACITY + 1, INT32_MAX};\n    int32_t alignments[] = {INT32_MIN, -1, 0, 1, 2, 3, 4, 8, 16, 17, INT32_MAX};\n    for (unsigned s = 0; s < sizeof(sizes)/sizeof(sizes[0]); ++s) {\n        for (unsigned a = 0; a < sizeof(alignments)/sizeof(alignments[0]); ++a) {\n            fresh(&region, storage, &model);\n            tv_allocation result = reserve_checked(&region, storage, &model, sizes[s], alignments[a]);\n            if (result.tag == TV_GRANTED) {\n                accesses(&region, storage, &model, result.payload.block);\n                (void)reserve_checked(&region, storage, &model, 1, 1); /* preserves existing owner */\n                release_checked(&region, storage, &model, result.payload.block);\n            }\n            REQUIRE(!model.live);\n            tv_block reuse = reserve_checked(&region, storage, &model, 1, 1).payload.block;\n            release_checked(&region, storage, &model, reuse);\n            REQUIRE(model.requests >= 2 && model.releases >= 1 && !model.live);\n        }\n    }\n#ifdef TV_REGION_TEST_FAULT\n    int32_t counts[] = {1, CAPACITY};\n    for (unsigned n = 0; n < sizeof(counts)/sizeof(counts[0]); ++n) {\n        for (int32_t fault = 0; fault <= counts[n] + 1; ++fault) {\n            fresh(&region, storage, &model);\n            fail_at = fault;\n            REQUIRE(reserve_checked(&region, storage, &model, counts[n], 16).tag == TV_EXHAUSTED);\n            REQUIRE(!model.live && model.epoch == 1);\n            fail_at = -1;\n            tv_block retry = reserve_checked(&region, storage, &model, counts[n], 16).payload.block;\n            accesses(&region, storage, &model, retry);\n            release_checked(&region, storage, &model, retry);\n            REQUIRE(model.epoch == 2 && model.releases == 1 && model.requests == 2 && !model.live);\n        }\n    }\n#endif\n    fresh(&region, storage, &model);\n    region.instance = model.epoch = UINT64_MAX - 1;\n    tv_block last = reserve_checked(&region, storage, &model, 1, 1).payload.block;\n    REQUIRE(last.instance == UINT64_MAX);\n    release_checked(&region, storage, &model, last);\n    REQUIRE(reserve_checked(&region, storage, &model, 1, 1).tag == TV_EXHAUSTED);\n    REQUIRE(model.epoch == UINT64_MAX && !model.live);\n    printf(\"{\\\"capacity\\\":%d,\\\"descriptor_bytes\\\":%zu,\\\"block_bytes\\\":%zu,\\\"allocation_bytes\\\":%zu}\\n\",\n           CAPACITY, sizeof(tv_region), sizeof(tv_block), sizeof(tv_allocation));\n    return 0;\n}\n"
+    },
+    {
+      "path": "scripts/check-region-runtime.py",
+      "sha256": "89c7f8d3672d52086874238c57ca495adbb10888bde704c6bb3c2bb92e185684",
+      "text": "#!/usr/bin/env python3\n\"\"\"Verify the C runtime prototype with an independent ledger; no Talven grammar.\"\"\"\nimport argparse\nimport hashlib\nimport json\nimport os\nfrom pathlib import Path\nimport platform\nimport resource\nimport shutil\nimport signal\nimport subprocess\nimport tempfile\n\nROOT = Path(__file__).resolve().parents[1]\nSOURCES = ('experiments/supplied-storage/runtime.h', 'tests/fixtures/region-runtime-driver.c',\n           'scripts/check-region-runtime.py')\n\n\ndef run(command, *, timeout=30):\n    result = subprocess.run(command, capture_output=True, text=True, timeout=timeout)\n    if result.returncode:\n        raise RuntimeError(f'Trusted tool failed: {result.stderr or result.stdout}')\n    return result.stdout\n\n\ndef verify():\n    if platform.system() not in ('Linux', 'Darwin'):\n        raise RuntimeError('This prototype requires the declared Linux/macOS hosted test boundary')\n    if not shutil.which('cc') or not shutil.which('nm'):\n        raise RuntimeError('The runtime gate requires cc and nm; skipping is not evidence')\n    resource.setrlimit(resource.RLIMIT_CORE, (0, 0))\n    inputs = {name: (ROOT / name).read_bytes() for name in SOURCES}\n    flags = ['-std=c11', '-Wall', '-Wextra', '-Werror', '-pedantic-errors']\n    sanitizers = ['-fsanitize=address,undefined', '-fno-sanitize-recover=all']\n    records = []\n    with tempfile.TemporaryDirectory(prefix='talven-regions-') as temporary:\n        directory = Path(temporary)\n        # Compile the exact captured input bytes, then reject observed changes.\n        (directory / 'runtime.h').write_bytes(inputs[SOURCES[0]])\n        (directory / 'driver.c').write_bytes(inputs[SOURCES[1]])\n        executable = directory / 'check'\n        for capacity in (1, 32, 4096):\n            for optimization in ('-O0', '-O2'):\n                for fault in (False, True):\n                    settings = [*flags, optimization, *sanitizers, f'-DCAPACITY={capacity}']\n                    if fault:\n                        settings.append('-DTV_REGION_TEST_FAULT')\n                    run(['cc', *settings, str(directory / 'driver.c'), '-o', str(executable)])\n                    result = subprocess.run([str(executable)], capture_output=True, text=True, timeout=30)\n                    if result.returncode or result.stderr:\n                        raise RuntimeError('Independent runtime ledger failed: ' + result.stderr)\n                    layout = json.loads(result.stdout)\n                    if set(layout) != {'capacity', 'descriptor_bytes', 'block_bytes', 'allocation_bytes'} or layout['capacity'] != capacity:\n                        raise RuntimeError('Unexpected runtime layout receipt')\n                    for key in ('descriptor_bytes', 'block_bytes', 'allocation_bytes'):\n                        if type(layout[key]) is not int or layout[key] <= 0:\n                            raise RuntimeError('Invalid measured C layout')\n                    probes = []\n                    for probe in ('stale', 'double', 'length', 'alignment', 'instance', 'read-released'):\n                        result = subprocess.run([str(executable), probe], capture_output=True, text=True, timeout=5)\n                        if result.returncode != -signal.SIGABRT:\n                            raise RuntimeError('Contract probe did not abort: ' + probe)\n                        if 'AddressSanitizer' in result.stderr or 'runtime error:' in result.stderr:\n                            raise RuntimeError('Contract probe caused a sanitizer failure: ' + probe)\n                        probes.append(probe)\n                    records.append({'flags': settings, 'fault_injection': fault, 'layout': layout,\n                                    'ledger_passed': True, 'abort_probes': probes})\n        wrapper = directory / 'production.c'\n        wrapper.write_text('''#include \"runtime.h\"\nvoid init(tv_region *r, uint8_t *s, size_t n) { tv_region_init(r,s,n); }\ntv_allocation reserve(tv_region *r, int32_t n, int32_t a) { return tv_region_reserve(r,n,a); }\nint32_t release(tv_block b) { return tv_region_release(b); }\ntv_byte_read read_byte(const tv_block *b, int32_t i) { return tv_region_read(b,i); }\nuint32_t write_byte(tv_block *b, int32_t i, int32_t v) { return tv_region_write(b,i,v); }\n''')\n        obj = directory / 'production.o'\n        run(['cc', *flags, '-O2', '-c', str(wrapper), '-o', str(obj)])\n        undefined = run(['nm', '-u', str(obj)])\n        symbols = sorted(line.split()[-1].lstrip('_') for line in undefined.splitlines() if line.split())\n        permitted = {'abort', 'memset', 'memcpy', 'memmove', 'stack_chk_fail',\n                     'stack_chk_guard', 'GLOBAL_OFFSET_TABLE_'}\n        if set(symbols) - permitted:\n            raise RuntimeError('Production object has an unapproved dependency: ' +\n                               ', '.join(sorted(set(symbols) - permitted)))\n        # The generated wrapper is retained so dependency inspection can be repeated.\n        production_wrapper = wrapper.read_text()\n    if any((ROOT / name).read_bytes() != data for name, data in inputs.items()):\n        raise RuntimeError('Observed runtime gate input change; rerun with stable sources')\n    return {'schema': 'talven.region-runtime-check.v1', 'profile': 'c11-single-slot-regions-v1',\n            'validation': 'C-runtime-only; no Talven lifetime checking', 'ok': True,\n            'environment': {'system': platform.system(), 'release': platform.release(),\n                            'machine': platform.machine(), 'logical_cpus': os.cpu_count(),\n                            'c_target': run(['cc', '-dumpmachine']).strip(),\n                            'c_version': run(['cc', '--version']).splitlines()[0]},\n            'inputs': [{'path': name, 'sha256': hashlib.sha256(data).hexdigest(),\n                        'text': data.decode('utf-8')} for name, data in inputs.items()],\n            'executions': records, 'positive_executions': len(records),\n            'negative_trap_executions': sum(len(r['abort_probes']) for r in records),\n            'production': {'flags': [*flags, '-O2'], 'wrapper': production_wrapper,\n                           'undefined_symbols': symbols,\n                           'permitted_symbols': sorted(permitted),\n                           'dependency_scope': 'this object; excludes hosted startup/libc internals'},\n            'limits': ['C callers must keep aligned storage and live descriptors valid',\n                       'no source move, loan, scope-exit or consume-and-release checking',\n                       'layout excludes backing capacity, live temporaries and test ledger',\n                       'no latency, total stack, executable-size or agent-benefit measurement']}\n\n\ndef main():\n    parser = argparse.ArgumentParser(description=__doc__)\n    parser.add_argument('--out', type=Path, help='Create a new JSON evidence file; default stdout')\n    args = parser.parse_args()\n    if args.out and args.out.exists():\n        parser.error('--out must be a new file')\n    report = verify()\n    data = json.dumps(report, sort_keys=True, indent=2) + '\\n'\n    if args.out:\n        args.out.parent.mkdir(parents=True, exist_ok=True)\n        with args.out.open('x', encoding='utf-8') as output:\n            output.write(data)\n    else:\n        print(data, end='')\n\n\nif __name__ == '__main__':\n    main()\n"
+    }
+  ],
+  "limits": [
+    "C callers must keep aligned storage and live descriptors valid",
+    "no source move, loan, scope-exit or consume-and-release checking",
+    "layout excludes backing capacity, live temporaries and test ledger",
+    "no latency, total stack, executable-size or agent-benefit measurement"
+  ],
+  "negative_trap_executions": 72,
+  "ok": true,
+  "positive_executions": 12,
+  "production": {
+    "dependency_scope": "this object; excludes hosted startup/libc internals",
+    "flags": [
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic-errors",
+      "-O2"
+    ],
+    "permitted_symbols": [
+      "GLOBAL_OFFSET_TABLE_",
+      "abort",
+      "memcpy",
+      "memmove",
+      "memset",
+      "stack_chk_fail",
+      "stack_chk_guard"
+    ],
+    "undefined_symbols": [
+      "abort"
+    ],
+    "wrapper": "#include \"runtime.h\"\nvoid init(tv_region *r, uint8_t *s, size_t n) { tv_region_init(r,s,n); }\ntv_allocation reserve(tv_region *r, int32_t n, int32_t a) { return tv_region_reserve(r,n,a); }\nint32_t release(tv_block b) { return tv_region_release(b); }\ntv_byte_read read_byte(const tv_block *b, int32_t i) { return tv_region_read(b,i); }\nuint32_t write_byte(tv_block *b, int32_t i, int32_t v) { return tv_region_write(b,i,v); }\n"
+  },
+  "profile": "c11-single-slot-regions-v1",
+  "schema": "talven.region-runtime-check.v1",
+  "validation": "C-runtime-only; no Talven lifetime checking"
+}

@@ -101,8 +101,11 @@ companion profile: nominal alternatives, scalar/record payloads, exhaustive cons
 matches and must-handle checking in reference and native compilers.
 [Proposal 0041](proposals/0041-supplied-storage-regions.md) drafts the next slice:
 stable lexical supplied-storage regions, one linear byte block per slot, explicit
-release and no block-bearing function results. Exact representation and region-aware
-checking still need implementation; heap containers and an executor remain later.
+release and no block-bearing function results. [Proposal 0042](proposals/0042-supplied-storage-c-runtime.md)
+implements a standalone C descriptor/owner prototype with independent ledger,
+initialization rollback and sanitizer/trap gates. Region-aware frontend checking
+and compiler emission remain the next implementation gate; heap containers and
+an executor remain later.
 
 Add allocator interfaces, containers, typed failures, structured tasks, cancellation, synchronization, and a selected optional executor.
 
