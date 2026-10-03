@@ -746,7 +746,7 @@ class Checker:
                 origin = f"{self.function.name.text}:region:{stmt.name.span.start}"
                 state.regions[stmt.name.text] = origin
                 state.resources[origin] = "free"
-                self.reference(stmt.name.span, stmt.name.span, f"region {stmt.name.text} ({int(stmt.expr.value.lstrip("0") or "0")} bytes; lexical)")
+                self.reference(stmt.name.span, stmt.name.span, f"region {stmt.name.text} ({int(stmt.expr.value.lstrip('0') or '0')} bytes; lexical)")
                 reachable = self.block(stmt.then, state)
                 if reachable and state.resources[origin] != "free":
                     self.error("E0321", "Region leaves scope with an outstanding owner or reservation", stmt.name.span)

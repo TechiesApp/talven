@@ -318,7 +318,7 @@
     ]
   },
   "profile": "m2-supplied-blocks-v1",
-  "reference_comparison_hash": "7c7dd8227359d08c707934510d960524c61d889901065b09d082ced23e6ce9a4",
+  "reference_comparison_hash": "ad5e01db93628bc9b760bac64645805ed7e2afa7033a46a11f60988c7b56f357",
   "runtime_inputs": [
     {
       "path": "experiments/supplied-storage/runtime.h",
