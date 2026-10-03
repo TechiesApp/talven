@@ -21,7 +21,7 @@ The retained [archive](../experiments/results/pilot-codex-current-20261003/READM
 
 The [adapter](../experiments/adapters/codex_cli.py) follows [Proposal 0033](proposals/0033-codex-subscription-evaluation.md): fresh ephemeral read-only sessions, pinned guide replacing built-in instructions, no project/user instruction injection, restricted tools and strict terminal receipts. Both conditions use identical transport framing. Model and tokenizer snapshot identities are not exposed by this CLI.
 
-The unchanged large-task verifier checks protected declarations, required stages, and both result and final account state over 24 native inputs per candidate. Every retained candidate passes canonical-format checks. All six fresh native reverifications pass with the original C toolchain identity. The model returned mutable scalar running values, which the current profile permits; this is not evidence that mutable syntax caused a repair reduction.
+The unchanged large-task verifier checks protected declarations, required stages, and both result and final account state over 24 native inputs per candidate. Every retained candidate passes canonical-format checks. All six fresh native reverifications pass with the original C toolchain identity. A separate current-compiler regression test rechecks the retained candidates in the required native CI jobs; these future checks are separate from historical replay. The model returned mutable scalar running values, which the current profile permits; this is not evidence that mutable syntax caused a repair reduction.
 
 ## Observation
 
