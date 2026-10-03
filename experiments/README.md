@@ -126,6 +126,10 @@ The adapter path is a locally prepared pinned configuration, not a bundled file.
 This example plans eight trials and at most sixteen invocations; it is not a
 dollar/token quota. A fixture run establishes harness behavior only.
 
+The [first module pilot](../docs/codex-module-pilot-evidence.md) completed eight
+first-attempt passes under the pinned Codex selector. Added context used more
+input tokens; no comparative cost benefit or M1 completion is claimed.
+
 ## Context and repair protocol
 
 - `--context source`: the pinned [language reference](../docs/language-reference.md), task instructions, and complete current task source.

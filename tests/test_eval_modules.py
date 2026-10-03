@@ -1,5 +1,6 @@
 """Multi-file corpus acceptance, immutable inputs and bounded prompt integration."""
 import json
+import hashlib
 from pathlib import Path
 import shutil
 import subprocess
@@ -60,6 +61,23 @@ class ModuleCorpusTests(unittest.TestCase):
 
 @unittest.skipUnless(shutil.which("cc"), "Native module acceptance requires cc")
 class ModuleAcceptanceTests(unittest.TestCase):
+    def test_retained_codex_module_candidates_under_current_trusted_verifier(self):
+        archive = Path(__file__).resolve().parents[1] / 'experiments/results/pilot-codex-modules-20261003'
+        run = json.loads((archive / 'run.json').read_text())
+        self.assertTrue(run['complete'])
+        self.assertEqual(8, len(run['trials']))
+        self.assertEqual({1, 2}, {t['repetition'] for t in run['trials']})
+        for trial in run['trials']:
+            self.assertIn(trial['task'], MODULE_TASKS)
+            self.assertIn(trial['context_mode'], ('source', 'compiler'))
+            self.assertEqual(1, len(trial['attempts']))
+            attempt = trial['attempts'][0]
+            source = (archive / trial['id'] / 'attempt-000/task.tal').read_bytes()
+            self.assertEqual(attempt['source_sha256'], hashlib.sha256(source).hexdigest())
+            # Current trusted compiler/verifier only; no archive-supplied commands.
+            result = verify(trial['task'], source.decode())
+            self.assertEqual('passed', result['status'], result['feedback'])
+
     def test_each_return_must_feed_the_pipeline_instead_of_inlined_arithmetic(self):
         for task in MODULE_TASKS:
             definition = solution(task)

@@ -1,0 +1,242 @@
+{
+  "by_context": {
+    "compiler": {
+      "attempts": 4,
+      "cache_write_input_tokens": null,
+      "cached_input_tokens": 0,
+      "complete_cost_tasks": 0,
+      "correct_tasks": 4,
+      "correctness_interval_95_excluding_errors": [
+        0.5101091635454027,
+        1.0
+      ],
+      "correctness_rate": 1.0,
+      "correctness_rate_excluding_errors": 1.0,
+      "cost_per_correct_task_usd": null,
+      "error_tasks": 0,
+      "failed_tasks": 0,
+      "input_tokens": 73126,
+      "model_cost_usd": null,
+      "output_tokens": 1870,
+      "repair_attempts": 0,
+      "tasks": 4,
+      "tool_cost_usd": null,
+      "total_task_cost_usd": null,
+      "verification_cost_usd": null
+    },
+    "source": {
+      "attempts": 4,
+      "cache_write_input_tokens": null,
+      "cached_input_tokens": 0,
+      "complete_cost_tasks": 0,
+      "correct_tasks": 4,
+      "correctness_interval_95_excluding_errors": [
+        0.5101091635454027,
+        1.0
+      ],
+      "correctness_rate": 1.0,
+      "correctness_rate_excluding_errors": 1.0,
+      "cost_per_correct_task_usd": null,
+      "error_tasks": 0,
+      "failed_tasks": 0,
+      "input_tokens": 46416,
+      "model_cost_usd": null,
+      "output_tokens": 1870,
+      "repair_attempts": 0,
+      "tasks": 4,
+      "tool_cost_usd": null,
+      "total_task_cost_usd": null,
+      "verification_cost_usd": null
+    }
+  },
+  "corpus_version": "m1-module-tasks-v1",
+  "cost_scope": "model + adapter tools + measured verification; excludes human labor",
+  "measurement_kind": "live",
+  "paired": {
+    "both_passed": 4,
+    "conditions": [
+      "source",
+      "compiler"
+    ],
+    "exact_mcnemar_p": null,
+    "excluded_error_pairs": 0,
+    "neither": 0,
+    "only_compiler": 0,
+    "only_source": 0,
+    "pairs": 4
+  },
+  "planned_trials": 8,
+  "run_complete": true,
+  "schema": "talven.eval.report.v1",
+  "summary": {
+    "attempts": 8,
+    "cache_write_input_tokens": null,
+    "cached_input_tokens": 0,
+    "complete_cost_tasks": 0,
+    "correct_tasks": 8,
+    "correctness_interval_95_excluding_errors": [
+      0.6755924351161198,
+      1.0
+    ],
+    "correctness_rate": 1.0,
+    "correctness_rate_excluding_errors": 1.0,
+    "cost_per_correct_task_usd": null,
+    "error_tasks": 0,
+    "failed_tasks": 0,
+    "input_tokens": 119542,
+    "model_cost_usd": null,
+    "output_tokens": 3740,
+    "repair_attempts": 0,
+    "tasks": 8,
+    "tool_cost_usd": null,
+    "total_task_cost_usd": null,
+    "verification_cost_usd": null
+  },
+  "trials": [
+    {
+      "elapsed_seconds": 27.185037499992177,
+      "id": "module-pipeline-8-compiler-002",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 18273,
+        "model_cost_usd": null,
+        "output_tokens": 393,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 33.965408458025195,
+      "id": "module-pipeline-12-source-002",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 11611,
+        "model_cost_usd": null,
+        "output_tokens": 525,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 30.233490624988917,
+      "id": "module-pipeline-12-compiler-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 18287,
+        "model_cost_usd": null,
+        "output_tokens": 531,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 23.41210462502204,
+      "id": "module-pipeline-8-compiler-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 18277,
+        "model_cost_usd": null,
+        "output_tokens": 415,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 29.437306875013746,
+      "id": "module-pipeline-12-source-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 11613,
+        "model_cost_usd": null,
+        "output_tokens": 531,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 30.85667516704416,
+      "id": "module-pipeline-12-compiler-002",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 18289,
+        "model_cost_usd": null,
+        "output_tokens": 531,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 14.78436624997994,
+      "id": "module-pipeline-8-source-002",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 11597,
+        "model_cost_usd": null,
+        "output_tokens": 399,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 24.388695708999876,
+      "id": "module-pipeline-8-source-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 11595,
+        "model_cost_usd": null,
+        "output_tokens": 415,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    }
+  ],
+  "verification_cost_receipts": {}
+}

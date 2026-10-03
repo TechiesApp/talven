@@ -1,0 +1,2575 @@
+{
+  "corpus_version": "m1-module-tasks-v1",
+  "environment": {
+    "c_flags": [
+      "-std=c11",
+      "-O2"
+    ],
+    "cc": "cc",
+    "cc_sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+    "cc_target": "arm64-apple-darwin27.0.0",
+    "cc_version": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+    "compiler_hash": "fd90acc5ad6c85e0ca17af42043f41b732778bb1837050f14d8cbfa49d43cab9",
+    "compiler_version": "0.5.0-dev",
+    "language_profile": "m1-local-modules-v1",
+    "logical_cpus": 10,
+    "machine": "arm64",
+    "processor": "arm",
+    "python": "3.14.7",
+    "python_implementation": "CPython",
+    "release": "27.0.0",
+    "repository_dirty": false,
+    "repository_revision": "dc5cba341d427b812133b170f2420ac3d5d87636",
+    "system": "Darwin"
+  },
+  "matches_archive": true,
+  "note": "Fresh correctness checks only; no new model usage or billing measurements",
+  "schema": "talven.eval.reverification.v2",
+  "toolchain_matches_archive": true,
+  "trials": [
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared project frontend passed with fixed dependencies",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "keep all declarations and imports except pipeline's body",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native-values-and-trace passed",
+          "name": "native-values-and-trace",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_22 passed",
+          "name": "return-sensitivity-stage_22",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_02 passed",
+          "name": "return-sensitivity-stage_02",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_23 passed",
+          "name": "return-sensitivity-stage_23",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_05 passed",
+          "name": "return-sensitivity-stage_05",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_14 passed",
+          "name": "return-sensitivity-stage_14",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_20 passed",
+          "name": "return-sensitivity-stage_20",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_10 passed",
+          "name": "return-sensitivity-stage_10",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_04 passed",
+          "name": "return-sensitivity-stage_04",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.31185041699791327,
+          "error": null,
+          "original_argv_sha256": "bb6f42ee7da0d2d14c9f6c3a4538456aa223af126cb27bbb11a48df6eff5d4e6",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.14931275002891198,
+          "error": null,
+          "original_argv_sha256": "2ce549a8eff86a2140766f134c06cf14cfe2a679b5d8d9c7e2ca81bd66f6fe46",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10822558298241347,
+          "error": null,
+          "original_argv_sha256": "4c46c0b68d859a886556b8e417caea758c068104d060430b6f1a5a95d2ebb25a",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.044638584018684924,
+          "error": null,
+          "original_argv_sha256": "5497ad4478869c711a4bab35fc5705d5dfa34bd5f21a79bb16755024f4b4d707",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.09960887499619275,
+          "error": null,
+          "original_argv_sha256": "43abaa180eb85fa0b9f0e8afee1b9a1c71f0630d05b6a2d59eab95c23826b866",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.041371542029082775,
+          "error": null,
+          "original_argv_sha256": "3541bf6888b6020f6d41ab95ad0022f4f07df747cbc84cf4348688cc81b0f91c",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10620583296986297,
+          "error": null,
+          "original_argv_sha256": "54e14838c003b0094ea9398b8c7e2519075fe676a0695ec0786ec0176de558c2",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.03289345803204924,
+          "error": null,
+          "original_argv_sha256": "f293a343753172b61e6169056f36aee9cd6f8a492c246fc7178c157d8850e3c3",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10317741602193564,
+          "error": null,
+          "original_argv_sha256": "748549d3f3ab442e1bbec967f1afc2c80d07d32290c4ffd9543e0285642691d2",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.03709633299149573,
+          "error": null,
+          "original_argv_sha256": "8c3d911cf84c67d61dc4fadaff56d2143f40e2ea2766d6c7d0df711b26137c4b",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10732541600009426,
+          "error": null,
+          "original_argv_sha256": "149a4ccf816f30bb7ca210f078a881ab822cf9b7e3d4679add378c44b74ca0e6",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.0397882079705596,
+          "error": null,
+          "original_argv_sha256": "bbc199a7afda08f3c238ba89a43a524e14b833bfdc7c127bb0d166624dce6a91",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10685674997512251,
+          "error": null,
+          "original_argv_sha256": "f566195f4dfcc101fa32d38bf2f5a02e62231150a4ebf4a0d4489a92dad0306c",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04128829197725281,
+          "error": null,
+          "original_argv_sha256": "7e0d4606d0bdbc8a95edd9ae041b2e4249cf92337a6e88430a0582661228ce0a",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10620641702553257,
+          "error": null,
+          "original_argv_sha256": "57807d7e385f77713a9988686f5022733b792e824ed1d3e349e627279272cd70",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.040639375045429915,
+          "error": null,
+          "original_argv_sha256": "5ebb23a7bacf903331d03568aba5b74cdf3f51cd6484be6e1848633290aeef59",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10326166695449501,
+          "error": null,
+          "original_argv_sha256": "32a433695b2bf63898c3adc83d7749f4a9c6146d0f69e8c83dc228683ee5c726",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.06585812498815358,
+          "error": null,
+          "original_argv_sha256": "8cf4c2d751a7631112d5834658a035840abc5d0df467a4513eff5abbf88b910c",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        }
+      ],
+      "feedback": "all module task acceptance checks passed",
+      "id": "module-pipeline-8-compiler-002",
+      "matches_archive": true,
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared project frontend passed with fixed dependencies",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "keep all declarations and imports except pipeline's body",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native-values-and-trace passed",
+          "name": "native-values-and-trace",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_14 passed",
+          "name": "return-sensitivity-stage_14",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_01 passed",
+          "name": "return-sensitivity-stage_01",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_07 passed",
+          "name": "return-sensitivity-stage_07",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_05 passed",
+          "name": "return-sensitivity-stage_05",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_21 passed",
+          "name": "return-sensitivity-stage_21",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_13 passed",
+          "name": "return-sensitivity-stage_13",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_02 passed",
+          "name": "return-sensitivity-stage_02",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_19 passed",
+          "name": "return-sensitivity-stage_19",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_00 passed",
+          "name": "return-sensitivity-stage_00",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_16 passed",
+          "name": "return-sensitivity-stage_16",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_17 passed",
+          "name": "return-sensitivity-stage_17",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_09 passed",
+          "name": "return-sensitivity-stage_09",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.11347145796753466,
+          "error": null,
+          "original_argv_sha256": "658e2efc4963cdbc1ed495da4922b3001e1fd2fc79cac0a590a91bd4b15e0052",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04388441698392853,
+          "error": null,
+          "original_argv_sha256": "5f628095f8b7f25885997fe6505dcb6b357ffbdcb4cd64d80d2fb5ed41868c6d",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10939662501914427,
+          "error": null,
+          "original_argv_sha256": "9671ceb07c11e95eb593cbdc26b75ea2fc7f1b68a97dc5c0e5aa69318a31f8b4",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.050633791950531304,
+          "error": null,
+          "original_argv_sha256": "2794997f65bef94002c427d29b3db1d152a321c4768b85cd12b8f0d20d75d4cb",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.12102062499616295,
+          "error": null,
+          "original_argv_sha256": "59d9d2f61e699323733b93b0a3b2a4fb2ca9174cfc177b72ec4b48b91649a1c7",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.3311769170104526,
+          "error": null,
+          "original_argv_sha256": "e83378b3ba4bfeee4708e04e0c0cd52fe1e5ced76730a989fdeac2ebb17722f3",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.12033612502273172,
+          "error": null,
+          "original_argv_sha256": "52dcdd833e38b3410c3ef2a1b7f622742d207f77c9036f7ae1aba39bee78d2f1",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.038130833010654896,
+          "error": null,
+          "original_argv_sha256": "ea8cb0557e29289f0d2b8b30c8f836b432785255cc8ff036d9d0cfab7c170de6",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.13074516598135233,
+          "error": null,
+          "original_argv_sha256": "ab89a75423acf70bca1e9c6fd7224085f49321262119f678a19884ab92f494bc",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04144883301341906,
+          "error": null,
+          "original_argv_sha256": "6acb88c6eb923b353a319f301bdea1c82583d68bfd8a3bf90197d2e012aa8b6d",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.13175566698191687,
+          "error": null,
+          "original_argv_sha256": "cbc0725d9c297ed28c02e00a510ffe90956da815aae1b54f6fd52a9405480ca8",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.042894542042631656,
+          "error": null,
+          "original_argv_sha256": "7a413023a336050d7e333e6682956b9cac1527570b037064724b9cc41940a3c2",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1286824579583481,
+          "error": null,
+          "original_argv_sha256": "056badb0310443f9819f778f8f554f7ddcdb460b5159d97ad2f5874131bbf98c",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.040725457947701216,
+          "error": null,
+          "original_argv_sha256": "cd46134815327f1e5067a4f604adaeddda510ef0cd923373bd96e67d8e1d6bc6",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.14700174995232373,
+          "error": null,
+          "original_argv_sha256": "451b03620dd518a6a54d61b51af4cb5045fadb0d0e33255cbcf37a4a738ebe89",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.03904800000600517,
+          "error": null,
+          "original_argv_sha256": "ecc391090e2803f147482b2c4a6c1c6706a34bd738a49ab0300e40652d32f9b1",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1362186250044033,
+          "error": null,
+          "original_argv_sha256": "99a00e29ede5676e5a1aaeb556737860fe18062f1054c192f08da03f3faceb32",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.048344042035751045,
+          "error": null,
+          "original_argv_sha256": "7766f0fc55a88113406dbd159c549918101a4e048e94cd69ae9a585c4bb5f027",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.14807695796480402,
+          "error": null,
+          "original_argv_sha256": "58e087a7f56919631dc15954f4e2ac91a56083ef0d91ec12e852539482f49e09",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.041921583004295826,
+          "error": null,
+          "original_argv_sha256": "0f02429862d33815675b42c415166cdfdc92f002d88bf12b784ae1a2010140d1",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.13256220798939466,
+          "error": null,
+          "original_argv_sha256": "459e754f9f3d0c0cd8b1354dbc267435d2f38752623061130ffd05932a0692b4",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.03796116600278765,
+          "error": null,
+          "original_argv_sha256": "c79d17a8169d3361f44da2b24c9b488a5f55be8f8eb627c68db2f68658c90f5a",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.15994895802577958,
+          "error": null,
+          "original_argv_sha256": "7670b2ef61c10bfa601f2f46f37168573f82ce836e8a480f3c7401b8cb8a8175",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.06169312499696389,
+          "error": null,
+          "original_argv_sha256": "358ab551f33e7a06ebb113c4b426d965ebc92d1b1c4a597864111ca617fc688b",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1572123750229366,
+          "error": null,
+          "original_argv_sha256": "098ea8b8c61b1ec7a11a5710dc1bad973ccaa1fc076677b47f176a2fbf17f664",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.043068166996818036,
+          "error": null,
+          "original_argv_sha256": "ca701f3747d3c7eb53eb0ba7d8354e7e97a20e57bdd97ff4bf5d917a51fa302f",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        }
+      ],
+      "feedback": "all module task acceptance checks passed",
+      "id": "module-pipeline-12-source-002",
+      "matches_archive": true,
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared project frontend passed with fixed dependencies",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "keep all declarations and imports except pipeline's body",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native-values-and-trace passed",
+          "name": "native-values-and-trace",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_14 passed",
+          "name": "return-sensitivity-stage_14",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_01 passed",
+          "name": "return-sensitivity-stage_01",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_07 passed",
+          "name": "return-sensitivity-stage_07",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_05 passed",
+          "name": "return-sensitivity-stage_05",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_21 passed",
+          "name": "return-sensitivity-stage_21",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_13 passed",
+          "name": "return-sensitivity-stage_13",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_02 passed",
+          "name": "return-sensitivity-stage_02",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_19 passed",
+          "name": "return-sensitivity-stage_19",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_00 passed",
+          "name": "return-sensitivity-stage_00",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_16 passed",
+          "name": "return-sensitivity-stage_16",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_17 passed",
+          "name": "return-sensitivity-stage_17",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_09 passed",
+          "name": "return-sensitivity-stage_09",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1490587079897523,
+          "error": null,
+          "original_argv_sha256": "b4c4778324d73f7401d6ae9969041c54ea2c734d8d650a5d0f93d07bd750cad0",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.05493045900948346,
+          "error": null,
+          "original_argv_sha256": "bed710766652065730e457fab8147461138174070e62e247b86a925124c47aa2",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.13497208303306252,
+          "error": null,
+          "original_argv_sha256": "bb22c8ade8132fbb994da192c1fdb0495988bc3b3a2c2a9dc4f1effabad3ca5c",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04107570799533278,
+          "error": null,
+          "original_argv_sha256": "9510b4c9d7781812159cba06231170c798685b4f783588751752398dd48feedb",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.13612491596722975,
+          "error": null,
+          "original_argv_sha256": "3ae7a5180ea0bbe2c3ce2c5916104fc3a2589777cd35c48077c2118ebaec99ec",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.051213375001680106,
+          "error": null,
+          "original_argv_sha256": "5da7bb3eeb9493ddd087cea3422ac6a144515de56468e317505f85a3cb51cb6d",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.129285917035304,
+          "error": null,
+          "original_argv_sha256": "3d4bf42514504753649e60a432f824cafc6c5d032531ceff836109585e2b02f5",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.05129650002345443,
+          "error": null,
+          "original_argv_sha256": "9f52d94574abfbb11a445545052cc12bc6539b29c2e23ce768293ab3a8cbb718",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1264602920273319,
+          "error": null,
+          "original_argv_sha256": "5abf882a818c5fc95c9af5df36adc895e40cd55af7c281ab7bd70e0076612175",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04205779102630913,
+          "error": null,
+          "original_argv_sha256": "8efdfb7bd9ed9109cbe8f0d64c996a7dd258717d4123ccb153dcaa6d53bf93a5",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1144795420113951,
+          "error": null,
+          "original_argv_sha256": "504609e63a57536f295e26b52fc13fbb95a7579f7d439cb344a40009dfe500bb",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.043058416980784386,
+          "error": null,
+          "original_argv_sha256": "3a05358f4e7f18f0fef3adae5e33d18e7b2ddaebfa00da57190378d8e4b642e9",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1151322919758968,
+          "error": null,
+          "original_argv_sha256": "cc8e1678827a858a5ce14834570e4cec8c20bb72fbb5559a002a25fcf26c1357",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04524120903806761,
+          "error": null,
+          "original_argv_sha256": "c91c337309051b772735d691cecba6609c85a6dc11635ca743d894ef59c83103",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.11054837499978021,
+          "error": null,
+          "original_argv_sha256": "2a5ea1e195cca024a813705a92e8367fc36590fc9f9d2cc1a5e61b43c9d9357f",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.043714792001992464,
+          "error": null,
+          "original_argv_sha256": "2c905c1c83604eabc494486079cbac958e4fde5a7a50d5cf24167405707d26e6",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10738229204434901,
+          "error": null,
+          "original_argv_sha256": "595a0e740fe0f49109c03a1814c03e1e4904c579676e7804b76a8577de32765e",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.03327708301367238,
+          "error": null,
+          "original_argv_sha256": "172a3f65b3dddf712568382e73c470f707551f449b198a58a6352ef87c99d91f",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.11385579104535282,
+          "error": null,
+          "original_argv_sha256": "b8ac0292121deeb336253140cceaa259249b87bc164172e243769417519b4726",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.056282709003426135,
+          "error": null,
+          "original_argv_sha256": "3de641fafc7e6aab840e4e9cda82a5273ba5ad0060be459949a58549b771fa85",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.11133058299310505,
+          "error": null,
+          "original_argv_sha256": "7705c8edcd98d8db8cb13d49ac922c33a7b3a68395b1b49da9bfdde5b36c6a1c",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.06699691695393994,
+          "error": null,
+          "original_argv_sha256": "3f228ab6d34e10f790f59ba0d22b6d34bb7a36a89b88d5c652afba3d7f941102",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10914000001503155,
+          "error": null,
+          "original_argv_sha256": "045dbc42fed1ee0e3e81f583bb89877c8b50bfb1af8c61e4aec53c12d1256ce7",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04092674999265,
+          "error": null,
+          "original_argv_sha256": "a308fbaad5a52f5deecd94ee9d101fe77c9d5b293555dc0d75bce2279e802c93",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10306074999971315,
+          "error": null,
+          "original_argv_sha256": "856b26699830c4f93a80f0189ff7d8c0574d343b328cdbac3aae11a3d85f76d4",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04186016705352813,
+          "error": null,
+          "original_argv_sha256": "2af6453453ce691de2f8d6a86b4267baa2dc68a5a2351316e9aef82f919d52d4",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        }
+      ],
+      "feedback": "all module task acceptance checks passed",
+      "id": "module-pipeline-12-compiler-001",
+      "matches_archive": true,
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared project frontend passed with fixed dependencies",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "keep all declarations and imports except pipeline's body",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native-values-and-trace passed",
+          "name": "native-values-and-trace",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_22 passed",
+          "name": "return-sensitivity-stage_22",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_02 passed",
+          "name": "return-sensitivity-stage_02",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_23 passed",
+          "name": "return-sensitivity-stage_23",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_05 passed",
+          "name": "return-sensitivity-stage_05",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_14 passed",
+          "name": "return-sensitivity-stage_14",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_20 passed",
+          "name": "return-sensitivity-stage_20",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_10 passed",
+          "name": "return-sensitivity-stage_10",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_04 passed",
+          "name": "return-sensitivity-stage_04",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.09552258299663663,
+          "error": null,
+          "original_argv_sha256": "520322eea01003c72b24132768639550c856c9dbf98691f601fc99901a392d72",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.03853575000539422,
+          "error": null,
+          "original_argv_sha256": "7bdd0add000acd0775312d44803e59b41e61f747c538956701aba791f76241b7",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.0953724579885602,
+          "error": null,
+          "original_argv_sha256": "230c6070a1d0fb1a9a4aa84003b9734fd4a1a46b0b582e283de9763b44cca133",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.06874470802722499,
+          "error": null,
+          "original_argv_sha256": "df4b1c01f354a886c1835265021c96aeb2a9acbd4cef9a18c083eab8b5314ea2",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.09741433401359245,
+          "error": null,
+          "original_argv_sha256": "65a40d5a46eb62b010ceb02b51610e416892a41ab340566197a84d77f868d374",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.08474062499590218,
+          "error": null,
+          "original_argv_sha256": "514369fe5237910963c6f2d42715f44d3b49bcb7db11ecd6d1e6c64d880d3464",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1143402080051601,
+          "error": null,
+          "original_argv_sha256": "641b3c13657a1fef9ac8d8c8515acea3fb77490aa03332891b0200261e8d003d",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.05177945800824091,
+          "error": null,
+          "original_argv_sha256": "184c8fc1b95b93be1ffe4131e9fdbb6e98f22f3c973fdf09c863ab4fdd58747f",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.09563600004184991,
+          "error": null,
+          "original_argv_sha256": "a3f6e09a842222e66d7f560458d0f72fee3cf1755f1462c2921139edcdfeda86",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.05874025000957772,
+          "error": null,
+          "original_argv_sha256": "e18c7c1a159e19e892c3e03996e5c0baebd16d1ae20189cfa55b7085f61970a7",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10608420800417662,
+          "error": null,
+          "original_argv_sha256": "f5084f030ae9829c1277466ec8ead78fe45c0e88747654d9a863aadfee47e5be",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.040442499972414225,
+          "error": null,
+          "original_argv_sha256": "d8f55735c33a08be8350235fac9e13e0d05a7990e2854eb78aa3dd23a3936c8a",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.09929095796542242,
+          "error": null,
+          "original_argv_sha256": "ed734b6ab404c7dd243aa98fdea7766b40295d30da37cf1435814ed86dcb28d2",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04056116699939594,
+          "error": null,
+          "original_argv_sha256": "b2369ac83367424e8b450e5b46291735df32b9e010e6c58761813d0c34329337",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10979608295019716,
+          "error": null,
+          "original_argv_sha256": "d6c1cc73e582141916ffadfdb4755729fe5b2d473c4128451b7bfda2e293cc92",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.03812129201833159,
+          "error": null,
+          "original_argv_sha256": "16e4feba6b2d743608fa1fb03db42bd71ac0f0295213281be0e33bc72aacbd48",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10833849996561185,
+          "error": null,
+          "original_argv_sha256": "5c63d23a0be3b99b471e2b27f59a1b938b573d392a8bcc4ccec07c781297ad33",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04227391700260341,
+          "error": null,
+          "original_argv_sha256": "aac3991400cb0ea32ecea5d808921a6f9453f1fd89ae1879d67dfa83f0fd16a4",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        }
+      ],
+      "feedback": "all module task acceptance checks passed",
+      "id": "module-pipeline-8-compiler-001",
+      "matches_archive": true,
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared project frontend passed with fixed dependencies",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "keep all declarations and imports except pipeline's body",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native-values-and-trace passed",
+          "name": "native-values-and-trace",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_14 passed",
+          "name": "return-sensitivity-stage_14",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_01 passed",
+          "name": "return-sensitivity-stage_01",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_07 passed",
+          "name": "return-sensitivity-stage_07",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_05 passed",
+          "name": "return-sensitivity-stage_05",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_21 passed",
+          "name": "return-sensitivity-stage_21",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_13 passed",
+          "name": "return-sensitivity-stage_13",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_02 passed",
+          "name": "return-sensitivity-stage_02",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_19 passed",
+          "name": "return-sensitivity-stage_19",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_00 passed",
+          "name": "return-sensitivity-stage_00",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_16 passed",
+          "name": "return-sensitivity-stage_16",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_17 passed",
+          "name": "return-sensitivity-stage_17",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_09 passed",
+          "name": "return-sensitivity-stage_09",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.140773416031152,
+          "error": null,
+          "original_argv_sha256": "960e6761b4c1e406933a2590fc880a3ea9652fe6eb0abf367143fbd57c066ed6",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.03801933297654614,
+          "error": null,
+          "original_argv_sha256": "ba5800bdac2845e4974ec025db3a87ff2e1a5e43017b6d780c6f6ef6402f4d23",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1600498339976184,
+          "error": null,
+          "original_argv_sha256": "36f16d32baa29ed44632ab54e4f62727e3a47f09c7515e5c6a89d80bd108b5f5",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.0430217920220457,
+          "error": null,
+          "original_argv_sha256": "3d8900211457214fb5c6cc6469a32bdc0f79ebf513104432044cb3c6b1033d10",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1533285419573076,
+          "error": null,
+          "original_argv_sha256": "ed5d4f06a45dafa23ce8e17db2937f718b7fdd9cfd7c5e07a267980f74379fe7",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04989145800936967,
+          "error": null,
+          "original_argv_sha256": "6c5785cb37936d610c60c2acc5a830f76ec47d2078c011b615b75845e7674bf5",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.15340766700683162,
+          "error": null,
+          "original_argv_sha256": "9d0ecbf8d87f1a8cb42ce7ad82cc4892680784effa74bffbf6b2702164ca66d7",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.042819208989385515,
+          "error": null,
+          "original_argv_sha256": "93643d33e30a0d2da37e69721e1376c4ee0767dba8aee42933e39a5c4a546f6f",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1518526669824496,
+          "error": null,
+          "original_argv_sha256": "54d7c1b1e6aa78b88b80465e52d9e0bdf6648bf6651bfac8f679e745c11a6b1f",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04382429097313434,
+          "error": null,
+          "original_argv_sha256": "d14eba1bb624dcb3e9bddaa1eacd3ee8da25a60b570dc34a37e12d7ed86e2be4",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.15670816705096513,
+          "error": null,
+          "original_argv_sha256": "eea4bfeeae24f5213650d614a84a03f943c184ef388c7d0f42cd488e302ea7f8",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.045662791992072016,
+          "error": null,
+          "original_argv_sha256": "c3e349e2c02df1415dfbdd9d85d31c5cf4656695fc9d158bf2f735f9495916d2",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.16085187502903864,
+          "error": null,
+          "original_argv_sha256": "9676296785c1c3a0f6f7466a53fced36678f052cab1bea9d945aeac4d79fe3ec",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.045805459027178586,
+          "error": null,
+          "original_argv_sha256": "fffbc67246973f9606d63a33135c404d482bf0901807e43b9fa7d3ca73f7005e",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.14873324998188764,
+          "error": null,
+          "original_argv_sha256": "e2a744b2ece1c85fdf31388f8f5b1e1f5a87e4fad025a45d16485ae7c986f145",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04367525002453476,
+          "error": null,
+          "original_argv_sha256": "28442a194df6e5575c0c7a21594684578f47dd92ffc73634257788ac07607e17",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.15153037500567734,
+          "error": null,
+          "original_argv_sha256": "b9bdd81387ace465a1588d6643a8368952e2c560bb5bfbde81025c03345d2752",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04335537500446662,
+          "error": null,
+          "original_argv_sha256": "a7c782ee96fd79ae5831ece70f5d6ff279a13b6a0d018c99e9dc40e50140a14f",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.16627512505510822,
+          "error": null,
+          "original_argv_sha256": "39a72d487fc3a38549a83adc5e222d8cb31067e8c5a1f3a2d47cde662baa7a94",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04340641596354544,
+          "error": null,
+          "original_argv_sha256": "4ea097534c471f95e0366a5c0d8c3003c1d4c16365a5f24a0b8de86010bee18e",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.14686949999304488,
+          "error": null,
+          "original_argv_sha256": "674ae16d311f7e100b6a1a9615c86223ac18597b5a84b78ad3ce3a2aeb07298e",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04145029099890962,
+          "error": null,
+          "original_argv_sha256": "cc2a567fd3ece94780e6ce945109bc38413921bf8dbfa6c08d407d098ec99598",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.12778450001496822,
+          "error": null,
+          "original_argv_sha256": "7c26023f8c72e7515d5a7523d29ef8cfe53a302c2e8c9dbc1ba43d5b0bfa5066",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.040126957988832146,
+          "error": null,
+          "original_argv_sha256": "a0a116b82138589f090b86a02d5d4c17b729564781db294301d95017b399a938",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.17022570897825062,
+          "error": null,
+          "original_argv_sha256": "39982cbe497e50bb6ad7311ddf8f556f302900e737f92c8f0a904c5893eb73b7",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.045498124964069575,
+          "error": null,
+          "original_argv_sha256": "c25c47fdf121c5c2d2e73c040205991672f17fe814016466fc4e6a7b17be35d5",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        }
+      ],
+      "feedback": "all module task acceptance checks passed",
+      "id": "module-pipeline-12-source-001",
+      "matches_archive": true,
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared project frontend passed with fixed dependencies",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "keep all declarations and imports except pipeline's body",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native-values-and-trace passed",
+          "name": "native-values-and-trace",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_14 passed",
+          "name": "return-sensitivity-stage_14",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_01 passed",
+          "name": "return-sensitivity-stage_01",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_07 passed",
+          "name": "return-sensitivity-stage_07",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_05 passed",
+          "name": "return-sensitivity-stage_05",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_21 passed",
+          "name": "return-sensitivity-stage_21",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_13 passed",
+          "name": "return-sensitivity-stage_13",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_02 passed",
+          "name": "return-sensitivity-stage_02",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_19 passed",
+          "name": "return-sensitivity-stage_19",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_00 passed",
+          "name": "return-sensitivity-stage_00",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_16 passed",
+          "name": "return-sensitivity-stage_16",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_17 passed",
+          "name": "return-sensitivity-stage_17",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_09 passed",
+          "name": "return-sensitivity-stage_09",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.15790029196068645,
+          "error": null,
+          "original_argv_sha256": "bd2ea3585036b64a5ff0a98a9cd09872ba479e48da8d1a90516c7cb161f58d27",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.053587500005960464,
+          "error": null,
+          "original_argv_sha256": "63a7a16da9373720caf297eca1ce041b028b043788c05b4f77f19a31f266faa7",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.13394570798845962,
+          "error": null,
+          "original_argv_sha256": "7552d8b9472f676de8b6a5e3edaf9dc53a257dad7d718c222214a08843e6b3fa",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.039103457995224744,
+          "error": null,
+          "original_argv_sha256": "b48e7e9465ab5280f1e10e38588a5e9777b07f1d57c73f13dba2ce812d7f8502",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.13706224999623373,
+          "error": null,
+          "original_argv_sha256": "8e0259738a3ff714b21ad0bffbd13982edfc523107ff0bc5bfa0cd9ffea50965",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.044553999963682145,
+          "error": null,
+          "original_argv_sha256": "0c2d982f7ee6574308691c24905f8c2dcc5132d570142f596d9616f18df176a7",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.14074241695925593,
+          "error": null,
+          "original_argv_sha256": "e509aaf0bef8efcaa13f7e4c75ce8f3d36f68afb06b0c62b0c836afedab1e1ca",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.06991129199741408,
+          "error": null,
+          "original_argv_sha256": "01ad0f9f6a142cd7e2e965765b6eb488ecd0a9040b79377b9702f4e0a6dfa3a6",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.142316417011898,
+          "error": null,
+          "original_argv_sha256": "55d94ae31e5c9fb43be9d053361ac454f4c35a6b9356abbe1faab32bb3ddf4d8",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.0494002079940401,
+          "error": null,
+          "original_argv_sha256": "7d4840815a0fa9fd3425eb1f3c92a9e38511a15fc10d8b03f9baea385d1c0665",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1527686250046827,
+          "error": null,
+          "original_argv_sha256": "0096bac7fbfbcc1aeaebfcb631be235ce410511e710790c682691638503d0759",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.05697583401342854,
+          "error": null,
+          "original_argv_sha256": "971ae6c362d356e382f1ca2126fccae4497387e259d0f9035063d4642cf1160e",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.13404291699407622,
+          "error": null,
+          "original_argv_sha256": "dd14745fabe6f9535701182362c2dac9fa12ac6f5aa28e3ae43cbf3f285bb357",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.05105595802888274,
+          "error": null,
+          "original_argv_sha256": "2662335fcb3bfa1c14584085039c182ecf4b171add7b85324d4a69d98fbba2d4",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1440572920255363,
+          "error": null,
+          "original_argv_sha256": "e6fffdd772e218d33e19c83e4337bd2bb5b1984f708ae0f0268c8fcf1049b711",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04719949996797368,
+          "error": null,
+          "original_argv_sha256": "a5216f94dfd0a92fc46b719386f381d2030b50bfb740692dd0693c1499a2a09c",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.14071245800005272,
+          "error": null,
+          "original_argv_sha256": "6d8945c85716d3a9ce91dcd078e0599a650452d8f0d53350788bb0bf31ea946f",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.045907874999102205,
+          "error": null,
+          "original_argv_sha256": "66029d889759074dd88026318701b0f59fbf719fa5907da6fa2fe2ba6443fed5",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.14201358403079212,
+          "error": null,
+          "original_argv_sha256": "1b9b8b3a4e66e0d771e173e481bc68268eb2bc51ebb330678eb26f52e13e3431",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.05588220898061991,
+          "error": null,
+          "original_argv_sha256": "cfac31dca91ebfa6e33882ee1d6dfe94f684822b0b38bd62c0b935d3c8b4e57c",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.15350191696779802,
+          "error": null,
+          "original_argv_sha256": "88f7356228a5e72a68c17e9de05e52ac8c4ae132e73251d7161d7e401888d97b",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.042863584007136524,
+          "error": null,
+          "original_argv_sha256": "830648a1d1f32f79648981d1b8a5c9751a96b17bde1195a57573882144e671b8",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.14195570902666077,
+          "error": null,
+          "original_argv_sha256": "2aee9ae66badb09ed388e16dcb7919fc0c61286d4aa7e0240701419c428b053d",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.042393250041641295,
+          "error": null,
+          "original_argv_sha256": "b0efd163b0519e3e1f3e5fb229f1cdf945ca3b674cf0a577dcf67919df043550",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.14363299997057766,
+          "error": null,
+          "original_argv_sha256": "cd96527c13faa5d0c74c5f14ecc4c7366b47dfbc481990963b4d10a289132759",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.07095025002490729,
+          "error": null,
+          "original_argv_sha256": "11ef111686d5b79c3f6c7add77fab4173d1263d82aa25d32e1d11bcad6817ae2",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        }
+      ],
+      "feedback": "all module task acceptance checks passed",
+      "id": "module-pipeline-12-compiler-002",
+      "matches_archive": true,
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared project frontend passed with fixed dependencies",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "keep all declarations and imports except pipeline's body",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native-values-and-trace passed",
+          "name": "native-values-and-trace",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_22 passed",
+          "name": "return-sensitivity-stage_22",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_02 passed",
+          "name": "return-sensitivity-stage_02",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_23 passed",
+          "name": "return-sensitivity-stage_23",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_05 passed",
+          "name": "return-sensitivity-stage_05",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_14 passed",
+          "name": "return-sensitivity-stage_14",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_20 passed",
+          "name": "return-sensitivity-stage_20",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_10 passed",
+          "name": "return-sensitivity-stage_10",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_04 passed",
+          "name": "return-sensitivity-stage_04",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1625110000022687,
+          "error": null,
+          "original_argv_sha256": "2ff559596c9dcdca6b930156ccbcc01a812ee17e8a365f98ae13f2b958b30680",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04419333301484585,
+          "error": null,
+          "original_argv_sha256": "86244c5e38fd67b0bdde26ff837534d7bc116dd1302cfc3a437675a5281e0dff",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.12051687500206754,
+          "error": null,
+          "original_argv_sha256": "c90b5d84ba669cf0cf32c1828c2dda0346de9782a30f63b316854523dc67e3de",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.050264833960682154,
+          "error": null,
+          "original_argv_sha256": "1e0672a2d572cc009f8c6cce6e99fe7fc68c9d384993b407df9fafc4e01d4836",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.12739229202270508,
+          "error": null,
+          "original_argv_sha256": "eb2da6974263504e382bbc6f73a673a0d555cc9410e915e6d32378ed1f51ba71",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.06502583401743323,
+          "error": null,
+          "original_argv_sha256": "ed42ec325442683e94ff0060c97f71599d270b03a398123084e8ae28fb4ceff5",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1424035830423236,
+          "error": null,
+          "original_argv_sha256": "a2a2fbfcefb1ca4699250789e51a73924c7669279debd81fcad0542a9d10a3d6",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04598466696916148,
+          "error": null,
+          "original_argv_sha256": "99e4121f98c90a9785f87af0cbce1b31ba5029a620d9d58c974a0e76064746fa",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1475208339979872,
+          "error": null,
+          "original_argv_sha256": "22abdbb950175f5ecc640cb5971d74cb1e5260daee08bb1bf0968e860f5592b3",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04977129102917388,
+          "error": null,
+          "original_argv_sha256": "ad786b255c434adb5aabc66edcf08024c363b2d9734d100184fff26713462d5d",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.13223775004735216,
+          "error": null,
+          "original_argv_sha256": "d0c20531762d5dfc9e3b43248d97b52150b4a0360b72cd3daa33e22ce279cbbd",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.0450624999939464,
+          "error": null,
+          "original_argv_sha256": "21d0f2785f4460ea2d14ae36f595bf9221c306709cc6ba29c5b06658c7851c23",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.16294712497619912,
+          "error": null,
+          "original_argv_sha256": "5311d1e6ea2f4987dc6796a1877524156b952df81d3c973dbf304927c2126bae",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.05371358402771875,
+          "error": null,
+          "original_argv_sha256": "58b6b85c70f80ba6169a34b5c3395655a6eb0f0b395b8b1928c6a61e4e4f20c8",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.16702100000111386,
+          "error": null,
+          "original_argv_sha256": "da3b53a6fe6069eadfffd307b99e83ccf3c6adaa601db3a5ac91f92a4c49f5e2",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.049461582966614515,
+          "error": null,
+          "original_argv_sha256": "b5059b710542d752169c8dc5f389b75dd439ac8fe9d6b880d9d39255ba6ea850",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1281609580037184,
+          "error": null,
+          "original_argv_sha256": "4031a442365d150914bce693540796143390b54f93a9749c3bff7f338ff2c472",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.040988125023432076,
+          "error": null,
+          "original_argv_sha256": "cab285c5796187f9a822a02e4a12c43aa2f98649359017f567c7464abf685cb8",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        }
+      ],
+      "feedback": "all module task acceptance checks passed",
+      "id": "module-pipeline-8-source-002",
+      "matches_archive": true,
+      "status": "passed"
+    },
+    {
+      "archived_status": "passed",
+      "checks": [
+        {
+          "message": "shared project frontend passed with fixed dependencies",
+          "name": "frontend",
+          "passed": true
+        },
+        {
+          "message": "keep all declarations and imports except pipeline's body",
+          "name": "task-structure",
+          "passed": true
+        },
+        {
+          "message": "native-values-and-trace passed",
+          "name": "native-values-and-trace",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_22 passed",
+          "name": "return-sensitivity-stage_22",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_02 passed",
+          "name": "return-sensitivity-stage_02",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_23 passed",
+          "name": "return-sensitivity-stage_23",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_05 passed",
+          "name": "return-sensitivity-stage_05",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_14 passed",
+          "name": "return-sensitivity-stage_14",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_20 passed",
+          "name": "return-sensitivity-stage_20",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_10 passed",
+          "name": "return-sensitivity-stage_10",
+          "passed": true
+        },
+        {
+          "message": "return-sensitivity-stage_04 passed",
+          "name": "return-sensitivity-stage_04",
+          "passed": true
+        }
+      ],
+      "commands": [
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.13478066702373326,
+          "error": null,
+          "original_argv_sha256": "520319e0ca79b594fdaef28454caf8fd92fc5328db2a81219e186a723cb15eee",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04066054103896022,
+          "error": null,
+          "original_argv_sha256": "9adc994793c34f7cbd912fe434c9eaceb9135e090ddc07a41df62acf0f187225",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10998679202748463,
+          "error": null,
+          "original_argv_sha256": "812328e6f09868ccccb57c8e80e70f121bf61c890e2fb1df66ee6645beaf097b",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.040817458007950336,
+          "error": null,
+          "original_argv_sha256": "936423bbdaf9c47191b4e6bb56b7e8cadcaa9d6089d6ec31207a2ce76aca0849",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1049166249576956,
+          "error": null,
+          "original_argv_sha256": "b1e5e0681de08f375f31e6d2c4aef9f979efea47f2ec9abed740a0c1c71d5446",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.0403379580238834,
+          "error": null,
+          "original_argv_sha256": "8cc9742196dc4b1c51b41baa7a6dd75b6178f671b710f7ad2a04b435264c22ff",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10382104199379683,
+          "error": null,
+          "original_argv_sha256": "c6f7b61d172d0f4b7974a7403d742a317cd64b6ddf9563f83982cbae7c7940d6",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04047741601243615,
+          "error": null,
+          "original_argv_sha256": "02796e49d76c6624e9effe3d26eb377e29e8299853145a881bd6616242c904e8",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.17755779100116342,
+          "error": null,
+          "original_argv_sha256": "4d3cde3ea43d0c42dfdc5f939678c90f06df40b82c28c52e16ac6468ebfc0fee",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.06248458300251514,
+          "error": null,
+          "original_argv_sha256": "f11d0a820b64bfab15c8f69d1694c5b90653cff828b2601ee895aea97f734297",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.16577491600764915,
+          "error": null,
+          "original_argv_sha256": "25d2a9d500ffc99680fafdacbb0ebaabafb9d2571c16e679aae3ca7bd25f0317",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.11190183402504772,
+          "error": null,
+          "original_argv_sha256": "6d708ada0956d9443da3fdf592f7a75c795f529df00ec1770de727f160d4e57f",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.1100107500096783,
+          "error": null,
+          "original_argv_sha256": "a0e2fa2d2f54e7457158a2c4fe19175e48ba34ae3289f35a8ebab7be8aa639de",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.03790520800976083,
+          "error": null,
+          "original_argv_sha256": "4d5e2082674f50addc447d994e4ee81b81bd2aab280c42d50e10413ba2a26b36",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.09821587504120544,
+          "error": null,
+          "original_argv_sha256": "eae67c6be028a4327411393709a633d6773b4e20754e7f2bbe8ac30a01df3a39",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.04406916699372232,
+          "error": null,
+          "original_argv_sha256": "12ef3326d25d04aca5c5ba741b3c8697794f9ba5d425f2053c42d9f3def34fc5",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        },
+        {
+          "command_role": "C11 compilation",
+          "elapsed_seconds": 0.10724895802559331,
+          "error": null,
+          "original_argv_sha256": "8bc39653ef23d241952a8ab253d1aa580bb56e4dc2b6b13538144dd269137fad",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command_role": "native acceptance execution",
+          "elapsed_seconds": 0.06546504201833159,
+          "error": null,
+          "original_argv_sha256": "142ea5d094640c2695ab5ed306639d50125b0216fb893123aace816928b8ee30",
+          "returncode": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "module native acceptance passed\n",
+          "stdout_sha256": "dfc6bd60e4a67d96104a48c53a03565221a165ce4d0c09cdfab04ce367b8e7ed"
+        }
+      ],
+      "feedback": "all module task acceptance checks passed",
+      "id": "module-pipeline-8-source-001",
+      "matches_archive": true,
+      "status": "passed"
+    }
+  ]
+}
