@@ -1,10 +1,10 @@
 {
   "adapter": {
     "artifact_sha256": {
-      "adapter-executable": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+      "adapter-executable": "87d4df53fd91304be5bac391fb204643c36b7df2023c04a0953bcbc7d4fdf634",
       "claude_code_cli.py": "7532b51733c632aff57ca52a97b4e744baf386b6f59c319d020369e5a8a3b4d7",
       "codex_cli.py": "f5c9478809e78fcadab84229d8d3b24eec411391631438abf52271b5e66c0005",
-      "python3.14": "87d4df53fd91304be5bac391fb204643c36b7df2023c04a0953bcbc7d4fdf634"
+      "current-profile-codex-cli-v3.catalog.json": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501"
     },
     "config_sha256": "bb8e70b7c969e1c1f2bbc4706d3adee4c7681b30bfd3323553b557b4f477b637",
     "kind": "live",
