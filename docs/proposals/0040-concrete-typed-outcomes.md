@@ -135,7 +135,8 @@ contracts. Generic `Result<T,E>` would expand the type and layout model before a
 concrete error path needs it. Nonconsuming matches would add reference lifetimes.
 Defer these extensions until a separately verified workload requires them.
 
-Next specify a supplied-storage sequential allocation experiment, including the
+The [supplied-storage region draft](0041-supplied-storage-regions.md) specifies a
+candidate sequential allocation experiment, including the
 allocator lifetime representation, checked capacity/alignment, explicit release,
 and independent fault-injection/live-owner accounting from Proposal 0039. This
 typed-value slice begins M2 implementation; it does not pass the resource-lifetime,

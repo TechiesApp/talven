@@ -7,6 +7,12 @@ M2 work around concrete typed failures, consuming ownership branches, explicit
 allocator lifetime and release/transfer obligations. Its verification gates are
 design-only; it does not extend any implemented profile.
 
+[Proposal 0040](proposals/0040-concrete-typed-outcomes.md) implements the bounded
+typed-outcome companion. [Proposal 0041](proposals/0041-supplied-storage-regions.md)
+specifies a possible sequential resource slice with stable lexical supplied storage,
+linear byte blocks and explicit release. Its allocator/lifetime rules are design-only;
+they do not change the existing call-scoped record loans or add returned heap owners.
+
 ## Syntax principles
 
 Aim for familiar block structure, named fields, readable function signatures, local inference, and a single canonical formatter. Borrow familiarity from TypeScript without assuming JavaScript's runtime or dynamic semantics.

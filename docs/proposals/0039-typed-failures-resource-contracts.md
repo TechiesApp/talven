@@ -8,6 +8,11 @@ Implementation follow-up: [Proposal 0040](0040-concrete-typed-outcomes.md) now
 implements the bounded typed-outcome slice. Allocation, cleanup and concurrency
 contracts in this document remain design-only.
 
+[Proposal 0041](0041-supplied-storage-regions.md) chooses a candidate stable lexical
+region approach for one sequential supplied-storage byte block. It specifies linear
+release/delegation, instance identity and fault/ledger gates, without implementing
+allocation or permitting block-bearing function results.
+
 ## Problem
 
 The current profiles check scalar arithmetic and call-scoped record loans, but
