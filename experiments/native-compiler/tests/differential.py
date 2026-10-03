@@ -739,6 +739,7 @@ class DifferentialCorpusTests(unittest.TestCase):
         with ThreadPoolExecutor(max_workers=os.cpu_count() or 2) as pool:
             cls.checks = dict(zip(cls.cases, pool.map(cls.check_both, cls.cases)))
             cls.contexts = dict(zip(cls.cases, pool.map(cls.context_both, cls.cases)))
+            cls.formats = dict(zip(cls.cases, pool.map(cls.format_both, cls.cases)))
             accepted = [n for n, (reference, native, _) in cls.checks.items() if reference.returncode == 0 == native.returncode]
             cls.emits = dict(zip(accepted, pool.map(cls.emit_both, accepted)))
             runnable = [n for n, results in cls.emits.items() if results[True][0].returncode == 0]
@@ -759,6 +760,11 @@ class DifferentialCorpusTests(unittest.TestCase):
         path = str(cls.paths[name])
         return (run([*REFERENCE, "context", path, "--compact"]),
                 run([str(BINARY), "context", path, "--compact"]))
+
+    @classmethod
+    def format_both(cls, name):
+        path = str(cls.paths[name])
+        return (run([*REFERENCE, "fmt", path]), run([str(BINARY), "fmt", path]))
 
     @classmethod
     def emit_both(cls, name):
@@ -830,6 +836,15 @@ class DifferentialCorpusTests(unittest.TestCase):
                     else:
                         self.assertEqual(("E0901", "E0901"), (ref_errors[0][0], nat_errors[0][0]))
                     self.assertNotIn("functions", json.loads(native.stdout))
+
+    def test_canonical_formatting_is_byte_identical_or_fails_identically(self):
+        for name, (reference, native) in self.formats.items():
+            with self.subTest(case=name):
+                self.assertIn(reference.returncode, (0, 1), reference.stderr)
+                self.assertEqual(reference.returncode, native.returncode, native.stderr)
+                self.assertEqual(reference.stdout, native.stdout)
+                if rule_divergence(self.cases[name]) is None:
+                    self.assertEqual(reference.stderr, native.stderr)
 
     def test_emitted_c_is_byte_identical_or_fails_identically(self):
         for name, results in self.emits.items():

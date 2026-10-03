@@ -43,6 +43,8 @@ The formatter does not honor instructions or formatting directives in comments. 
 
 ## Editor behavior
 
+The [native Rust experiment](../experiments/native-compiler/README.md#canonical-formatting) now provides the same layout through `talven-native fmt SOURCE` and `fmt SOURCE --check [--json]`, specified in [Proposal 0032](proposals/0032-native-canonical-formatting.md). It uses shared native syntax and checks token/comment preservation against the reference corpus. It does not provide native `--write`, revision guards or LSP formatting; the reference's file-write/editor contracts below remain separate. Native check errors keep their implementation profile and name the supported preview command. No formatter performance improvement is claimed.
+
 The existing stdio server advertises `documentFormattingProvider` and handles `textDocument/formatting`. It formats editor-supplied text from an open document; no URI is fetched and no file is written by the server. It returns either no edits for an already formatted document or one full-document edit with a UTF-16 range. The client applies the edit and sends its normal versioned document update.
 
 The canonical profile overrides editor indentation preferences, so CLI and LSP produce the same output even when a client prefers tabs. Requests still require the standard `tabSize` and `insertSpaces` options. Unsupported/malformed parameters use JSON-RPC error `-32602`; a syntax or formatting-limit failure uses LSP `RequestFailed` (`-32803`) with the compiler diagnostic in `error.data.diagnostics`. Range formatting and on-type formatting are not implemented.

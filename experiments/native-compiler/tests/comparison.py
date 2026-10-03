@@ -19,9 +19,13 @@ class ComparisonTests(unittest.TestCase):
     def test_stale_native_build_sources_are_rejected(self):
         info = json.loads(subprocess.check_output([str(BINARY), "--build-info"]))
         comparison.verify_build_sources(info, ROOT / "experiments/native-compiler")
-        info["source_files"]["src/lib.rs"] += "// stale"
-        with self.assertRaises(comparison.base.MeasurementError):
-            comparison.verify_build_sources(info, ROOT / "experiments/native-compiler")
+        for name in ("src/lib.rs", "src/format.rs"):
+            with self.subTest(source=name):
+                original = info["source_files"][name]
+                info["source_files"][name] += "// stale"
+                with self.assertRaises(comparison.base.MeasurementError):
+                    comparison.verify_build_sources(info, ROOT / "experiments/native-compiler")
+                info["source_files"][name] = original
 
     def test_incomplete_or_unverified_samples_never_get_summary(self):
         with self.assertRaises(comparison.base.MeasurementError):
