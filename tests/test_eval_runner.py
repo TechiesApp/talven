@@ -157,6 +157,49 @@ if behavior == "billed-error": sys.exit(1)
                               "stopped": "unknown_call_cost"}, run["budget"])
             self.assertEqual(1, len(run["trials"]))
 
+    def test_call_cap_counts_failed_unknown_usage_once_and_stops_before_next_trial(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            config_path = self.config(directory, "invalid")
+            config = json.loads(config_path.read_text())
+            config['kind'] = 'live'
+            config_path.write_text(json.dumps(config))
+            result = self.command('run', '--adapter', config_path, '--out', directory / 'run',
+                                  '--task', 'strict-type', '--context', 'both', '--max-calls', '1', '--allow-dirty')
+            self.assertEqual(2, result.returncode)
+            run = json.loads((directory / 'run/run.json').read_text())
+            self.assertFalse(run['complete'])
+            self.assertEqual({'max_calls': 1, 'calls': 1, 'stopped': 'call_cap'}, run['budget'])
+            self.assertEqual(1, len(run['trials']))
+            self.assertEqual(1, len(run['trials'][0]['attempts']))
+
+    def test_call_cap_allows_unknown_subscription_cost_and_exact_boundary_completion(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            config_path = self.config(directory, "success")
+            config = json.loads(config_path.read_text())
+            config['kind'] = 'live'
+            config_path.write_text(json.dumps(config))
+            result = self.command('run', '--adapter', config_path, '--out', directory / 'run',
+                                  '--task', 'strict-type', '--context', 'both', '--max-calls', '2', '--allow-dirty')
+            self.assertEqual(0, result.returncode, result.stderr)
+            run = json.loads((directory / 'run/run.json').read_text())
+            self.assertTrue(run['complete'])
+            self.assertEqual(2, run['summary']['correct_tasks'])
+            self.assertIsNone(run['summary']['model_cost_usd'])
+            self.assertEqual({'max_calls': 2, 'calls': 2, 'stopped': None}, run['budget'])
+
+    def test_combined_call_and_spend_guards_preserve_unknown_cost_stop(self):
+        from experiments.runner import Budget, BudgetExhausted, CallBudget
+        budget = CallBudget(3, Budget('1'))
+        budget.before_call()
+        budget.after_call(None)
+        with self.assertRaises(BudgetExhausted):
+            budget.before_call()
+        self.assertEqual('unknown_call_cost', budget.record()['stopped'])
+        self.assertEqual(1, budget.record()['calls'])
+        self.assertEqual(1, budget.record()['spend']['calls'])
+
     def test_reverification_never_executes_an_archived_compiler_path(self):
         with tempfile.TemporaryDirectory() as temporary:
             directory = Path(temporary)

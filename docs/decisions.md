@@ -72,6 +72,7 @@ Status definitions:
 | D58 | Proposed | Reconstruct bounded sequential UTF-16 editor deltas atomically, requiring full resynchronization after rejected newer batches | [Proposal 0030](proposals/0030-incremental-editor-synchronization.md); [editor synchronization](editor-synchronization.md), fresh shared checking, version ordering and blocked stale queries; no incremental parser or performance claim |
 | D59 | Proposed | Port the existing checked compact agent index to the standalone native compiler with byte-identical differential output | [Proposal 0031](proposals/0031-native-compact-agent-context.md); sorted current signatures/record fields, explicit compact mode and first-error rejection; full context v2, caching, native LSP and measured agent/latency benefits remain open |
 | D60 | Proposed | Port the reference's bounded token/comment-preserving layout to read-only native formatting and check mode | [Proposal 0032](proposals/0032-native-canonical-formatting.md); shared syntax-only validation, output/re-lex guards and exact module provenance; native replacement/revision guards, editor integration and measured benefits remain open |
+| D61 | Proposed | Evaluate pinned text-only Codex CLI through ChatGPT login with explicit invocation bounds and unknown dollar costs preserved | [Proposal 0033](proposals/0033-codex-subscription-evaluation.md); optional adapter and unchanged independent acceptance; invocation limits differ from token/quota/billing limits |
 
 ## Open decisions
 

@@ -50,7 +50,9 @@ def main(argv=None):
                      help="Seed for interleaving trials; recorded in run.json")
     run.add_argument("--fixed-order", action="store_true",
                      help="Run repetition/task/condition in declaration order instead of seeded order")
-    run.add_argument("--max-cost-usd", help="Stop before a call could exceed this spend; required for live runs")
+    run.add_argument("--max-cost-usd", help="Guard observed spend using the largest previous call")
+    run.add_argument("--max-calls", type=bounded_int(1, 10000),
+                     help="Cap adapter invocations; live runs require this or --max-cost-usd")
     run.add_argument("--allow-dirty", action="store_true", help="Permit a live run from an uncommitted tree")
     report = commands.add_parser("report", help="Recompute accounting, optionally adding measured cost receipts")
     report.add_argument("directory", type=Path)
@@ -73,7 +75,8 @@ def main(argv=None):
                       "native_timeout", "verification_timeout", "task_timeout")}
             value = run_experiment(args.adapter, args.out, tasks, modes, args.repetitions, args.cc, limits,
                                    corpus_version=args.corpus, seed=None if args.fixed_order else args.seed,
-                                   max_cost_usd=args.max_cost_usd, allow_dirty=args.allow_dirty)
+                                   max_cost_usd=args.max_cost_usd, allow_dirty=args.allow_dirty,
+                                   max_calls=args.max_calls)
             print(encode({"output": str(args.out.resolve()), **make_report(value)}), end="")
             if not value["complete"]:
                 return 2

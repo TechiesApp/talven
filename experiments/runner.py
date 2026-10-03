@@ -168,7 +168,7 @@ def repair_feedback(verification, mode):
 
 
 class BudgetExhausted(Exception):
-    """A live run stops before a call that could exceed its spend cap."""
+    """A run has reached its selected usage guard."""
 
 
 class Budget:
@@ -205,6 +205,38 @@ class Budget:
     def record(self):
         return {"cap_usd": str(self.cap), "spent_usd": str(self.spent), "largest_call_usd": str(self.largest),
                 "calls": self.calls, "stopped": self.stopped}
+
+
+class CallBudget:
+    """Bound adapter invocations without inventing subscription dollar costs."""
+
+    def __init__(self, max_calls, spend=None):
+        if type(max_calls) is not int or not 1 <= max_calls <= 10000:
+            raise ValueError("--max-calls must be an integer from 1 through 10000")
+        self.cap = max_calls
+        self.calls = 0
+        self.spend = spend
+        self.stopped = None
+
+    def before_call(self):
+        if self.calls >= self.cap:
+            self.stopped = "call_cap"
+        if self.stopped:
+            raise BudgetExhausted(self.stopped)
+        if self.spend:
+            self.spend.before_call()
+
+    def after_call(self, usage):
+        self.calls += 1
+        if self.spend:
+            self.spend.after_call(usage)
+
+    def record(self):
+        value = {"max_calls": self.cap, "calls": self.calls, "stopped": self.stopped}
+        if self.spend:
+            value["spend"] = self.spend.record()
+            value["stopped"] = self.stopped or value["spend"]["stopped"]
+        return value
 
 
 def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, limits, checkpoint,
@@ -280,6 +312,7 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
         attempt["adapter_process"] = process
         (attempt_dir / "response.txt").write_text(process["stdout"], encoding="utf-8")
         attempt["response_sha256"] = digest(process["stdout"].encode("utf-8"))
+        accounted = False
         try:
             assert_unchanged(hashes, config, corpus_version)
             # A failing adapter can still return a valid billing receipt. Keep
@@ -288,10 +321,11 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
             attempt["usage"] = usage
             if budget is not None:
                 budget.after_call(usage)
+                accounted = True
             if process["error"] or process["returncode"] != 0:
                 raise ValueError(f"Adapter failed: {process['error'] or process['returncode']}")
         except (ValueError, OSError) as error:
-            if budget is not None and attempt["usage"] is None:
+            if budget is not None and not accounted:
                 budget.after_call(None)
             attempt["error"] = str(error)
             result.update(status="error", error=str(error))
@@ -378,7 +412,8 @@ def trial_plan(tasks, modes, repetitions, seed):
 
 
 def run_experiment(adapter_path, output, tasks, modes, repetitions, cc, limits,
-                   corpus_version=CORPUS_VERSION, seed=None, max_cost_usd=None, allow_dirty=False):
+                   corpus_version=CORPUS_VERSION, seed=None, max_cost_usd=None, allow_dirty=False,
+                   max_calls=None):
     corpus = get_tasks(corpus_version)
     for task in tasks:
         if task not in corpus:
@@ -388,11 +423,13 @@ def run_experiment(adapter_path, output, tasks, modes, repetitions, cc, limits,
     config = read_config(adapter_path)
     env = environment(cc)
     if config["kind"] == "live":
-        if max_cost_usd is None:
-            raise ValueError("Live runs require --max-cost-usd")
+        if max_cost_usd is None and max_calls is None:
+            raise ValueError("Live runs require --max-cost-usd or --max-calls")
         if env["repository_dirty"] and not allow_dirty:
             raise ValueError("Live runs require a clean working tree; commit or pass --allow-dirty")
     budget = Budget(max_cost_usd) if max_cost_usd is not None else None
+    if max_calls is not None:
+        budget = CallBudget(max_calls, budget)
     plan = trial_plan(tasks, modes, repetitions, seed)
     inputs = pinned_files(corpus_version)
     hashes = {name: digest(data) for name, data in inputs.items()}

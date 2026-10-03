@@ -17,7 +17,7 @@ TOOL_ENVIRONMENT = ("PATH", "HOME", "TMPDIR", "LANG", "LC_ALL", "LC_CTYPE", "SDK
 ADAPTER_ENVIRONMENT = (*TOOL_ENVIRONMENT, "ANTHROPIC_API_KEY", "HTTPS_PROXY", "https_proxy", "NO_PROXY",
                        "no_proxy", "SSL_CERT_FILE", "SSL_CERT_DIR",
                        # A signed-in Claude Code CLI finds its login through these.
-                       "USER", "LOGNAME", "CLAUDE_CONFIG_DIR")
+                       "USER", "LOGNAME", "CLAUDE_CONFIG_DIR", "CODEX_HOME")
 
 
 def environment_subset(names):
