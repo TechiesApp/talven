@@ -89,8 +89,8 @@ Checked arithmetic and traps are included; nothing else is linked. This supports
 ### Check or compile speed
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/benchmarks/check-dark.svg">
-  <img alt="Bar chart: time to type-check or compile a 2,400-line program. Talven native 6.5 ms, C 21.0 ms, Go 33.9 ms, Rust 71.0 ms, Talven Python reference 101.6 ms, TypeScript 431.5 ms, Java 482.1 ms." src="assets/benchmarks/check-light.svg" width="760">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/benchmarks/check-dark.png">
+  <img alt="Bar chart: time to type-check or compile a 2,400-line program. Talven native 6.5 ms, C 21.0 ms, Go 33.9 ms, Rust 71.0 ms, Talven Python reference 101.6 ms, TypeScript 431.5 ms, Java 482.1 ms." src="assets/benchmarks/check-light.png" width="760">
 </picture>
 
 The same 300-function program, about 2,400 lines, in each language. Talven's native checker finishes first, and most of its 6.5 ms is starting the process. The Python reference is the specification-grade implementation, not the one meant to be fast.
@@ -98,8 +98,8 @@ The same 300-function program, about 2,400 lines, in each language. Talven's nat
 ### Run time
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/benchmarks/fib-dark.svg">
-  <img alt="Bar chart: recursive fib(35). Rust 17.9 ms, C 18.4 ms, Talven 24.1 ms, Go 24.1 ms, Java 44.2 ms, TypeScript 71.1 ms." src="assets/benchmarks/fib-light.svg" width="760">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/benchmarks/fib-dark.png">
+  <img alt="Bar chart: recursive fib(35). Rust 17.9 ms, C 18.4 ms, Talven 24.1 ms, Go 24.1 ms, Java 44.2 ms, TypeScript 71.1 ms." src="assets/benchmarks/fib-light.png" width="760">
 </picture>
 
 Talven lowers to C, so it runs at native speed. It pays a small cost that C and release-mode Rust do not: **every addition is checked for overflow and traps instead of silently wrapping**. On this call-heavy workload that puts it level with Go, about 30% behind unchecked C, and ahead of the JIT-compiled runtimes, whose times include JVM and Node.js start-up.
@@ -107,13 +107,13 @@ Talven lowers to C, so it runs at native speed. It pays a small cost that C and 
 ### Start-up and footprint
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/benchmarks/hello-time-dark.svg">
-  <img alt="Bar chart: Hello World start to exit. C 2.0 ms, Rust 2.2 ms, Talven 2.7 ms, Go 3.9 ms, TypeScript 22.9 ms, Java 30.0 ms." src="assets/benchmarks/hello-time-light.svg" width="760">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/benchmarks/hello-time-dark.png">
+  <img alt="Bar chart: Hello World start to exit. C 2.0 ms, Rust 2.2 ms, Talven 2.7 ms, Go 3.9 ms, TypeScript 22.9 ms, Java 30.0 ms." src="assets/benchmarks/hello-time-light.png" width="760">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/benchmarks/hello-size-dark.svg">
-  <img alt="Bar chart: Hello World executable size. C 32.7 KB, Talven 32.8 KB, Rust 454.9 KB, Go 2.0 MB." src="assets/benchmarks/hello-size-light.svg" width="760">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/benchmarks/hello-size-dark.png">
+  <img alt="Bar chart: Hello World executable size. C 32.7 KB, Talven 32.8 KB, Rust 454.9 KB, Go 2.0 MB." src="assets/benchmarks/hello-size-light.png" width="760">
 </picture>
 
 A Talven program is a plain native executable with no runtime to install: it starts in under 3 ms and Hello World is 33 KB. Java and TypeScript ship a few hundred bytes but need a JVM or Node.js on the machine, so they are left out of the size chart. A freestanding Talven program [without libc](#small-freestanding-programs) is smaller still.

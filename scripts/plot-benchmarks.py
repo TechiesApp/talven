@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render benchmark comparison charts as light and dark SVGs for the docs.
+"""Render benchmark comparison charts as light and dark SVGs and PNGs for the docs.
 
 Reads the JSON written by scripts/benchmark-languages.py and writes one
 horizontal bar chart per metric into docs/assets/benchmarks/. Talven bars use
@@ -20,8 +20,8 @@ import matplotlib.pyplot as plt  # noqa: E402
 
 THEMES = {
     # Validated with the dataviz palette checker: lightness band, CVD separation, and 3:1 contrast.
-    "light": {"talven": "#3B3BD9", "other": "#767C8A", "text": "#1F2328", "muted": "#59636E", "grid": "#D1D9E0"},
-    "dark": {"talven": "#7272F2", "other": "#8C92A0", "text": "#E6EDF3", "muted": "#9198A1", "grid": "#3D444D"},
+    "light": {"talven": "#3B3BD9", "other": "#767C8A", "text": "#1F2328", "muted": "#59636E", "grid": "#D1D9E0", "background": "#FFFFFF"},
+    "dark": {"talven": "#7272F2", "other": "#8C92A0", "text": "#E6EDF3", "muted": "#9198A1", "grid": "#3D444D", "background": "#0D1117"},
 }
 LANGUAGE = {"talven": "Talven", "c": "C", "rust": "Rust", "go": "Go", "java": "Java", "typescript": "TypeScript"}
 
@@ -67,6 +67,11 @@ def chart(rows, title, subtitle, path, theme, log=False, formatter=lambda v: f"{
     ax.set_title(subtitle, loc="left", fontsize=9.5, color=colors["muted"], pad=8)
     fig.tight_layout()
     fig.savefig(path, format="svg", transparent=True, metadata={"Date": None})
+    # Raster exports work in mobile README viewers that cannot display SVGs.
+    # Keep backgrounds opaque so a light fallback stays legible in dark mode.
+    fig.patch.set_alpha(1)
+    fig.savefig(path.with_suffix(".png"), format="png", dpi=200,
+                transparent=False, facecolor=colors["background"])
     plt.close(fig)
 
 
