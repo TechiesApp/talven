@@ -28,6 +28,7 @@ Pick the path that matches why you are here. Documents marked *evidence* record 
 | [Edit previews](edit-validation.md) | Checking a candidate edit against an exact source revision |
 | [Freestanding Linux execution](freestanding.md) | Building without libc or an allocator |
 | [Native compiler prototype](../experiments/native-compiler/README.md) | The Rust implementation of the scalar subset |
+| [Hosted scalar C exports](c-api.md) | Named C11 library units/headers and independent host callers |
 | [Native edit previews](proposals/0035-native-edit-previews.md) | Read-only native snapshots and revision-checked complete repairs |
 | [Native focused context](proposals/0034-native-focused-context.md) | Bounded native symbol facts, source bodies and input identities |
 | [Native agent-tool CLI baseline](native-agent-tools-baseline.md) | Verified compact context/formatting process costs and finite local samples |

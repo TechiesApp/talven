@@ -11,6 +11,8 @@ use std::ops::Range;
 
 mod format;
 pub use format::format_source;
+mod c_api;
+pub use c_api::emit_c_api;
 mod input;
 pub use input::read_source;
 mod edit;
@@ -1629,6 +1631,9 @@ fn signature(program: &Program, f: &Function) -> String {
     )
 }
 pub fn emit_c(program: &Program, console: bool) -> Result<String> {
+    emit_c_mode(program, console, false)
+}
+fn emit_c_mode(program: &Program, console: bool, library: bool) -> Result<String> {
     if program.console && !console {
         return Err(error(
             "E0404",
@@ -1637,7 +1642,7 @@ pub fn emit_c(program: &Program, console: bool) -> Result<String> {
         ));
     }
     let main = program.functions.iter().find(|f| f.name.text == "main");
-    if !main.is_some_and(|f| f.params.is_empty() && f.result.text == "i32") {
+    if !library && !main.is_some_and(|f| f.params.is_empty() && f.result.text == "i32") {
         return Err(error(
             "E0401",
             "A hosted executable requires fn main() -> i32",
@@ -1673,7 +1678,9 @@ pub fn emit_c(program: &Program, console: bool) -> Result<String> {
         emitter.indent -= 1;
         emitter.line("}");
     }
-    emitter.line("int main(void) { return (int)tv_f_main(); }");
+    if !library {
+        emitter.line("int main(void) { return (int)tv_f_main(); }");
+    }
     let mut used = emitter.used;
     // add, sub, mul, and neg narrow through tv_narrow.
     used[0] = used[1..5].iter().any(|u| *u);

@@ -1,6 +1,6 @@
 # Existing package ecosystems
 
-Status: proposed interoperability strategy. No package adapter is implemented.
+Status: proposed interoperability strategy. An experimental [hosted scalar C export boundary](c-api.md) is implemented; no package adapter or Talven foreign import is implemented.
 
 ## Goal
 

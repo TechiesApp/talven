@@ -179,13 +179,15 @@ MAX_C_UNITS = 256
 MAX_C_UNIT_BYTES = 16 * 1024 * 1024
 
 
-def emission_options(analysis, freestanding, console):
+def emission_options(analysis, freestanding, console, *, library=False):
     needs_console = any("print" in fn.calls for fn in analysis.program.functions)
     if console and freestanding:
         raise CompileError("E0404", "Console output requires hosted POSIX emission; --console and --freestanding cannot be combined", Span(0, 0))
     if needs_console and (freestanding or not console):
         raise CompileError("E0404", "print requires hosted POSIX console support; enable --console", Span(0, 0))
-    if not freestanding:
+    if library and freestanding:
+        raise CompileError("E1001", "C API emission requires hosted C11", Span(0, 0))
+    if not freestanding and not library:
         require_entry(analysis)
     return needs_console
 
@@ -233,13 +235,13 @@ def finish_c(emitter, helpers_at, freestanding=False):
     return "\n".join(emitter.lines) + "\n"
 
 
-def emit_c(analysis: Analysis, freestanding: bool = False, *, console: bool = False) -> str:
-    needs_console = emission_options(analysis, freestanding, console)
+def emit_c(analysis: Analysis, freestanding: bool = False, *, console: bool = False, library: bool = False) -> str:
+    needs_console = emission_options(analysis, freestanding, console, library=library)
     emitter = Emitter()
     helpers_at = emit_prefix(emitter, analysis, freestanding, needs_console)
     for fn in analysis.program.functions:
         emit_function(emitter, fn)
-    if not freestanding:
+    if not freestanding and not library:
         emitter.line("int main(void) { return (int)tv_f_main(); }")
     return finish_c(emitter, helpers_at, freestanding)
 

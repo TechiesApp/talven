@@ -83,7 +83,7 @@ class NativeContextTests(unittest.TestCase):
     def test_embedded_compiler_identity_and_sha_padding_match_hashlib(self):
         info = json.loads(subprocess.check_output([str(BINARY), '--build-info']))
         names = ['Cargo.toml', 'Cargo.lock', 'build.rs', 'src/main.rs', 'src/lib.rs', 'src/format.rs',
-                 'src/context.rs', 'src/input.rs', 'src/edit.rs', 'src/runtime.c', 'src/console.c']
+                 'src/context.rs', 'src/input.rs', 'src/edit.rs', 'src/c_api.rs', 'src/runtime.c', 'src/console.c']
         pairs = [(name, info['source_files'][name]) for name in names]
         pairs += [(name, info[name]) for name in ('rustc', 'target', 'cargo_profile', 'opt_level')]
         # Match the build script's sorted compact JSON and uniform control escapes.

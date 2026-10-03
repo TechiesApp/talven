@@ -78,6 +78,8 @@ Status definitions:
 
 | D63 | Proposed | Port read-only native snapshots and complete-candidate previews over exact source/embedded compiler identities | [Proposal 0035](proposals/0035-native-edit-previews.md); shared frontend/contracts and observed reread rejection; atomic application, native LSP and measured agent benefits remain open |
 
+| D64 | Proposed | Emit explicitly named hosted C11 scalar export units/headers with reference/native artifact parity | [Proposal 0036](proposals/0036-hosted-scalar-c-api.md); independent two-unit/libc scalar callers and sanitizers; Talven imports, foreign pointers/ownership, binary packaging and measured bridge costs remain open |
+
 ## Open decisions
 
 | Decision | Questions to resolve |

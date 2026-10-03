@@ -97,12 +97,12 @@ Run the compiler test suite with `python3 -m unittest discover -s tests`. Run th
 | --- | --- |
 | Language | `i32`, `bool`, static UTF-8 `str`, functions, `let`, mutable scalar locals and reassignment, `if`/`else`, records of scalars, checked arithmetic |
 | Safety | Affine moves, call-scoped `&`/`&mut` borrows, field mutation, strict types, overflow and division traps |
-| Tooling | `check`, `fmt`, `context`, `build`, [native test manifests](docs/testing.md), `emit-c`, experimental [C units](docs/c-units.md) with opt-in [local function contracts](docs/local-function-contracts.md), `dev` (watch/restart with separate opt-in [check](docs/development.md) or [native object](docs/native-watch.md) reuse), `edit` previews, and an LSP with completion, call signatures and semantic highlighting |
+| Tooling | `check`, `fmt`, `context`, `build`, [native test manifests](docs/testing.md), `emit-c`, experimental [scalar C exports](docs/c-api.md), experimental [C units](docs/c-units.md) with opt-in [local function contracts](docs/local-function-contracts.md), `dev` (watch/restart with separate opt-in [check](docs/development.md) or [native object](docs/native-watch.md) reuse), `edit` previews, and an LSP with completion, call signatures and semantic highlighting |
 | Targets | Native executables through C11 on Linux x86-64 and ARM64 (in CI) and macOS; a no-libc Linux mode |
 | Agent evaluation | A reproducible harness with paired source-only and compiler-context conditions, independent native acceptance, and priced token accounting |
 | Native compiler | A Rust prototype with scalars, text, records, moves, call-scoped borrowing, mutation, [compact and focused agent context](experiments/native-compiler/README.md#focused-context), [read-only edit previews](experiments/native-compiler/README.md#read-only-edit-previews) and [canonical formatting](experiments/native-compiler/README.md#canonical-formatting), checked against the reference by differential and sanitizer suites |
 
-Not built yet: loops, heap allocation, generics, modules, concurrency, a package manager, and GPU backends. See the [roadmap](docs/roadmap.md).
+Not built yet: loops, heap allocation, generics, source-level modules/imports, concurrency, a package manager, and GPU backends. See the [roadmap](docs/roadmap.md).
 
 ## Where it is going
 
