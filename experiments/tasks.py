@@ -6,6 +6,7 @@ from . import CORPUS_VERSION
 from .borrowing_tasks import BORROWING_TASKS
 from .hard_tasks import HARD_CORPUS, HARD_TASKS
 from .large_tasks import LARGE_CORPUS, LARGE_TASKS
+from .module_tasks import MODULE_CORPUS, MODULE_TASKS
 
 
 TASKS = {
@@ -54,6 +55,7 @@ CORPORA = {
     "m1c-borrowing-tasks-v1": BORROWING_TASKS,
     HARD_CORPUS: HARD_TASKS,
     LARGE_CORPUS: LARGE_TASKS,
+    MODULE_CORPUS: MODULE_TASKS,
 }
 
 

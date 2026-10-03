@@ -1,0 +1,17 @@
+import "ledger0.tal" { Account as Ledger0, stage_00 as call_stage_00, stage_01 as call_stage_01, stage_02 as call_stage_02, stage_03 as call_stage_03, stage_08 as call_stage_08, stage_09 as call_stage_09, stage_10 as call_stage_10, stage_11 as call_stage_11, stage_16 as call_stage_16, stage_17 as call_stage_17, stage_18 as call_stage_18, stage_19 as call_stage_19 };
+import "ledger1.tal" { Account as Ledger1, stage_04 as call_stage_04, stage_05 as call_stage_05, stage_06 as call_stage_06, stage_07 as call_stage_07, stage_12 as call_stage_12, stage_13 as call_stage_13, stage_14 as call_stage_14, stage_15 as call_stage_15, stage_20 as call_stage_20, stage_21 as call_stage_21, stage_22 as call_stage_22, stage_23 as call_stage_23 };
+
+struct Account {
+    balance: i32,
+    limit: i32,
+    tier: i32
+}
+
+fn pipeline(a: &mut Account, v: i32) -> i32 {
+    return v;
+}
+
+fn main() -> i32 {
+    let mut a = Account { balance: 10, limit: 500, tier: 1 };
+    return pipeline(&mut a, 0);
+}

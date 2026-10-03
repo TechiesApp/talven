@@ -14,6 +14,7 @@ import time
 from talven import VERSION, PROFILE
 from talven.context import agent_context, agent_diagnostics, compiler_hash
 from talven.frontend import CompileError, check_source, lex
+from talven.project import analyze_project, project_context
 from . import CORPUS_VERSION, SCHEMA, SUPPORTED_SCHEMAS
 from .metrics import aggregate, money, paired_comparison, summarize_trial
 from .process import ADAPTER_ENVIRONMENT, TOOL_ENVIRONMENT, environment_subset, run_process
@@ -36,6 +37,9 @@ def pinned_files(corpus_version=CORPUS_VERSION):
     tasks = get_tasks(corpus_version)
     files = {ROOT / name for name in GUIDES}
     files.update(ROOT / task["source"] for task in tasks.values())
+    for task in tasks.values():
+        files.update(ROOT / name for name in task.get("dependencies", {}).values())
+        files.update(ROOT / name for name in task.get("guides", []))
     for package in ("talven", "experiments"):
         files.update((ROOT / package).rglob("*.py"))
     return {str(path.relative_to(ROOT)): path.read_bytes() for path in sorted(files)}
@@ -78,6 +82,22 @@ def compiler_context(source, budget):
     """Compact compiler facts for the prompt: program facts, or every recovered error."""
     analysis, errors = check_source(source)
     text = agent_diagnostics(source, errors) if errors else agent_context(analysis)
+    if len(text.encode("utf-8")) > budget:
+        raise ValueError("Compiler context exceeds the configured byte budget")
+    return text
+
+
+def task_context(task, source, dependencies, budget):
+    if not task.get("dependencies"):
+        return compiler_context(source, budget)
+    try:
+        project = analyze_project("task.tal", {"task.tal": source, **dependencies})
+        text = encode(project_context(project, "task.tal::" + function_scope(task), max_bytes=budget))
+    except CompileError as error:
+        if error.code == "E0502":
+            raise ValueError("Compiler context exceeds the configured byte budget") from None
+        text = encode({"schema": "talven.project-diagnostics.v1", "validation": "frontend-only",
+                       "diagnostics": [error.diagnostic(source)]})
     if len(text.encode("utf-8")) > budget:
         raise ValueError("Compiler context exceeds the configured byte budget")
     return text
@@ -254,14 +274,16 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
     result = {"id": identifier, "task": task_id, "context_mode": mode, "repetition": repetition,
               "status": "error", "attempts": [], "elapsed_seconds": 0.0}
     scope = function_scope(tasks[task_id])
+    task = tasks[task_id]
+    dependencies = {name: inputs[path].decode("utf-8") for name, path in task.get("dependencies", {}).items()}
     replacement = (f"only the complete new definition of function {scope}; the runner replaces that function "
                    "in the file and keeps everything else" if scope else "the complete replacement source")
-    system = (f"You are editing a Talven program in language profile {PROFILE}. Follow the task and the "
+    system = (f"You are editing a Talven program in language profile {task.get('profile', PROFILE)}. Follow the task and the "
               "pinned language reference. "
               "Independent tests are controlled by the runner. Return a JSON object with an edits "
               f"object containing exactly one key, task.tal, whose value is {replacement}. "
               "Do not request tools or edit any other file.\n\n" +
-              "\n\n".join(f"--- {name} ---\n{inputs[name].decode('utf-8')}" for name in GUIDES))
+              "\n\n".join(f"--- {name} ---\n{inputs[name].decode('utf-8')}" for name in (*GUIDES, *task.get("guides", []))))
     messages = [{"role": "system", "content": system}]
     feedback = None
 
@@ -279,8 +301,10 @@ def run_trial(task_id, mode, repetition, run_dir, config, env, inputs, hashes, l
         try:
             assert_unchanged(hashes, config, corpus_version)
             payload = {"instruction": tasks[task_id]["instruction"], "source": source, "feedback": feedback}
+            if dependencies:
+                payload["read_only_sources"] = dependencies
             if mode == "compiler":
-                payload["compiler_context"] = compiler_context(source, limits["context_bytes"])
+                payload["compiler_context"] = task_context(task, source, dependencies, limits["context_bytes"])
             messages.append({"role": "user", "content": encode(payload)})
         except (ValueError, OSError, UnicodeError) as error:
             result.update(status="error", error=str(error))
@@ -422,6 +446,10 @@ def run_experiment(adapter_path, output, tasks, modes, repetitions, cc, limits,
         raise ValueError("Duplicate task selection; use --repetitions instead")
     config = read_config(adapter_path)
     env = environment(cc)
+    profiles = {spec.get("profile", PROFILE) for spec in corpus.values()}
+    if len(profiles) != 1:
+        raise ValueError("A corpus must declare one language profile")
+    env["language_profile"] = profiles.pop()
     if config["kind"] == "live":
         if max_cost_usd is None and max_calls is None:
             raise ValueError("Live runs require --max-cost-usd or --max-calls")
@@ -511,6 +539,7 @@ def reverify(directory, cc=None):
     assert_unchanged(run["input_hashes"], corpus_version=corpus_version)
     # Archived metadata is untrusted data, never authority to select a program.
     env = environment(cc or "cc")
+    env["language_profile"] = next(iter({spec.get("profile", PROFILE) for spec in tasks.values()}))
     limits = run["limits"]
     for name in ("verification_timeout", "native_timeout"):
         value = limits[name]

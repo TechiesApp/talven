@@ -1,0 +1,60 @@
+pub struct Account {
+    balance: i32,
+    limit: i32,
+    tier: i32
+}
+
+fn adjust(v: i32) -> i32 {
+    return v - 1;
+}
+
+pub fn stage_00(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+pub fn stage_01(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 2;
+}
+
+pub fn stage_02(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 2 - v;
+}
+
+pub fn stage_03(v: i32) -> i32 {
+    return adjust(v * 2);
+}
+
+pub fn stage_08(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+pub fn stage_09(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+pub fn stage_10(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 2 - v;
+}
+
+pub fn stage_11(v: i32) -> i32 {
+    return adjust(v * 2);
+}
+
+pub fn stage_16(a: &mut Account, v: i32) -> i32 {
+    a.balance = a.balance + v * 3;
+    return a.balance;
+}
+
+pub fn stage_17(a: &Account, v: i32) -> i32 {
+    return a.balance - v * 3;
+}
+
+pub fn stage_18(a: Account, v: i32) -> i32 {
+    return a.balance + a.tier * 3 - v;
+}
+
+pub fn stage_19(v: i32) -> i32 {
+    return adjust(v * 3);
+}

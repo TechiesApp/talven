@@ -21,14 +21,14 @@ from pathlib import Path
 import tempfile
 
 from experiments.process import TOOL_ENVIRONMENT, environment_subset, run_process
-from experiments import borrowing_verifier, hard_verifier, large_verifier
+from experiments import borrowing_verifier, hard_verifier, large_verifier, module_verifier
 from talven.backend import emit_c
 from talven.frontend import Analysis, CompileError, Expr, Statement, analyze, require_entry
 
 
 C_FLAGS = ("-std=c11", "-O2")
 TASK_IDS = ({"move-scalar", "strict-type", "rename-field", "squared-length"} | borrowing_verifier.TASK_IDS |
-            hard_verifier.TASK_IDS | large_verifier.TASK_IDS)
+            hard_verifier.TASK_IDS | large_verifier.TASK_IDS | module_verifier.TASK_IDS)
 
 
 def _expressions(expr: Expr):
@@ -210,6 +210,8 @@ def verify(task_id: str, source: str, cc: str = "cc", timeout: float = 5.0) -> d
     if task_id not in TASK_IDS or not math.isfinite(timeout) or timeout <= 0:
         result.update(status="error", feedback="unknown task or invalid positive finite timeout")
         return result
+    if task_id in module_verifier.TASK_IDS:
+        return module_verifier.verify(task_id, source, cc, timeout)
     try:
         analysis = analyze(source)
         require_entry(analysis)
