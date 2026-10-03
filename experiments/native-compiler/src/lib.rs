@@ -11,6 +11,10 @@ use std::ops::Range;
 
 mod format;
 pub use format::format_source;
+mod input;
+pub use input::read_source;
+mod edit;
+pub use edit::{snapshot_source, validate_edit};
 mod context;
 pub use context::SOURCE_FILES;
 pub use context::{ContextOptions, compiler_hash, native_context, source_hash};

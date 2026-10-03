@@ -1,16 +1,18 @@
 use std::ffi::OsString;
-use std::fs::File;
-use std::io::{self, Read, Write};
+use std::io::{self, Write};
 use std::path::Path;
 use talven_native::{
-    ContextOptions, Error, MAX_SOURCE, PROFILE, SOURCE_FILES, agent_context, analyze,
-    analyze_measured, emit_c, format_source, line_character, native_context, receipt, size_error,
+    ContextOptions, Error, PROFILE, SOURCE_FILES, agent_context, analyze, analyze_measured, emit_c,
+    format_source, line_character, native_context, read_source, receipt,
 };
 fn main() {
     std::process::exit(run());
 }
 fn run() -> i32 {
     let args: Vec<OsString> = std::env::args_os().skip(1).collect();
+    if args.first().is_some_and(|a| a == "edit") {
+        return edit(&args[1..]);
+    }
     if args.first().is_some_and(|a| a == "measure") {
         return measure(&args[1..]);
     }
@@ -190,21 +192,6 @@ fn context_options(args: &[OsString]) -> Option<(bool, ContextOptions<'_>)> {
     Some((compact, options))
 }
 
-fn read_source(path: &Path) -> Result<String, Error> {
-    let file = open_source(path).map_err(io_error)?;
-    if !file.metadata().map_err(io_error)?.is_file() {
-        return Err(io_error("Source must be a regular file"));
-    }
-    let mut bytes = Vec::new();
-    file.take((MAX_SOURCE + 1) as u64)
-        .read_to_end(&mut bytes)
-        .map_err(io_error)?;
-    if bytes.len() > MAX_SOURCE {
-        return Err(size_error());
-    }
-    String::from_utf8(bytes).map_err(io_error)
-}
-
 fn measure(args: &[OsString]) -> i32 {
     let usage = || {
         eprintln!("Usage: talven-native measure SOURCE [--iterations 1..100] [--warmups 0..10]");
@@ -248,9 +235,11 @@ fn measure(args: &[OsString]) -> i32 {
             let generated = emit_c(&program, true)?;
             let emit_ns = started.elapsed().as_nanos();
             if generated != baseline {
-                return Err(io_error(
-                    "Measured output differs from ordinary checked emission",
-                ));
+                return Err(Error {
+                    code: "E0901",
+                    message: "Measured output differs from ordinary checked emission".into(),
+                    span: 0..0,
+                });
             }
             let phase = if index < warmups {
                 "warmup"
@@ -287,45 +276,82 @@ fn measure(args: &[OsString]) -> i32 {
         }
     }
 }
-fn io_error(error: impl std::fmt::Display) -> Error {
-    Error {
-        code: "E0901",
-        message: error.to_string(),
-        span: 0..0,
+fn edit(args: &[OsString]) -> i32 {
+    let usage = || {
+        eprintln!(
+            "Usage: talven-native edit snapshot SOURCE [--include-source] [--max-bytes N] | edit validate SOURCE --candidate FILE --expect-source-hash HASH --expect-compiler-hash HASH [--max-bytes N]"
+        );
+        2
+    };
+    if args.len() < 2 || (args[0] != "snapshot" && args[0] != "validate") {
+        return usage();
     }
-}
-
-// O_NONBLOCK differs by OS and, on Linux, by architecture (for example 0x80 on MIPS and
-// 0x4000 on Alpha/SPARC). Only the inspected ABIs are enabled; every other target fails
-// explicitly instead of guessing a flag value.
-#[cfg(any(
-    all(
-        target_os = "linux",
-        any(target_arch = "x86_64", target_arch = "aarch64")
-    ),
-    target_os = "macos"
-))]
-fn open_source(path: &Path) -> io::Result<File> {
-    use std::os::unix::fs::OpenOptionsExt;
-    #[cfg(target_os = "linux")]
-    const O_NONBLOCK: i32 = 0x800;
-    #[cfg(target_os = "macos")]
-    const O_NONBLOCK: i32 = 0x4;
-    File::options()
-        .read(true)
-        .custom_flags(O_NONBLOCK)
-        .open(path)
-}
-#[cfg(not(any(
-    all(
-        target_os = "linux",
-        any(target_arch = "x86_64", target_arch = "aarch64")
-    ),
-    target_os = "macos"
-)))]
-fn open_source(_: &Path) -> io::Result<File> {
-    Err(io::Error::new(
-        io::ErrorKind::Unsupported,
-        "Native experiment opens sources only on Linux x86-64/aarch64 and macOS",
-    ))
+    let snapshot = args[0] == "snapshot";
+    let mut include_source = false;
+    let mut max_bytes = 16384;
+    let (mut candidate, mut source_hash, mut compiler_hash) = (None, None, None);
+    let mut seen = std::collections::BTreeSet::new();
+    let mut index = 2;
+    while index < args.len() {
+        let Some(flag) = args[index].to_str() else {
+            return usage();
+        };
+        if !seen.insert(flag) {
+            return usage();
+        }
+        if flag == "--include-source" && snapshot {
+            include_source = true;
+        } else if flag == "--max-bytes"
+            || (!snapshot
+                && matches!(
+                    flag,
+                    "--candidate" | "--expect-source-hash" | "--expect-compiler-hash"
+                ))
+        {
+            index += 1;
+            let Some(value) = args.get(index) else {
+                return usage();
+            };
+            match flag {
+                "--candidate" => candidate = Some(value),
+                "--expect-source-hash" => source_hash = value.to_str(),
+                "--expect-compiler-hash" => compiler_hash = value.to_str(),
+                "--max-bytes" => {
+                    let Some(parsed) = value
+                        .to_str()
+                        .filter(|s| !s.is_empty() && s.bytes().all(|b| b.is_ascii_digit()))
+                        .and_then(|s| s.parse::<usize>().ok())
+                    else {
+                        return usage();
+                    };
+                    max_bytes = parsed;
+                }
+                _ => return usage(),
+            }
+        } else {
+            return usage();
+        }
+        index += 1;
+    }
+    let (ok, output) = if snapshot {
+        talven_native::snapshot_source(Path::new(&args[1]), include_source, max_bytes)
+    } else {
+        let (Some(candidate), Some(source_hash), Some(compiler_hash)) =
+            (candidate, source_hash, compiler_hash)
+        else {
+            return usage();
+        };
+        talven_native::validate_edit(
+            Path::new(&args[1]),
+            Path::new(candidate),
+            source_hash,
+            compiler_hash,
+            max_bytes,
+        )
+    };
+    if io::stdout().lock().write_all(output.as_bytes()).is_err() || !ok {
+        1
+    } else {
+        0
+    }
 }

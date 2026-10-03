@@ -9,6 +9,8 @@ pub const SOURCE_FILES: &[(&str, &str)] = &[
     ("src/lib.rs", include_str!("lib.rs")),
     ("src/format.rs", include_str!("format.rs")),
     ("src/context.rs", include_str!("context.rs")),
+    ("src/input.rs", include_str!("input.rs")),
+    ("src/edit.rs", include_str!("edit.rs")),
     ("src/runtime.c", include_str!("runtime.c")),
     ("src/console.c", include_str!("console.c")),
 ];
@@ -57,10 +59,10 @@ impl Default for ContextOptions<'_> {
     }
 }
 
-fn array(values: impl IntoIterator<Item = String>) -> String {
+pub(crate) fn array(values: impl IntoIterator<Item = String>) -> String {
     format!("[{}]", values.into_iter().collect::<Vec<_>>().join(","))
 }
-fn object(values: impl IntoIterator<Item = (&'static str, String)>) -> String {
+pub(crate) fn object(values: impl IntoIterator<Item = (&'static str, String)>) -> String {
     let values: BTreeMap<_, _> = values.into_iter().collect();
     format!(
         "{{{}}}",
@@ -88,7 +90,7 @@ fn expressions<'a>(program: &'a Program, function: &Function) -> Vec<&'a Expr> {
     }
     result
 }
-fn calls(program: &Program, function: &Function) -> BTreeSet<String> {
+pub(crate) fn calls(program: &Program, function: &Function) -> BTreeSet<String> {
     expressions(program, function)
         .into_iter()
         .filter_map(|expr| match &expr.kind {
@@ -97,7 +99,7 @@ fn calls(program: &Program, function: &Function) -> BTreeSet<String> {
         })
         .collect()
 }
-fn function_fact(program: &Program, function: &Function, source: Option<&str>) -> String {
+fn function_fields(function: &Function) -> Vec<(&'static str, String)> {
     let params = function.params.iter().map(|(name, ty)| {
         let mut fields = vec![("name", json(&name.text)), ("type", json(&ty.text))];
         let mode = if ty.text.starts_with("&mut ") {
@@ -140,17 +142,23 @@ fn function_fact(program: &Program, function: &Function, source: Option<&str>) -
             .join(", "),
         function.result.text
     );
-    let mut fields = vec![
+    vec![
         ("kind", json("function")),
         ("name", json(&function.name.text)),
         ("signature", json(&signature)),
         ("parameters", array(params)),
         ("returns", json(&function.result.text)),
-        (
-            "calls",
-            array(calls(program, function).iter().map(|name| json(name))),
-        ),
-    ];
+    ]
+}
+pub(crate) fn function_contract(function: &Function) -> String {
+    object(function_fields(function))
+}
+fn function_fact(program: &Program, function: &Function, source: Option<&str>) -> String {
+    let mut fields = function_fields(function);
+    fields.push((
+        "calls",
+        array(calls(program, function).iter().map(|name| json(name))),
+    ));
     if let Some(source) = source {
         fields.push((
             "untrusted_source_text",
@@ -158,6 +166,23 @@ fn function_fact(program: &Program, function: &Function, source: Option<&str>) -
         ));
     }
     object(fields)
+}
+
+pub(crate) fn record_fact(record: &Record) -> String {
+    object([
+        ("kind", json("record")),
+        ("name", json(&record.name.text)),
+        ("ownership", json("move-only")),
+        (
+            "fields",
+            array(
+                record
+                    .fields
+                    .iter()
+                    .map(|(n, t)| object([("name", json(&n.text)), ("type", json(&t.text))])),
+            ),
+        ),
+    ])
 }
 
 /// Fully checks this exact source before selecting facts. Hash guards precede analysis.
@@ -251,23 +276,9 @@ pub fn native_context(source: &str, options: &ContextOptions<'_>) -> Result<Stri
             }
         }
     }
-    let record_facts = used_records.into_iter().map(|name| {
-        let record = records[name];
-        object([
-            ("kind", json("record")),
-            ("name", json(name)),
-            ("ownership", json("move-only")),
-            (
-                "fields",
-                array(
-                    record
-                        .fields
-                        .iter()
-                        .map(|(n, t)| object([("name", json(&n.text)), ("type", json(&t.text))])),
-                ),
-            ),
-        ])
-    });
+    let record_facts = used_records
+        .into_iter()
+        .map(|name| record_fact(records[name]));
     let builtins = if builtin {
         r#"[{"effects":"blocking stdout writes; partial output possible; host signals unchanged","kind":"builtin","name":"print","parameters":[{"name":"text","passing":"copy","type":"str"}],"requires":"posix-console","result":"0 after all bytes written; 1 on returned write failure or zero progress","returns":"i32","signature":"fn print(text: str) -> i32"}]"#
     } else {
