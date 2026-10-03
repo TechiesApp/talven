@@ -208,7 +208,9 @@ class Server:
                     "completionProvider": {"resolveProvider": False, "triggerCharacters": ["."]},
                     "signatureHelpProvider": {"triggerCharacters": ["(", ","]},
                     "semanticTokensProvider": {"legend": {"tokenTypes": TOKEN_TYPES, "tokenModifiers": TOKEN_MODIFIERS},
-                                               "full": True, "range": False}},
+                                               "full": True, "range": False},
+                    "experimental": {"talvenProjectQuery": {"profile": "m1-local-modules-v1",
+                                                              "source": "explicit-in-memory-bundle"}}},
                     "serverInfo": {"name": "talven", "version": VERSION}})
                 return None
             if not self.initialized:
@@ -222,6 +224,17 @@ class Server:
             if method == "shutdown":
                 self.shutdown = True
                 self.send(id=identity, result=None)
+                return None
+            if method == "talven/projectQuery":
+                # An explicit source bundle permits cross-file navigation without
+                # opening URIs or silently discovering filesystem dependencies.
+                from .project import analyze_project, project_query
+                project = analyze_project(params['entry'], params['sources'])
+                if params.get('expectGraphHash') not in (None, project.identity()['graph_hash']):
+                    raise CompileError('E0501', 'Project revision changed; supply fresh sources', Span(0, 0))
+                result = project_query(project, params['file'], params['position'],
+                                       params.get('kind', 'definition'), params.get('maxBytes', 16384))
+                self.send(id=identity, result=result)
                 return None
             if method == "textDocument/didOpen":
                 doc = params["textDocument"]
@@ -322,6 +335,10 @@ class Server:
                     self.send(id=identity, **rename_edits(doc, uri, occurrences, params["newName"]))
             elif request:
                 self.send(id=identity, error={"code": -32601, "message": "Method not supported"})
+        except CompileError as error:
+            if request:
+                self.send(id=identity, error={"code": -32803, "message": "Project query failed",
+                                             "data": {"diagnostics": [error.diagnostic('')]}})
         except (KeyError, TypeError, ValueError, UnicodeError) as error:
             if request:
                 self.send(id=identity, error={"code": -32602, "message": str(error)})

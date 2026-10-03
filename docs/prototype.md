@@ -30,6 +30,8 @@ The [native test command](testing.md), `python3 -m talven test examples/tests.js
 
 The [edit preview commands](edit-validation.md) add read-only `edit snapshot` and `edit validate` operations. Snapshots provide exact identities even for broken source; validation checks a separate complete candidate against mandatory source/compiler hashes and reports frontend diagnostics and declaration differences. No source application or native execution occurs.
 
+The explicit [local-module companion](modules.md) adds `project check/context/emit-c/build`, named imports, visibility and original cross-file navigation through the shared checker. Its bounded closure is separate from the single-file base grammar, watcher and edit commands; project reuse/reload and standalone native graph resolution remain open.
+
 ## Implemented grammar
 
 ~~~ebnf
@@ -136,6 +138,7 @@ Commands read source only from regular files; FIFOs and devices produce E0901 wi
 | E0601 / E0602 / E0603 / E0604 | Noncanonical layout / formatting output limit / unsupported in-place target / token-preservation failure; see [formatting](formatting.md) |
 | E0701 / E0702 / E0703 | Invalid edit-preview request / compiler revision mismatch / preview output budget; see [edit previews](edit-validation.md) |
 | E1001 / E1002 | Invalid scalar C API request / C API output budget; see [C exports](c-api.md) |
+| E1101 / E1102 / E1103 / E1104 | Invalid module request / unavailable module or cycle / private export/signature type / graph resource limit; see [modules](modules.md) |
 | E0801 / E0802 | Invalid test manifest/expectation setup / malformed native full-result protocol; see [test manifests](testing.md) |
 | E0901 | File, encoding, process-launch, or build-timeout failure |
 

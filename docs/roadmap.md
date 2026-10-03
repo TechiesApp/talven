@@ -84,7 +84,9 @@ Measure actual save-to-diagnostic and save-to-running-revision latency, cache re
 
 [Proposal 0028](proposals/0028-function-body-syntax-reuse.md) adds explicit [function-body syntax reuse](body-syntax.md): fresh whole-source lexing/current declarations, exact last-successful immutable grammar and current mutable reconstruction. Semantic checks remain independent and native builds full; default parsing and editor recovery are unchanged.
 
-[Proposal 0036](proposals/0036-hosted-scalar-c-api.md) adds explicitly named [scalar C export units](c-api.md), generated headers and independently executed two-unit/libc callers. This begins a bounded foreign-interface contract; source-level modules/imports, foreign ownership/pointers, additional wrappers and M3 bridge-cost evidence remain open.
+[Proposal 0036](proposals/0036-hosted-scalar-c-api.md) adds explicitly named [scalar C export units](c-api.md), generated headers and independently executed two-unit/libc callers. This begins a bounded foreign-interface contract; project C API integration, foreign imports/ownership/pointers, additional wrappers and M3 bridge-cost evidence remain open.
+
+[Proposal 0037](proposals/0037-bounded-local-modules.md) now implements a separate reference [local-module profile](modules.md): bounded explicit imports/public declarations, nominal record identities, whole-project builds/context and original cross-file navigation. Shared checking preserves ownership rules; Rust independently checks/emits the resolved core source. Native graph resolution, project edit/test/watch integration, persistent reuse/reload and controlled agent effectiveness remain open.
 
 ## M2: Memory and concurrency foundations
 

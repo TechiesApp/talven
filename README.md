@@ -102,7 +102,9 @@ Run the compiler test suite with `python3 -m unittest discover -s tests`. Run th
 | Agent evaluation | A reproducible harness with paired source-only and compiler-context conditions, independent native acceptance, and priced token accounting |
 | Native compiler | A Rust prototype with scalars, text, records, moves, call-scoped borrowing, mutation, [compact and focused agent context](experiments/native-compiler/README.md#focused-context), [read-only edit previews](experiments/native-compiler/README.md#read-only-edit-previews) and [canonical formatting](experiments/native-compiler/README.md#canonical-formatting), checked against the reference by differential and sanitizer suites |
 
-Not built yet: loops, heap allocation, generics, source-level modules/imports, concurrency, a package manager, and GPU backends. See the [roadmap](docs/roadmap.md).
+The reference's explicit [local-module companion profile](docs/modules.md) adds bounded source imports, visibility, project builds/context and cross-file queries. The standalone Rust compiler checks resolved core source; native module graph resolution remains open.
+
+Not built yet: loops, heap allocation, generics, concurrency, a package manager, and GPU backends. See the [roadmap](docs/roadmap.md).
 
 ## Where it is going
 
