@@ -45,6 +45,7 @@ def main(argv: list[str] | None = None) -> int:
     mode.add_argument("--write", action="store_true", help="Explicitly replace the source file after freshness checks")
     fmt.add_argument("--json", action="store_true", help="Use structured diagnostics with --check")
     fmt.add_argument("--expect-source-hash", type=revision_hash, help="Reject an unexpected source revision")
+    fmt.add_argument("--module", action="store_true", help="Format the explicit local-module syntax profile")
     ctx = commands.add_parser("context", help="Return bounded, deterministic compiler-derived JSON")
     ctx.add_argument("source", type=Path)
     ctx.add_argument("--symbol")
@@ -112,7 +113,28 @@ def main(argv: list[str] | None = None) -> int:
     validate.add_argument("--expect-source-hash", required=True)
     validate.add_argument("--expect-compiler-hash", required=True)
     validate.add_argument("--max-bytes", type=int, default=16384)
+    project = commands.add_parser("project", help="Explicit bounded local-module profile")
+    project_commands = project.add_subparsers(dest="project_command", required=True)
+    for command in ('check', 'context', 'emit-c', 'build'):
+        operation = project_commands.add_parser(command)
+        operation.add_argument('entry', help='Canonical root-relative .tal entry path')
+        operation.add_argument('--root', type=Path, required=True)
+        operation.add_argument('--expect-graph-hash', type=revision_hash)
+        if command == 'check':
+            operation.add_argument('--json', action='store_true')
+        elif command == 'context':
+            operation.add_argument('--symbol', help='Module path::declaration')
+            operation.add_argument('--include-body', action='store_true')
+            operation.add_argument('--max-bytes', type=int, default=16384)
+        else:
+            operation.add_argument('-o', '--output', type=Path, required=command == 'build')
+            operation.add_argument('--console', action='store_true')
+            if command == 'build':
+                operation.add_argument('--cc', default='cc')
     args = parser.parse_args(argv)
+    if args.command == 'project':
+        from .project_cli import run_project
+        return run_project(args)
     if args.command == "fmt" and args.json and not args.check:
         parser.error("fmt --json requires --check")
     if args.command == "dev":
@@ -166,7 +188,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "fmt":
             if args.expect_source_hash is not None and args.expect_source_hash != source_hash(source):
                 raise CompileError("E0501", "Source revision changed; request fresh source before formatting", Span(0, 0))
-            formatted = format_source(source)
+            formatted = format_source(source, module=args.module)
             if args.check:
                 if formatted != source:
                     raise CompileError("E0601", "Source is not canonically formatted; run talven fmt --write", Span(0, 0))

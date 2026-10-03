@@ -80,6 +80,8 @@ Status definitions:
 
 | D64 | Proposed | Emit explicitly named hosted C11 scalar export units/headers with reference/native artifact parity | [Proposal 0036](proposals/0036-hosted-scalar-c-api.md); independent two-unit/libc scalar callers and sanitizers; Talven imports, foreign pointers/ownership, binary packaging and measured bridge costs remain open |
 
+| D65 | Proposed | Resolve bounded explicit local modules into the shared checker with private globals, nominal records and original source locations | [Proposal 0037](proposals/0037-bounded-local-modules.md); companion reference profile and explicit-bundle navigation; native graph resolution, workspace transactions, reuse/reload and agent benefits remain open |
+
 ## Open decisions
 
 | Decision | Questions to resolve |

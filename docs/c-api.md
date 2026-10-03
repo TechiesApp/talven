@@ -74,4 +74,4 @@ Exports permit only `i32`/`bool` parameters and results, represented by host C `
 
 Generated units use hosted trapping arithmetic; overflow/divide errors abort rather than returning a foreign error value. Console use anywhere in a unit requires `--console`. C hosts must use compatible compiler/target ABIs and respect declared types. Choosing artifact filenames, compiler flags, separate linking and source lifetime is the host's responsibility; compiler generation is read-only and identities do not authenticate binaries. C code is trusted native code, with no sandbox guarantee.
 
-Source-level module imports, stable binary packaging, broader C-library ownership/error bindings and additional native wrappers remain open. Call/bridge overhead, memory and agent benefits are unmeasured.
+A separate reference [local-module companion](modules.md) now provides bounded source imports; project C API emission and native graph resolution remain open. Stable binary packaging, broader C-library ownership/error bindings and additional native wrappers also remain open. Call/bridge overhead, memory and agent benefits are unmeasured.

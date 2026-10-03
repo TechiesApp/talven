@@ -72,6 +72,8 @@ Budgets default to 16384 and accept 1 byte through 1 MiB, including the UTF-8 ne
 
 Exact decoded C/header bytes, hashes and interface facts match the reference across eligible differential cases; native compiler identity remains distinct. The [C export guide](../../docs/c-api.md) uses two checked units and a libc `strtol` C caller. Standalone fixtures execute native/reference outputs under ASan/UBSan at O0/O2 and retain overflow traps. [Proposal 0036](../../docs/proposals/0036-hosted-scalar-c-api.md) defines budgets, failure ordering and scope. This does not provide Talven imports, foreign pointers/records/text exports, stable binary packages or measured bridge overhead. Generation performs no writes or program execution.
 
+The separate reference [local-module profile](../../docs/modules.md) resolves bounded explicit imports through the shared checker. `tests/project.py` compares this resolved core source against native C emission and independently executes both outputs with sanitizers. The Rust CLI does not load module graphs or accept raw module syntax; this boundary test does not claim native resolution parity.
+
 ## Canonical formatting
 
 `fmt SOURCE` prints the reference's `m1-scalar-mutation-layout-v1` layout without writing source. `fmt SOURCE --check` returns 0 with `Formatting check passed` when source already matches, or 1 with E0601 when layout differs. Add `--check --json` for the existing native diagnostic envelope on success/failure. `--json` requires `--check`; duplicate flags, `--write`, revision-hash flags and other unsupported options return usage status 2 before reading source. See [Proposal 0032](../../docs/proposals/0032-native-canonical-formatting.md).
@@ -92,6 +94,7 @@ python3 experiments/native-compiler/tests/formatting.py
 python3 experiments/native-compiler/tests/context.py
 python3 experiments/native-compiler/tests/edit.py
 python3 experiments/native-compiler/tests/c_api.py
+python3 experiments/native-compiler/tests/project.py
 python3 experiments/native-compiler/tests/differential.py
 python3 experiments/native-compiler/tests/comparison.py
 python3 scripts/check-borrow-sanitizers.py --native experiments/native-compiler/target/release/talven-native

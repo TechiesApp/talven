@@ -1,0 +1,22 @@
+import "counter.tal" { Counter as Account, add as increment };
+import "offset.tal" { adjust };
+
+fn calculate(value: i32) -> i32 {
+    let mut bounded = value;
+    if (bounded < -1000) {
+        bounded = -1000;
+    }
+    if (bounded > 1000) {
+        bounded = 1000;
+    }
+    let mut account = Account { value: bounded };
+    let result = increment(&mut account, 3);
+    return adjust(result) + account.value;
+}
+
+fn main() -> i32 {
+    if (calculate(35) == 82) {
+        return 0;
+    }
+    return 1;
+}

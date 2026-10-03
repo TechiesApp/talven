@@ -161,4 +161,4 @@ fn main() -> i32 {
 
 ## Not in this profile
 
-Loops, whole-record/text reassignment, arrays, heap allocation, string operations, modules or imports, generics, closures, concurrency, input, file access, and foreign calls. The [prototype guide](prototype.md) (tooling and contracts), [borrowing guide](borrowing.md) (rationale and lowering), and [text and console guide](text-console.md) (output details) describe the same profile in more depth.
+Loops, whole-record/text reassignment, arrays, heap allocation, string operations, modules or imports, generics, closures, concurrency, input, file access, and foreign calls. The explicit [local-module companion profile](modules.md) adds bounded imports/visibility through the shared checker without changing this base grammar. The [prototype guide](prototype.md) (tooling and contracts), [borrowing guide](borrowing.md) (rationale and lowering), and [text and console guide](text-console.md) (output details) describe the base profile in more depth.

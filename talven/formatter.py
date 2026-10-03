@@ -100,8 +100,12 @@ def token_identity(tokens: list[Token]) -> list[tuple[str, str]]:
             for t in tokens if t.kind != "eof"]
 
 
-def format_source(source: str) -> str:
-    parse(source)
+def format_source(source: str, *, module: bool = False) -> str:
+    if module:
+        from .project import parse_module
+        parse_module(source)
+    else:
+        parse(source)
     tokens = lex(source, include_comments=True)[:-1]
     delimiters = groups(tokens)
     writer = Writer()
@@ -143,6 +147,10 @@ def format_source(source: str) -> str:
             writer.write(token.text)
             if kind == ";" or (kind == "," and stack and stack[-1].multiline):
                 writer.newline()
+            if module and kind == ';' and not stack:
+                following = next((t for t in tokens[index + 1:] if t.kind != 'comment'), None)
+                if following and (following.kind in ('fn', 'struct') or following.text == 'pub'):
+                    writer.blank_pending = True
         else:
             writer.write(token.text, space=after_word)
         if kind in (")", "}"):

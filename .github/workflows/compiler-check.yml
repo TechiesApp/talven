@@ -76,6 +76,12 @@ jobs:
           for source in examples/*.tal examples/invalid/*.tal tests/fixtures/*.tal experiments/corpora/*/*.tal experiments/freestanding/*.tal; do
             python3 -m talven fmt "$source" --check --json
           done
+          for source in examples/modules/*.tal; do
+            python3 -m talven fmt "$source" --module --check --json
+          done
+          python3 -m talven project check main.tal --root examples/modules --json
+          python3 -m talven project build main.tal --root examples/modules -o build/modules-example
+          ./build/modules-example
       - name: Exercise provider-neutral evaluation without model calls
         run: |
           python3 tests/fixtures/eval_adapter.py --write-config build/eval-fixture.json
@@ -156,6 +162,7 @@ jobs:
           python3 experiments/native-compiler/tests/context.py
           python3 experiments/native-compiler/tests/edit.py
           python3 experiments/native-compiler/tests/c_api.py
+          python3 experiments/native-compiler/tests/project.py
           python3 experiments/native-compiler/tests/differential.py
           python3 experiments/native-compiler/tests/comparison.py
           python3 scripts/check-borrow-sanitizers.py --native experiments/native-compiler/target/release/talven-native

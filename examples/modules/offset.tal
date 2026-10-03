@@ -1,0 +1,7 @@
+fn helper(value: i32) -> i32 {
+    return value + 2;
+}
+
+pub fn adjust(value: i32) -> i32 {
+    return helper(value);
+}

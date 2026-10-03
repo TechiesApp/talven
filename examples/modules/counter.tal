@@ -1,0 +1,12 @@
+pub struct Counter {
+    value: i32
+}
+
+fn helper(value: i32) -> i32 {
+    return value + 2;
+}
+
+pub fn add(counter: &mut Counter, amount: i32) -> i32 {
+    counter.value = counter.value + helper(amount);
+    return counter.value;
+}
