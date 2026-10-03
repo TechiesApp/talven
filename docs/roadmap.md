@@ -98,9 +98,11 @@ verified release/transfer paths, then concurrency after its lifetime/memory mode
 Its resource contracts remain design-only. [Proposal 0040](proposals/0040-concrete-typed-outcomes.md)
 implements the first [concrete outcome slice](outcomes.md) under an explicit
 companion profile: nominal alternatives, scalar/record payloads, exhaustive consuming
-matches and must-handle checking in reference and native compilers. The next slice
-must choose a sound supplied-storage allocator lifetime representation before
-adding owned blocks, heap containers or an executor.
+matches and must-handle checking in reference and native compilers.
+[Proposal 0041](proposals/0041-supplied-storage-regions.md) drafts the next slice:
+stable lexical supplied-storage regions, one linear byte block per slot, explicit
+release and no block-bearing function results. Exact representation and region-aware
+checking still need implementation; heap containers and an executor remain later.
 
 Add allocator interfaces, containers, typed failures, structured tasks, cancellation, synchronization, and a selected optional executor.
 
