@@ -1,6 +1,6 @@
 # Talven language reference
 
-Profile: `m1-scalar-mutation-v1` (compiler `0.5.0-dev`). This page is the complete, normative summary of what the reference compiler accepts. It omits rationale, tooling, and validation evidence; follow the links at the end for those. Anything not listed here is not supported.
+Profile: `m1-scalar-mutation-v1` (compiler `0.5.0-dev`). This page is the complete, normative summary of the base profile accepted by the reference compiler. It omits rationale, tooling, and validation evidence; follow the links at the end for those. Anything not listed here is not supported.
 
 ## Source text
 
@@ -161,4 +161,4 @@ fn main() -> i32 {
 
 ## Not in this profile
 
-Loops, whole-record/text reassignment, arrays, heap allocation, string operations, modules or imports, tagged outcomes, generics, closures, concurrency, input, file access, and foreign calls. The explicit [local-module companion profile](modules.md) adds bounded imports/visibility and the explicit [concrete-outcome profile](outcomes.md) adds typed alternatives/exhaustive consuming matches through the shared checker without changing this base grammar. The [prototype guide](prototype.md) (tooling and contracts), [borrowing guide](borrowing.md) (rationale and lowering), and [text and console guide](text-console.md) (output details) describe the base profile in more depth.
+Loops, whole-record/text reassignment, arrays, heap allocation, string operations, modules or imports, tagged outcomes, generics, closures, concurrency, input, file access, and foreign calls. The explicit [local-module companion profile](modules.md) adds bounded imports/visibility and the explicit [concrete-outcome profile](outcomes.md) adds typed alternatives/exhaustive consuming matches through the shared checker without changing this base grammar. The separate [supplied-block profile](resources.md), `m2-supplied-blocks-v1`, adds bounded lexical regions, opaque linear byte blocks, explicit release and checked synchronous ownership delegation when selected with `--resources`; it includes concrete outcomes. Reference and Rust compilers check its original source independently. Region capacities are 1..4096 bytes, with at most eight declarations per function and one reusable slot per region; recursive total RAM, general allocator lifetimes, containers, cleanup and concurrency remain outside that companion. The [prototype guide](prototype.md) (tooling and contracts), [borrowing guide](borrowing.md) (rationale and lowering), and [text and console guide](text-console.md) (output details) describe the base profile in more depth.

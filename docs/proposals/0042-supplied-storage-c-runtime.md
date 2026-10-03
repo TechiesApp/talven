@@ -1,23 +1,26 @@
 # Proposal 0042: Supplied-storage C runtime prototype
 
-- Status: Implemented C experiment, `c11-single-slot-regions-v1`; no Talven source support
+- Status: Implemented standalone C experiment, `c11-single-slot-regions-v1`; compiler integration under Proposal 0043
 - Requirements: R08, R09, R10, R11, R16
-- Decisions: D70, D69, D67
+- Decisions: D70, D71 (proposed), D69, D67
 
 ## Purpose and boundary
 
 [Proposal 0041](0041-supplied-storage-regions.md) chooses stable lexical storage and
 explicit linear release for the first resource slice. This prototype fixes and
 tests its C descriptor, allocation-instance, initialized byte and rollback behavior
-before adding opaque owner types to a compiler. The
-[runtime header](../../experiments/supplied-storage/runtime.h) is called only by
-trusted C drivers. It does not make `region`, `Block`, `reserve` or `release` valid
-Talven syntax, and it does not enforce source moves, loans, function-result escape,
-region scope exit or consume-and-release function contracts.
+before integrating opaque owner types into a compiler. The
+[runtime header](../../experiments/supplied-storage/runtime.h) has an internal C
+boundary exercised by trusted drivers and, under [Proposal 0043](0043-supplied-blocks-compiler.md),
+compiler-generated source adapters. This runtime alone does not enforce source
+moves, loans, function-result escape, region scope exit or consume-and-release
+function contracts.
 
-The next compiler increment must implement those obligations in the shared
-CLI/context/LSP frontend and independent native checker. Runtime tests cannot
-substitute for that proof. General allocation, containers, automatic cleanup,
+Proposal 0043 implements those obligations in the shared reference frontend and
+independent Rust checker for the explicit [supplied-block profile](../resources.md).
+Its original-source checks, exact C/formatter parity and source-ledger gates are
+separate from this standalone runtime gate. Runtime tests cannot substitute for
+source provenance checking. General allocation, containers, automatic cleanup,
 foreign-pointer imports and concurrency remain unimplemented.
 
 ## Exact C representation and operations
@@ -131,12 +134,19 @@ lifetime ends even after slot release. No latency, total/peak stack, executable-
 or live-agent benefit is measured, and no heap-free process/startup claim follows
 from a helper object without direct heap symbols.
 
-## Next implementation gate
+## Compiler integration and remaining gates
 
-Add explicit region/opaque block AST and provenance state, prevent region movement
-and block-bearing results, enforce linear release or checked synchronous delegation
-on every normal return/scope exit, preserve obligations through constructors and
-exhaustive matches, and reject inconsistent joins/optional release paths. Integrate
-versioned effects/context with exact source/runtime identities and native parity.
-Test escaped storage, aliases and source use/double release alongside these C gates.
-No M2 resource-lifetime milestone is complete before that implementation passes.
+[Proposal 0043](0043-supplied-blocks-compiler.md) implements an explicit region/opaque
+Block AST and provenance state, prevents region movement and Block-bearing results,
+and enforces release or checked synchronous delegation on normal returns/scope
+exits. Moves, constructors and consuming matches preserve obligations; inconsistent
+continuing joins and optional release paths are rejected. Reference context and a
+custom LSP request record exact source/compiler/runtime identities, lexical origins
+and owning-parameter/intrinsic contracts. Rust independently checks original source
+and produces the same canonical source and C11 text; the standalone C gate remains required.
+
+The companion adds independent original-source execution/ledger gates without
+broadening this trusted C token boundary. Actual Linux x86-64/ARM64 resource
+execution with no skipped checks is required before merge. Heap containers, general allocator lifetimes, cancellation,
+concurrency and total-memory/latency/agent-cost evidence remain open; the broader
+M2 milestone is not complete.

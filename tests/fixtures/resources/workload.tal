@@ -1,0 +1,152 @@
+fn finish(block: Block) -> i32 {
+    release(block);
+    return 0;
+}
+
+fn probe(size: i32, alignment: i32, index: i32, value: i32) -> i32 {
+    region storage(32) {
+        let attempt = reserve(storage, size, alignment);
+        match (attempt) {
+            Allocation::Granted(block) {
+                let mut writable = block;
+                let write = write_byte(&mut writable, index, value);
+                match (write) {
+                    ByteWrite::Written {
+                        let read = read_byte(&writable, index);
+                        match (read) {
+                            ByteRead::Value(byte) {
+                                finish(writable);
+                                return byte;
+                            }
+                            ByteRead::OutOfBounds {
+                                finish(writable);
+                                return -90;
+                            }
+                        }
+                    }
+                    ByteWrite::OutOfBounds {
+                        let read = read_byte(&writable, 0);
+                        match (read) {
+                            ByteRead::Value(byte) {
+                                finish(writable);
+                                return -30 - byte;
+                            }
+                            ByteRead::OutOfBounds {
+                                finish(writable);
+                                return -91;
+                            }
+                        }
+                    }
+                    ByteWrite::InvalidByte {
+                        let read = read_byte(&writable, 0);
+                        match (read) {
+                            ByteRead::Value(byte) {
+                                finish(writable);
+                                return -40 - byte;
+                            }
+                            ByteRead::OutOfBounds {
+                                finish(writable);
+                                return -92;
+                            }
+                        }
+                    }
+                }
+            }
+            Allocation::InvalidRequest {
+                return -10;
+            }
+            Allocation::Exhausted {
+                return -20;
+            }
+        }
+    }
+}
+
+fn rewrap(size: i32, alignment: i32) -> i32 {
+    region storage(32) {
+        let attempt = reserve(storage, size, alignment);
+        let moved = attempt;
+        match (moved) {
+            Allocation::Granted(block) {
+                let again = Allocation::Granted(block);
+                match (again) {
+                    Allocation::Granted(selected) {
+                        return finish(selected);
+                    }
+                    Allocation::InvalidRequest {
+                        return -50;
+                    }
+                    Allocation::Exhausted {
+                        return -60;
+                    }
+                }
+            }
+            Allocation::InvalidRequest {
+                return -10;
+            }
+            Allocation::Exhausted {
+                return -20;
+            }
+        }
+    }
+}
+
+fn reuse(size: i32, alignment: i32) -> i32 {
+    region storage(32) {
+        let attempt = reserve(storage, size, alignment);
+        match (attempt) {
+            Allocation::Granted(block) {
+                finish(block);
+            }
+            Allocation::InvalidRequest {
+                return -10;
+            }
+            Allocation::Exhausted {
+                return -20;
+            }
+        }
+        let again = reserve(storage, size, alignment);
+        match (again) {
+            Allocation::Granted(block) {
+                return finish(block);
+            }
+            Allocation::InvalidRequest {
+                return -10;
+            }
+            Allocation::Exhausted {
+                return -20;
+            }
+        }
+    }
+}
+
+fn retry(size: i32, alignment: i32) -> i32 {
+    region storage(32) {
+        let attempt = reserve(storage, size, alignment);
+        match (attempt) {
+            Allocation::Granted(block) {
+                finish(block);
+            }
+            Allocation::InvalidRequest {
+            }
+            Allocation::Exhausted {
+            }
+        }
+        let again = reserve(storage, size, alignment);
+        match (again) {
+            Allocation::Granted(block) {
+                return finish(block);
+            }
+            Allocation::InvalidRequest {
+                return -10;
+            }
+            Allocation::Exhausted {
+                return -20;
+            }
+        }
+    }
+}
+
+fn main() -> i32 {
+    return probe(16, 8, 0, 42) - 42;
+}

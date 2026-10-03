@@ -212,6 +212,8 @@ class Server:
                     "experimental": {"talvenProjectQuery": {"profile": "m1-local-modules-v1",
                                                               "source": "explicit-in-memory-bundle"},
                                      "talvenOutcomeContext": {"profile": "m2-concrete-outcomes-v1",
+                                                              "source": "explicit-in-memory-source"},
+                                     "talvenResourceContext": {"profile": "m2-supplied-blocks-v1",
                                                               "source": "explicit-in-memory-source"}}},
                     "serverInfo": {"name": "talven", "version": VERSION}})
                 return None
@@ -226,6 +228,14 @@ class Server:
             if method == "shutdown":
                 self.shutdown = True
                 self.send(id=identity, result=None)
+                return None
+            if method == 'talven/resourceContext':
+                from .resources import analyze_resources, resource_context
+                if not isinstance(params.get('source'), str):
+                    raise ValueError('Resource source must be a string')
+                analysis = analyze_resources(params['source'])
+                self.send(id=identity, result=resource_context(analysis, params.get('maxBytes', 16384),
+                                                            params.get('expectSourceHash')))
                 return None
             if method == 'talven/outcomeContext':
                 from .outcomes import analyze_outcomes, outcome_context
@@ -348,9 +358,12 @@ class Server:
         except CompileError as error:
             if request:
                 outcome_request = method == 'talven/outcomeContext'
-                source = params['source'] if outcome_request else ''
+                resource_request = method == 'talven/resourceContext'
+                source = params['source'] if outcome_request or resource_request else ''
+                context_message = ('Resource context failed' if resource_request else
+                                   'Outcome context failed' if outcome_request else 'Project query failed')
                 self.send(id=identity, error={"code": -32803,
-                                             "message": "Outcome context failed" if outcome_request else "Project query failed",
+                                             "message": context_message,
                                              "data": {"diagnostics": [error.diagnostic(source)]}})
         except (KeyError, TypeError, ValueError, UnicodeError) as error:
             if request:

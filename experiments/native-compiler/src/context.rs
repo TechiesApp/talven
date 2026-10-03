@@ -14,6 +14,15 @@ pub const SOURCE_FILES: &[(&str, &str)] = &[
     ("src/c_api.rs", include_str!("c_api.rs")),
     ("src/runtime.c", include_str!("runtime.c")),
     ("src/console.c", include_str!("console.c")),
+    ("src/resources.rs", include_str!("resources.rs")),
+    (
+        "../supplied-storage/runtime.h",
+        include_str!("../../supplied-storage/runtime.h"),
+    ),
+    (
+        "../supplied-storage/source-runtime.c",
+        include_str!("../../supplied-storage/source-runtime.c"),
+    ),
 ];
 
 /// SHA-256 input identity, not authentication. Bounded callers supply UTF-8 source.

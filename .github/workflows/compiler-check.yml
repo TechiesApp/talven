@@ -83,8 +83,13 @@ jobs:
           python3 -m talven project build main.tal --root examples/modules -o build/modules-example
           ./build/modules-example
           python3 -m talven fmt examples/outcomes/decision.tal --outcomes --check --json
+          for source in examples/resources/*.tal tests/fixtures/resources/*.tal; do
+            python3 -m talven fmt "$source" --resources --check --json
+          done
           python3 -m talven build examples/outcomes/decision.tal --outcomes -o build/outcomes-example
           ./build/outcomes-example
+          python3 -m talven build examples/resources/blocks.tal --resources -o build/resource-example
+          ./build/resource-example
       - name: Exercise provider-neutral evaluation without model calls
         run: |
           python3 tests/fixtures/eval_adapter.py --write-config build/eval-fixture.json
@@ -111,6 +116,15 @@ jobs:
         with:
           name: region-runtime-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/region-runtime.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Preserve reference supplied-block source evidence
+        run: python3 scripts/check-resource-sanitizers.py --out build/resource-reference.json
+      - name: Upload reference supplied-block source receipt
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: resource-source-reference-${{ matrix.arch }}-python-${{ matrix.python }}
+          path: build/resource-reference.json
           if-no-files-found: error
           retention-days: 30
       - name: Build and execute the native CLI examples
@@ -176,9 +190,21 @@ jobs:
           python3 experiments/native-compiler/tests/c_api.py
           python3 experiments/native-compiler/tests/project.py
           python3 experiments/native-compiler/tests/outcomes.py
+          python3 experiments/native-compiler/tests/resources.py
           python3 experiments/native-compiler/tests/differential.py
           python3 experiments/native-compiler/tests/comparison.py
           python3 scripts/check-borrow-sanitizers.py --native experiments/native-compiler/target/release/talven-native
+      - name: Preserve native supplied-block source evidence
+        if: matrix.native
+        run: python3 scripts/check-resource-sanitizers.py --native experiments/native-compiler/target/release/talven-native --out build/resource-native.json
+      - name: Upload native supplied-block source receipt
+        if: matrix.native
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: resource-source-native-${{ matrix.arch }}-python-${{ matrix.python }}
+          path: build/resource-native.json
+          if-no-files-found: error
+          retention-days: 30
       - name: Compare verified overlapping native and reference workloads
         if: matrix.native
         run: python3 scripts/measure-native-prototype.py --native experiments/native-compiler/target/release/talven-native --expect-arch '${{ matrix.arch }}' --out build/native-comparison --repetitions 3 --warmups 1 --environment-note 'GitHub Actions shared runner; Rust 1.96.0 Cargo release defaults recorded in manifest'

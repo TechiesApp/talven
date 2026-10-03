@@ -1,0 +1,324 @@
+{
+  "compiler_hash": "7c7dd8227359d08c707934510d960524c61d889901065b09d082ced23e6ce9a4",
+  "environment": {
+    "c_target": "arm64-apple-darwin27.0.0",
+    "c_version": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+    "logical_cpus": 10,
+    "machine": "arm64",
+    "python": "3.14.7",
+    "release": "27.0.0",
+    "system": "Darwin"
+  },
+  "executions": [
+    {
+      "capacity": 1,
+      "fault_injection": false,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O0",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DTV_REGION_SOURCE_TEST",
+        "-DTEST_CAPACITY=1"
+      ],
+      "ledger_passed": true
+    },
+    {
+      "capacity": 1,
+      "fault_injection": true,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O0",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DTV_REGION_SOURCE_TEST",
+        "-DTEST_CAPACITY=1",
+        "-DTV_REGION_TEST_FAULT"
+      ],
+      "ledger_passed": true
+    },
+    {
+      "capacity": 1,
+      "fault_injection": false,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O2",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DTV_REGION_SOURCE_TEST",
+        "-DTEST_CAPACITY=1"
+      ],
+      "ledger_passed": true
+    },
+    {
+      "capacity": 1,
+      "fault_injection": true,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O2",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DTV_REGION_SOURCE_TEST",
+        "-DTEST_CAPACITY=1",
+        "-DTV_REGION_TEST_FAULT"
+      ],
+      "ledger_passed": true
+    },
+    {
+      "capacity": 32,
+      "fault_injection": false,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O0",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DTV_REGION_SOURCE_TEST",
+        "-DTEST_CAPACITY=32"
+      ],
+      "ledger_passed": true
+    },
+    {
+      "capacity": 32,
+      "fault_injection": true,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O0",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DTV_REGION_SOURCE_TEST",
+        "-DTEST_CAPACITY=32",
+        "-DTV_REGION_TEST_FAULT"
+      ],
+      "ledger_passed": true
+    },
+    {
+      "capacity": 32,
+      "fault_injection": false,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O2",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DTV_REGION_SOURCE_TEST",
+        "-DTEST_CAPACITY=32"
+      ],
+      "ledger_passed": true
+    },
+    {
+      "capacity": 32,
+      "fault_injection": true,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O2",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DTV_REGION_SOURCE_TEST",
+        "-DTEST_CAPACITY=32",
+        "-DTV_REGION_TEST_FAULT"
+      ],
+      "ledger_passed": true
+    },
+    {
+      "capacity": 4096,
+      "fault_injection": false,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O0",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DTV_REGION_SOURCE_TEST",
+        "-DTEST_CAPACITY=4096"
+      ],
+      "ledger_passed": true
+    },
+    {
+      "capacity": 4096,
+      "fault_injection": true,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O0",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DTV_REGION_SOURCE_TEST",
+        "-DTEST_CAPACITY=4096",
+        "-DTV_REGION_TEST_FAULT"
+      ],
+      "ledger_passed": true
+    },
+    {
+      "capacity": 4096,
+      "fault_injection": false,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O2",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DTV_REGION_SOURCE_TEST",
+        "-DTEST_CAPACITY=4096"
+      ],
+      "ledger_passed": true
+    },
+    {
+      "capacity": 4096,
+      "fault_injection": true,
+      "flags": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic-errors",
+        "-O2",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-DTV_REGION_SOURCE_TEST",
+        "-DTEST_CAPACITY=4096",
+        "-DTV_REGION_TEST_FAULT"
+      ],
+      "ledger_passed": true
+    }
+  ],
+  "inputs": [
+    {
+      "path": "tests/fixtures/resources/workload.tal",
+      "sha256": "380f422c7a9be94edbca11c31e9d10db6d845eddcf741c69ed01c3bfbb22fb42",
+      "text": "fn finish(block: Block) -> i32 {\n    release(block);\n    return 0;\n}\n\nfn probe(size: i32, alignment: i32, index: i32, value: i32) -> i32 {\n    region storage(32) {\n        let attempt = reserve(storage, size, alignment);\n        match (attempt) {\n            Allocation::Granted(block) {\n                let mut writable = block;\n                let write = write_byte(&mut writable, index, value);\n                match (write) {\n                    ByteWrite::Written {\n                        let read = read_byte(&writable, index);\n                        match (read) {\n                            ByteRead::Value(byte) {\n                                finish(writable);\n                                return byte;\n                            }\n                            ByteRead::OutOfBounds {\n                                finish(writable);\n                                return -90;\n                            }\n                        }\n                    }\n                    ByteWrite::OutOfBounds {\n                        let read = read_byte(&writable, 0);\n                        match (read) {\n                            ByteRead::Value(byte) {\n                                finish(writable);\n                                return -30 - byte;\n                            }\n                            ByteRead::OutOfBounds {\n                                finish(writable);\n                                return -91;\n                            }\n                        }\n                    }\n                    ByteWrite::InvalidByte {\n                        let read = read_byte(&writable, 0);\n                        match (read) {\n                            ByteRead::Value(byte) {\n                                finish(writable);\n                                return -40 - byte;\n                            }\n                            ByteRead::OutOfBounds {\n                                finish(writable);\n                                return -92;\n                            }\n                        }\n                    }\n                }\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn rewrap(size: i32, alignment: i32) -> i32 {\n    region storage(32) {\n        let attempt = reserve(storage, size, alignment);\n        let moved = attempt;\n        match (moved) {\n            Allocation::Granted(block) {\n                let again = Allocation::Granted(block);\n                match (again) {\n                    Allocation::Granted(selected) {\n                        return finish(selected);\n                    }\n                    Allocation::InvalidRequest {\n                        return -50;\n                    }\n                    Allocation::Exhausted {\n                        return -60;\n                    }\n                }\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn reuse(size: i32, alignment: i32) -> i32 {\n    region storage(32) {\n        let attempt = reserve(storage, size, alignment);\n        match (attempt) {\n            Allocation::Granted(block) {\n                finish(block);\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n        let again = reserve(storage, size, alignment);\n        match (again) {\n            Allocation::Granted(block) {\n                return finish(block);\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn retry(size: i32, alignment: i32) -> i32 {\n    region storage(32) {\n        let attempt = reserve(storage, size, alignment);\n        match (attempt) {\n            Allocation::Granted(block) {\n                finish(block);\n            }\n            Allocation::InvalidRequest {\n            }\n            Allocation::Exhausted {\n            }\n        }\n        let again = reserve(storage, size, alignment);\n        match (again) {\n            Allocation::Granted(block) {\n                return finish(block);\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn main() -> i32 {\n    return probe(16, 8, 0, 42) - 42;\n}\n"
+    },
+    {
+      "path": "tests/fixtures/resources/driver.c",
+      "sha256": "8194c73a32555f26a79b6f4646ed2435f84813ad53c942cfa23ad940387e0232",
+      "text": "#include <limits.h>\n#include <stdio.h>\n#include <string.h>\n#define main tv_generated_main\n#include \"generated.c\"\n#undef main\n#define REQUIRE(x) do { if (!(x)) { fprintf(stderr, \"source-ledger:%d\\n\", __LINE__); exit(41); } } while (0)\n#ifndef TEST_CAPACITY\n#define TEST_CAPACITY 32\n#endif\n\nstatic struct {\n    uint8_t bytes[TEST_CAPACITY];\n    uint64_t instance;\n    bool live;\n    size_t size, alignment;\n    unsigned requests, releases, reads, writes, initialized;\n} ledger;\nstatic int32_t planned_size, planned_alignment, planned_index, planned_value;\nstatic int32_t fail_at = -1;\nstatic uint32_t fault_calls;\nstatic bool saturated, fault_once;\nstatic tv_region *active_origin;\n\nbool tv_region_test_fault(uint32_t step) {\n    REQUIRE(step == fault_calls);\n    fault_calls += 1;\n    return fail_at >= 0 && step == (uint32_t)fail_at;\n}\n\nstatic void observe(tv_region *region) {\n    REQUIRE(region == active_origin && region->capacity == TEST_CAPACITY);\n    REQUIRE(region->instance == ledger.instance && region->occupied == ledger.live);\n    REQUIRE(region->live_size == ledger.size && region->live_alignment == ledger.alignment);\n    REQUIRE(((uintptr_t)region->storage % 16) == 0);\n    REQUIRE(memcmp(region->storage, ledger.bytes, TEST_CAPACITY) == 0);\n}\n\nvoid tv_region_source_event(uint32_t operation, tv_region *region, const tv_block *block,\n                            int32_t first, int32_t second, uint32_t tag, int32_t value) {\n    if (operation == 0) {\n        REQUIRE(ledger.initialized == 0 && first == TEST_CAPACITY && second == 0);\n        REQUIRE(region->capacity == TEST_CAPACITY && region->instance == 0 && !region->occupied);\n        REQUIRE(region->live_size == 0 && region->live_alignment == 0);\n        active_origin = region;\n        ledger.initialized = 1;\n        memset(ledger.bytes, 0xa5, TEST_CAPACITY);\n        memset(region->storage, 0xa5, TEST_CAPACITY); /* Trusted fixture, never source control. */\n        if (saturated) { region->instance = ledger.instance = UINT64_MAX - 1; }\n        observe(region);\n        return;\n    }\n    REQUIRE(ledger.initialized == 1 && active_origin == region);\n    if (operation == 1) {\n        REQUIRE(first == planned_size && second == planned_alignment);\n        bool valid = first > 0 && (second == 1 || second == 2 || second == 4 || second == 8 || second == 16);\n        bool space = valid && first <= TEST_CAPACITY && !ledger.live && ledger.instance != UINT64_MAX;\n        uint32_t expected = !valid ? 1 : !space ? 2 : 0;\n        if (space) {\n            ledger.instance += 1;\n#ifdef TV_REGION_TEST_FAULT\n            bool failed = fail_at >= 0 && fail_at <= first + 1;\n            REQUIRE(fault_calls == (failed ? (uint32_t)fail_at + 1 : (uint32_t)first + 2));\n#else\n            bool failed = false;\n            REQUIRE(fault_calls == 0);\n#endif\n            size_t initialized = failed ? (fail_at <= 1 ? 0 : (size_t)fail_at - 1) : (size_t)first;\n            memset(ledger.bytes, 0, initialized);\n            if (failed) { expected = 2; }\n            else { ledger.live = true; ledger.size = (size_t)first; ledger.alignment = (size_t)second; }\n        } else { REQUIRE(fault_calls == 0); }\n        REQUIRE(tag == expected && ((block != NULL) == (expected == 0)));\n        if (block) {\n            REQUIRE(block->origin == region && block->instance == ledger.instance);\n            REQUIRE(block->length == ledger.size && block->alignment == ledger.alignment);\n        }\n        ledger.requests += 1;\n        fault_calls = 0;\n        if (fault_once) { fail_at = -1; }\n    } else {\n        REQUIRE(block != NULL && ledger.live && block->origin == region);\n        REQUIRE(block->instance == ledger.instance && block->length == ledger.size && block->alignment == ledger.alignment);\n        if (operation == 2) {\n            REQUIRE(value == 0);\n            ledger.live = false;\n            ledger.size = ledger.alignment = 0;\n            ledger.releases += 1;\n        } else if (operation == 3) {\n            bool wrote = planned_index >= 0 && (size_t)planned_index < ledger.size && planned_value >= 0 && planned_value <= 255;\n            REQUIRE(first == (wrote ? planned_index : 0));\n            bool valid = first >= 0 && (size_t)first < ledger.size;\n            REQUIRE(tag == (valid ? 0u : 1u));\n            if (valid) { REQUIRE(value == ledger.bytes[(size_t)first]); }\n            ledger.reads += 1;\n        } else if (operation == 4) {\n            REQUIRE(first == planned_index && second == planned_value);\n            uint32_t expected = first < 0 || (size_t)first >= ledger.size ? 1 : second < 0 || second > 255 ? 2 : 0;\n            REQUIRE(tag == expected);\n            if (expected == 0) { ledger.bytes[(size_t)first] = (uint8_t)second; }\n            ledger.writes += 1;\n        } else { REQUIRE(false); }\n    }\n    observe(region);\n}\n\nstatic void start(int32_t size, int32_t alignment, int32_t index, int32_t value) {\n    memset(&ledger, 0, sizeof(ledger));\n    active_origin = NULL;\n    fault_calls = 0;\n    planned_size = size; planned_alignment = alignment; planned_index = index; planned_value = value;\n}\n\nstatic bool valid_request(int32_t size, int32_t alignment) {\n    return size > 0 && (alignment == 1 || alignment == 2 || alignment == 4 || alignment == 8 || alignment == 16);\n}\n\nstatic void probe(int32_t size, int32_t alignment, int32_t index, int32_t value) {\n    start(size, alignment, index, value);\n    bool valid = valid_request(size, alignment), granted = valid && size <= TEST_CAPACITY;\n    int32_t expected = !valid ? -10 : !granted ? -20 : index < 0 || index >= size ? -30 : value < 0 || value > 255 ? -40 : value;\n    REQUIRE(tv_f_probe(size, alignment, index, value) == expected);\n    REQUIRE(ledger.initialized == 1 && ledger.requests == 1 && !ledger.live);\n    REQUIRE(ledger.releases == (unsigned)granted && ledger.reads == (unsigned)granted && ledger.writes == (unsigned)granted);\n}\n\nint main(void) {\n    int32_t sizes[] = {INT32_MIN, -1, 0, 1, TEST_CAPACITY, TEST_CAPACITY + 1, INT32_MAX};\n    int32_t alignments[] = {INT32_MIN, -1, 0, 1, 2, 3, 4, 8, 16, 17, INT32_MAX};\n    int32_t indices[] = {INT32_MIN, -1, 0, TEST_CAPACITY - 1, TEST_CAPACITY, INT32_MAX};\n    int32_t values[] = {INT32_MIN, -1, 0, 1, 255, 256, INT32_MAX};\n    for (unsigned s = 0; s < sizeof(sizes)/sizeof(sizes[0]); ++s) {\n        for (unsigned a = 0; a < sizeof(alignments)/sizeof(alignments[0]); ++a) {\n            probe(sizes[s], alignments[a], 0, 42);\n            bool valid = valid_request(sizes[s], alignments[a]);\n            bool granted = valid && sizes[s] <= TEST_CAPACITY;\n            start(sizes[s], alignments[a], 0, 0);\n            REQUIRE(tv_f_rewrap(sizes[s], alignments[a]) == (!valid ? -10 : !granted ? -20 : 0));\n            REQUIRE(ledger.requests == 1 && ledger.releases == (unsigned)granted && !ledger.live);\n            start(sizes[s], alignments[a], 0, 0);\n            REQUIRE(tv_f_reuse(sizes[s], alignments[a]) == (!valid ? -10 : !granted ? -20 : 0));\n            REQUIRE(ledger.requests == (granted ? 2u : 1u) && ledger.releases == (granted ? 2u : 0u) && !ledger.live);\n        }\n    }\n    for (unsigned i = 0; i < sizeof(indices)/sizeof(indices[0]); ++i) {\n        for (unsigned v = 0; v < sizeof(values)/sizeof(values[0]); ++v) {\n            probe(TEST_CAPACITY, 16, indices[i], values[v]);\n        }\n    }\n#ifdef TV_REGION_TEST_FAULT\n    int32_t counts[] = {1, TEST_CAPACITY};\n    for (unsigned n = 0; n < sizeof(counts)/sizeof(counts[0]); ++n) {\n        for (int32_t fault = 0; fault <= counts[n] + 1; ++fault) {\n            start(counts[n], 16, 0, 0);\n            fail_at = fault; fault_once = true;\n            REQUIRE(tv_f_retry(counts[n], 16) == 0);\n            REQUIRE(ledger.requests == 2 && ledger.releases == 1 && ledger.instance == 2 && !ledger.live);\n        }\n    }\n#endif\n    fail_at = -1; fault_once = false; saturated = true;\n    start(1, 1, 0, 0);\n    REQUIRE(tv_f_reuse(1, 1) == -20);\n    REQUIRE(ledger.requests == 2 && ledger.releases == 1 && ledger.instance == UINT64_MAX && !ledger.live);\n    return 0;\n}\n"
+    },
+    {
+      "path": "experiments/supplied-storage/runtime.h",
+      "sha256": "52f65fc89784228d07c193d6a451859660db7ce7232799e63a8ceedadf14b60d",
+      "text": "/* Experimental hosted C11 single-slot runtime. No Talven source support.\n * Callers supply aligned storage and keep every descriptor alive while its\n * published owner is live. Initialization starts a fresh logical origin lifetime;\n * do not reinitialize while earlier tokens are considered valid. Descriptor fields\n * are private runtime state apart from explicitly controlled trusted test probes.\n * Metadata is not a foreign-pointer security boundary.\n * TV_REGION_TEST_FAULT enables only trusted test instrumentation.\n */\n#ifndef TALVEN_REGION_RUNTIME_V1_H\n#define TALVEN_REGION_RUNTIME_V1_H\n#include <stdbool.h>\n#include <stddef.h>\n#include <stdint.h>\n#include <stdlib.h>\n\ntypedef struct {\n    uint8_t *storage;\n    size_t capacity;\n    uint64_t instance;\n    size_t live_size;\n    size_t live_alignment;\n    bool occupied;\n} tv_region;\n\ntypedef struct {\n    tv_region *origin;\n    uint64_t instance;\n    size_t length;\n    size_t alignment;\n} tv_block;\n\nenum { TV_GRANTED = 0, TV_INVALID_REQUEST = 1, TV_EXHAUSTED = 2 };\ntypedef struct {\n    uint32_t tag;\n    union { tv_block block; } payload;\n} tv_allocation;\n\nenum { TV_READ_VALUE = 0, TV_READ_OUT_OF_BOUNDS = 1 };\ntypedef struct { uint32_t tag; int32_t value; } tv_byte_read;\nenum { TV_WRITTEN = 0, TV_WRITE_OUT_OF_BOUNDS = 1, TV_INVALID_BYTE = 2 };\n\n#ifdef TV_REGION_TEST_FAULT\nextern bool tv_region_test_fault(uint32_t step);\n#endif\n\nstatic inline void tv_region_require(bool condition) {\n    if (!condition) { abort(); }\n}\n\nstatic inline void tv_region_init(tv_region *region, uint8_t *storage, size_t capacity) {\n    tv_region_require(region != NULL && storage != NULL);\n    tv_region_require(capacity >= 1 && capacity <= 4096);\n    tv_region_require(((uintptr_t)storage % 16) == 0);\n    *region = (tv_region){.storage = storage, .capacity = capacity};\n}\n\nstatic inline tv_allocation tv_region_reserve(tv_region *region, int32_t size, int32_t alignment) {\n    tv_region_require(region != NULL);\n    if (size <= 0 || !(alignment == 1 || alignment == 2 || alignment == 4 ||\n                      alignment == 8 || alignment == 16)) {\n        return (tv_allocation){.tag = TV_INVALID_REQUEST};\n    }\n    if ((size_t)size > region->capacity || region->occupied || region->instance == UINT64_MAX) {\n        return (tv_allocation){.tag = TV_EXHAUSTED};\n    }\n    region->instance += UINT64_C(1);\n    region->occupied = true;\n    region->live_size = (size_t)size;\n    region->live_alignment = (size_t)alignment;\n#ifdef TV_REGION_TEST_FAULT\n    if (tv_region_test_fault(0)) { goto rollback; }\n#endif\n    for (size_t i = 0; i < (size_t)size; ++i) {\n#ifdef TV_REGION_TEST_FAULT\n        if (tv_region_test_fault((uint32_t)i + 1)) { goto rollback; }\n#endif\n        region->storage[i] = 0;\n    }\n#ifdef TV_REGION_TEST_FAULT\n    if (tv_region_test_fault((uint32_t)size + 1)) { goto rollback; }\n#endif\n    return (tv_allocation){.tag = TV_GRANTED, .payload.block = {\n        .origin = region, .instance = region->instance,\n        .length = (size_t)size, .alignment = (size_t)alignment\n    }};\n#ifdef TV_REGION_TEST_FAULT\nrollback:\n    region->occupied = false;\n    region->live_size = 0;\n    region->live_alignment = 0;\n    return (tv_allocation){.tag = TV_EXHAUSTED};\n#endif\n}\n\nstatic inline tv_region *tv_region_owner(tv_block block) {\n    tv_region_require(block.origin != NULL);\n    tv_region *region = block.origin;\n    tv_region_require(region->occupied && block.instance == region->instance &&\n                      block.length == region->live_size && block.alignment == region->live_alignment);\n    return region;\n}\n\nstatic inline int32_t tv_region_release(tv_block block) {\n    tv_region *region = tv_region_owner(block);\n    region->occupied = false;\n    region->live_size = 0;\n    region->live_alignment = 0;\n    return 0;\n}\n\nstatic inline tv_byte_read tv_region_read(const tv_block *block, int32_t index) {\n    tv_region_require(block != NULL);\n    tv_region *region = tv_region_owner(*block);\n    if (index < 0 || (size_t)index >= block->length) {\n        return (tv_byte_read){.tag = TV_READ_OUT_OF_BOUNDS};\n    }\n    return (tv_byte_read){.tag = TV_READ_VALUE, .value = region->storage[(size_t)index]};\n}\n\nstatic inline uint32_t tv_region_write(tv_block *block, int32_t index, int32_t value) {\n    tv_region_require(block != NULL);\n    tv_region *region = tv_region_owner(*block);\n    if (index < 0 || (size_t)index >= block->length) { return TV_WRITE_OUT_OF_BOUNDS; }\n    if (value < 0 || value > 255) { return TV_INVALID_BYTE; }\n    region->storage[(size_t)index] = (uint8_t)value;\n    return TV_WRITTEN;\n}\n#endif\n"
+    },
+    {
+      "path": "experiments/supplied-storage/source-runtime.c",
+      "sha256": "f81ea49bc480b953c262c2c0bcbfaa2131e999d70aadc70c98e44f81fdbd94d9",
+      "text": "/* Internal adapter to checked nominal Talven outcomes. Test hooks are trusted C only. */\n#ifdef TV_REGION_SOURCE_TEST\nextern void tv_region_source_event(uint32_t operation, tv_region *region,\n                                   const tv_block *block, int32_t first, int32_t second,\n                                   uint32_t tag, int32_t value);\n#define TV_SOURCE_EVENT(op, r, b, a, c, t, v) tv_region_source_event(op, r, b, a, c, t, v)\n#else\n#define TV_SOURCE_EVENT(op, r, b, a, c, t, v) ((void)0)\n#endif\nvoid tv_source_init(tv_region *region, uint8_t *storage, size_t capacity) {\n    tv_region_init(region, storage, capacity);\n    TV_SOURCE_EVENT(0, region, NULL, (int32_t)capacity, 0, 0, 0);\n}\nstruct tv_s_Allocation tv_source_reserve(tv_region *region, int32_t size, int32_t alignment) {\n    tv_allocation result = tv_region_reserve(region, size, alignment);\n    TV_SOURCE_EVENT(1, region, result.tag == TV_GRANTED ? &result.payload.block : NULL,\n                    size, alignment, result.tag, 0);\n    if (result.tag == TV_GRANTED) {\n        return (struct tv_s_Allocation){.tv_tag = 0, .tv_payload.tv_m_Granted = result.payload.block};\n    }\n    tv_region_require(result.tag == TV_INVALID_REQUEST || result.tag == TV_EXHAUSTED);\n    return (struct tv_s_Allocation){.tv_tag = result.tag};\n}\nint32_t tv_source_release(tv_block block) {\n    int32_t result = tv_region_release(block);\n    TV_SOURCE_EVENT(2, block.origin, &block, 0, 0, 0, result);\n    return result;\n}\nstruct tv_s_ByteRead tv_source_read(const tv_block *block, int32_t index) {\n    tv_byte_read result = tv_region_read(block, index);\n    TV_SOURCE_EVENT(3, block->origin, block, index, 0, result.tag, result.value);\n    if (result.tag == TV_READ_VALUE) {\n        return (struct tv_s_ByteRead){.tv_tag = 0, .tv_payload.tv_m_Value = result.value};\n    }\n    tv_region_require(result.tag == TV_READ_OUT_OF_BOUNDS);\n    return (struct tv_s_ByteRead){.tv_tag = 1};\n}\nstruct tv_s_ByteWrite tv_source_write(tv_block *block, int32_t index, int32_t value) {\n    uint32_t tag = tv_region_write(block, index, value);\n    TV_SOURCE_EVENT(4, block->origin, block, index, value, tag, 0);\n    tv_region_require(tag <= TV_INVALID_BYTE);\n    return (struct tv_s_ByteWrite){.tv_tag = tag};\n}\n#undef TV_SOURCE_EVENT\n"
+    },
+    {
+      "path": "scripts/check-resource-sanitizers.py",
+      "sha256": "c77feef1ec99b9797c766577b02b10fb85bbc103eaef482680de9a0591150d24",
+      "text": "#!/usr/bin/env python3\n\"\"\"Independent supplied-block source ledger under O0/O2 ASan/UBSan.\"\"\"\nimport argparse\nimport hashlib\nimport json\nimport os\nfrom pathlib import Path\nimport platform\nimport shutil\nimport subprocess\nimport sys\nimport tempfile\n\nROOT = Path(__file__).resolve().parents[1]\nsys.path.insert(0, str(ROOT))\nfrom talven.backend import emit_c\nfrom talven.context import compiler_hash\nfrom talven.resources import analyze_resources, runtime_identity\n\nSOURCES = ('tests/fixtures/resources/workload.tal', 'tests/fixtures/resources/driver.c',\n           'experiments/supplied-storage/runtime.h', 'experiments/supplied-storage/source-runtime.c',\n           'scripts/check-resource-sanitizers.py')\n\n# Fixed public manifest: never follow arbitrary paths supplied by a producer.\nNATIVE_SOURCES = ('Cargo.toml', 'Cargo.lock', 'build.rs', 'src/main.rs', 'src/lib.rs',\n                  'src/format.rs', 'src/context.rs', 'src/input.rs', 'src/edit.rs',\n                  'src/c_api.rs', 'src/runtime.c', 'src/console.c', 'src/resources.rs',\n                  '../supplied-storage/runtime.h', '../supplied-storage/source-runtime.c')\n\n\ndef command(args, timeout=30):\n    result = subprocess.run(args, capture_output=True, timeout=timeout)\n    if result.returncode or result.stderr:\n        raise RuntimeError('Source acceptance failed: ' + (result.stderr or result.stdout).decode(errors='replace'))\n    return result.stdout\n\n\ndef verify(native=None):\n    if platform.system() not in ('Linux', 'Darwin') or not shutil.which('cc') or not shutil.which('nm'):\n        raise RuntimeError('Source resource gate requires declared Linux/macOS C11 tools; no skips')\n    captured = {name: (ROOT / name).read_bytes() for name in SOURCES}\n    reference_hash = compiler_hash()\n    native_info = json.loads(command([str(native), '--build-info'])) if native else None\n    native_digest = hashlib.sha256(native.read_bytes()).hexdigest() if native else None\n    if native:\n        embedded = native_info.get('source_files', {})\n        if set(embedded) != set(NATIVE_SOURCES):\n            raise RuntimeError('Native producer source manifest does not match resource gate')\n        for name in NATIVE_SOURCES:\n            current = (ROOT / 'experiments/native-compiler' / name).read_bytes()\n            if not isinstance(embedded[name], str) or embedded[name].encode() != current:\n                raise RuntimeError('Native producer embeds stale source: ' + name)\n        if not isinstance(native_info.get('compiler_hash'), str):\n            raise RuntimeError('Native producer lacks compiler identity')\n    records, units = [], []\n    flags = ['-std=c11', '-Wall', '-Wextra', '-Werror', '-pedantic-errors']\n    with tempfile.TemporaryDirectory(prefix='talven-resource-source-') as temporary:\n        directory = Path(temporary)\n        (directory / 'driver.c').write_bytes(captured[SOURCES[1]])\n        source_path = directory / 'source.tal'\n        for capacity in (1, 32, 4096):\n            source = captured[SOURCES[0]].decode().replace('storage(32)', f'storage({capacity})')\n            # Native producer receives original Talven source, never a resolved/reference AST.\n            if native:\n                source_path.write_text(source)\n                generated = command([str(native), 'emit-c', str(source_path), '--resources']).decode()\n            else:\n                generated = emit_c(analyze_resources(source))\n            (directory / 'generated.c').write_text(generated)\n            units.append({'capacity': capacity, 'source': source,\n                          'source_hash': hashlib.sha256(source.encode()).hexdigest(),\n                          'c_hash': hashlib.sha256(generated.encode()).hexdigest()})\n            for optimization in ('-O0', '-O2'):\n                for fault in (False, True):\n                    settings = [*flags, optimization, '-fsanitize=address,undefined',\n                                '-fno-sanitize-recover=all', '-DTV_REGION_SOURCE_TEST',\n                                f'-DTEST_CAPACITY={capacity}']\n                    if fault:\n                        settings.append('-DTV_REGION_TEST_FAULT')\n                    binary = directory / 'program'\n                    command(['cc', *settings, str(directory / 'driver.c'), '-o', str(binary)])\n                    output = command([str(binary)], timeout=30)\n                    if output:\n                        raise RuntimeError('Unexpected source ledger output')\n                    records.append({'capacity': capacity, 'flags': settings,\n                                    'fault_injection': fault, 'ledger_passed': True})\n        production = directory / 'production.o'\n        command(['cc', *flags, '-O2', '-c', str(directory / 'generated.c'), '-o', str(production)])\n        symbols = sorted(line.split()[-1].lstrip('_') for line in\n                         command(['nm', '-u', str(production)]).decode().splitlines() if line.split())\n        permitted = {'abort', 'memset', 'bzero', 'memcpy', 'memmove', 'stack_chk_fail',\n                     'stack_chk_guard', 'chkstk_darwin', 'GLOBAL_OFFSET_TABLE_'}\n        if set(symbols) - permitted:\n            raise RuntimeError('Resource production object has an unapproved dependency: ' +\n                               ', '.join(sorted(set(symbols) - permitted)))\n    if compiler_hash() != reference_hash or any((ROOT / name).read_bytes() != data for name, data in captured.items()):\n        raise RuntimeError('Resource gate inputs changed; rerun with stable source/compiler')\n    if native and (hashlib.sha256(native.read_bytes()).hexdigest() != native_digest or\n                   json.loads(command([str(native), '--build-info'])) != native_info):\n        raise RuntimeError('Native producer changed during resource gate; rebuild and rerun')\n    if native and any((ROOT / 'experiments/native-compiler' / name).read_bytes() !=\n                      native_info['source_files'][name].encode() for name in NATIVE_SOURCES):\n        raise RuntimeError('Native producer source inputs changed during resource gate')\n    return {'schema': 'talven.resource-source-check.v1', 'profile': 'm2-supplied-blocks-v1',\n            'ok': True, 'producer': 'native' if native else 'reference',\n            'compiler_hash': native_info['compiler_hash'] if native else reference_hash,\n            'native_build_info': native_info, 'native_binary_hash': native_digest,\n            'reference_comparison_hash': reference_hash, 'runtime_inputs': runtime_identity(),\n            'environment': {'system': platform.system(), 'release': platform.release(),\n                            'machine': platform.machine(), 'python': platform.python_version(),\n                            'logical_cpus': os.cpu_count(),\n                            'c_target': command(['cc', '-dumpmachine']).decode().strip(),\n                            'c_version': command(['cc', '--version']).decode().splitlines()[0]},\n            'inputs': [{'path': name, 'sha256': hashlib.sha256(data).hexdigest(),\n                        'text': data.decode()} for name, data in captured.items()],\n            'units': units, 'executions': records,\n            'positive_executions': len(records), 'production': {'flags': [*flags, '-O2'],\n                'capacity': 4096, 'undefined_symbols': symbols, 'permitted_symbols': sorted(permitted),\n                'dependency_scope': 'generated workload object; excludes hosted startup/libc'},\n            'limits': ['sequential source profile; no heap containers or concurrency',\n                       'trusted ledger/fault hooks excluded from production',\n                       'no latency, stack/binary size or live-agent benefit measured']}\n\n\ndef main():\n    parser = argparse.ArgumentParser(description=__doc__)\n    parser.add_argument('--native', type=Path, help='Independent already-built native compiler')\n    parser.add_argument('--out', type=Path, help='Create a new JSON receipt, default stdout')\n    args = parser.parse_args()\n    if args.out and args.out.exists():\n        parser.error('--out must be a new file')\n    report = json.dumps(verify(args.native.resolve() if args.native else None), indent=2, sort_keys=True) + '\\n'\n    if args.out:\n        args.out.parent.mkdir(parents=True, exist_ok=True)\n        with args.out.open('x', encoding='utf-8') as output:\n            output.write(report)\n    else:\n        print(report, end='')\n\n\nif __name__ == '__main__':\n    main()\n"
+    }
+  ],
+  "limits": [
+    "sequential source profile; no heap containers or concurrency",
+    "trusted ledger/fault hooks excluded from production",
+    "no latency, stack/binary size or live-agent benefit measured"
+  ],
+  "native_binary_hash": null,
+  "native_build_info": null,
+  "ok": true,
+  "positive_executions": 12,
+  "producer": "reference",
+  "production": {
+    "capacity": 4096,
+    "dependency_scope": "generated workload object; excludes hosted startup/libc",
+    "flags": [
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic-errors",
+      "-O2"
+    ],
+    "permitted_symbols": [
+      "GLOBAL_OFFSET_TABLE_",
+      "abort",
+      "bzero",
+      "chkstk_darwin",
+      "memcpy",
+      "memmove",
+      "memset",
+      "stack_chk_fail",
+      "stack_chk_guard"
+    ],
+    "undefined_symbols": [
+      "abort",
+      "bzero",
+      "chkstk_darwin",
+      "stack_chk_fail",
+      "stack_chk_guard"
+    ]
+  },
+  "profile": "m2-supplied-blocks-v1",
+  "reference_comparison_hash": "7c7dd8227359d08c707934510d960524c61d889901065b09d082ced23e6ce9a4",
+  "runtime_inputs": [
+    {
+      "path": "experiments/supplied-storage/runtime.h",
+      "sha256": "52f65fc89784228d07c193d6a451859660db7ce7232799e63a8ceedadf14b60d"
+    },
+    {
+      "path": "experiments/supplied-storage/source-runtime.c",
+      "sha256": "f81ea49bc480b953c262c2c0bcbfaa2131e999d70aadc70c98e44f81fdbd94d9"
+    }
+  ],
+  "schema": "talven.resource-source-check.v1",
+  "units": [
+    {
+      "c_hash": "76bbc4416eb98ee2f0bed09859f18d97ea2a8e0578da7322df2f8785e83179cb",
+      "capacity": 1,
+      "source": "fn finish(block: Block) -> i32 {\n    release(block);\n    return 0;\n}\n\nfn probe(size: i32, alignment: i32, index: i32, value: i32) -> i32 {\n    region storage(1) {\n        let attempt = reserve(storage, size, alignment);\n        match (attempt) {\n            Allocation::Granted(block) {\n                let mut writable = block;\n                let write = write_byte(&mut writable, index, value);\n                match (write) {\n                    ByteWrite::Written {\n                        let read = read_byte(&writable, index);\n                        match (read) {\n                            ByteRead::Value(byte) {\n                                finish(writable);\n                                return byte;\n                            }\n                            ByteRead::OutOfBounds {\n                                finish(writable);\n                                return -90;\n                            }\n                        }\n                    }\n                    ByteWrite::OutOfBounds {\n                        let read = read_byte(&writable, 0);\n                        match (read) {\n                            ByteRead::Value(byte) {\n                                finish(writable);\n                                return -30 - byte;\n                            }\n                            ByteRead::OutOfBounds {\n                                finish(writable);\n                                return -91;\n                            }\n                        }\n                    }\n                    ByteWrite::InvalidByte {\n                        let read = read_byte(&writable, 0);\n                        match (read) {\n                            ByteRead::Value(byte) {\n                                finish(writable);\n                                return -40 - byte;\n                            }\n                            ByteRead::OutOfBounds {\n                                finish(writable);\n                                return -92;\n                            }\n                        }\n                    }\n                }\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn rewrap(size: i32, alignment: i32) -> i32 {\n    region storage(1) {\n        let attempt = reserve(storage, size, alignment);\n        let moved = attempt;\n        match (moved) {\n            Allocation::Granted(block) {\n                let again = Allocation::Granted(block);\n                match (again) {\n                    Allocation::Granted(selected) {\n                        return finish(selected);\n                    }\n                    Allocation::InvalidRequest {\n                        return -50;\n                    }\n                    Allocation::Exhausted {\n                        return -60;\n                    }\n                }\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn reuse(size: i32, alignment: i32) -> i32 {\n    region storage(1) {\n        let attempt = reserve(storage, size, alignment);\n        match (attempt) {\n            Allocation::Granted(block) {\n                finish(block);\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n        let again = reserve(storage, size, alignment);\n        match (again) {\n            Allocation::Granted(block) {\n                return finish(block);\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn retry(size: i32, alignment: i32) -> i32 {\n    region storage(1) {\n        let attempt = reserve(storage, size, alignment);\n        match (attempt) {\n            Allocation::Granted(block) {\n                finish(block);\n            }\n            Allocation::InvalidRequest {\n            }\n            Allocation::Exhausted {\n            }\n        }\n        let again = reserve(storage, size, alignment);\n        match (again) {\n            Allocation::Granted(block) {\n                return finish(block);\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn main() -> i32 {\n    return probe(16, 8, 0, 42) - 42;\n}\n",
+      "source_hash": "39bcd9bbc0cf2512a89ca6251d018af912b896e6dc24fc16ea8c91ec04bf4ba0"
+    },
+    {
+      "c_hash": "6b9859a9c5c2e3d66c46f8381e8cac7ec4f327fe966f20175b312b25bfa89b22",
+      "capacity": 32,
+      "source": "fn finish(block: Block) -> i32 {\n    release(block);\n    return 0;\n}\n\nfn probe(size: i32, alignment: i32, index: i32, value: i32) -> i32 {\n    region storage(32) {\n        let attempt = reserve(storage, size, alignment);\n        match (attempt) {\n            Allocation::Granted(block) {\n                let mut writable = block;\n                let write = write_byte(&mut writable, index, value);\n                match (write) {\n                    ByteWrite::Written {\n                        let read = read_byte(&writable, index);\n                        match (read) {\n                            ByteRead::Value(byte) {\n                                finish(writable);\n                                return byte;\n                            }\n                            ByteRead::OutOfBounds {\n                                finish(writable);\n                                return -90;\n                            }\n                        }\n                    }\n                    ByteWrite::OutOfBounds {\n                        let read = read_byte(&writable, 0);\n                        match (read) {\n                            ByteRead::Value(byte) {\n                                finish(writable);\n                                return -30 - byte;\n                            }\n                            ByteRead::OutOfBounds {\n                                finish(writable);\n                                return -91;\n                            }\n                        }\n                    }\n                    ByteWrite::InvalidByte {\n                        let read = read_byte(&writable, 0);\n                        match (read) {\n                            ByteRead::Value(byte) {\n                                finish(writable);\n                                return -40 - byte;\n                            }\n                            ByteRead::OutOfBounds {\n                                finish(writable);\n                                return -92;\n                            }\n                        }\n                    }\n                }\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn rewrap(size: i32, alignment: i32) -> i32 {\n    region storage(32) {\n        let attempt = reserve(storage, size, alignment);\n        let moved = attempt;\n        match (moved) {\n            Allocation::Granted(block) {\n                let again = Allocation::Granted(block);\n                match (again) {\n                    Allocation::Granted(selected) {\n                        return finish(selected);\n                    }\n                    Allocation::InvalidRequest {\n                        return -50;\n                    }\n                    Allocation::Exhausted {\n                        return -60;\n                    }\n                }\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn reuse(size: i32, alignment: i32) -> i32 {\n    region storage(32) {\n        let attempt = reserve(storage, size, alignment);\n        match (attempt) {\n            Allocation::Granted(block) {\n                finish(block);\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n        let again = reserve(storage, size, alignment);\n        match (again) {\n            Allocation::Granted(block) {\n                return finish(block);\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn retry(size: i32, alignment: i32) -> i32 {\n    region storage(32) {\n        let attempt = reserve(storage, size, alignment);\n        match (attempt) {\n            Allocation::Granted(block) {\n                finish(block);\n            }\n            Allocation::InvalidRequest {\n            }\n            Allocation::Exhausted {\n            }\n        }\n        let again = reserve(storage, size, alignment);\n        match (again) {\n            Allocation::Granted(block) {\n                return finish(block);\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn main() -> i32 {\n    return probe(16, 8, 0, 42) - 42;\n}\n",
+      "source_hash": "380f422c7a9be94edbca11c31e9d10db6d845eddcf741c69ed01c3bfbb22fb42"
+    },
+    {
+      "c_hash": "6e6127fc865fe7adc7f07101b3dd29f2294d89fa474cc2946c1792108291b740",
+      "capacity": 4096,
+      "source": "fn finish(block: Block) -> i32 {\n    release(block);\n    return 0;\n}\n\nfn probe(size: i32, alignment: i32, index: i32, value: i32) -> i32 {\n    region storage(4096) {\n        let attempt = reserve(storage, size, alignment);\n        match (attempt) {\n            Allocation::Granted(block) {\n                let mut writable = block;\n                let write = write_byte(&mut writable, index, value);\n                match (write) {\n                    ByteWrite::Written {\n                        let read = read_byte(&writable, index);\n                        match (read) {\n                            ByteRead::Value(byte) {\n                                finish(writable);\n                                return byte;\n                            }\n                            ByteRead::OutOfBounds {\n                                finish(writable);\n                                return -90;\n                            }\n                        }\n                    }\n                    ByteWrite::OutOfBounds {\n                        let read = read_byte(&writable, 0);\n                        match (read) {\n                            ByteRead::Value(byte) {\n                                finish(writable);\n                                return -30 - byte;\n                            }\n                            ByteRead::OutOfBounds {\n                                finish(writable);\n                                return -91;\n                            }\n                        }\n                    }\n                    ByteWrite::InvalidByte {\n                        let read = read_byte(&writable, 0);\n                        match (read) {\n                            ByteRead::Value(byte) {\n                                finish(writable);\n                                return -40 - byte;\n                            }\n                            ByteRead::OutOfBounds {\n                                finish(writable);\n                                return -92;\n                            }\n                        }\n                    }\n                }\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn rewrap(size: i32, alignment: i32) -> i32 {\n    region storage(4096) {\n        let attempt = reserve(storage, size, alignment);\n        let moved = attempt;\n        match (moved) {\n            Allocation::Granted(block) {\n                let again = Allocation::Granted(block);\n                match (again) {\n                    Allocation::Granted(selected) {\n                        return finish(selected);\n                    }\n                    Allocation::InvalidRequest {\n                        return -50;\n                    }\n                    Allocation::Exhausted {\n                        return -60;\n                    }\n                }\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn reuse(size: i32, alignment: i32) -> i32 {\n    region storage(4096) {\n        let attempt = reserve(storage, size, alignment);\n        match (attempt) {\n            Allocation::Granted(block) {\n                finish(block);\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n        let again = reserve(storage, size, alignment);\n        match (again) {\n            Allocation::Granted(block) {\n                return finish(block);\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn retry(size: i32, alignment: i32) -> i32 {\n    region storage(4096) {\n        let attempt = reserve(storage, size, alignment);\n        match (attempt) {\n            Allocation::Granted(block) {\n                finish(block);\n            }\n            Allocation::InvalidRequest {\n            }\n            Allocation::Exhausted {\n            }\n        }\n        let again = reserve(storage, size, alignment);\n        match (again) {\n            Allocation::Granted(block) {\n                return finish(block);\n            }\n            Allocation::InvalidRequest {\n                return -10;\n            }\n            Allocation::Exhausted {\n                return -20;\n            }\n        }\n    }\n}\n\nfn main() -> i32 {\n    return probe(16, 8, 0, 42) - 42;\n}\n",
+      "source_hash": "f1a8bcf16e458c26c4c7be524913353dccb62c6bb75db5a1431b98ed96b47637"
+    }
+  ]
+}

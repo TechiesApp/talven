@@ -10,8 +10,9 @@ use std::fmt::Write;
 use std::ops::Range;
 
 mod format;
-pub use format::{format_outcomes, format_source};
+pub use format::{format_outcomes, format_resources, format_source};
 mod c_api;
+mod resources;
 pub use c_api::emit_c_api;
 mod input;
 pub use input::read_source;
@@ -302,7 +303,13 @@ impl Ty {
             Self::Int => "int32_t".into(),
             Self::Bool => "bool".into(),
             Self::Text => "tv_str".into(),
+            Self::Record(index) if records[index].name.text == "Block" && records[index].opaque => {
+                "tv_block".into()
+            }
             Self::Record(index) => format!("struct tv_s_{}", records[index].name.text),
+            Self::Borrowed(index, exclusive) if records[index].opaque => {
+                format!("{}tv_block *", if exclusive { "" } else { "const " })
+            }
             Self::Borrowed(index, exclusive) => format!(
                 "{}struct tv_s_{} *",
                 if exclusive { "" } else { "const " },
@@ -355,6 +362,7 @@ enum StmtKind {
     Expr,
     Assign,
     Match,
+    Region,
 }
 #[derive(Debug)]
 struct MatchArm {
@@ -375,6 +383,7 @@ struct Stmt {
     mutable: bool,
     target: Option<usize>,
     arms: Vec<MatchArm>,
+    capacity: Option<Token>,
 }
 #[derive(Debug)]
 pub struct Record {
@@ -384,6 +393,7 @@ pub struct Record {
     resolved: Vec<(String, Ty)>,
     /// Present only in the explicitly selected concrete-outcome profile.
     variants: Option<Vec<(Token, Option<Token>)>>,
+    opaque: bool,
 }
 #[derive(Debug)]
 struct Function {
@@ -400,6 +410,7 @@ pub struct Program {
     signatures: BTreeMap<String, (Vec<Ty>, Ty)>,
     expressions: Vec<Expr>,
     console: bool,
+    resources: bool,
 }
 
 fn precedence(kind: &str) -> Option<u8> {
@@ -419,6 +430,7 @@ struct Parser {
     index: usize,
     expressions: Vec<Expr>,
     outcomes: bool,
+    resources: bool,
 }
 impl Parser {
     fn current(&self) -> &Token {
@@ -520,6 +532,7 @@ impl Parser {
                     fields: Vec::new(),
                     resolved: Vec::new(),
                     variants: Some(variants),
+                    opaque: false,
                 });
             } else if self.accept("struct") {
                 let name = self.take("id")?;
@@ -530,6 +543,7 @@ impl Parser {
                     fields,
                     resolved: Vec::new(),
                     variants: None,
+                    opaque: false,
                 });
             } else {
                 let start = self.take("fn")?.span.start;
@@ -567,8 +581,18 @@ impl Parser {
                 mutable: false,
                 target: None,
                 arms: Vec::new(),
+                capacity: None,
             };
-            if self.outcomes && self.accept("match") {
+            if self.resources && self.accept("region") {
+                stmt.kind = StmtKind::Region;
+                stmt.name = Some(self.take("id")?);
+                self.take("(")?;
+                let capacity = self.take("int")?;
+                stmt.expr = self.add(ExprKind::Int(capacity.text.clone()), capacity.span.clone());
+                stmt.capacity = Some(capacity);
+                self.take(")")?;
+                stmt.then = self.block(frame + 1)?;
+            } else if self.outcomes && self.accept("match") {
                 stmt.kind = StmtKind::Match;
                 self.take("(")?;
                 stmt.expr = self.expression(0, frame + 1)?;
@@ -854,6 +878,9 @@ struct State {
     moved: BTreeSet<String>,
     mutable: BTreeSet<String>,
     loans: BTreeMap<String, bool>,
+    regions: BTreeMap<String, usize>,
+    origins: BTreeMap<usize, resources::Slot>,
+    binding_origins: BTreeMap<String, usize>,
 }
 struct Checker<'a> {
     expressions: &'a mut [Expr],
@@ -862,6 +889,8 @@ struct Checker<'a> {
     record_index: &'a BTreeMap<String, usize>,
     result: Ty,
     console: bool,
+    resources: bool,
+    expression_origins: BTreeMap<usize, usize>,
 }
 impl Checker<'_> {
     fn outcome(&self, ty: Ty) -> Option<usize> {
@@ -869,6 +898,9 @@ impl Checker<'_> {
     }
     fn handled<'a>(&self, state: &State, names: impl Iterator<Item = &'a String>) -> Result<()> {
         for name in names {
+            if self.resources {
+                self.resource_binding_exit(name, state)?;
+            }
             if !state.moved.contains(name) && self.outcome(state.bindings[name]).is_some() {
                 return Err(error(
                     "E0311",
@@ -880,6 +912,9 @@ impl Checker<'_> {
         Ok(())
     }
     fn join(&self, state: &mut State, survivors: &[State], span: Range<usize>) -> Result<()> {
+        if self.resources {
+            self.resource_join(state, survivors, span.clone())?;
+        }
         for (name, ty) in &state.bindings {
             if self.outcome(*ty).is_some() && !survivors.is_empty() {
                 let first = survivors[0].moved.contains(name);
@@ -909,7 +944,9 @@ impl Checker<'_> {
         same(actual, expected, span, self.records)
     }
     fn bind(&self, name: &Token, ty: Ty, state: &mut State, mutable: bool) -> Result<()> {
-        if state.bindings.contains_key(&name.text) {
+        if state.bindings.contains_key(&name.text)
+            || (self.resources && state.regions.contains_key(&name.text))
+        {
             return Err(error(
                 "E0102",
                 format!("Duplicate or shadowed binding {}", name.text),
@@ -943,6 +980,10 @@ impl Checker<'_> {
                 self.assignment(stmt, state)?;
                 continue;
             }
+            if stmt.kind == StmtKind::Region {
+                reachable = self.resource_region(stmt, state)?;
+                continue;
+            }
             let ty = self.expr(stmt.expr, state, true)?;
             let span = self.expressions[stmt.expr].span.clone();
             match stmt.kind {
@@ -952,10 +993,16 @@ impl Checker<'_> {
                     }
                     let name = stmt.name.as_ref().expect("let name");
                     self.bind(name, ty, state, stmt.mutable)?;
+                    if let Some(origin) = self.expression_origins.get(&stmt.expr) {
+                        state.binding_origins.insert(name.text.clone(), *origin);
+                    }
                 }
                 StmtKind::Return => {
                     self.same(ty, self.result, span)?;
                     self.handled(state, state.bindings.keys())?;
+                    if self.resources {
+                        self.resource_return(state, stmt.span.clone())?;
+                    }
                     reachable = false;
                 }
                 StmtKind::If => {
@@ -1006,6 +1053,20 @@ impl Checker<'_> {
                             ));
                         }
                         let mut branch = state.clone();
+                        if self.resources && self.records[record].name.text == "Allocation" {
+                            let origin = self.expression_origins[&stmt.expr];
+                            branch.origins.insert(
+                                origin,
+                                if arm.variant.text == "Granted" {
+                                    resources::Slot::Live
+                                } else {
+                                    resources::Slot::Free
+                                },
+                            );
+                            if let Some(binding) = &arm.binding {
+                                branch.binding_origins.insert(binding.text.clone(), origin);
+                            }
+                        }
                         if let Some(payload) = payload {
                             self.bind(
                                 arm.binding.as_ref().unwrap(),
@@ -1014,7 +1075,14 @@ impl Checker<'_> {
                                 false,
                             )?;
                         }
-                        if self.block(&arm.body, &mut branch)? {
+                        let continuing = self.block(&arm.body, &mut branch)?;
+                        if continuing
+                            && self.resources
+                            && let Some(binding) = &arm.binding
+                        {
+                            self.resource_binding_exit(&binding.text, &branch)?;
+                        }
+                        if continuing {
                             survivors.push(branch);
                         }
                     }
@@ -1029,6 +1097,15 @@ impl Checker<'_> {
                     reachable = !survivors.is_empty();
                 }
                 StmtKind::Expr => {
+                    if self.resources
+                        && (self.is_resource(ty, "Block") || self.is_resource(ty, "Allocation"))
+                    {
+                        return Err(error(
+                            "E0321",
+                            "Resource owner or reservation cannot be discarded",
+                            span,
+                        ));
+                    }
                     if self.outcome(ty).is_some() {
                         return Err(error(
                             "E0311",
@@ -1037,7 +1114,7 @@ impl Checker<'_> {
                         ));
                     }
                 }
-                StmtKind::Assign => (),
+                StmtKind::Assign | StmtKind::Region => (),
             }
         }
         if reachable {
@@ -1045,6 +1122,21 @@ impl Checker<'_> {
                 state,
                 state.bindings.keys().filter(|n| !initial.contains(*n)),
             )?;
+        }
+        if self.resources {
+            let locals: Vec<_> = state
+                .bindings
+                .keys()
+                .filter(|n| !initial.contains(*n))
+                .cloned()
+                .collect();
+            for name in locals {
+                state.bindings.remove(&name);
+                state.declarations.remove(&name);
+                state.binding_origins.remove(&name);
+                state.moved.remove(&name);
+                state.mutable.remove(&name);
+            }
         }
         Ok(reachable)
     }
@@ -1196,6 +1288,51 @@ impl Checker<'_> {
     fn expr(&mut self, index: usize, state: &mut State, consume: bool) -> Result<Ty> {
         let expr = self.expressions[index].clone();
         let span = expr.span.clone();
+        if self.resources {
+            match &expr.kind {
+                ExprKind::Name(name) if state.regions.contains_key(name) => {
+                    return Err(error(
+                        "E0320",
+                        "Region names are accepted only as the first argument to reserve",
+                        span,
+                    ));
+                }
+                ExprKind::Record(name, _) if matches!(name.as_str(), "Block" | "Allocation") => {
+                    return Err(error(
+                        "E0320",
+                        "Resource owners and reservations cannot be forged with record literals",
+                        span,
+                    ));
+                }
+                ExprKind::Call(name, _) if matches!(name.as_str(), "Block" | "Allocation") => {
+                    return Err(error(
+                        "E0320",
+                        "Resource owners and reservations have no callable constructor",
+                        span,
+                    ));
+                }
+                ExprKind::Field(_, child) if matches!(&self.expressions[*child].kind, ExprKind::Name(name) if state.bindings.get(name).is_some_and(|ty| ty.record().is_some_and(|i| self.records[i].opaque))) =>
+                {
+                    self.lookup(*child, state)?;
+                    return Err(error(
+                        "E0320",
+                        "Block is opaque and has no source fields",
+                        span,
+                    ));
+                }
+                ExprKind::Outcome(name, variant, _)
+                    if name == "Allocation"
+                        && matches!(variant.text.as_str(), "InvalidRequest" | "Exhausted") =>
+                {
+                    return Err(error(
+                        "E0320",
+                        "Allocation failures are produced only by reserve",
+                        span,
+                    ));
+                }
+                _ => (),
+            }
+        }
         let ty = match expr.kind {
             ExprKind::Int(value) => {
                 let digits = value.trim_start_matches('0');
@@ -1229,6 +1366,11 @@ impl Checker<'_> {
                         "read"
                     },
                 )?;
+                if self.resources
+                    && let Some(origin) = state.binding_origins.get(&name)
+                {
+                    self.expression_origins.insert(index, *origin);
+                }
                 if consume && !ty.is_copy() {
                     state.moved.insert(name);
                 }
@@ -1258,6 +1400,13 @@ impl Checker<'_> {
                 let Some(&record) = self.record_index.get(&name) else {
                     return Err(error("E0101", format!("Unknown record {name}"), span));
                 };
+                if self.records[record].opaque {
+                    return Err(error(
+                        "E0320",
+                        "Block is opaque and has no source constructor",
+                        span,
+                    ));
+                }
                 if self.records[record].variants.is_some() {
                     return Err(error("E0101", format!("Unknown record {name}"), span));
                 }
@@ -1334,7 +1483,28 @@ impl Checker<'_> {
                         self.expressions[child].span.clone(),
                     )?;
                 }
+                if self.resources && name == "Allocation" {
+                    if variant.text != "Granted" {
+                        return Err(error(
+                            "E0320",
+                            "Allocation failure constructors are available only through reserve",
+                            span,
+                        ));
+                    }
+                    let origin = self.expression_origins[&payload.unwrap()];
+                    state.origins.insert(origin, resources::Slot::Pending);
+                    self.expression_origins.insert(index, origin);
+                }
                 Ty::Record(record)
+            }
+            ExprKind::Call(name, args)
+                if self.resources
+                    && matches!(
+                        name.as_str(),
+                        "reserve" | "release" | "read_byte" | "write_byte"
+                    ) =>
+            {
+                self.resource_call(index, &name, &args, state)?
             }
             ExprKind::Call(name, args) if name == "print" => {
                 if args.len() != 1 {
@@ -1357,6 +1527,7 @@ impl Checker<'_> {
                     ));
                 }
                 let outer_loans = state.loans.clone();
+                let mut transferred = Vec::new();
                 let checked = (|| {
                     for (arg, expected) in args.iter().zip(params) {
                         let actual = if matches!(self.expressions[*arg].kind, ExprKind::Borrow(..))
@@ -1375,11 +1546,17 @@ impl Checker<'_> {
                             self.expr(*arg, state, true)?
                         };
                         self.same(actual, expected, self.expressions[*arg].span.clone())?;
+                        if self.resources && self.is_resource(actual, "Block") {
+                            transferred.push(self.expression_origins[arg]);
+                        }
                     }
                     Ok(())
                 })();
                 state.loans = outer_loans;
                 checked?;
+                for origin in transferred {
+                    state.origins.insert(origin, resources::Slot::Free);
+                }
                 result
             }
             ExprKind::Borrow(..) => {
@@ -1455,6 +1632,13 @@ fn check_declarations(
     records: &mut [Record],
     functions: &[Function],
 ) -> Result<BTreeMap<String, usize>> {
+    check_declarations_profiles(records, functions, false)
+}
+fn check_declarations_profiles(
+    records: &mut [Record],
+    functions: &[Function],
+    resources: bool,
+) -> Result<BTreeMap<String, usize>> {
     let mut names: BTreeSet<&str> = ["i32", "bool", "str", "print"].into();
     // The reference visits every record before any function, whatever their source order.
     for name in records
@@ -1476,7 +1660,9 @@ fn check_declarations(
     }
     for position in 0..records.len() {
         let Some(variants) = records[position].variants.clone() else {
-            check_record(&mut records[position])?;
+            if !records[position].opaque {
+                check_record(&mut records[position], resources)?;
+            }
             continue;
         };
         if variants.is_empty() {
@@ -1497,11 +1683,31 @@ fn check_declarations(
                 ));
             }
             if let Some(payload) = payload {
+                if resources
+                    && records[position].name.text != "Allocation"
+                    && matches!(
+                        payload
+                            .text
+                            .strip_prefix("&mut ")
+                            .or_else(|| payload.text.strip_prefix('&'))
+                            .unwrap_or(&payload.text),
+                        "Block" | "Allocation"
+                    )
+                {
+                    return Err(error(
+                        "E0320",
+                        "User outcomes cannot contain Block or Allocation",
+                        payload.span,
+                    ));
+                }
                 let valid = matches!(payload.text.as_str(), "i32" | "bool")
                     || index
                         .get(&payload.text)
                         .is_some_and(|i| records[*i].variants.is_none());
-                if !valid {
+                if !valid
+                    || (records[position].name.text != "Allocation"
+                        && index.get(&payload.text).is_some_and(|i| records[*i].opaque))
+                {
                     return Err(error(
                         "E0310",
                         "Outcome payloads must be i32, bool, or owned scalar records",
@@ -1516,7 +1722,7 @@ fn check_declarations(
     Ok(index)
 }
 
-fn check_record(record: &mut Record) -> Result<()> {
+fn check_record(record: &mut Record, resources: bool) -> Result<()> {
     if record.fields.is_empty() {
         return Err(error(
             "E0204",
@@ -1531,6 +1737,21 @@ fn check_record(record: &mut Record) -> Result<()> {
                 "E0102",
                 format!("Duplicate field {}", name.text),
                 name.span.clone(),
+            ));
+        }
+        if resources
+            && matches!(
+                ty.text
+                    .strip_prefix("&mut ")
+                    .or_else(|| ty.text.strip_prefix('&'))
+                    .unwrap_or(&ty.text),
+                "Block" | "Allocation"
+            )
+        {
+            return Err(error(
+                "E0320",
+                "User records cannot contain Block or Allocation",
+                ty.span.clone(),
             ));
         }
         let ty = match ty.text.as_str() {
@@ -1560,10 +1781,16 @@ fn parse_program(source: &str) -> Result<Parsed> {
     parse_program_mode(source, false)
 }
 fn parse_program_mode(source: &str, outcomes: bool) -> Result<Parsed> {
+    parse_program_profiles(source, outcomes, false)
+}
+fn parse_program_profiles(source: &str, outcomes: bool, resources: bool) -> Result<Parsed> {
     let mut tokens = lex(source)?;
     if outcomes {
         for token in &mut tokens {
-            if token.kind == TokenKind::Id && matches!(token.text.as_str(), "outcome" | "match") {
+            if token.kind == TokenKind::Id
+                && (matches!(token.text.as_str(), "outcome" | "match")
+                    || (resources && token.text == "region"))
+            {
                 token.kind = TokenKind::Fixed;
             }
         }
@@ -1573,6 +1800,7 @@ fn parse_program_mode(source: &str, outcomes: bool) -> Result<Parsed> {
         index: 0,
         expressions: Vec::new(),
         outcomes,
+        resources,
     };
     let (records, functions) = parser.program()?;
     let expressions = parser.expressions;
@@ -1585,14 +1813,24 @@ fn parse_program_mode(source: &str, outcomes: bool) -> Result<Parsed> {
 }
 
 fn check_program(parsed: Parsed) -> Result<Program> {
+    check_program_profiles(parsed, false)
+}
+fn check_program_profiles(parsed: Parsed, resources: bool) -> Result<Program> {
     let Parsed {
         mut records,
         functions,
         mut expressions,
     } = parsed;
-    let record_index = check_declarations(&mut records, &functions)?;
+    let record_index = if resources {
+        resources::declarations(&mut records, &functions)?
+    } else {
+        check_declarations(&mut records, &functions)?
+    };
     let mut signatures = BTreeMap::new();
     for f in &functions {
+        if resources {
+            resources::signature_shape(f)?;
+        }
         let result = type_name(&f.result, false, &record_index)?;
         let params = f
             .params
@@ -1614,6 +1852,9 @@ fn check_program(parsed: Parsed) -> Result<Program> {
     }
     let mut console = false;
     for f in &functions {
+        if resources {
+            resources::function_bounds(f)?;
+        }
         let (params, result) = signatures[&f.name.text].clone();
         let mut checker = Checker {
             expressions: &mut expressions,
@@ -1622,10 +1863,18 @@ fn check_program(parsed: Parsed) -> Result<Program> {
             record_index: &record_index,
             result,
             console,
+            resources,
+            expression_origins: BTreeMap::new(),
         };
         let mut state = State::default();
         for ((name, _), ty) in f.params.iter().zip(params) {
             checker.bind(name, ty, &mut state, false)?;
+            if resources && checker.is_resource(ty, "Block") {
+                state
+                    .binding_origins
+                    .insert(name.text.clone(), name.span.start);
+                state.origins.insert(name.span.start, resources::Slot::Live);
+            }
         }
         if checker.block(&f.body, &mut state)? {
             return Err(error(
@@ -1645,6 +1894,7 @@ fn check_program(parsed: Parsed) -> Result<Program> {
         signatures,
         expressions,
         console,
+        resources,
     })
 }
 
@@ -1654,6 +1904,11 @@ pub fn analyze(source: &str) -> Result<Program> {
 /// Independently parse and check the explicit concrete-outcome source profile.
 pub fn analyze_outcomes(source: &str) -> Result<Program> {
     check_program(parse_program_mode(source, true)?)
+}
+
+/// Independently check the supplied-block companion with concrete outcomes.
+pub fn analyze_resources(source: &str) -> Result<Program> {
+    check_program_profiles(parse_program_profiles(source, true, true)?, true)
 }
 
 /// The reference's compact agent index, derived only from a checked program.
@@ -1765,6 +2020,7 @@ struct Emitter<'a> {
     counter: usize,
     used: [bool; 7],
     outcome_match: bool,
+    resources: bool,
 }
 impl Emitter<'_> {
     fn line(&mut self, text: impl std::fmt::Display) {
@@ -1853,9 +2109,31 @@ impl Emitter<'_> {
                 self.temp(Ty::Text, format!("(tv_str){{{name}, {}}}", value.len()))
             }
             ExprKind::Call(name, args) => {
-                let values = args.iter().map(|a| self.expr(*a)).collect::<Vec<_>>();
+                let values = if self.resources && name == "reserve" {
+                    let ExprKind::Name(region) = &self.expressions[args[0]].kind else {
+                        unreachable!("checked region")
+                    };
+                    let mut values = vec![format!("&tv_region_{region}")];
+                    values.extend(args[1..].iter().map(|a| self.expr(*a)));
+                    values
+                } else {
+                    args.iter().map(|a| self.expr(*a)).collect::<Vec<_>>()
+                };
                 let callee = if name == "print" {
                     "tv_console_print".into()
+                } else if self.resources
+                    && matches!(
+                        name.as_str(),
+                        "reserve" | "release" | "read_byte" | "write_byte"
+                    )
+                {
+                    match name.as_str() {
+                        "read_byte" => "tv_source_read",
+                        "write_byte" => "tv_source_write",
+                        "reserve" => "tv_source_reserve",
+                        _ => "tv_source_release",
+                    }
+                    .into()
                 } else {
                     format!("tv_f_{name}")
                 };
@@ -1924,6 +2202,29 @@ impl Emitter<'_> {
     }
     fn block(&mut self, body: &[Stmt]) {
         for stmt in body {
+            if stmt.kind == StmtKind::Region {
+                let name = &stmt.name.as_ref().unwrap().text;
+                let capacity = stmt
+                    .capacity
+                    .as_ref()
+                    .unwrap()
+                    .text
+                    .parse::<usize>()
+                    .unwrap();
+                self.line("{");
+                self.indent += 1;
+                self.line(format!(
+                    "_Alignas(16) uint8_t tv_storage_{name}[{capacity}];"
+                ));
+                self.line(format!("tv_region tv_region_{name};"));
+                self.line(format!(
+                    "tv_source_init(&tv_region_{name}, tv_storage_{name}, {capacity});"
+                ));
+                self.block(&stmt.then);
+                self.indent -= 1;
+                self.line("}");
+                continue;
+            }
             let value = self.expr(stmt.expr);
             match stmt.kind {
                 StmtKind::Let => {
@@ -1950,6 +2251,7 @@ impl Emitter<'_> {
                     let target = stmt.target.expect("assignment target");
                     self.line(format_args!("{} = {value};", self.place(target)));
                 }
+                StmtKind::Region => unreachable!("region handled above"),
                 StmtKind::Match => {
                     self.outcome_match = true;
                     let record = self.expressions[stmt.expr].ty.unwrap().record().unwrap();
@@ -2038,9 +2340,25 @@ fn emit_c_mode(program: &Program, console: bool, library: bool) -> Result<String
         counter: 0,
         used: [false; 7],
         outcome_match: false,
+        resources: program.resources,
     };
     let mut records: Vec<_> = program.records.iter().collect();
-    records.sort_by_key(|r| r.variants.is_some());
+    records.retain(|r| !r.opaque);
+    records.sort_by_key(|r| {
+        (
+            r.variants.is_some(),
+            if program.resources {
+                match r.name.text.as_str() {
+                    "Allocation" => 0,
+                    "ByteRead" => 1,
+                    "ByteWrite" => 2,
+                    _ => 3,
+                }
+            } else {
+                0
+            },
+        )
+    });
     for record in records {
         emitter.line(format_args!("struct tv_s_{} {{", record.name.text));
         if record.variants.is_some() {
@@ -2060,6 +2378,11 @@ fn emit_c_mode(program: &Program, console: bool, library: bool) -> Result<String
             }
         }
         emitter.line("};");
+    }
+    if program.resources {
+        emitter
+            .output
+            .push_str(include_str!("../../supplied-storage/source-runtime.c"));
     }
     for f in &program.functions {
         emitter.line(format_args!("{};", signature(program, f)));
@@ -2113,6 +2436,9 @@ fn emit_c_mode(program: &Program, console: bool, library: bool) -> Result<String
             output.push_str(definition);
             output.push('\n');
         }
+    }
+    if program.resources {
+        output.push_str(include_str!("../../supplied-storage/runtime.h"));
     }
     output.push_str(&emitter.output);
     Ok(output)

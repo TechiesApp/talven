@@ -38,6 +38,24 @@ consuming exhaustive matches; Rust independently checks/emits/formats the same
 source. Standard editor operations and project/watch/edit/C API commands remain
 on their existing profiles.
 
+The explicit [supplied-block companion](resources.md), `m2-supplied-blocks-v1`,
+adds `--resources` on check, fmt, context, emit-c and hosted build. It includes
+concrete outcomes, lexical regions of 1..4096 bytes, at most eight region
+declarations per function, and one reusable slot per region. Opaque linear Block
+owners must be released or transferred to a checked synchronous owning parameter
+on every normal path; Allocation values and Block-bearing results cannot escape.
+Reference and Rust compilers independently check original source, format it and
+emit the same C11. Per-function bounds do not bound recursive total stack usage.
+
+Reference context and custom LSP `talven/resourceContext` expose exact
+source/compiler/runtime identities, lexical origins, intrinsic contracts and owning
+parameter effects. Standard editor document operations retain the base profile.
+Resource selection excludes outcome-only selection, modules, freestanding targets,
+ordinary compact/focused context, native resource context and C export/unit,
+edit/test/watch/reuse/reload integration. Independent source-ledger and sanitizer
+gates are described in the resource guide; no resource latency, total RAM or agent
+benefit is measured.
+
 ## Implemented grammar
 
 ~~~ebnf
@@ -138,8 +156,9 @@ Commands read source only from regular files; FIFOs and devices produce E0901 wi
 | E0301 | Use after a possible move |
 | E0302 / E0303 | Conflicting active loan / missing mutation permission |
 | E0304 / E0305 | Reference escape or missing explicit reborrow / unsupported borrow or mutation place |
+| E0320 / E0321 | Resource shape, capacity, forgery or escape / outstanding owners, reservations or inconsistent paths; see [supplied blocks](resources.md) |
 | E0401 / E0402 / E0403 | Invalid native entry / C build failure / output would replace source |
-| E0404 | Console opt-in missing or incompatible freestanding/console emission |
+| E0404 | Console opt-in missing or incompatible hosted/freestanding profile emission |
 | E0501 / E0502 | Stale source / context byte budget |
 | E0601 / E0602 / E0603 / E0604 | Noncanonical layout / formatting output limit / unsupported in-place target / token-preservation failure; see [formatting](formatting.md) |
 | E0701 / E0702 / E0703 | Invalid edit-preview request / compiler revision mismatch / preview output budget; see [edit previews](edit-validation.md) |

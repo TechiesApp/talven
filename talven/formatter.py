@@ -100,10 +100,15 @@ def token_identity(tokens: list[Token]) -> list[tuple[str, str]]:
             for t in tokens if t.kind != "eof"]
 
 
-def format_source(source: str, *, module: bool = False, outcomes: bool = False) -> str:
+def format_source(source: str, *, module: bool = False, outcomes: bool = False, resources: bool = False) -> str:
+    if resources and (module or outcomes):
+        raise CompileError("E0502", "Resource, outcome and module profiles cannot be combined", Span(0, 0))
     if module and outcomes:
         raise CompileError("E0502", "Module and outcome profiles cannot be combined", Span(0, 0))
-    if outcomes:
+    if resources:
+        from .resources import parse_resources, resource_tokens
+        parse_resources(source)
+    elif outcomes:
         from .outcomes import parse_outcomes, outcome_tokens
         parse_outcomes(source)
     elif module:
@@ -112,7 +117,9 @@ def format_source(source: str, *, module: bool = False, outcomes: bool = False) 
     else:
         parse(source)
     tokens = lex(source, include_comments=True)[:-1]
-    if outcomes:
+    if resources:
+        tokens = resource_tokens(tokens)
+    elif outcomes:
         tokens = outcome_tokens(tokens)
     delimiters = groups(tokens)
     writer = Writer()
@@ -159,7 +166,7 @@ def format_source(source: str, *, module: bool = False, outcomes: bool = False) 
                 if following and (following.kind in ('fn', 'struct') or following.text == 'pub'):
                     writer.blank_pending = True
         else:
-            if outcomes and previous == ":" and index >= 2 and tokens[index - 2].kind == ":":
+            if (outcomes or resources) and previous == ":" and index >= 2 and tokens[index - 2].kind == ":":
                 after_word = False
             writer.write(token.text, space=after_word)
         if kind in (")", "}"):
