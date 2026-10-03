@@ -47,6 +47,11 @@ plus the final return and all three final account fields. Private helper calls
 are implementation details, not extra stages. These checks reject decorative,
 skipped, repeated, reordered and wrong-state calls.
 
+For each required stage, a separate native probe adds one to that helper's actual
+return without changing its mutation. The oracle propagates that perturbed value
+through later calls. Every probe must pass: executing a call while ignoring its
+return and recomputing arithmetic inline fails acceptance.
+
 Native candidate/compiler execution uses existing process time and resource
 bounds and retained command receipts. The verifier and C toolchain are trusted;
 this is finite task acceptance, not an OS sandbox or general correctness proof.

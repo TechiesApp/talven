@@ -60,6 +60,23 @@ class ModuleCorpusTests(unittest.TestCase):
 
 @unittest.skipUnless(shutil.which("cc"), "Native module acceptance requires cc")
 class ModuleAcceptanceTests(unittest.TestCase):
+    def test_each_return_must_feed_the_pipeline_instead_of_inlined_arithmetic(self):
+        for task in MODULE_TASKS:
+            definition = solution(task)
+            for i, (_, form, k, _) in enumerate(STAGES[task]):
+                argument = "v" if i == 0 else f"r{i - 1}"
+                # Preserve the real call and mutation but ignore its result.
+                definition = definition.replace(f"let r{i} =", f"let ignored{i} =", 1)
+                inline = {"mut": f"owner{i}.balance", "read": f"a.balance - {argument} * {k}",
+                          "consume": f"a.balance + a.tier * {k} - {argument}",
+                          "pure": f"{argument} * {k} - 1"}[form]
+                line = next(line for line in definition.splitlines() if f"let ignored{i} =" in line)
+                definition = definition.replace(line, line + f"\n    let r{i} = {inline};", 1)
+            result = verify(task, splice_function(SOURCES[task], "pipeline", definition))
+            self.assertEqual("failed", result["status"], result["feedback"])
+            self.assertTrue(result["checks"][2]["passed"], "unperturbed arithmetic must pass to exercise the gap")
+            self.assertTrue(result["checks"][-1]["name"].startswith("return-sensitivity-"))
+
     def test_solutions_pass_starters_fail_and_bad_nominal_types_fail(self):
         for task in MODULE_TASKS:
             with self.subTest(task=task):

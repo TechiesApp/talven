@@ -25,7 +25,7 @@ def structure(task, source):
     return _tokens(restored) == _tokens(SOURCES[task])
 
 
-def instrument(task, project, generated):
+def instrument(task, project, generated, probe=None):
     for index, (name, form, _, module) in enumerate(TABLES[task]):
         fn = project.analysis.functions[project.scopes[f"ledger{module}.tal"][name]]
         marker = signature(fn) + " {"
@@ -34,7 +34,15 @@ def instrument(task, project, generated):
         fields = ("0, 0, 0" if form == "pure" else
                   ", ".join(f"tv_v_a{'->' if form != 'consume' else '.'}tv_m_{field}"
                             for field in ("balance", "limit", "tier")))
-        generated = generated.replace(marker, marker + f"\n    tv_trace({index}, tv_v_v, {fields});", 1)
+        # Wrap rather than rewrite return expressions: a helper's mutation is
+        # unchanged, but its scalar result can be independently perturbed.
+        implementation = signature(fn).replace(" tv_f_", " tv_probe_", 1)
+        offset = 1 if probe == name else 0
+        arguments = ", ".join("tv_v_" + parameter.text for parameter, _ in fn.params)
+        wrapper = (signature(fn) + " {\n" + f"    tv_trace({index}, tv_v_v, {fields});\n"
+                   f"    int32_t value = tv_probe_{fn.name.text}({arguments});\n"
+                   f"    return (int32_t)((int64_t)value + {offset});\n}}\n")
+        generated = generated.replace(marker, implementation + " {", 1) + wrapper
     count = len(STAGES[task])
     return f"""#include <stdint.h>
 static int trace_count, trace_bad;
@@ -47,7 +55,7 @@ static void tv_trace(int id, int32_t v, int32_t b, int32_t l, int32_t t) {{
 """ + generated
 
 
-def harness(task, project):
+def harness(task, project, probe=None):
     steps = []
     ids = {row[0]: index for index, row in enumerate(TABLES[task])}
     for index, (name, form, k, _) in enumerate(STAGES[task]):
@@ -59,6 +67,8 @@ def harness(task, project):
                      "consume": f"running = balance + tier * {k} - running;",
                      "pure": f"running = running * {k} - 1;"}[form]
         steps.append(operation)
+        if name == probe:
+            steps.append("running += 1;")
     record = project.scopes["task.tal"]["Account"]
     function = project.scopes["task.tal"]["pipeline"]
     rows = ", ".join("{%d, %d, %d, %d}" % row for row in INPUTS)
@@ -114,21 +124,23 @@ def verify(task, source, cc, timeout):
     try:
         with tempfile.TemporaryDirectory(prefix="talven-module-acceptance-") as temporary:
             directory = Path(temporary)
-            c_path, executable = directory / "candidate.c", directory / "candidate"
-            generated = instrument(task, project, emit_c(project.analysis, freestanding=True))
-            c_path.write_text(generated + "\n#include <stdlib.h>\n#include <stdio.h>\n"
-                              "_Noreturn void talven_trap(void) { abort(); }\n" + harness(task, project), encoding="utf-8")
-            compiled = _run([cc, *C_FLAGS, str(c_path), "-o", str(executable)], timeout, result["commands"])
-            if compiled["returncode"] != 0 or compiled.get("error"):
-                result.update(status="error", feedback="native compilation failed; inspect command evidence")
-                return result
-            executed = _run([str(executable)], timeout, result["commands"], candidate=True)
-            if "launch_error" in executed:
-                result["status"] = "error"
-            if not check("native-values-and-trace", executed["returncode"] == 0 and not executed.get("error"),
-                         "native call order/arguments, result and final fields " +
-                         ("passed" if executed["returncode"] == 0 and not executed.get("error") else "failed")):
-                return result
+            generated = emit_c(project.analysis, freestanding=True)
+            for probe in [None, *(row[0] for row in STAGES[task])]:
+                name = "native-values-and-trace" if probe is None else "return-sensitivity-" + probe
+                c_path, executable = directory / (name + ".c"), directory / name
+                c_path.write_text(instrument(task, project, generated, probe) +
+                                  "\n#include <stdlib.h>\n#include <stdio.h>\n"
+                                  "_Noreturn void talven_trap(void) { abort(); }\n" + harness(task, project, probe), encoding="utf-8")
+                compiled = _run([cc, *C_FLAGS, str(c_path), "-o", str(executable)], timeout, result["commands"])
+                if compiled["returncode"] != 0 or compiled.get("error"):
+                    result.update(status="error", feedback="native compilation failed; inspect command evidence")
+                    return result
+                executed = _run([str(executable)], timeout, result["commands"], candidate=True)
+                if "launch_error" in executed:
+                    result["status"] = "error"
+                passed = executed["returncode"] == 0 and not executed.get("error")
+                if not check(name, passed, name + (" passed" if passed else " failed: propagate actual helper returns and state")):
+                    return result
     except (OSError, UnicodeError, CompileError, ValueError) as error:
         result.update(status="error", feedback=f"verifier infrastructure error: {error}")
         return result
