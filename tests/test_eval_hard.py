@@ -1,4 +1,6 @@
 """Hard-corpus acceptance: reference solutions pass, starters and habit mistakes fail."""
+import hashlib
+import json
 from pathlib import Path
 import shutil
 import unittest
@@ -139,6 +141,25 @@ class HardCorpusTests(unittest.TestCase):
         self.assertEqual(set(SOLUTIONS), set(HARD_TASKS))
         for spec in HARD_TASKS.values():
             self.assertTrue(Path(spec["source"]).is_file(), spec["source"])
+
+    def test_retained_codex_hard_candidates_under_current_compiler(self):
+        archive = Path(__file__).resolve().parents[1] / 'experiments/results/pilot-codex-hard-20261003'
+        run = json.loads((archive / 'run.json').read_text())
+        selected = {'lcm-no-overflow', 'digit-sum', 'pow-mod', 'multi-error-repair'}
+        self.assertEqual({(t, mode) for t in selected for mode in ('source', 'compiler')},
+                         {(t['task'], t['context_mode']) for t in run['trials']})
+        self.assertEqual(8, len(run['trials']))
+        for trial in run['trials']:
+            self.assertEqual(1, trial['repetition'])
+            self.assertEqual(f"{trial['task']}-{trial['context_mode']}-001", trial['id'])
+            self.assertEqual(1, len(trial['attempts']))
+            attempt = trial['attempts'][0]
+            self.assertEqual(0, attempt['index'])
+            source = (archive / trial['id'] / 'attempt-000/task.tal').read_bytes()
+            self.assertEqual(attempt['source_sha256'], hashlib.sha256(source).hexdigest())
+            with self.subTest(trial=trial['id']):
+                result = verify(trial['task'], source.decode('utf-8'))
+                self.assertEqual('passed', result['status'], result['feedback'])
 
     def test_reference_solutions_pass(self):
         for task, source in SOLUTIONS.items():

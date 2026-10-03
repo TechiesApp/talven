@@ -39,6 +39,7 @@ Pick the path that matches why you are here. Documents marked *evidence* record 
 | [Evaluation harness](../experiments/README.md) | Corpora, conditions, acceptance, accounting, and how to run |
 | [Provider adapters](../experiments/adapters/README.md) | The Anthropic Messages adapter and the Claude Code CLI transport |
 | [First live pilot](pilot-evidence.md) | *Evidence:* Claude Opus 5.5 on both corpora |
+| [Codex hard-task follow-up](codex-hard-pilot-evidence.md) | *Evidence:* eight algorithmic/repair trials, fresh native reverification and another ceiling |
 | [Current-profile Codex pilot](codex-pilot-evidence.md) | *Evidence:* six paired large-program trials, fresh native reverification and unknown dollar costs |
 | [Evaluation validation](evaluation-validation.md) | *Evidence:* harness behavior with offline fixtures |
 | [Borrowing evaluation validation](borrowing-evaluation-validation.md) | *Evidence:* the borrowing corpus offline |
