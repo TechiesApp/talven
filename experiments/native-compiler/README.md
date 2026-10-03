@@ -17,7 +17,7 @@ cc -std=c11 -O2 -Wall -Wextra -pedantic-errors build/native-hello.c -o build/nat
 ./build/native-hello
 ~~~
 
-Install the pinned Rust toolchain first if absent. This provides compact and bounded focused context and read-only canonical formatting, but not the full reference context API, native `build` driver, formatter file replacement/revision guards, LSP, watch integration, installer, freestanding backend, or incremental compiler. `emit-c` writes to stdout without modifying source. The shell/C compiler steps above remain explicit. Redirect to a separate output path: shell redirection can truncate a source before the compiler starts.
+Install the pinned Rust toolchain first if absent. This provides compact and bounded focused context, read-only edit previews and canonical formatting, but not the full reference context API, native `build` driver, formatter file replacement/revision guards, LSP, watch integration, installer, freestanding backend, or incremental compiler. `emit-c` writes to stdout without modifying source. The shell/C compiler steps above remain explicit. Redirect to a separate output path: shell redirection can truncate a source before the compiler starts.
 
 The current hosted experiment targets Linux aarch64 and x86-64, exercised by the repository CI. macOS has an input-opening implementation and local tests, not a complete supported target profile. Other operating systems and other Linux architectures reject source opening rather than guess their `O_NONBLOCK` value. Both the compiler and generated executable may depend on host libraries; neither is a statically linked or single-dependency distribution claim. The compiler uses Rust's heap and standard library; emitted Talven text/arithmetic introduces no new language allocator or managed runtime.
 
@@ -56,6 +56,16 @@ This whole-program index omits source/compiler hashes, byte budgets, symbol sele
 
 Focused mode rejects duplicate/malformed flags and unsupported `--freestanding` before source I/O. Optional `--json` does not change output. Checking still covers the whole program; an invalid unrelated function prevents context facts. No execution, writes, caching, atomic freshness, native-build acceptance or measured agent/latency benefit is claimed. The hash identifies the source read by this invocation; edit previews require separate observed-file freshness checks.
 
+## Read-only edit previews
+
+`edit snapshot SOURCE [--include-source] [--max-bytes N]` identifies exact bounded UTF-8 bytes without language analysis, then rereads to reject observed changes. This works for broken programs. The result is `talven.native-edit-snapshot.v1`; optional text is labeled `untrusted_source_text` and omitted on failure. `edit validate SOURCE --candidate FILE --expect-source-hash HASH --expect-compiler-hash HASH [--max-bytes N]` checks those native identities before analyzing a complete candidate and rereading both files. Obtain both hashes from the native snapshot or matching focused context; Python compiler identities are different.
+
+The `talven.native-edit-validation.v1` receipt reports each input's first frontend result and, when both pass, added/removed declarations, changed contracts and changed direct calls. Invalid-base repairs can succeed with null changes. Declaration comparisons retain parameter/field order and borrow permissions; layout/body-only changes can produce empty change arrays. A preview has no source bodies and performs no writes, native compilation or execution. Both commands emit JSON, exit 0 on success, 1 on controlled operation failure, and 2 on malformed/missing/duplicate CLI options.
+
+Budgets default to 16384 and accept 1 byte through 1 MiB, including the UTF-8 newline. E0701 rejects invalid hashes/budgets, E0702 a stale compiler identity, E0501 a stale source/observed file change, and E0703 an oversized completed receipt. Failure receipts are outside the requested success budget. Observed reread errors/changes clear checked facts. Embedded compiler identity stays immutable within the loaded process; a new compiler invocation may have a different identity.
+
+[Proposal 0035](../../docs/proposals/0035-native-edit-previews.md) specifies the native schemas and limits. Neither rereads nor hashes provide locking, atomic compare-and-swap or permission to apply an edit. An applying host must coordinate writers and check current identities. Independent native fixtures accept a correct borrow repair and reject a frontend-valid off-by-one repair at O0/O2. Native LSP integration, atomic application, caching and measured task-cost benefits remain open.
+
 ## Canonical formatting
 
 `fmt SOURCE` prints the reference's `m1-scalar-mutation-layout-v1` layout without writing source. `fmt SOURCE --check` returns 0 with `Formatting check passed` when source already matches, or 1 with E0601 when layout differs. Add `--check --json` for the existing native diagnostic envelope on success/failure. `--json` requires `--check`; duplicate flags, `--write`, revision-hash flags and other unsupported options return usage status 2 before reading source. See [Proposal 0032](../../docs/proposals/0032-native-canonical-formatting.md).
@@ -74,6 +84,7 @@ cargo +1.96.0 test --locked --offline --manifest-path experiments/native-compile
 python3 experiments/native-compiler/tests/conformance.py
 python3 experiments/native-compiler/tests/formatting.py
 python3 experiments/native-compiler/tests/context.py
+python3 experiments/native-compiler/tests/edit.py
 python3 experiments/native-compiler/tests/differential.py
 python3 experiments/native-compiler/tests/comparison.py
 python3 scripts/check-borrow-sanitizers.py --native experiments/native-compiler/target/release/talven-native

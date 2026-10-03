@@ -76,6 +76,8 @@ Status definitions:
 
 | D62 | Proposed | Port bounded current symbol/dependency context to the native compiler with explicit native source/build identities | [Proposal 0034](proposals/0034-native-focused-context.md); shared semantic selection, exact optional bodies and byte/revision guards; caching, native LSP and live benefits remain open |
 
+| D63 | Proposed | Port read-only native snapshots and complete-candidate previews over exact source/embedded compiler identities | [Proposal 0035](proposals/0035-native-edit-previews.md); shared frontend/contracts and observed reread rejection; atomic application, native LSP and measured agent benefits remain open |
+
 ## Open decisions
 
 | Decision | Questions to resolve |
