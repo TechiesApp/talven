@@ -70,3 +70,7 @@ The implemented `native-call-borrows-v1` profile adds the accepted [Proposal 000
 ## In-process measurement follow-up
 
 The [native phase baseline](../native-phase-baseline.md) separates full parsing/depth validation, declaration/body checking and hosted C emission within one native process. The normal compiler path retains the same private stages without clock reads. Fixed greeting, chain, scalar-store and borrowing inputs require reference C equality and independent native execution before timing receipts are accepted. This provides evidence for selecting later optimization work; it does not measure startup, native builds, persistent reuse or select a production backend.
+
+## Agent tooling and CLI measurement follow-up
+
+[Proposal 0031](0031-native-compact-agent-context.md) adds checked compact program context, and [Proposal 0032](0032-native-canonical-formatting.md) adds read-only syntax-only formatting. Full context v2, file replacement/revision guards, LSP and complete tooling parity remain separate. The optional [agent-tool CLI comparison](../native-agent-tools-baseline.md) verifies exact context/layout, formatting idempotence and unchanged independently accepted emitted C before timing both CLIs. It retains a separate report schema and archive, preserving the original check/emission comparison. These standalone process costs include startup/I/O and do not measure core phases, memory or model effectiveness.

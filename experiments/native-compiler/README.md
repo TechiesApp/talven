@@ -44,7 +44,7 @@ The arena-based expression representation avoids recursively dropping an unbound
 
 Checking/context do not require `main`, execute source, or require `--console` for a checked `print` call. Empty source produces empty arrays. Invalid source produces the structured native diagnostic envelope and no program facts, matching the reference context command's automatic JSON error mode. Optional `--json` is accepted for compatibility with the native check command; it does not change context output. The CLI requires `--compact` explicitly and rejects duplicate flags and unsupported full-context options before reading source.
 
-This whole-program index omits source/compiler hashes, byte budgets, symbol selection, bodies, dependency/caller/effect records, target metadata and revision checks. It is not the full `talven.context.v2` API or a cache receipt. Input retains the same regular-file, UTF-8, source/token/depth limits; output size follows the checked declarations, without a separate output-budget option. The native library exposes `agent_context(&Program)` through checked programs returned by `analyze` or `analyze_measured`. It never invokes the reference compiler or a model provider. No context latency, memory, token savings, or production parity claim is made.
+This whole-program index omits source/compiler hashes, byte budgets, symbol selection, bodies, dependency/caller/effect records, target metadata and revision checks. It is not the full `talven.context.v2` API or a cache receipt. Input retains the same regular-file, UTF-8, source/token/depth limits; output size follows the checked declarations, without a separate output-budget option. The native library exposes `agent_context(&Program)` through checked programs returned by `analyze` or `analyze_measured`. It never invokes the reference compiler or a model provider. The separate [agent-tool CLI baseline](../../docs/native-agent-tools-baseline.md) retains finite process costs; no core context latency, memory, token savings, or production parity claim is made.
 
 `--version` identifies the experimental CLI/profile. `--build-info` reports the Rust version, target, Cargo profile/optimization level, effective encoded Rust flags, target features/debug setting, present profile environment overrides, and exact compiler source/Cargo input text embedded at build time. The comparison requires those source bytes to match the archived checkout; a stale native executable is rejected. This adds embedded source bytes to the experimental binary size. The metadata and executable hashes are provenance data, not authenticated attestations; system linkers/libraries and complete external Cargo configuration are not bundled.
 
@@ -56,7 +56,7 @@ The library `format_source(&str)` uses the shared native lexer and parser, witho
 
 Formatting counts comments toward the 16384-token bound and enforces the shared source/parser-depth limits. Expanded output is bounded to 256 KiB, including indentation and newlines; overflow is E0602 and returns no partial formatted text. Before returning, the formatter re-lexes the whole output and verifies token/comment identity, reporting E0604 on a mismatch. The E0601 message names the native preview command rather than recommending the reference's unsupported native `--write` option. Input I/O messages retain the documented host-specific differences.
 
-This port does not apply edits, implement revision checks, atomic replacement, LSP formatting or tokenizer-specific budgets. Check mode verifies layout only. Output bytes match the reference on the differential corpus and comment/whitespace fixtures; no general-equivalence, measured formatter speed, memory or agent-cost claim follows. The new `src/format.rs` is embedded in build identity and independently checked for stale-source rejection.
+This port does not apply edits, implement revision checks, atomic replacement, LSP formatting or tokenizer-specific budgets. Check mode verifies layout only. Output bytes match the reference on the differential corpus and comment/whitespace fixtures; the separate [agent-tool CLI baseline](../../docs/native-agent-tools-baseline.md) measures finite process costs, without a general-equivalence, core formatter speed, memory or agent-cost claim. The new `src/format.rs` is embedded in build identity and independently checked for stale-source rejection.
 
 ## Verify and measure
 
@@ -69,6 +69,7 @@ python3 experiments/native-compiler/tests/differential.py
 python3 experiments/native-compiler/tests/comparison.py
 python3 scripts/check-borrow-sanitizers.py --native experiments/native-compiler/target/release/talven-native
 python3 scripts/measure-native-prototype.py --native experiments/native-compiler/target/release/talven-native --out build/native-comparison --repetitions 5 --warmups 1
+python3 scripts/measure-native-prototype.py --native experiments/native-compiler/target/release/talven-native --out build/native-agent-tools --repetitions 5 --warmups 1 --agent-tools
 python3 scripts/measure-native-inprocess.py --native experiments/native-compiler/target/release/talven-native --out build/native-phase-baseline --repetitions 20 --warmups 2
 ~~~
 

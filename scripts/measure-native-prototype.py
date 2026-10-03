@@ -15,6 +15,12 @@ spec = importlib.util.spec_from_file_location("tooling_measurement", ROOT / "scr
 base = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(base)
 from experiments.tooling_workloads import workloads
+from talven.context import agent_context
+from talven.formatter import format_source
+from talven.frontend import CompileError, analyze
+
+CORE_OPERATIONS = ("check", "emit-c")
+AGENT_OPERATIONS = (*CORE_OPERATIONS, "context", "fmt")
 
 
 def selected_workloads():
@@ -24,14 +30,18 @@ def selected_workloads():
             *[{**w, "console": False, "stdout": b""} for w in workloads() if w["id"] in ("chain-32", "chain-128")]]
 
 
-def validate_output(operation, implementation, output):
+def validate_output(operation, implementation, output, *, expected=None):
     if operation == "check":
         expected = {"schema": "talven.diagnostics.v1", "ok": True, "diagnostics": []}
         if implementation == "native":
             expected["profile"] = "native-call-borrows-v1"
         base.require(json.loads(output) == expected, "incorrect diagnostic receipt")
-    else:
+    elif operation in ("context", "fmt"):
+        base.require(expected is not None and output == expected, "incorrect checked agent-tool output")
+    elif operation == "emit-c":
         base.require(bool(output.strip()), "empty emitted C")
+    else:
+        raise base.MeasurementError("unknown measured operation")
 
 
 def verify_c(recorder, cc, directory, generated, workload):
@@ -49,11 +59,11 @@ def verify_c(recorder, cc, directory, generated, workload):
     return {"generated_c": base.fingerprint(cfile), "executable": base.fingerprint(binary)}
 
 
-def summarize(commands, repetitions):
+def summarize(commands, repetitions, operations=CORE_OPERATIONS):
     rows = []
     for workload in ("hello", "chain-32", "chain-128"):
         for implementation in ("reference", "native"):
-            for operation in ("check", "emit-c"):
+            for operation in operations:
                 group = [c for c in commands if c["phase"] == "measured" and c["workload"] == workload
                          and c.get("implementation") == implementation and c["operation"] == operation]
                 base.require(len(group) == repetitions and all(c["verified"] for c in group), "incomplete verified samples")
@@ -79,7 +89,10 @@ def run(args):
     base.require(binary.is_file(), "--native must name a built compiler executable")
     out.mkdir(parents=True)
     (out / "commands").mkdir()
-    report = {"schema": "talven.native-comparison.v1", "complete": False, "passed": False,
+    agent_tools = getattr(args, "agent_tools", False)
+    operations = AGENT_OPERATIONS if agent_tools else CORE_OPERATIONS
+    report = {"schema": "talven.native-agent-tools.v1" if agent_tools else "talven.native-comparison.v1",
+              "operations": list(operations), "complete": False, "passed": False,
               "summary": None, "commands": [], "workloads": [], "inputs": {},
               "started_at": datetime.now(timezone.utc).isoformat(), "repetitions": args.repetitions,
               "warmups": args.warmups, "timeout_seconds": args.timeout, "c_flags": base.FLAGS,
@@ -131,15 +144,33 @@ def run(args):
             row = {key: workload[key] for key in ("id", "origin", "criteria")}
             row.update(source=base.fingerprint(source), native_acceptance={})
             report["workloads"].append(row)
+            expected = {}
+            formatted_source = None
+            if agent_tools:
+                text = workload["source"].decode("utf-8")
+                expected["context"] = agent_context(analyze(text)).encode("utf-8")
+                expected["fmt"] = format_source(text).encode("utf-8")
+                base.require(format_source(expected["fmt"].decode()).encode() == expected["fmt"],
+                             "formatted preflight is not idempotent")
+                formatted_source = directory / "formatted.tal"
+                formatted_source.write_bytes(expected["fmt"])
+                row["agent_tools"] = {"context_bytes": len(expected["context"]),
+                                      "formatted_source": base.fingerprint(formatted_source),
+                                      "criteria": "Exact checked reference facts/layout; idempotent reference layout; both formatted CLIs emit byte-identical accepted C and pass layout checks."}
             for implementation, prefix in (("reference", [sys.executable, "-B", "-m", "talven"]), ("native", [str(binary)])):
                 emitted = None
-                for operation in ("check", "emit-c"):
+                for operation in operations:
                     argv = [*prefix, operation, str(source)]
-                    argv += ["--json"] if operation == "check" else (["--console"] if workload["console"] else [])
+                    if operation == "check":
+                        argv += ["--json"]
+                    elif operation == "context":
+                        argv += ["--compact"]
+                    elif operation == "emit-c" and workload["console"]:
+                        argv += ["--console"]
                     commands[implementation, operation] = argv
                     output, entry = recorder.command(argv, phase="preflight", workload=workload["id"], operation=operation)
                     entry["implementation"] = implementation
-                    validate_output(operation, implementation, output)
+                    validate_output(operation, implementation, output, expected=expected.get(operation))
                     references[implementation, operation] = output
                     entry["verified"] = True
                     if operation == "emit-c":
@@ -147,11 +178,23 @@ def run(args):
                 target = directory / implementation
                 target.mkdir()
                 row["native_acceptance"][implementation] = verify_c(recorder, cc, target, emitted, workload)
+                if agent_tools:
+                    output, entry = recorder.command([*prefix, "emit-c", str(formatted_source),
+                                                      *(["--console"] if workload["console"] else [])],
+                                                     phase="verification", workload=workload["id"],
+                                                     operation="formatted-emit-c")
+                    base.require(output == emitted, "formatting changed accepted emitted C")
+                    entry.update(implementation=implementation, verified=True)
+                    output, entry = recorder.command([*prefix, "fmt", str(formatted_source), "--check", "--json"],
+                                                     phase="verification", workload=workload["id"],
+                                                     operation="formatted-check")
+                    validate_output("check", implementation, output)
+                    entry.update(implementation=implementation, verified=True)
             for phase, count in (("warmup", args.warmups), ("measured", args.repetitions)):
                 for repetition in range(count):
                     # Alternate order per repetition to reduce fixed first/second bias.
                     order = ("reference", "native") if repetition % 2 == 0 else ("native", "reference")
-                    for operation in ("check", "emit-c"):
+                    for operation in operations:
                         for implementation in order:
                             output, entry = recorder.command(commands[implementation, operation], phase=phase,
                                                               workload=workload["id"], operation=operation)
@@ -163,10 +206,10 @@ def run(args):
             base.require(base.fingerprint(ROOT / relative) == identity, f"input changed: {relative}")
         for path, identity in ((binary, report["native"]), (Path(sys.executable), report["python_executable"]), (Path(cc), report["c_executable"])):
             base.require(base.fingerprint(path) == identity, f"executable changed: {path}")
-        report["summary"] = summarize(report["commands"], args.repetitions)
+        report["summary"] = summarize(report["commands"], args.repetitions, operations)
         report.update(complete=True, passed=True)
         return 0
-    except (base.MeasurementError, OSError, ValueError) as error:
+    except (base.MeasurementError, CompileError, OSError, ValueError) as error:
         report["error"] = str(error)
         print(str(error), file=sys.stderr)
         return 1
@@ -185,6 +228,8 @@ def main():
     parser.add_argument("--timeout", type=float, default=30)
     parser.add_argument("--expect-arch", choices=("aarch64", "x86_64"))
     parser.add_argument("--environment-note", default="unspecified")
+    parser.add_argument("--agent-tools", action="store_true",
+                        help="Also verify/time whole-program compact context and read-only canonical formatting")
     try:
         return run(parser.parse_args())
     except (base.MeasurementError, OSError, ValueError) as error:
