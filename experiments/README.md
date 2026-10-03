@@ -88,7 +88,7 @@ Task IDs/instructions and acceptance stay versioned independently of the compile
 The task is always the same: implement `pipeline(a: &mut Account, v: i32) -> i32` to call 4–6 named helpers in order. Each call must match the helper's signature:
 - pass `&mut a` or `&a` explicitly;
 - build a fresh `Account` for a by-value helper, since a borrowed parameter cannot be moved;
-- bind each result to a new name, since there is no reassignment.
+- feed each result into the next stage. The current profile permits a mutable scalar running value; archived pilots before scalar mutation used distinct bindings because their compiler rejected reassignment.
 
 These tasks use **function-scoped edits**: `"edit": "function:pipeline"` in the task. The model returns only the new definition of `pipeline`, and the runner splices it into the current file by matching braces on tokens. The spliced file is what gets verified and archived, so `reverify` is unchanged. Without this, the model would have to reproduce up to 860 unchanged lines. That would measure copying, not the lookup under test.
 
