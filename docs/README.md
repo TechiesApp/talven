@@ -28,6 +28,7 @@ Pick the path that matches why you are here. Documents marked *evidence* record 
 | [Edit previews](edit-validation.md) | Checking a candidate edit against an exact source revision |
 | [Freestanding Linux execution](freestanding.md) | Building without libc or an allocator |
 | [Native compiler prototype](../experiments/native-compiler/README.md) | The Rust implementation of the scalar subset |
+| [Native agent-tool CLI baseline](native-agent-tools-baseline.md) | Verified compact context/formatting process costs and finite local samples |
 
 ## Agent evaluation
 

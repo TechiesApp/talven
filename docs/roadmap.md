@@ -56,7 +56,9 @@ The [native phase baseline](native-phase-baseline.md) now isolates full lex/pars
 
 [Proposal 0031](proposals/0031-native-compact-agent-context.md) adds the standalone native [compact agent index](../experiments/native-compiler/README.md#compact-agent-context), checked against reference output throughout the differential corpus. Full context v2, native editor/formatter parity and measured context costs remain open.
 
-[Proposal 0032](proposals/0032-native-canonical-formatting.md) adds read-only native [canonical formatting/check mode](../experiments/native-compiler/README.md#canonical-formatting), with syntax-only validation, token/comment preservation and output limits. Native formatter replacement/revision guards and editor integration remain open; no formatter latency or agent-cost result is claimed.
+[Proposal 0032](proposals/0032-native-canonical-formatting.md) adds read-only native [canonical formatting/check mode](../experiments/native-compiler/README.md#canonical-formatting), with syntax-only validation, token/comment preservation and output limits. Native formatter replacement/revision guards and editor integration remain open; core formatter latency and agent-cost benefits remain unmeasured.
+
+The separate [native agent-tool CLI baseline](native-agent-tools-baseline.md) now retains correctness-gated compact context and canonical formatting costs on fixed inputs, including startup and source I/O. Its finite local samples do not establish core phase, editor or live-model benefits.
 
 ### Planned next increments
 
