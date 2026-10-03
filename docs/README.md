@@ -43,6 +43,8 @@ Pick the path that matches why you are here. Documents marked *evidence* record 
 | [First live pilot](pilot-evidence.md) | *Evidence:* Claude Opus 5.5 on both corpora |
 | [Codex hard-task follow-up](codex-hard-pilot-evidence.md) | *Evidence:* eight algorithmic/repair trials, fresh native reverification and another ceiling |
 | [Current-profile Codex pilot](codex-pilot-evidence.md) | *Evidence:* six paired large-program trials, fresh native reverification and unknown dollar costs |
+| [Module reference for agents](module-reference.md) | Implemented companion grammar, nominal identity and source alias rules |
+| [Multi-file evaluation plan](proposals/0038-module-agent-evaluation.md) | Fixed dependencies, focused project context and executed-call acceptance |
 | [Evaluation validation](evaluation-validation.md) | *Evidence:* harness behavior with offline fixtures |
 | [Borrowing evaluation validation](borrowing-evaluation-validation.md) | *Evidence:* the borrowing corpus offline |
 | [Anthropic adapter validation](anthropic-adapter-validation.md) | *Evidence:* adapter protocol and accounting offline |

@@ -82,6 +82,8 @@ Status definitions:
 
 | D65 | Proposed | Resolve bounded explicit local modules into the shared checker with private globals, nominal records and original source locations | [Proposal 0037](proposals/0037-bounded-local-modules.md); companion reference profile and explicit-bundle navigation; native graph resolution, workspace transactions, reuse/reload and agent benefits remain open |
 
+| D66 | Proposed | Evaluate bounded immutable-dependency module edits with identical source controls and added fresh semantic context | [Proposal 0038](proposals/0038-module-agent-evaluation.md); finite executed-call/value acceptance and pinned module guide; live benefit and M1 completion remain separate |
+
 ## Open decisions
 
 | Decision | Questions to resolve |

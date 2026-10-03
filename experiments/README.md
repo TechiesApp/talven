@@ -99,6 +99,33 @@ The [large verifier](large_verifier.py):
 
 [`large_tasks.py`](large_tasks.py) generates the starters deterministically, and a test keeps the committed files identical to its output.
 
+### Multi-file module corpus
+
+`m1-module-tasks-v1` uses the companion `m1-local-modules-v1` profile. Two tasks
+implement eight or twelve stages through aliases imported from two fixed modules.
+Three equally shaped record types retain different nominal identities. Only
+`pipeline` can change; dependency files are read-only prompt data. Both conditions
+receive identical source files and the core/[module reference](../docs/module-reference.md).
+The compiler condition adds fresh focused project context (or original-file
+diagnostics), with a byte budget covering the complete encoded context.
+
+The [module verifier](module_verifier.py) checks protected entry tokens and actual
+native helper order/count/arguments, final values and fields over 24 inputs. The
+committed corpus must match its deterministic [generator](module_tasks.py).
+See [Proposal 0038](../docs/proposals/0038-module-agent-evaluation.md) for controls,
+limits and the distinction from native focused/edit-tool evaluation.
+
+~~~sh
+python3 -m experiments tasks --corpus m1-module-tasks-v1
+python3 -m experiments run --corpus m1-module-tasks-v1 --context-bytes 65536 \
+  --adapter build/current-profile-codex-cli-v3.json --out build/module-pilot \
+  --repetitions 2 --max-repairs 1 --max-calls 16
+~~~
+
+The adapter path is a locally prepared pinned configuration, not a bundled file.
+This example plans eight trials and at most sixteen invocations; it is not a
+dollar/token quota. A fixture run establishes harness behavior only.
+
 ## Context and repair protocol
 
 - `--context source`: the pinned [language reference](../docs/language-reference.md), task instructions, and complete current task source.
