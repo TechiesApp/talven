@@ -1,0 +1,44 @@
+{
+  "edits": {
+    "task.tal": "fn pipeline(a: &mut Account, v: i32) -> i32 {\n    let r14 = Ledger1 { balance: a.balance, limit: a.limit, tier: a.tier };\n    let mut value = call_stage_14(r14, v);\n    let r01 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };\n    value = call_stage_01(&r01, value);\n    value = call_stage_07(value);\n    let r05 = Ledger1 { balance: a.balance, limit: a.limit, tier: a.tier };\n    value = call_stage_05(&r05, value);\n    let r21 = Ledger1 { balance: a.balance, limit: a.limit, tier: a.tier };\n    value = call_stage_21(&r21, value);\n    let r13 = Ledger1 { balance: a.balance, limit: a.limit, tier: a.tier };\n    value = call_stage_13(&r13, value);\n    let r02 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };\n    value = call_stage_02(r02, value);\n    value = call_stage_19(value);\n    let mut r00 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };\n    value = call_stage_00(&mut r00, value);\n    a.balance = r00.balance;\n    a.limit = r00.limit;\n    a.tier = r00.tier;\n    let mut r16 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };\n    value = call_stage_16(&mut r16, value);\n    a.balance = r16.balance;\n    a.limit = r16.limit;\n    a.tier = r16.tier;\n    let r17 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };\n    value = call_stage_17(&r17, value);\n    let r09 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };\n    value = call_stage_09(&r09, value);\n    return value;\n}"
+  },
+  "provider_metadata": {
+    "billing": "chatgpt-subscription",
+    "candidate_text": "{\"edits\":{\"task.tal\":\"fn pipeline(a: &mut Account, v: i32) -> i32 {\\n    let r14 = Ledger1 { balance: a.balance, limit: a.limit, tier: a.tier };\\n    let mut value = call_stage_14(r14, v);\\n    let r01 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };\\n    value = call_stage_01(&r01, value);\\n    value = call_stage_07(value);\\n    let r05 = Ledger1 { balance: a.balance, limit: a.limit, tier: a.tier };\\n    value = call_stage_05(&r05, value);\\n    let r21 = Ledger1 { balance: a.balance, limit: a.limit, tier: a.tier };\\n    value = call_stage_21(&r21, value);\\n    let r13 = Ledger1 { balance: a.balance, limit: a.limit, tier: a.tier };\\n    value = call_stage_13(&r13, value);\\n    let r02 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };\\n    value = call_stage_02(r02, value);\\n    value = call_stage_19(value);\\n    let mut r00 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };\\n    value = call_stage_00(&mut r00, value);\\n    a.balance = r00.balance;\\n    a.limit = r00.limit;\\n    a.tier = r00.tier;\\n    let mut r16 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };\\n    value = call_stage_16(&mut r16, value);\\n    a.balance = r16.balance;\\n    a.limit = r16.limit;\\n    a.tier = r16.tier;\\n    let r17 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };\\n    value = call_stage_17(&r17, value);\\n    let r09 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };\\n    value = call_stage_09(&r09, value);\\n    return value;\\n}\"}}",
+    "catalog_sha256": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+    "cli_returncode": 0,
+    "cli_sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc",
+    "cli_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cli_version": "codex-cli 0.154.0",
+    "completed_turns": 1,
+    "event_types": [
+      "item.completed",
+      "thread.started",
+      "turn.completed",
+      "turn.started"
+    ],
+    "item_types": [
+      "agent_message"
+    ],
+    "model_identity": "CLI selector pinned; returned model snapshot unavailable",
+    "raw_usage": {
+      "cached_input_tokens": 0,
+      "input_tokens": 11611,
+      "output_tokens": 525
+    },
+    "request_sha256": "641ea616729845cc63b57327b23d3f867e1bb0835bc90d972f7f8751c7ead453",
+    "requested_model": "gpt-6-astra",
+    "response_sha256": "9fbf69e4a4445129cb00bf57a640c57990eb00af8b7943f97f9e1ad69238a7ab",
+    "transport": "codex-cli"
+  },
+  "schema": "talven.eval.response.v1",
+  "usage": {
+    "cache_write_input_tokens": null,
+    "cached_input_tokens": 0,
+    "input_tokens": 11611,
+    "model_cost_usd": null,
+    "output_tokens": 525,
+    "tool_cost_usd": null,
+    "usage_source": "Codex CLI turn.completed usage"
+  }
+}

@@ -88,6 +88,8 @@ Measure actual save-to-diagnostic and save-to-running-revision latency, cache re
 
 [Proposal 0037](proposals/0037-bounded-local-modules.md) now implements a separate reference [local-module profile](modules.md): bounded explicit imports/public declarations, nominal record identities, whole-project builds/context and original cross-file navigation. Shared checking preserves ownership rules; Rust independently checks/emits the resolved core source. Native graph resolution, project edit/test/watch integration, persistent reuse/reload and controlled agent effectiveness remain open.
 
+The [module pilot](codex-module-pilot-evidence.md) under [Proposal 0038](proposals/0038-module-agent-evaluation.md) passed eight finite multi-file edits in both conditions at the first attempt. Added context used more input tokens with no correctness difference; this leaves the M1 agent-cost gate open.
+
 ## M2: Memory and concurrency foundations
 
 Add allocator interfaces, containers, typed failures, structured tasks, cancellation, synchronization, and a selected optional executor.

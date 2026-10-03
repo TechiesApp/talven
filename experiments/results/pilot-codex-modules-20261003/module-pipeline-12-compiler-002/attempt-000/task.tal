@@ -1,0 +1,46 @@
+import "ledger0.tal" { Account as Ledger0, stage_00 as call_stage_00, stage_01 as call_stage_01, stage_02 as call_stage_02, stage_03 as call_stage_03, stage_08 as call_stage_08, stage_09 as call_stage_09, stage_10 as call_stage_10, stage_11 as call_stage_11, stage_16 as call_stage_16, stage_17 as call_stage_17, stage_18 as call_stage_18, stage_19 as call_stage_19 };
+import "ledger1.tal" { Account as Ledger1, stage_04 as call_stage_04, stage_05 as call_stage_05, stage_06 as call_stage_06, stage_07 as call_stage_07, stage_12 as call_stage_12, stage_13 as call_stage_13, stage_14 as call_stage_14, stage_15 as call_stage_15, stage_20 as call_stage_20, stage_21 as call_stage_21, stage_22 as call_stage_22, stage_23 as call_stage_23 };
+
+struct Account {
+    balance: i32,
+    limit: i32,
+    tier: i32
+}
+
+fn pipeline(a: &mut Account, v: i32) -> i32 {
+    let mut value = v;
+    let r14 = Ledger1 { balance: a.balance, limit: a.limit, tier: a.tier };
+    value = call_stage_14(r14, value);
+    let r01 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };
+    value = call_stage_01(&r01, value);
+    value = call_stage_07(value);
+    let r05 = Ledger1 { balance: a.balance, limit: a.limit, tier: a.tier };
+    value = call_stage_05(&r05, value);
+    let r21 = Ledger1 { balance: a.balance, limit: a.limit, tier: a.tier };
+    value = call_stage_21(&r21, value);
+    let r13 = Ledger1 { balance: a.balance, limit: a.limit, tier: a.tier };
+    value = call_stage_13(&r13, value);
+    let r02 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };
+    value = call_stage_02(r02, value);
+    value = call_stage_19(value);
+    let mut r00 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };
+    value = call_stage_00(&mut r00, value);
+    a.balance = r00.balance;
+    a.limit = r00.limit;
+    a.tier = r00.tier;
+    let mut r16 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };
+    value = call_stage_16(&mut r16, value);
+    a.balance = r16.balance;
+    a.limit = r16.limit;
+    a.tier = r16.tier;
+    let r17 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };
+    value = call_stage_17(&r17, value);
+    let r09 = Ledger0 { balance: a.balance, limit: a.limit, tier: a.tier };
+    value = call_stage_09(&r09, value);
+    return value;
+}
+
+fn main() -> i32 {
+    let mut a = Account { balance: 10, limit: 500, tier: 1 };
+    return pipeline(&mut a, 0);
+}
