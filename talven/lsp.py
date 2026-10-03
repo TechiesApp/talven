@@ -210,7 +210,9 @@ class Server:
                     "semanticTokensProvider": {"legend": {"tokenTypes": TOKEN_TYPES, "tokenModifiers": TOKEN_MODIFIERS},
                                                "full": True, "range": False},
                     "experimental": {"talvenProjectQuery": {"profile": "m1-local-modules-v1",
-                                                              "source": "explicit-in-memory-bundle"}}},
+                                                              "source": "explicit-in-memory-bundle"},
+                                     "talvenOutcomeContext": {"profile": "m2-concrete-outcomes-v1",
+                                                              "source": "explicit-in-memory-source"}}},
                     "serverInfo": {"name": "talven", "version": VERSION}})
                 return None
             if not self.initialized:
@@ -224,6 +226,14 @@ class Server:
             if method == "shutdown":
                 self.shutdown = True
                 self.send(id=identity, result=None)
+                return None
+            if method == 'talven/outcomeContext':
+                from .outcomes import analyze_outcomes, outcome_context
+                if not isinstance(params.get('source'), str):
+                    raise ValueError('Outcome source must be a string')
+                analysis = analyze_outcomes(params['source'])
+                self.send(id=identity, result=outcome_context(analysis, params.get('maxBytes', 16384),
+                                                           params.get('expectSourceHash')))
                 return None
             if method == "talven/projectQuery":
                 # An explicit source bundle permits cross-file navigation without
@@ -337,8 +347,11 @@ class Server:
                 self.send(id=identity, error={"code": -32601, "message": "Method not supported"})
         except CompileError as error:
             if request:
-                self.send(id=identity, error={"code": -32803, "message": "Project query failed",
-                                             "data": {"diagnostics": [error.diagnostic('')]}})
+                outcome_request = method == 'talven/outcomeContext'
+                source = params['source'] if outcome_request else ''
+                self.send(id=identity, error={"code": -32803,
+                                             "message": "Outcome context failed" if outcome_request else "Project query failed",
+                                             "data": {"diagnostics": [error.diagnostic(source)]}})
         except (KeyError, TypeError, ValueError, UnicodeError) as error:
             if request:
                 self.send(id=identity, error={"code": -32602, "message": str(error)})

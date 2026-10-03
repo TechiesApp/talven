@@ -32,6 +32,12 @@ The [edit preview commands](edit-validation.md) add read-only `edit snapshot` an
 
 The explicit [local-module companion](modules.md) adds `project check/context/emit-c/build`, named imports, visibility and original cross-file navigation through the shared checker. Its bounded closure is separate from the single-file base grammar, watcher and edit commands; project reuse/reload and standalone native graph resolution remain open.
 
+The explicit [concrete-outcome companion](outcomes.md) adds `--outcomes` on check,
+fmt, context, emit-c and build. It checks every returning outcome obligation and
+consuming exhaustive matches; Rust independently checks/emits/formats the same
+source. Standard editor operations and project/watch/edit/C API commands remain
+on their existing profiles.
+
 ## Implemented grammar
 
 ~~~ebnf

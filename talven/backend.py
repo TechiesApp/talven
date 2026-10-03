@@ -2,7 +2,7 @@
 
 import re
 
-from .frontend import Analysis, CompileError, Expr, Function, Span, Statement, base_type, borrow_mode, require_entry
+from .frontend import Analysis, CompileError, Expr, Function, Outcome, Span, Statement, base_type, borrow_mode, require_entry
 
 
 def ctype(typ: str) -> str:
@@ -69,6 +69,7 @@ class Emitter:
         self.lines: list[str] = []
         self.indent = 0
         self.counter = 0
+        self.outcomes: dict[str, Outcome] = {}
 
     def line(self, text: str):
         self.lines.append("    " * self.indent + text)
@@ -94,6 +95,12 @@ class Emitter:
             return f"INT32_C({int(value.lstrip('0') or '0')})"
         if kind == "bool":
             return value
+        if kind == "outcome":
+            owner, variant = value.split("::")
+            variants = self.outcomes[owner].variants
+            tag = next(i for i, (name, _) in enumerate(variants) if name.text == variant)
+            payload = f", .tv_payload.tv_m_{variant} = {self.expr(expr.args[0])}" if expr.args else ""
+            return self.temp(expr.typ, f"(struct tv_s_{owner}){{.tv_tag = {tag}{payload}}}")
         if kind == "text":
             data = value.encode("utf-8")
             self.counter += 1
@@ -167,6 +174,25 @@ class Emitter:
                 self.block(stmt.otherwise)
                 self.indent -= 1
                 self.line("}")
+            elif stmt.kind == "match":
+                outcome = self.outcomes[stmt.expr.typ]
+                variants = {name.text: (i, payload) for i, (name, payload) in enumerate(outcome.variants)}
+                self.line(f"switch (({value}).tv_tag) {{")
+                self.indent += 1
+                for arm in stmt.arms:
+                    tag, payload = variants[arm.variant.text]
+                    self.line(f"case {tag}: {{")
+                    self.indent += 1
+                    if payload:
+                        self.line(f"{ctype(payload.text)} tv_v_{arm.binding.text} = ({value}).tv_payload.tv_m_{arm.variant.text};")
+                        self.line(f"(void)tv_v_{arm.binding.text};")
+                    self.block(arm.body)
+                    self.line("break;")
+                    self.indent -= 1
+                    self.line("}")
+                self.line("default: { talven_trap(); }")
+                self.indent -= 1
+                self.line("}")
 
 
 def signature(fn: Function, *, parameter_names: bool = True) -> str:
@@ -207,10 +233,21 @@ def emit_prefix(emitter, analysis, freestanding, needs_console, *, functions=Non
     if needs_console:
         emitter.lines.append(CONSOLE)
     helpers_at = len(emitter.lines)
-    for record in analysis.program.records:
+    for record in sorted(analysis.program.records, key=lambda r: isinstance(r, Outcome)):
         emitter.line(f"struct tv_s_{record.name.text} {{")
-        for name, typ in record.fields:
-            emitter.line(f"    {ctype(typ.text)} tv_m_{name.text};")
+        if isinstance(record, Outcome):
+            emitter.outcomes[record.name.text] = record
+            emitter.line("    uint32_t tv_tag;")
+            emitter.line("    union {")
+            for name, payload in record.variants:
+                if payload:
+                    emitter.line(f"        {ctype(payload.text)} tv_m_{name.text};")
+            if not any(payload for _, payload in record.variants):
+                emitter.line("        uint8_t tv_empty;")
+            emitter.line("    } tv_payload;")
+        else:
+            for name, typ in record.fields:
+                emitter.line(f"    {ctype(typ.text)} tv_m_{name.text};")
         emitter.line("};")
     for fn in (analysis.program.functions if functions is None else functions):
         emitter.line(signature(fn, parameter_names=parameter_names) + ";")
@@ -229,7 +266,7 @@ def emit_function(emitter, fn):
 
 def finish_c(emitter, helpers_at, freestanding=False):
     helpers = [HELPERS[name] for name in used_helpers("\n".join(emitter.lines[helpers_at:]))]
-    if helpers and not freestanding:
+    if not freestanding and (helpers or any("talven_trap();" in line for line in emitter.lines[helpers_at:])):
         helpers.insert(0, HOSTED_TRAP)
     emitter.lines[helpers_at:helpers_at] = helpers
     return "\n".join(emitter.lines) + "\n"

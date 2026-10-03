@@ -2,8 +2,9 @@ use std::ffi::OsString;
 use std::io::{self, Write};
 use std::path::Path;
 use talven_native::{
-    ContextOptions, Error, PROFILE, SOURCE_FILES, agent_context, analyze, analyze_measured, emit_c,
-    format_source, line_character, native_context, read_source, receipt,
+    ContextOptions, Error, PROFILE, SOURCE_FILES, agent_context, analyze, analyze_measured,
+    analyze_outcomes, emit_c, format_outcomes, format_source, line_character, native_context,
+    read_source, receipt,
 };
 fn main() {
     std::process::exit(run());
@@ -60,12 +61,16 @@ fn run() -> i32 {
         } else if args[0] == "fmt" {
             args[2..].iter().filter(|a| *a == "--check").count() <= 1
                 && args[2..].iter().filter(|a| *a == "--json").count() <= 1
-                && args[2..].iter().all(|a| a == "--check" || a == "--json")
+                && args[2..]
+                    .iter()
+                    .all(|a| a == "--check" || a == "--json" || a == "--outcomes")
                 && (!args[2..].iter().any(|a| a == "--json")
                     || args[2..].iter().any(|a| a == "--check"))
         } else {
             (args[0] == "check" || args[0] == "emit-c")
-                && args[2..].iter().all(|a| a == "--json" || a == "--console")
+                && args[2..]
+                    .iter()
+                    .all(|a| a == "--json" || a == "--console" || a == "--outcomes")
                 && (args[0] != "emit-c" || args[2..].iter().all(|a| a != "--json"))
         };
     if !valid {
@@ -76,11 +81,16 @@ fn run() -> i32 {
     }
     let structured = args[0] == "context" || args[2..].iter().any(|a| a == "--json");
     let console = args[2..].iter().any(|a| a == "--console");
+    let outcomes = args[2..].iter().any(|a| a == "--outcomes");
     let mut source = String::new();
     let outcome: Result<String, Error> = (|| {
         source = read_source(Path::new(&args[1]))?;
         if args[0] == "fmt" {
-            let formatted = format_source(&source)?;
+            let formatted = if outcomes {
+                format_outcomes(&source)?
+            } else {
+                format_source(&source)?
+            };
             return if args[2..].iter().any(|a| a == "--check") {
                 if formatted != source {
                     Err(Error {
@@ -89,7 +99,14 @@ fn run() -> i32 {
                         span: 0..0,
                     })
                 } else if structured {
-                    Ok(receipt(&source, None))
+                    Ok(receipt(&source, None).replace(
+                        PROFILE,
+                        if outcomes {
+                            "m2-concrete-outcomes-v1"
+                        } else {
+                            PROFILE
+                        },
+                    ))
                 } else {
                     Ok("Formatting check passed\n".into())
                 }
@@ -100,15 +117,33 @@ fn run() -> i32 {
         if args[0] == "context" && !context_request.as_ref().unwrap().0 {
             return native_context(&source, &context_request.as_ref().unwrap().1);
         }
-        let program = analyze(&source)?;
+        let program = if outcomes {
+            analyze_outcomes(&source)?
+        } else {
+            analyze(&source)?
+        };
         if args[0] == "emit-c" {
             emit_c(&program, console)
         } else if args[0] == "context" {
             Ok(agent_context(&program))
         } else if structured {
-            Ok(receipt(&source, None))
+            Ok(receipt(&source, None).replace(
+                PROFILE,
+                if outcomes {
+                    "m2-concrete-outcomes-v1"
+                } else {
+                    PROFILE
+                },
+            ))
         } else {
-            Ok(format!("Check passed ({PROFILE})\n"))
+            Ok(format!(
+                "Check passed ({})\n",
+                if outcomes {
+                    "m2-concrete-outcomes-v1"
+                } else {
+                    PROFILE
+                }
+            ))
         }
     })();
     match outcome {
@@ -121,9 +156,18 @@ fn run() -> i32 {
         }
         Err(error) => {
             if structured {
-                let _ = io::stdout()
-                    .lock()
-                    .write_all(receipt(&source, Some(&error)).as_bytes());
+                let _ = io::stdout().lock().write_all(
+                    receipt(&source, Some(&error))
+                        .replace(
+                            PROFILE,
+                            if outcomes {
+                                "m2-concrete-outcomes-v1"
+                            } else {
+                                PROFILE
+                            },
+                        )
+                        .as_bytes(),
+                );
             } else {
                 // The reference CLI's one-based line:character prefix.
                 let (line, character) = line_character(&source, error.span.start);

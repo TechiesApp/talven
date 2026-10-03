@@ -86,6 +86,8 @@ Status definitions:
 
 | D67 | Proposed | Establish concrete typed failures and verified release/transfer obligations before allocator-backed containers and concurrency | [Proposal 0039](proposals/0039-typed-failures-resource-contracts.md); consuming outcomes, allocator lifetime and failure-injection gates; design only, no runtime/compiler support |
 
+| D68 | Proposed | Add explicitly selected concrete nominal outcomes with exhaustive consuming matches and per-path must-handle obligations | [Proposal 0040](proposals/0040-concrete-typed-outcomes.md); independent reference/native checking, exact C/formatter parity and sanitized variant/tag drivers; allocation, cleanup and concurrency remain separate |
+
 ## Open decisions
 
 | Decision | Questions to resolve |

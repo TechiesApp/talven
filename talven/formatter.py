@@ -27,7 +27,7 @@ def groups(tokens: list[Token]) -> dict[int, Group]:
         if kind == "comment":
             comments += 1
             continue
-        if kind in ("fn", "struct"):
+        if kind in ("fn", "struct", "outcome", "match"):
             declaration = kind
         elif kind in ("(", "{"):
             group_kind = "paren"
@@ -35,11 +35,11 @@ def groups(tokens: list[Token]) -> dict[int, Group]:
                 if declaration:
                     group_kind, declaration = declaration, None
                 else:
-                    group_kind = "block" if previous in (")", "else") else "literal"
+                    group_kind = "block" if previous in (")", "else") or (stack and stack[-1][1] == "match") else "literal"
             stack.append((index, group_kind, comments))
         elif kind in (")", "}"):
             start, group_kind, initial_comments = stack.pop()
-            group = Group(group_kind, group_kind in ("fn", "struct", "block") or comments > initial_comments)
+            group = Group(group_kind, group_kind in ("fn", "struct", "outcome", "match", "block") or comments > initial_comments)
             result[start] = result[index] = group
         previous = kind
     return result
@@ -100,13 +100,20 @@ def token_identity(tokens: list[Token]) -> list[tuple[str, str]]:
             for t in tokens if t.kind != "eof"]
 
 
-def format_source(source: str, *, module: bool = False) -> str:
-    if module:
+def format_source(source: str, *, module: bool = False, outcomes: bool = False) -> str:
+    if module and outcomes:
+        raise CompileError("E0502", "Module and outcome profiles cannot be combined", Span(0, 0))
+    if outcomes:
+        from .outcomes import parse_outcomes, outcome_tokens
+        parse_outcomes(source)
+    elif module:
         from .project import parse_module
         parse_module(source)
     else:
         parse(source)
     tokens = lex(source, include_comments=True)[:-1]
+    if outcomes:
+        tokens = outcome_tokens(tokens)
     delimiters = groups(tokens)
     writer = Writer()
     stack: list[Group] = []
@@ -137,11 +144,11 @@ def format_source(source: str, *, module: bool = False) -> str:
                 writer.newline()
                 writer.indent -= 1
             writer.write(token.text, space=kind == "}" and not group.multiline and previous != "{")
-            if group.kind in ("fn", "struct", "block"):
+            if group.kind in ("fn", "struct", "outcome", "match", "block"):
                 following = tokens[index + 1].kind if index + 1 < len(tokens) else None
                 if following != "else":
                     writer.newline()
-                if group.kind in ("fn", "struct"):
+                if group.kind in ("fn", "struct", "outcome"):
                     writer.blank_pending = True
         elif kind in (";", ",", ":", "."):
             writer.write(token.text)
@@ -152,6 +159,8 @@ def format_source(source: str, *, module: bool = False) -> str:
                 if following and (following.kind in ('fn', 'struct') or following.text == 'pub'):
                     writer.blank_pending = True
         else:
+            if outcomes and previous == ":" and index >= 2 and tokens[index - 2].kind == ":":
+                after_word = False
             writer.write(token.text, space=after_word)
         if kind in (")", "}"):
             ends_expression = delimiters[index].kind in ("paren", "literal")
@@ -159,6 +168,7 @@ def format_source(source: str, *, module: bool = False) -> str:
             ends_expression = kind in ("id", "int", "true", "false", "text")
         previous, previous_unary = kind, unary
     formatted = writer.finish()
-    if token_identity(lex(formatted, include_comments=True)) != token_identity(tokens):
+    original_tokens = lex(source, include_comments=True)[:-1]
+    if token_identity(lex(formatted, include_comments=True)) != token_identity(original_tokens):
         raise CompileError("E0604", "Formatter could not preserve source tokens; no edit was produced", Span(0, 0))
     return formatted

@@ -2,6 +2,14 @@
 
 Status: bounded Rust prototype, `native-call-borrows-v1`. This is an implementation experiment under [Proposal 0013](../../docs/proposals/0013-native-scalar-compiler.md), not a replacement for the full Python reference or a production toolchain selection. It directly parses, checks, and emits C11; it never launches Python, a shell, or another compiler. The lexer, parser, checker and hosted emitter are a hand-written port of `talven/frontend.py` and `talven/backend.py`, kept in step by a shared differential corpus.
 
+The explicit [concrete-outcome companion](../../docs/outcomes.md) selects
+`m2-concrete-outcomes-v1` with `--outcomes` on `check`, `fmt` and `emit-c`. Rust
+independently parses/checks original outcome source, including exhaustive consuming
+matches, scalar/record payload moves and must-handle paths. Exact C/formatter and
+diagnostic parity plus independent O0/O2 sanitizer drivers run in
+`tests/outcomes.py`. Outcome context/edit/module/watch/C API integration remains
+separate; ordinary commands retain their existing grammar and profile.
+
 ## Build and run
 
 Build with Rust/Cargo 1.96.0. There are no third-party crates. The checked-in lockfile and explicit release settings describe the experiment; Rust is needed to build the compiler, not to invoke the resulting executable.
