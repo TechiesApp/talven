@@ -82,6 +82,9 @@ jobs:
           python3 -m talven project check main.tal --root examples/modules --json
           python3 -m talven project build main.tal --root examples/modules -o build/modules-example
           ./build/modules-example
+          python3 -m talven fmt examples/outcomes/decision.tal --outcomes --check --json
+          python3 -m talven build examples/outcomes/decision.tal --outcomes -o build/outcomes-example
+          ./build/outcomes-example
       - name: Exercise provider-neutral evaluation without model calls
         run: |
           python3 tests/fixtures/eval_adapter.py --write-config build/eval-fixture.json
@@ -163,6 +166,7 @@ jobs:
           python3 experiments/native-compiler/tests/edit.py
           python3 experiments/native-compiler/tests/c_api.py
           python3 experiments/native-compiler/tests/project.py
+          python3 experiments/native-compiler/tests/outcomes.py
           python3 experiments/native-compiler/tests/differential.py
           python3 experiments/native-compiler/tests/comparison.py
           python3 scripts/check-borrow-sanitizers.py --native experiments/native-compiler/target/release/talven-native

@@ -104,6 +104,8 @@ Run the compiler test suite with `python3 -m unittest discover -s tests`. Run th
 
 The reference's explicit [local-module companion profile](docs/modules.md) adds bounded source imports, visibility, project builds/context and cross-file queries. The standalone Rust compiler checks resolved core source; native module graph resolution remains open.
 
+The explicit [concrete-outcome companion profile](docs/outcomes.md) adds typed failure alternatives, scalar/record payloads, consuming exhaustive matches and must-handle checking. Reference and Rust compilers independently check and emit it; allocator lifetimes, cleanup and concurrency remain open.
+
 Not built yet: loops, heap allocation, generics, concurrency, a package manager, and GPU backends. See the [roadmap](docs/roadmap.md).
 
 ## Where it is going

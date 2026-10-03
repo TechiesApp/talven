@@ -158,6 +158,15 @@ class Statement:
     otherwise: list[Statement] = field(default_factory=list)
     mutable: bool = False
     target: Expr | None = None
+    arms: list[MatchArm] = field(default_factory=list)
+
+
+@dataclass
+class MatchArm:
+    outcome: Token
+    variant: Token
+    binding: Token | None
+    body: list[Statement]
 
 
 @dataclass
@@ -165,6 +174,11 @@ class Record:
     name: Token
     fields: list[tuple[Token, Token]]
     span: Span
+
+
+@dataclass
+class Outcome(Record):
+    variants: list[tuple[Token, Token | None]]
 
 
 @dataclass
@@ -191,8 +205,9 @@ class Parser:
     PRECEDENCE = {"||": 1, "&&": 2, "==": 3, "!=": 3, "<": 4, ">": 4,
                   "<=": 4, ">=": 4, "+": 5, "-": 5, "*": 6, "/": 6, "%": 6}
 
-    def __init__(self, tokens: list[Token], recover: bool = False):
+    def __init__(self, tokens: list[Token], recover: bool = False, *, outcomes: bool = False):
         self.tokens, self.index, self.nesting = tokens, 0, 0
+        self.outcomes = outcomes
         # With recovery, a syntax error is recorded and parsing resumes at the
         # next statement or declaration, so one check reports several errors.
         self.recover, self.errors = recover, []
@@ -277,6 +292,22 @@ class Parser:
 
     def declaration(self, records: list[Record], functions: list[Function]):
         start = self.current.span.start
+        if self.outcomes and self.accept("outcome"):
+            name = self.take("id")
+            self.take("{")
+            variants = []
+            while self.current.kind != "}":
+                variant = self.take("id")
+                payload = None
+                if self.accept("("):
+                    payload = self.type_token()
+                    self.take(")")
+                variants.append((variant, payload))
+                if not self.accept(","):
+                    break
+            end = self.take("}").span.end
+            records.append(Outcome(name, [], Span(start, end), variants))
+            return
         if self.accept("struct"):
             name = self.take("id")
             self.take("{")
@@ -323,6 +354,24 @@ class Parser:
 
     def statement(self) -> Statement:
         start = self.current.span.start
+        if self.outcomes and self.accept("match"):
+            self.take("(")
+            expr = self.expression()
+            self.take(")")
+            self.take("{")
+            arms = []
+            while self.current.kind != "}":
+                outcome = self.take("id")
+                self.take(":")
+                self.take(":")
+                variant = self.take("id")
+                binding = None
+                if self.accept("("):
+                    binding = self.take("id")
+                    self.take(")")
+                arms.append(MatchArm(outcome, variant, binding, self.block()))
+            end = self.take("}").span.end
+            return Statement("match", Span(start, end), expr, arms=arms)
         if self.accept("let"):
             mutable = self.accept("mut")
             name = self.take("id")
@@ -379,7 +428,16 @@ class Parser:
             left = Expr("int" if token.kind == "int" else "bool", token.span, token.text)
         else:
             name = self.take("id")
-            if self.accept("("):
+            if self.outcomes and self.accept(":"):
+                self.take(":")
+                variant = self.take("id")
+                args = []
+                if self.accept("("):
+                    args.append(self.expression())
+                    self.take(")")
+                left = Expr("outcome", Span(name.span.start, self.tokens[self.index - 1].span.end),
+                            name.text + "::" + variant.text, args)
+            elif self.accept("("):
                 args = []
                 while self.current.kind != ")":
                     args.append(self.expression())
@@ -477,6 +535,8 @@ class Checker:
             self.error("E0305", "Only named records can be borrowed in this profile", token.span)
         if base in self.records:
             record = self.records[base]
+            if mode and isinstance(record, Outcome):
+                self.error("E0305", "Outcomes cannot be borrowed", token.span)
             description = f"{token.text} ({mode} borrow; call-scoped)" if mode else f"struct {base} (move-only)"
             self.reference(token.span, record.name.span, description)
 
@@ -487,7 +547,8 @@ class Checker:
     def bind(self, name: Token, typ: str, state: State, mutable: bool = False):
         if name.text in state.bindings:
             self.error("E0102", f"Duplicate or shadowed binding {name.text}", name.span)
-        if mutable and typ not in SCALARS and typ not in self.records:
+        if mutable and (isinstance(self.records.get(typ), Outcome) or
+                        (typ not in SCALARS and typ not in self.records)):
             self.error("E0305", "let mut supports i32, bool, or owned records with scalar fields", name.span)
         state.bindings[name.text] = Binding(typ, name.span, mutable)
         self.reference(name.span, name.span, self.binding_description(name.text, state.bindings[name.text]))
@@ -526,6 +587,8 @@ class Checker:
         base = base_type(binding.typ)
         if base not in self.records:
             self.error("E0305", "Only named records can be borrowed in this profile", place.span)
+        if isinstance(self.records[base], Outcome):
+            self.error("E0305", "Outcomes cannot be borrowed", place.span)
         if expr.value == "exclusive":
             self.require_mutable(place, binding)
         self.access(place, state, "borrow exclusively" if expr.value == "exclusive" else "read")
@@ -565,6 +628,22 @@ class Checker:
             else:
                 self.functions[item.name.text] = item
         for record in self.program.records:
+            if isinstance(record, Outcome):
+                self.reference(record.name.span, record.name.span, f"outcome {record.name.text} (must-handle; move-only)")
+                if not record.variants:
+                    self.error("E0310", "Outcomes require at least one variant", record.name.span)
+                seen = set()
+                for name, payload in record.variants:
+                    if name.text in seen:
+                        self.error("E0102", f"Duplicate variant {name.text}", name.span)
+                    seen.add(name.text)
+                    self.reference(name.span, name.span, f"{record.name.text}::{name.text}")
+                    if payload:
+                        if payload.text not in SCALARS and (payload.text not in self.records or
+                                isinstance(self.records[payload.text], Outcome)):
+                            self.error("E0310", "Outcome payloads must be i32, bool, or owned scalar records", payload.span)
+                        self.type_name(payload)
+                continue
             self.reference(record.name.span, record.name.span, f"struct {record.name.text} (move-only)")
             if not record.fields:
                 self.error("E0204", "Prototype records must have at least one scalar field", record.name.span)
@@ -603,6 +682,7 @@ class Checker:
 
     def block(self, statements: list[Statement], state: State) -> bool:
         """Return whether control can fall through the block."""
+        initial = set(state.bindings)
         reachable = True
         for stmt in statements:
             if not reachable:
@@ -618,6 +698,7 @@ class Checker:
                 self.bind(stmt.name, typ, state, mutable=stmt.mutable)
             elif stmt.kind == "return":
                 self.same_type(typ, self.function.result.text, stmt.expr.span)
+                self.handled(state, state.bindings)
                 reachable = False
             elif stmt.kind == "if":
                 self.same_type(typ, "bool", stmt.expr.span)
@@ -625,9 +706,50 @@ class Checker:
                 then_live = self.block(stmt.then, then)
                 else_live = self.block(stmt.otherwise, otherwise)
                 survivors = [s for s, live in ((then, then_live), (otherwise, else_live)) if live]
-                state.moved.update(name for s in survivors for name in s.moved if name in state.bindings)
+                self.join(state, survivors, stmt.span)
                 reachable = bool(survivors)
+            elif stmt.kind == "match":
+                outcome = self.records.get(typ)
+                if not isinstance(outcome, Outcome):
+                    self.error("E0310", "match requires an owned outcome", stmt.expr.span)
+                variants = {n.text: (n, p) for n, p in outcome.variants}
+                seen, survivors = set(), []
+                for arm in stmt.arms:
+                    self.same_type(arm.outcome.text, typ, arm.outcome.span)
+                    if arm.variant.text in seen or arm.variant.text not in variants:
+                        self.error("E0310", f"Duplicate or unknown variant {arm.variant.text}", arm.variant.span)
+                    seen.add(arm.variant.text)
+                    name, payload = variants[arm.variant.text]
+                    self.reference(arm.outcome.span, outcome.name.span, f"outcome {typ} (move-only)")
+                    self.reference(arm.variant.span, name.span, f"{typ}::{name.text}")
+                    if bool(payload) != bool(arm.binding):
+                        self.error("E0310", "Match payload binding must agree with its variant", arm.variant.span)
+                    branch = state.copy()
+                    if payload:
+                        self.bind(arm.binding, payload.text, branch)
+                    if self.block(arm.body, branch):
+                        survivors.append(branch)
+                if seen != set(variants):
+                    self.error("E0310", "Match must handle every variant exactly once", stmt.span)
+                self.join(state, survivors, stmt.span)
+                reachable = bool(survivors)
+            elif stmt.kind == "expr" and isinstance(self.records.get(typ), Outcome):
+                self.error("E0311", "An outcome must be matched, returned, or transferred to an owning parameter", stmt.expr.span)
+        if reachable:
+            self.handled(state, set(state.bindings) - initial)
         return reachable
+
+    def handled(self, state: State, names):
+        for name in sorted(names):
+            if name not in state.moved and isinstance(self.records.get(state.bindings[name].typ), Outcome):
+                self.error("E0311", f"Outcome {name} leaves scope unhandled", state.bindings[name].declaration)
+
+    def join(self, state: State, survivors: list[State], span: Span):
+        for name, binding in state.bindings.items():
+            if isinstance(self.records.get(binding.typ), Outcome) and survivors:
+                if len({name in s.moved for s in survivors}) > 1:
+                    self.error("E0311", f"Outcome {name} must be handled consistently on continuing branches", span)
+        state.moved.update(name for s in survivors for name in s.moved if name in state.bindings)
 
     def expr(self, expr: Expr, state: State, consume: bool = True) -> str:
         kind, value = expr.kind, expr.value
@@ -659,7 +781,7 @@ class Checker:
             self.reference(Span(expr.span.end - len(value), expr.span.end), name.span, f"{value}: {typ}")
         elif kind == "record":
             record = self.records.get(value)
-            if record is None:
+            if record is None or isinstance(record, Outcome):
                 self.error("E0101", f"Unknown record {value}", expr.span)
             expected = {n.text: t.text for n, t in record.fields}
             declarations = {n.text: n.span for n, _ in record.fields}
@@ -675,6 +797,23 @@ class Checker:
             self.reference(Span(expr.span.start, expr.span.start + len(value)), record.name.span,
                            f"struct {value} (move-only)")
             typ = value
+        elif kind == "outcome":
+            owner, variant = value.split("::")
+            outcome = self.records.get(owner)
+            if not isinstance(outcome, Outcome):
+                self.error("E0310", f"Unknown outcome {owner}", expr.span)
+            variants = {n.text: (n, p) for n, p in outcome.variants}
+            if variant not in variants:
+                self.error("E0310", f"Unknown variant {variant}", expr.span)
+            name, payload = variants[variant]
+            if len(expr.args) != int(payload is not None):
+                self.error("E0310", "Constructor payload must agree with its variant", expr.span)
+            if payload:
+                self.same_type(self.expr(expr.args[0], state), payload.text, expr.args[0].span)
+            self.reference(Span(expr.span.start, expr.span.start + len(owner)), outcome.name.span,
+                           f"outcome {owner} (must-handle; move-only)")
+            self.reference(Span(expr.span.start + len(owner) + 2, expr.span.start + len(value)), name.span, value)
+            typ = owner
         elif kind == "call" and value == "print":
             if len(expr.args) != 1:
                 self.error("E0203", "print expects 1 argument", expr.span)
@@ -720,8 +859,10 @@ class Checker:
         elif kind == "binary":
             left = self.expr(expr.args[0], state)
             # The right side of &&/|| may run. Conservatively mark its moves.
+            before_right = state.copy() if value in ("&&", "||") else None
             right = self.expr(expr.args[1], state)
             if value in ("&&", "||"):
+                self.join(state, [before_right, state.copy()], expr.args[1].span)
                 self.same_type(left, "bool", expr.args[0].span)
                 self.same_type(right, "bool", expr.args[1].span)
                 typ = "bool"
@@ -748,6 +889,7 @@ def _check_depth(program: Program) -> None:
             raise CompileError("E0005", "Syntax tree exceeds the 128-level prototype limit", node.span)
         if isinstance(node, Statement):
             children = [node.expr, *node.then, *node.otherwise]
+            children.extend(stmt for arm in node.arms for stmt in arm.body)
             if node.target is not None:
                 children.append(node.target)
         else:

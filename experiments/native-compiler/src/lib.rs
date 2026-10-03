@@ -10,7 +10,7 @@ use std::fmt::Write;
 use std::ops::Range;
 
 mod format;
-pub use format::format_source;
+pub use format::{format_outcomes, format_source};
 mod c_api;
 pub use c_api::emit_c_api;
 mod input;
@@ -320,6 +320,7 @@ enum ExprKind {
     Call(String, Vec<usize>),
     /// A record literal: its name, then each written field label and value in source order.
     Record(String, Vec<(Token, usize)>),
+    Outcome(String, Token, Option<usize>),
     Field(String, usize),
     Borrow(bool, usize),
     Unary(String, usize),
@@ -336,6 +337,7 @@ impl Expr {
     fn children(&self) -> Vec<usize> {
         match &self.kind {
             ExprKind::Call(_, args) => args.clone(),
+            ExprKind::Outcome(_, _, payload) => payload.iter().copied().collect(),
             ExprKind::Record(_, fields) => fields.iter().map(|(_, value)| *value).collect(),
             ExprKind::Field(_, child) | ExprKind::Borrow(_, child) | ExprKind::Unary(_, child) => {
                 vec![*child]
@@ -352,6 +354,14 @@ enum StmtKind {
     If,
     Expr,
     Assign,
+    Match,
+}
+#[derive(Debug)]
+struct MatchArm {
+    outcome: Token,
+    variant: Token,
+    binding: Option<Token>,
+    body: Vec<Stmt>,
 }
 #[derive(Debug)]
 struct Stmt {
@@ -364,6 +374,7 @@ struct Stmt {
     otherwise: Vec<Stmt>,
     mutable: bool,
     target: Option<usize>,
+    arms: Vec<MatchArm>,
 }
 #[derive(Debug)]
 pub struct Record {
@@ -371,6 +382,8 @@ pub struct Record {
     fields: Vec<(Token, Token)>,
     /// Field names and types, resolved once every declaration is validated.
     resolved: Vec<(String, Ty)>,
+    /// Present only in the explicitly selected concrete-outcome profile.
+    variants: Option<Vec<(Token, Option<Token>)>>,
 }
 #[derive(Debug)]
 struct Function {
@@ -405,6 +418,7 @@ struct Parser {
     tokens: Vec<Token>,
     index: usize,
     expressions: Vec<Expr>,
+    outcomes: bool,
 }
 impl Parser {
     fn current(&self) -> &Token {
@@ -482,7 +496,32 @@ impl Parser {
         let mut records = Vec::new();
         let mut functions = Vec::new();
         while self.current().kind() != "eof" {
-            if self.accept("struct") {
+            if self.outcomes && self.accept("outcome") {
+                let name = self.take("id")?;
+                self.take("{")?;
+                let mut variants = Vec::new();
+                while self.current().kind() != "}" {
+                    let variant = self.take("id")?;
+                    let payload = if self.accept("(") {
+                        let ty = self.type_token()?;
+                        self.take(")")?;
+                        Some(ty)
+                    } else {
+                        None
+                    };
+                    variants.push((variant, payload));
+                    if !self.accept(",") {
+                        break;
+                    }
+                }
+                self.take("}")?;
+                records.push(Record {
+                    name,
+                    fields: Vec::new(),
+                    resolved: Vec::new(),
+                    variants: Some(variants),
+                });
+            } else if self.accept("struct") {
                 let name = self.take("id")?;
                 self.take("{")?;
                 let fields = self.pairs("}")?;
@@ -490,6 +529,7 @@ impl Parser {
                     name,
                     fields,
                     resolved: Vec::new(),
+                    variants: None,
                 });
             } else {
                 let start = self.take("fn")?.span.start;
@@ -526,8 +566,36 @@ impl Parser {
                 otherwise: Vec::new(),
                 mutable: false,
                 target: None,
+                arms: Vec::new(),
             };
-            if self.accept("let") {
+            if self.outcomes && self.accept("match") {
+                stmt.kind = StmtKind::Match;
+                self.take("(")?;
+                stmt.expr = self.expression(0, frame + 1)?;
+                self.take(")")?;
+                self.take("{")?;
+                while self.current().kind() != "}" {
+                    let outcome = self.take("id")?;
+                    self.take(":")?;
+                    self.take(":")?;
+                    let variant = self.take("id")?;
+                    let binding = if self.accept("(") {
+                        let name = self.take("id")?;
+                        self.take(")")?;
+                        Some(name)
+                    } else {
+                        None
+                    };
+                    let body = self.block(frame + 1)?;
+                    stmt.arms.push(MatchArm {
+                        outcome,
+                        variant,
+                        binding,
+                        body,
+                    });
+                }
+                self.take("}")?;
+            } else if self.accept("let") {
                 stmt.kind = StmtKind::Let;
                 stmt.mutable = self.accept("mut");
                 stmt.name = Some(self.take("id")?);
@@ -573,6 +641,19 @@ impl Parser {
         });
         self.expressions.len() - 1
     }
+    fn outcome_expression(&mut self, name: Token, frame: usize) -> Result<usize> {
+        self.take(":")?;
+        let variant = self.take("id")?;
+        let payload = if self.accept("(") {
+            let expr = self.expression(0, frame + 1)?;
+            self.take(")")?;
+            Some(expr)
+        } else {
+            None
+        };
+        let span = name.span.start..self.previous_end();
+        Ok(self.add(ExprKind::Outcome(name.text, variant, payload), span))
+    }
     fn expression(&mut self, minimum: u8, frame: usize) -> Result<usize> {
         self.guard(frame)?;
         let token = self.current().clone();
@@ -607,7 +688,9 @@ impl Parser {
             left = self.add(kind, token.span);
         } else {
             let name = self.take("id")?;
-            if self.accept("(") {
+            if self.outcomes && self.accept(":") {
+                left = self.outcome_expression(name, frame)?;
+            } else if self.accept("(") {
                 let mut args = Vec::new();
                 while self.current().kind() != ")" {
                     args.push(self.expression(0, frame + 1)?);
@@ -690,6 +773,12 @@ fn check_depth(functions: &[Function], expressions: &[Expr]) -> Result<()> {
                 pending.push((Node::Expr(stmt.expr), depth + 1));
                 pending.extend(stmt.then.iter().map(|s| (Node::Stmt(s), depth + 1)));
                 pending.extend(stmt.otherwise.iter().map(|s| (Node::Stmt(s), depth + 1)));
+                pending.extend(
+                    stmt.arms
+                        .iter()
+                        .flat_map(|a| a.body.iter())
+                        .map(|s| (Node::Stmt(s), depth + 1)),
+                );
                 if let Some(target) = stmt.target {
                     pending.push((Node::Expr(target), depth + 1));
                 }
@@ -761,6 +850,7 @@ fn type_name(token: &Token, parameter: bool, records: &BTreeMap<String, usize>) 
 #[derive(Clone, Default)]
 struct State {
     bindings: BTreeMap<String, Ty>,
+    declarations: BTreeMap<String, Range<usize>>,
     moved: BTreeSet<String>,
     mutable: BTreeSet<String>,
     loans: BTreeMap<String, bool>,
@@ -774,6 +864,47 @@ struct Checker<'a> {
     console: bool,
 }
 impl Checker<'_> {
+    fn outcome(&self, ty: Ty) -> Option<usize> {
+        ty.record().filter(|i| self.records[*i].variants.is_some())
+    }
+    fn handled<'a>(&self, state: &State, names: impl Iterator<Item = &'a String>) -> Result<()> {
+        for name in names {
+            if !state.moved.contains(name) && self.outcome(state.bindings[name]).is_some() {
+                return Err(error(
+                    "E0311",
+                    format!("Outcome {name} leaves scope unhandled"),
+                    state.declarations[name].clone(),
+                ));
+            }
+        }
+        Ok(())
+    }
+    fn join(&self, state: &mut State, survivors: &[State], span: Range<usize>) -> Result<()> {
+        for (name, ty) in &state.bindings {
+            if self.outcome(*ty).is_some() && !survivors.is_empty() {
+                let first = survivors[0].moved.contains(name);
+                if survivors.iter().any(|s| s.moved.contains(name) != first) {
+                    return Err(error(
+                        "E0311",
+                        format!(
+                            "Outcome {name} must be handled consistently on continuing branches"
+                        ),
+                        span,
+                    ));
+                }
+            }
+        }
+        for branch in survivors {
+            state.moved.extend(
+                branch
+                    .moved
+                    .iter()
+                    .filter(|name| state.bindings.contains_key(*name))
+                    .cloned(),
+            );
+        }
+        Ok(())
+    }
     fn same(&self, actual: Ty, expected: Ty, span: Range<usize>) -> Result<()> {
         same(actual, expected, span, self.records)
     }
@@ -785,7 +916,7 @@ impl Checker<'_> {
                 name.span.clone(),
             ));
         }
-        if mutable && ty == Ty::Text {
+        if mutable && (ty == Ty::Text || self.outcome(ty).is_some()) {
             return Err(error(
                 "E0305",
                 "let mut supports i32, bool, or owned records with scalar fields",
@@ -796,9 +927,13 @@ impl Checker<'_> {
             state.mutable.insert(name.text.clone());
         }
         state.bindings.insert(name.text.clone(), ty);
+        state
+            .declarations
+            .insert(name.text.clone(), name.span.clone());
         Ok(())
     }
     fn block(&mut self, body: &[Stmt], state: &mut State) -> Result<bool> {
+        let initial: BTreeSet<String> = state.bindings.keys().cloned().collect();
         let mut reachable = true;
         for stmt in body {
             if !reachable {
@@ -820,6 +955,7 @@ impl Checker<'_> {
                 }
                 StmtKind::Return => {
                     self.same(ty, self.result, span)?;
+                    self.handled(state, state.bindings.keys())?;
                     reachable = false;
                 }
                 StmtKind::If => {
@@ -828,20 +964,87 @@ impl Checker<'_> {
                     let mut otherwise = state.clone();
                     let then_live = self.block(&stmt.then, &mut then)?;
                     let else_live = self.block(&stmt.otherwise, &mut otherwise)?;
-                    // Moves on a branch that can fall through may precede later statements.
-                    for (branch, live) in [(then, then_live), (otherwise, else_live)] {
-                        if live {
-                            let outer = branch
-                                .moved
-                                .into_iter()
-                                .filter(|name| state.bindings.contains_key(name));
-                            state.moved.extend(outer.collect::<Vec<_>>());
-                        }
-                    }
+                    let survivors: Vec<State> = [(then, then_live), (otherwise, else_live)]
+                        .into_iter()
+                        .filter_map(|(s, live)| live.then_some(s))
+                        .collect();
+                    self.join(state, &survivors, stmt.span.clone())?;
                     reachable = then_live || else_live;
                 }
-                StmtKind::Expr | StmtKind::Assign => (),
+                StmtKind::Match => {
+                    let record = self
+                        .outcome(ty)
+                        .ok_or_else(|| error("E0310", "match requires an owned outcome", span))?;
+                    let variants = self.records[record].variants.as_ref().unwrap().clone();
+                    let mut seen = BTreeSet::new();
+                    let mut survivors = Vec::new();
+                    for arm in &stmt.arms {
+                        if arm.outcome.text != self.records[record].name.text {
+                            return Err(error(
+                                "E0201",
+                                format!(
+                                    "Expected {}, found {}; implicit conversions are not supported",
+                                    self.records[record].name.text, arm.outcome.text
+                                ),
+                                arm.outcome.span.clone(),
+                            ));
+                        }
+                        let variant = variants.iter().find(|(n, _)| n.text == arm.variant.text);
+                        if !seen.insert(arm.variant.text.clone()) || variant.is_none() {
+                            return Err(error(
+                                "E0310",
+                                format!("Duplicate or unknown variant {}", arm.variant.text),
+                                arm.variant.span.clone(),
+                            ));
+                        }
+                        let (_, payload) = variant.unwrap();
+                        if payload.is_some() != arm.binding.is_some() {
+                            return Err(error(
+                                "E0310",
+                                "Match payload binding must agree with its variant",
+                                arm.variant.span.clone(),
+                            ));
+                        }
+                        let mut branch = state.clone();
+                        if let Some(payload) = payload {
+                            self.bind(
+                                arm.binding.as_ref().unwrap(),
+                                type_name(payload, false, self.record_index)?,
+                                &mut branch,
+                                false,
+                            )?;
+                        }
+                        if self.block(&arm.body, &mut branch)? {
+                            survivors.push(branch);
+                        }
+                    }
+                    if seen.len() != variants.len() {
+                        return Err(error(
+                            "E0310",
+                            "Match must handle every variant exactly once",
+                            stmt.span.clone(),
+                        ));
+                    }
+                    self.join(state, &survivors, stmt.span.clone())?;
+                    reachable = !survivors.is_empty();
+                }
+                StmtKind::Expr => {
+                    if self.outcome(ty).is_some() {
+                        return Err(error(
+                            "E0311",
+                            "An outcome must be matched, returned, or transferred to an owning parameter",
+                            span,
+                        ));
+                    }
+                }
+                StmtKind::Assign => (),
             }
+        }
+        if reachable {
+            self.handled(
+                state,
+                state.bindings.keys().filter(|n| !initial.contains(*n)),
+            )?;
         }
         Ok(reachable)
     }
@@ -961,6 +1164,9 @@ impl Checker<'_> {
                 span,
             ));
         };
+        if self.records[record].variants.is_some() {
+            return Err(error("E0305", "Outcomes cannot be borrowed", span));
+        }
         if exclusive {
             self.require_mutable(place, binding, state)?;
         }
@@ -1031,7 +1237,7 @@ impl Checker<'_> {
             ExprKind::Field(name, child) => {
                 let base = self.expr(child, state, false)?;
                 let field = match base.record() {
-                    Some(record) => self.records[record]
+                    Some(record) if self.records[record].variants.is_none() => self.records[record]
                         .resolved
                         .iter()
                         .find(|(field, _)| *field == name),
@@ -1052,6 +1258,9 @@ impl Checker<'_> {
                 let Some(&record) = self.record_index.get(&name) else {
                     return Err(error("E0101", format!("Unknown record {name}"), span));
                 };
+                if self.records[record].variants.is_some() {
+                    return Err(error("E0101", format!("Unknown record {name}"), span));
+                }
                 let mut seen = BTreeSet::new();
                 for (key, child) in fields {
                     let expected = self.records[record]
@@ -1085,6 +1294,45 @@ impl Checker<'_> {
                         ),
                         span,
                     ));
+                }
+                Ty::Record(record)
+            }
+            ExprKind::Outcome(name, variant, payload) => {
+                let record = self
+                    .record_index
+                    .get(&name)
+                    .copied()
+                    .filter(|i| self.records[*i].variants.is_some())
+                    .ok_or_else(|| {
+                        error("E0310", format!("Unknown outcome {name}"), span.clone())
+                    })?;
+                let variants = self.records[record].variants.as_ref().unwrap();
+                let expected = variants
+                    .iter()
+                    .find(|(n, _)| n.text == variant.text)
+                    .ok_or_else(|| {
+                        error(
+                            "E0310",
+                            format!("Unknown variant {}", variant.text),
+                            span.clone(),
+                        )
+                    })?
+                    .1
+                    .clone();
+                if expected.is_some() != payload.is_some() {
+                    return Err(error(
+                        "E0310",
+                        "Constructor payload must agree with its variant",
+                        span,
+                    ));
+                }
+                if let (Some(expected), Some(child)) = (expected, payload) {
+                    let actual = self.expr(child, state, true)?;
+                    self.same(
+                        actual,
+                        type_name(&expected, false, self.record_index)?,
+                        self.expressions[child].span.clone(),
+                    )?;
                 }
                 Ty::Record(record)
             }
@@ -1157,6 +1405,7 @@ impl Checker<'_> {
             ExprKind::Binary(op, a, b) => {
                 let left = self.expr(a, state, true)?;
                 // The right side of &&/|| may run, so its moves count as possible.
+                let before_right = matches!(op.as_str(), "&&" | "||").then(|| state.clone());
                 let right = self.expr(b, state, true)?;
                 let (a_span, b_span) = (
                     self.expressions[a].span.clone(),
@@ -1164,6 +1413,11 @@ impl Checker<'_> {
                 );
                 match op.as_str() {
                     "&&" | "||" => {
+                        self.join(
+                            state,
+                            &[before_right.unwrap(), state.clone()],
+                            b_span.clone(),
+                        )?;
                         self.same(left, Ty::Bool, a_span)?;
                         self.same(right, Ty::Bool, b_span)?;
                         Ty::Bool
@@ -1217,40 +1471,83 @@ fn check_declarations(
         }
     }
     let mut index = BTreeMap::new();
-    for (position, record) in records.iter_mut().enumerate() {
-        if record.fields.is_empty() {
-            return Err(error(
-                "E0204",
-                "Prototype records must have at least one scalar field",
-                record.name.span.clone(),
-            ));
-        }
-        let mut resolved: Vec<(String, Ty)> = Vec::new();
-        for (name, ty) in &record.fields {
-            if resolved.iter().any(|(field, _)| *field == name.text) {
-                return Err(error(
-                    "E0102",
-                    format!("Duplicate field {}", name.text),
-                    name.span.clone(),
-                ));
-            }
-            let ty = match ty.text.as_str() {
-                "i32" => Ty::Int,
-                "bool" => Ty::Bool,
-                _ => {
-                    return Err(error(
-                        "E0204",
-                        "Prototype record fields must be i32 or bool",
-                        ty.span.clone(),
-                    ));
-                }
-            };
-            resolved.push((name.text.clone(), ty));
-        }
-        record.resolved = resolved;
+    for (position, record) in records.iter().enumerate() {
         index.insert(record.name.text.clone(), position);
     }
+    for position in 0..records.len() {
+        let Some(variants) = records[position].variants.clone() else {
+            check_record(&mut records[position])?;
+            continue;
+        };
+        if variants.is_empty() {
+            return Err(error(
+                "E0310",
+                "Outcomes require at least one variant",
+                records[position].name.span.clone(),
+            ));
+        }
+        let mut seen = BTreeSet::new();
+        let mut resolved = Vec::new();
+        for (name, payload) in variants {
+            if !seen.insert(name.text.clone()) {
+                return Err(error(
+                    "E0102",
+                    format!("Duplicate variant {}", name.text),
+                    name.span,
+                ));
+            }
+            if let Some(payload) = payload {
+                let valid = matches!(payload.text.as_str(), "i32" | "bool")
+                    || index
+                        .get(&payload.text)
+                        .is_some_and(|i| records[*i].variants.is_none());
+                if !valid {
+                    return Err(error(
+                        "E0310",
+                        "Outcome payloads must be i32, bool, or owned scalar records",
+                        payload.span,
+                    ));
+                }
+                resolved.push((name.text, type_name(&payload, false, &index)?));
+            }
+        }
+        records[position].resolved = resolved;
+    }
     Ok(index)
+}
+
+fn check_record(record: &mut Record) -> Result<()> {
+    if record.fields.is_empty() {
+        return Err(error(
+            "E0204",
+            "Prototype records must have at least one scalar field",
+            record.name.span.clone(),
+        ));
+    }
+    let mut resolved: Vec<(String, Ty)> = Vec::new();
+    for (name, ty) in &record.fields {
+        if resolved.iter().any(|(field, _)| *field == name.text) {
+            return Err(error(
+                "E0102",
+                format!("Duplicate field {}", name.text),
+                name.span.clone(),
+            ));
+        }
+        let ty = match ty.text.as_str() {
+            "i32" => Ty::Int,
+            "bool" => Ty::Bool,
+            _ => {
+                return Err(error(
+                    "E0204",
+                    "Prototype record fields must be i32 or bool",
+                    ty.span.clone(),
+                ));
+            }
+        };
+        resolved.push((name.text.clone(), ty));
+    }
+    record.resolved = resolved;
+    Ok(())
 }
 
 struct Parsed {
@@ -1260,10 +1557,22 @@ struct Parsed {
 }
 
 fn parse_program(source: &str) -> Result<Parsed> {
+    parse_program_mode(source, false)
+}
+fn parse_program_mode(source: &str, outcomes: bool) -> Result<Parsed> {
+    let mut tokens = lex(source)?;
+    if outcomes {
+        for token in &mut tokens {
+            if token.kind == TokenKind::Id && matches!(token.text.as_str(), "outcome" | "match") {
+                token.kind = TokenKind::Fixed;
+            }
+        }
+    }
     let mut parser = Parser {
-        tokens: lex(source)?,
+        tokens,
         index: 0,
         expressions: Vec::new(),
+        outcomes,
     };
     let (records, functions) = parser.program()?;
     let expressions = parser.expressions;
@@ -1290,6 +1599,17 @@ fn check_program(parsed: Parsed) -> Result<Program> {
             .iter()
             .map(|(_, ty)| type_name(ty, true, &record_index))
             .collect::<Result<Vec<_>>>()?;
+        for ((_, token), ty) in f.params.iter().zip(&params) {
+            if let Ty::Borrowed(i, _) = ty
+                && records[*i].variants.is_some()
+            {
+                return Err(error(
+                    "E0305",
+                    "Outcomes cannot be borrowed",
+                    token.span.clone(),
+                ));
+            }
+        }
         signatures.insert(f.name.text.clone(), (params, result));
     }
     let mut console = false;
@@ -1330,6 +1650,10 @@ fn check_program(parsed: Parsed) -> Result<Program> {
 
 pub fn analyze(source: &str) -> Result<Program> {
     check_program(parse_program(source)?)
+}
+/// Independently parse and check the explicit concrete-outcome source profile.
+pub fn analyze_outcomes(source: &str) -> Result<Program> {
+    check_program(parse_program_mode(source, true)?)
 }
 
 /// The reference's compact agent index, derived only from a checked program.
@@ -1440,6 +1764,7 @@ struct Emitter<'a> {
     indent: usize,
     counter: usize,
     used: [bool; 7],
+    outcome_match: bool,
 }
 impl Emitter<'_> {
     fn line(&mut self, text: impl std::fmt::Display) {
@@ -1489,6 +1814,25 @@ impl Emitter<'_> {
                 format!("INT32_C({value})")
             }
             ExprKind::Bool(value) => value.to_string(),
+            ExprKind::Outcome(name, variant, payload) => {
+                let record = ty.record().unwrap();
+                let tag = self.records[record]
+                    .variants
+                    .as_ref()
+                    .unwrap()
+                    .iter()
+                    .position(|(n, _)| n.text == variant.text)
+                    .unwrap();
+                let payload = payload
+                    .map(|child| {
+                        format!(", .tv_payload.tv_m_{} = {}", variant.text, self.expr(child))
+                    })
+                    .unwrap_or_default();
+                self.temp(
+                    ty,
+                    format!("(struct tv_s_{name}){{.tv_tag = {tag}{payload}}}"),
+                )
+            }
             ExprKind::Name(name) => self.temp(ty, format!("tv_v_{name}")),
             ExprKind::Text(value) => {
                 self.counter += 1;
@@ -1606,6 +1950,43 @@ impl Emitter<'_> {
                     let target = stmt.target.expect("assignment target");
                     self.line(format_args!("{} = {value};", self.place(target)));
                 }
+                StmtKind::Match => {
+                    self.outcome_match = true;
+                    let record = self.expressions[stmt.expr].ty.unwrap().record().unwrap();
+                    self.line(format!("switch (({value}).tv_tag) {{"));
+                    self.indent += 1;
+                    for arm in &stmt.arms {
+                        let variants = self.records[record].variants.as_ref().unwrap();
+                        let tag = variants
+                            .iter()
+                            .position(|(n, _)| n.text == arm.variant.text)
+                            .unwrap();
+                        self.line(format!("case {tag}: {{"));
+                        self.indent += 1;
+                        if let Some(binding) = &arm.binding {
+                            let ty = self.records[record]
+                                .resolved
+                                .iter()
+                                .find(|(n, _)| *n == arm.variant.text)
+                                .unwrap()
+                                .1;
+                            self.line(format!(
+                                "{} tv_v_{} = ({value}).tv_payload.tv_m_{};",
+                                ty.c(self.records),
+                                binding.text,
+                                arm.variant.text
+                            ));
+                            self.line(format!("(void)tv_v_{};", binding.text));
+                        }
+                        self.block(&arm.body);
+                        self.line("break;");
+                        self.indent -= 1;
+                        self.line("}");
+                    }
+                    self.line("default: { talven_trap(); }");
+                    self.indent -= 1;
+                    self.line("}");
+                }
             }
         }
     }
@@ -1656,12 +2037,27 @@ fn emit_c_mode(program: &Program, console: bool, library: bool) -> Result<String
         indent: 0,
         counter: 0,
         used: [false; 7],
+        outcome_match: false,
     };
-    for record in &program.records {
+    let mut records: Vec<_> = program.records.iter().collect();
+    records.sort_by_key(|r| r.variants.is_some());
+    for record in records {
         emitter.line(format_args!("struct tv_s_{} {{", record.name.text));
-        for (name, ty) in &record.resolved {
-            let ctype = ty.c(&program.records);
-            emitter.line(format_args!("    {ctype} tv_m_{name};"));
+        if record.variants.is_some() {
+            emitter.line("    uint32_t tv_tag;");
+            emitter.line("    union {");
+            for (name, ty) in &record.resolved {
+                emitter.line(format!("        {} tv_m_{name};", ty.c(&program.records)));
+            }
+            if record.resolved.is_empty() {
+                emitter.line("        uint8_t tv_empty;");
+            }
+            emitter.line("    } tv_payload;");
+        } else {
+            for (name, ty) in &record.resolved {
+                let ctype = ty.c(&program.records);
+                emitter.line(format_args!("    {ctype} tv_m_{name};"));
+            }
         }
         emitter.line("};");
     }
@@ -1685,7 +2081,7 @@ fn emit_c_mode(program: &Program, console: bool, library: bool) -> Result<String
     // add, sub, mul, and neg narrow through tv_narrow.
     used[0] = used[1..5].iter().any(|u| *u);
     let definitions = helper_definitions();
-    let needs_trap = used.iter().any(|u| *u);
+    let needs_trap = emitter.outcome_match || used.iter().any(|u| *u);
     let prefix_bytes = HEADER.iter().map(|line| line.len() + 1).sum::<usize>()
         + if program.console {
             console_definition().len() + 1
@@ -2083,5 +2479,27 @@ mod tests {
                 (measured.code, measured.message, measured.span)
             );
         }
+    }
+
+    #[test]
+    fn outcome_profile_preserves_bounds_and_must_handle_paths() {
+        assert!(analyze("fn outcome(match:i32)->i32{return match;}").is_ok());
+        assert!(analyze("outcome R{A}").is_err());
+        assert!(analyze_outcomes("outcome R{A(i32),B} fn f(r:R)->R{return r;}").is_ok());
+        assert_eq!(
+            analyze_outcomes("outcome R{A} fn f(r:R)->i32{return 0;}")
+                .unwrap_err()
+                .code,
+            "E0311"
+        );
+        let nested = |count| {
+            format!(
+                "outcome R{{A}} fn main()->i32{{{}{}return 0;}}",
+                "match(R::A){R::A{".repeat(count),
+                "}}".repeat(count)
+            )
+        };
+        assert!(analyze_outcomes(&nested(127)).is_ok());
+        assert_eq!(analyze_outcomes(&nested(128)).unwrap_err().code, "E0005");
     }
 }

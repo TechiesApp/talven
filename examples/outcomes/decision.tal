@@ -1,0 +1,65 @@
+struct Item {
+    value: i32,
+    marked: bool
+}
+
+outcome Decision {
+    Ready(Item),
+    Failed(i32),
+    Flag(bool),
+    Empty
+}
+
+fn decide(input: i32) -> Decision {
+    if (input < 0) {
+        return Decision::Failed(input);
+    }
+    if (input == 0) {
+        return Decision::Empty;
+    }
+    if (input == 1) {
+        return Decision::Flag(true);
+    }
+    return Decision::Ready(Item { value: input, marked: false });
+}
+
+fn inspect(item: Item) -> i32 {
+    return item.value;
+}
+
+fn evaluate(input: i32) -> i32 {
+    let decision = decide(input);
+    match (decision) {
+        Decision::Empty {
+            return 0;
+        }
+        Decision::Flag(flag) {
+            if (flag) {
+                return 7;
+            }
+            return 8;
+        }
+        Decision::Failed(code) {
+            return code;
+        }
+        Decision::Ready(item) {
+            return inspect(item);
+        }
+    }
+}
+
+fn main() -> i32 {
+    if (evaluate(-3) != -3) {
+        return 1;
+    }
+    if (evaluate(0) != 0) {
+        return 2;
+    }
+    if (evaluate(1) != 7) {
+        return 3;
+    }
+    if (evaluate(12) != 12) {
+        return 4;
+    }
+    return 0;
+}

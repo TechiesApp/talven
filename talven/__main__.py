@@ -75,6 +75,8 @@ def main(argv: list[str] | None = None) -> int:
     build.add_argument("-o", "--output", type=Path, required=True)
     build.add_argument("--cc", default="cc", help="Trusted C compiler executable (one path, no shell command)")
     build.add_argument("--console", action="store_true", help="Enable optional hosted POSIX stdout writes")
+    for operation in (check, fmt, ctx, emit, build):
+        operation.add_argument('--outcomes', action='store_true', help='Select m2-concrete-outcomes-v1 explicitly')
     def interval(value):
         from .dev import interval as parse_interval
         return parse_interval(value)
@@ -185,10 +187,12 @@ def main(argv: list[str] | None = None) -> int:
         if len(data) > MAX_SOURCE_BYTES:
             raise CompileError("E0005", "Source exceeds the 256 KiB prototype limit", Span(0, 0))
         source = data.decode("utf-8")
+        if getattr(args, 'outcomes', False) and getattr(args, 'freestanding', False):
+            raise CompileError('E0502', 'The outcome experiment currently supports hosted operations only', Span(0, 0))
         if args.command == "fmt":
             if args.expect_source_hash is not None and args.expect_source_hash != source_hash(source):
                 raise CompileError("E0501", "Source revision changed; request fresh source before formatting", Span(0, 0))
-            formatted = format_source(source, module=args.module)
+            formatted = format_source(source, module=args.module, outcomes=args.outcomes)
             if args.check:
                 if formatted != source:
                     raise CompileError("E0601", "Source is not canonically formatted; run talven fmt --write", Span(0, 0))
@@ -212,16 +216,29 @@ def main(argv: list[str] | None = None) -> int:
                 raise CompileError('E0005', 'Prepared C unit receipt exceeds the 64 MiB experiment limit', Span(0, 0))
             print(receipt, end='')
             return 0
-        if args.command == "check":
+        outcomes = getattr(args, 'outcomes', False)
+        if args.command == "check" and not outcomes:
             _, reported = check_source(source)
             if reported:
                 raise reported[0]
-        result = analyze(source)
+        if outcomes:
+            from .outcomes import analyze_outcomes
+            result = analyze_outcomes(source)
+        else:
+            result = analyze(source)
         if args.command == "check":
             if args.json:
-                print(encode({"schema": "talven.diagnostics.v1", "ok": True, "diagnostics": []}), end="")
+                receipt = {"schema": "talven.diagnostics.v1", "ok": True, "diagnostics": []}
+                if outcomes:
+                    receipt['language_profile'] = 'm2-concrete-outcomes-v1'
+                print(encode(receipt), end="")
             else:
                 print("Check passed")
+        elif args.command == 'context' and outcomes:
+            from .outcomes import outcome_context
+            if args.symbol or args.include_body or args.freestanding or args.compact:
+                raise CompileError('E0502', 'Outcome context requires whole-program hosted facts', Span(0, 0))
+            print(encode(outcome_context(result, args.max_bytes, args.expect_source_hash)), end='')
         elif args.command == "context" and args.compact:
             if args.symbol or args.include_body or args.freestanding:
                 raise CompileError("E0502", "--compact describes the whole program; omit --symbol, --include-body and "
@@ -281,7 +298,10 @@ def main(argv: list[str] | None = None) -> int:
     failures = reported if reported and failure is reported[0] else [failure]
     diagnostics = [error.diagnostic(source) for error in failures]
     if args.command in ("context", "emit-c-api", "emit-c-units", "prepare-c-units") or getattr(args, "json", False):
-        print(encode({"schema": "talven.diagnostics.v1", "ok": False, "diagnostics": diagnostics}), end="")
+        receipt = {"schema": "talven.diagnostics.v1", "ok": False, "diagnostics": diagnostics}
+        if getattr(args, 'outcomes', False):
+            receipt['language_profile'] = 'm2-concrete-outcomes-v1'
+        print(encode(receipt), end="")
     else:
         for error, diagnostic in zip(failures, diagnostics):
             start = diagnostic["range"]["start"]

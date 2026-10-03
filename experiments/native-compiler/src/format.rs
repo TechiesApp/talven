@@ -1,6 +1,6 @@
 //! Canonical syntax-only layout. No filesystem writes, configuration or subprocesses.
 
-use crate::{MAX_SOURCE, Result, Token, error, lex_with_comments, parse_program};
+use crate::{MAX_SOURCE, Result, Token, TokenKind, error, lex_with_comments, parse_program_mode};
 
 #[derive(Clone, Copy, PartialEq)]
 enum Kind {
@@ -9,6 +9,8 @@ enum Kind {
     Record,
     Block,
     Literal,
+    Outcome,
+    Match,
 }
 
 #[derive(Clone, Copy)]
@@ -32,12 +34,18 @@ fn groups(tokens: &[Token]) -> Vec<Option<Group>> {
         match kind {
             "fn" => declaration = Some(Kind::Function),
             "struct" => declaration = Some(Kind::Record),
+            "outcome" => declaration = Some(Kind::Outcome),
+            "match" => declaration = Some(Kind::Match),
             "(" | "{" => {
                 let group_kind = if kind == "(" {
                     Kind::Paren
                 } else if let Some(declared) = declaration.take() {
                     declared
-                } else if matches!(previous, Some(")" | "else")) {
+                } else if matches!(previous, Some(")" | "else"))
+                    || stack
+                        .last()
+                        .is_some_and(|(_, kind, _)| *kind == Kind::Match)
+                {
                     Kind::Block
                 } else {
                     Kind::Literal
@@ -48,8 +56,10 @@ fn groups(tokens: &[Token]) -> Vec<Option<Group>> {
                 let (start, group_kind, initial_comments) = stack.pop().expect("parsed delimiter");
                 let group = Group {
                     kind: group_kind,
-                    multiline: matches!(group_kind, Kind::Function | Kind::Record | Kind::Block)
-                        || comments > initial_comments,
+                    multiline: matches!(
+                        group_kind,
+                        Kind::Function | Kind::Record | Kind::Block | Kind::Outcome | Kind::Match
+                    ) || comments > initial_comments,
                 };
                 result[start] = Some(group);
                 result[index] = Some(group);
@@ -154,9 +164,25 @@ fn same_tokens(original: &[Token], formatted: &[Token]) -> bool {
 
 /// Format valid grammar even when types, return paths or ownership are invalid.
 pub fn format_source(source: &str) -> Result<String> {
-    parse_program(source)?;
+    format_mode(source, false)
+}
+pub fn format_outcomes(source: &str) -> Result<String> {
+    format_mode(source, true)
+}
+fn outcome_tokens(tokens: &mut [Token]) {
+    for token in tokens {
+        if token.kind == TokenKind::Id && matches!(token.text.as_str(), "outcome" | "match") {
+            token.kind = TokenKind::Fixed;
+        }
+    }
+}
+fn format_mode(source: &str, outcomes: bool) -> Result<String> {
+    parse_program_mode(source, outcomes)?;
     let mut tokens = lex_with_comments(source, true)?;
     tokens.pop(); // EOF is not a layout token.
+    if outcomes {
+        outcome_tokens(&mut tokens);
+    }
     let delimiters = groups(&tokens);
     let mut writer = Writer::default();
     let mut stack = Vec::new();
@@ -175,6 +201,9 @@ pub fn format_source(source: &str) -> Result<String> {
         let mut after_word = !matches!(previous, None | Some("(" | ".")) && !previous_unary;
         if kind == "&" && previous == Some("&") {
             after_word = true; // Preserve two separate borrow tokens rather than &&.
+        }
+        if outcomes && previous == Some(":") && index >= 2 && tokens[index - 2].kind() == ":" {
+            after_word = false;
         }
         match kind {
             "(" | "{" => {
@@ -199,12 +228,15 @@ pub fn format_source(source: &str) -> Result<String> {
                     &token.text,
                     kind == "}" && !group.multiline && previous != Some("{"),
                 )?;
-                if matches!(group.kind, Kind::Function | Kind::Record | Kind::Block) {
+                if matches!(
+                    group.kind,
+                    Kind::Function | Kind::Record | Kind::Block | Kind::Outcome | Kind::Match
+                ) {
                     let following = tokens.get(index + 1).map(Token::kind);
                     if following != Some("else") {
                         writer.newline()?;
                     }
-                    if matches!(group.kind, Kind::Function | Kind::Record) {
+                    if matches!(group.kind, Kind::Function | Kind::Record | Kind::Outcome) {
                         writer.blank_pending = true;
                     }
                 }
@@ -231,6 +263,9 @@ pub fn format_source(source: &str) -> Result<String> {
     let formatted = writer.finish()?;
     let mut formatted_tokens = lex_with_comments(&formatted, true)?;
     formatted_tokens.pop();
+    if outcomes {
+        outcome_tokens(&mut formatted_tokens);
+    }
     if !same_tokens(&tokens, &formatted_tokens) {
         return Err(error(
             "E0604",

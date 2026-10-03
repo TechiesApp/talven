@@ -4,6 +4,10 @@
 - Requirements affected: R01, R08, R10, R11, R16, R18, R24, R25
 - Decisions affected: D67 (proposed), D06, D07, D24, D27, D28
 
+Implementation follow-up: [Proposal 0040](0040-concrete-typed-outcomes.md) now
+implements the bounded typed-outcome slice. Allocation, cleanup and concurrency
+contracts in this document remain design-only.
+
 ## Problem
 
 The current profiles check scalar arithmetic and call-scoped record loans, but
