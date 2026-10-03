@@ -26,7 +26,72 @@ class NativePrototypeTests(unittest.TestCase):
                 args.append("--console")
             if command == "check":
                 args.append("--json")
+            if command == "context":
+                args.append("--compact")
             return subprocess.run(args, capture_output=True, timeout=10)
+
+    def test_compact_context_has_sorted_checked_contracts_without_entry_or_console(self):
+        source = '''struct Z { z: bool, a: i32 }
+fn z(p: &mut Z, text: str, shared: &Z, owned: A) -> A {
+    p.a = shared.a;
+    print(text);
+    return owned;
+}
+struct A { v: i32 }
+fn _first(flag: bool) -> bool { return flag; }
+fn Aname(v: i32) -> i32 { return v; }'''
+        expected = (b'{"functions":["fn Aname(v: i32) -> i32","fn _first(flag: bool) -> bool",'
+                    b'"fn z(p: &mut Z, text: str, shared: &Z, owned: A) -> A"],'
+                    b'"records":["struct A { v: i32 } (moves when passed by value)",'
+                    b'"struct Z { z: bool, a: i32 } (moves when passed by value)"],'
+                    b'"schema":"talven.agent-context.v2"}\n')
+        result = self.command(source, "context")
+        self.assertEqual((0, expected, b""), (result.returncode, result.stdout, result.stderr))
+        empty = self.command("", "context")
+        self.assertEqual(b'{"functions":[],"records":[],"schema":"talven.agent-context.v2"}\n', empty.stdout)
+
+    def test_compact_context_rejects_source_errors_without_facts_and_supports_diagnostics(self):
+        sources = [b"\xff", b" " * (256 * 1024 + 1),
+                   'fn f() -> i32 { return @; }', 'fn f() -> i32 { return false; }',
+                   'struct R { x: i32 } fn f(p: R) -> i32 { let q = p; return p.x; }']
+        for source in sources:
+            with self.subTest(source=repr(source)[:100]):
+                result = self.command(source, "context")
+                self.assertEqual(1, result.returncode)
+                self.assertEqual(b"", result.stderr)
+                receipt = json.loads(result.stdout)
+                self.assertFalse(receipt["ok"])
+                self.assertNotIn("functions", receipt)
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "bad.tal"
+            path.write_text('// 🙂\nfn f() -> i32 { "🙂"; return missing; }')
+            fifo = Path(temporary) / "fifo.tal"
+            os.mkfifo(fifo)
+            for candidate, code in ((path, "E0101"), (fifo, "E0901"),
+                                    (Path(temporary) / "missing.tal", "E0901")):
+                result = subprocess.run([str(BINARY), "context", str(candidate), "--compact", "--json"],
+                                        capture_output=True, timeout=3)
+                self.assertEqual((1, b""), (result.returncode, result.stderr))
+                receipt = json.loads(result.stdout)
+                self.assertFalse(receipt["ok"])
+                self.assertEqual(code, receipt["diagnostics"][0]["code"])
+                self.assertNotIn("functions", receipt)
+            good = subprocess.run([str(BINARY), "context", str(ROOT / "examples/hello.tal"),
+                                   "--json", "--compact"], capture_output=True, timeout=3)
+            self.assertEqual((0, b""), (good.returncode, good.stderr))
+            self.assertEqual("talven.agent-context.v2", json.loads(good.stdout)["schema"])
+
+    def test_context_requires_explicit_compact_mode_and_rejects_unsupported_options(self):
+        for flags in ([], ["--json"], ["--compact", "--compact"],
+                      ["--compact", "--json", "--json"], ["--compact", "--console"],
+                      ["--compact", "--symbol", "f"], ["--compact", "--max-bytes", "100"],
+                      ["--compact", "--include-body"], ["--compact", "--freestanding"],
+                      ["--compact", "--expect-source-hash", "0" * 64]):
+            with self.subTest(flags=flags):
+                result = subprocess.run([str(BINARY), "context", "does-not-exist.tal", *flags],
+                                        capture_output=True, timeout=3)
+                self.assertEqual((2, b""), (result.returncode, result.stdout))
+                self.assertIn(b"Usage:", result.stderr)
 
     def run_native(self, source, *, console=False, sanitizer=False):
         result = self.command(source, "emit-c", console)

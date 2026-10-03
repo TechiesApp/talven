@@ -1309,6 +1309,50 @@ pub fn analyze(source: &str) -> Result<Program> {
     check_program(parse_program(source)?)
 }
 
+/// The reference's compact agent index, derived only from a checked program.
+/// Declaration names sort lexically; parameter and field order stays as written.
+pub fn agent_context(program: &Program) -> String {
+    let mut functions: Vec<_> = program.functions.iter().collect();
+    functions.sort_by(|a, b| a.name.text.cmp(&b.name.text));
+    let functions = functions
+        .iter()
+        .map(|function| {
+            let params = function
+                .params
+                .iter()
+                .map(|(name, ty)| format!("{}: {}", name.text, ty.text))
+                .collect::<Vec<_>>()
+                .join(", ");
+            json(&format!(
+                "fn {}({params}) -> {}",
+                function.name.text, function.result.text
+            ))
+        })
+        .collect::<Vec<_>>()
+        .join(",");
+    let mut records: Vec<_> = program.records.iter().collect();
+    records.sort_by(|a, b| a.name.text.cmp(&b.name.text));
+    let records = records
+        .iter()
+        .map(|record| {
+            let fields = record
+                .fields
+                .iter()
+                .map(|(name, ty)| format!("{}: {}", name.text, ty.text))
+                .collect::<Vec<_>>()
+                .join(", ");
+            json(&format!(
+                "struct {} {{ {fields} }} (moves when passed by value)",
+                record.name.text
+            ))
+        })
+        .collect::<Vec<_>>()
+        .join(",");
+    format!(
+        "{{\"functions\":[{functions}],\"records\":[{records}],\"schema\":\"talven.agent-context.v2\"}}\n"
+    )
+}
+
 #[derive(Debug)]
 pub struct AnalysisTiming {
     pub parse_ns: u128,
@@ -1966,6 +2010,22 @@ mod tests {
         )
         .unwrap();
         assert!(neg.contains("tv_narrow(int64_t") && !neg.contains("tv_add("));
+    }
+
+    #[test]
+    fn compact_context_preserves_parameter_field_and_sorted_declaration_order() {
+        let program = analyze(
+            "struct Z { z: bool, a: i32 } fn z(p: &mut Z, s: &Z, owned: A, text: str) -> A { p.a = s.a; print(text); return owned; } struct A { v: i32 } fn a() -> bool { return true; }",
+        )
+        .unwrap();
+        assert_eq!(
+            agent_context(&program),
+            "{\"functions\":[\"fn a() -> bool\",\"fn z(p: &mut Z, s: &Z, owned: A, text: str) -> A\"],\"records\":[\"struct A { v: i32 } (moves when passed by value)\",\"struct Z { z: bool, a: i32 } (moves when passed by value)\"],\"schema\":\"talven.agent-context.v2\"}\n"
+        );
+        assert_eq!(
+            agent_context(&analyze("").unwrap()),
+            "{\"functions\":[],\"records\":[],\"schema\":\"talven.agent-context.v2\"}\n"
+        );
     }
 
     #[test]

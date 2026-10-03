@@ -3,8 +3,8 @@ use std::fs::File;
 use std::io::{self, Read, Write};
 use std::path::Path;
 use talven_native::{
-    Error, MAX_SOURCE, PROFILE, analyze, analyze_measured, emit_c, line_character, receipt,
-    size_error,
+    Error, MAX_SOURCE, PROFILE, agent_context, analyze, analyze_measured, emit_c, line_character,
+    receipt, size_error,
 };
 fn main() {
     std::process::exit(run());
@@ -52,15 +52,23 @@ fn run() -> i32 {
         println!("Talven native experiment 0.1.0 ({PROFILE})");
         return 0;
     }
-    if args.len() < 2
-        || !(args[0] == "check" || args[0] == "emit-c")
-        || args[2..].iter().any(|a| a != "--json" && a != "--console")
-        || (args[0] == "emit-c" && args[2..].iter().any(|a| a == "--json"))
-    {
-        eprintln!("Usage: talven-native check SOURCE [--json] | emit-c SOURCE [--console]");
+    let valid = args.len() >= 2
+        && if args[0] == "context" {
+            args[2..].iter().filter(|a| *a == "--compact").count() == 1
+                && args[2..].iter().filter(|a| *a == "--json").count() <= 1
+                && args[2..].iter().all(|a| a == "--compact" || a == "--json")
+        } else {
+            (args[0] == "check" || args[0] == "emit-c")
+                && args[2..].iter().all(|a| a == "--json" || a == "--console")
+                && (args[0] != "emit-c" || args[2..].iter().all(|a| a != "--json"))
+        };
+    if !valid {
+        eprintln!(
+            "Usage: talven-native check SOURCE [--json] | emit-c SOURCE [--console] | context SOURCE --compact [--json]"
+        );
         return 2;
     }
-    let structured = args[2..].iter().any(|a| a == "--json");
+    let structured = args[0] == "context" || args[2..].iter().any(|a| a == "--json");
     let console = args[2..].iter().any(|a| a == "--console");
     let mut source = String::new();
     let outcome: Result<String, Error> = (|| {
@@ -68,6 +76,8 @@ fn run() -> i32 {
         let program = analyze(&source)?;
         if args[0] == "emit-c" {
             emit_c(&program, console)
+        } else if args[0] == "context" {
+            Ok(agent_context(&program))
         } else if structured {
             Ok(receipt(&source, None))
         } else {
