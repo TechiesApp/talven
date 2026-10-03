@@ -2,6 +2,8 @@
 
 Status: actual results of five controlled pilot runs on 24 September 2026, the first live model evidence for the [evaluation harness](../experiments/README.md). They validate the pipeline end to end and show that a frontier model learns Talven's rules from one page. The third, with smaller models, found the original compiler context slightly harmful. The fourth, after compact context and multi-error reporting, found that harm gone and compiler context no costlier than source-only. The fifth, on large programs, found compiler context doubling Haiku 4.5's first-attempt success, and scalar reassignment the most common failure.
 
+These runs retain their older compiler/profile identities. A separate [Codex pilot on the current scalar-mutation profile](codex-pilot-evidence.md) was recorded on 3 October 2026; its different model/transport and small sample are not a comparison with these historical trials.
+
 ## Setup
 
 | Item | Value |

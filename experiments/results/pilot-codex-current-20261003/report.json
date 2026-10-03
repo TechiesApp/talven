@@ -1,0 +1,206 @@
+{
+  "by_context": {
+    "compiler": {
+      "attempts": 3,
+      "cache_write_input_tokens": null,
+      "cached_input_tokens": 0,
+      "complete_cost_tasks": 0,
+      "correct_tasks": 3,
+      "correctness_interval_95_excluding_errors": [
+        0.4385029682449546,
+        1.0
+      ],
+      "correctness_rate": 1.0,
+      "correctness_rate_excluding_errors": 1.0,
+      "cost_per_correct_task_usd": null,
+      "error_tasks": 0,
+      "failed_tasks": 0,
+      "input_tokens": 50920,
+      "model_cost_usd": null,
+      "output_tokens": 394,
+      "repair_attempts": 0,
+      "tasks": 3,
+      "tool_cost_usd": null,
+      "total_task_cost_usd": null,
+      "verification_cost_usd": null
+    },
+    "source": {
+      "attempts": 3,
+      "cache_write_input_tokens": null,
+      "cached_input_tokens": 17664,
+      "complete_cost_tasks": 0,
+      "correct_tasks": 3,
+      "correctness_interval_95_excluding_errors": [
+        0.4385029682449546,
+        1.0
+      ],
+      "correctness_rate": 1.0,
+      "correctness_rate_excluding_errors": 1.0,
+      "cost_per_correct_task_usd": null,
+      "error_tasks": 0,
+      "failed_tasks": 0,
+      "input_tokens": 43637,
+      "model_cost_usd": null,
+      "output_tokens": 394,
+      "repair_attempts": 0,
+      "tasks": 3,
+      "tool_cost_usd": null,
+      "total_task_cost_usd": null,
+      "verification_cost_usd": null
+    }
+  },
+  "corpus_version": "m1-large-tasks-v1",
+  "cost_scope": "model + adapter tools + measured verification; excludes human labor",
+  "measurement_kind": "live",
+  "paired": {
+    "both_passed": 3,
+    "conditions": [
+      "source",
+      "compiler"
+    ],
+    "exact_mcnemar_p": null,
+    "excluded_error_pairs": 0,
+    "neither": 0,
+    "only_compiler": 0,
+    "only_source": 0,
+    "pairs": 3
+  },
+  "planned_trials": 6,
+  "run_complete": true,
+  "schema": "talven.eval.report.v1",
+  "summary": {
+    "attempts": 6,
+    "cache_write_input_tokens": null,
+    "cached_input_tokens": 17664,
+    "complete_cost_tasks": 0,
+    "correct_tasks": 6,
+    "correctness_interval_95_excluding_errors": [
+      0.6096657120978346,
+      1.0
+    ],
+    "correctness_rate": 1.0,
+    "correctness_rate_excluding_errors": 1.0,
+    "cost_per_correct_task_usd": null,
+    "error_tasks": 0,
+    "failed_tasks": 0,
+    "input_tokens": 94557,
+    "model_cost_usd": null,
+    "output_tokens": 788,
+    "repair_attempts": 0,
+    "tasks": 6,
+    "tool_cost_usd": null,
+    "total_task_cost_usd": null,
+    "verification_cost_usd": null
+  },
+  "trials": [
+    {
+      "elapsed_seconds": 12.146108291985001,
+      "id": "pipeline-200-source-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 16632,
+        "model_cost_usd": null,
+        "output_tokens": 135,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 12.042507458012551,
+      "id": "pipeline-140-source-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 8832,
+        "input_tokens": 14547,
+        "model_cost_usd": null,
+        "output_tokens": 133,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 11.591897750040516,
+      "id": "pipeline-80-compiler-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 13880,
+        "model_cost_usd": null,
+        "output_tokens": 126,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 10.343785792007111,
+      "id": "pipeline-80-source-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 8832,
+        "input_tokens": 12458,
+        "model_cost_usd": null,
+        "output_tokens": 126,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 8.034841458022129,
+      "id": "pipeline-200-compiler-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 20066,
+        "model_cost_usd": null,
+        "output_tokens": 135,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 10.899562957987655,
+      "id": "pipeline-140-compiler-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 16974,
+        "model_cost_usd": null,
+        "output_tokens": 133,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "status": "passed"
+    }
+  ],
+  "verification_cost_receipts": {}
+}

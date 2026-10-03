@@ -36,6 +36,22 @@ Each attempt is one headless session with `--safe-mode` (no CLAUDE.md, skills, p
 
 Usage comes from the CLI's result record and is priced with the same [pricing table](anthropic-pricing.json); the CLI's own list-price estimate is kept as `cli_list_cost_usd` for cross-checking. Under a subscription these are **API-equivalent list-price figures, not charges**; the spend cap then limits API-equivalent usage, and subscription rate limits still apply. A response from a different model than requested is an error.
 
+## Codex CLI transport (ChatGPT subscription)
+
+[`codex_cli.py`](codex_cli.py) adds the experiment in [Proposal 0033](../../docs/proposals/0033-codex-subscription-evaluation.md). Configuration creation makes no model call. It requires installed CLI 0.154.0 and an explicit bundled model/effort; the executable and restricted catalog are hashed. For example:
+
+~~~sh
+python3 experiments/adapters/codex_cli.py --write-config build/codex-live.json \
+  --model gpt-6-astra --effort low
+python3 -m experiments run --adapter build/codex-live.json --corpus m1-large-tasks-v1 \
+  --context both --repetitions 1 --max-repairs 1 --max-calls 16 --out build/codex-pilot
+python3 -m experiments reverify build/codex-pilot --out build/codex-reverified.json
+~~~
+
+Sign in with ChatGPT through the CLI first. Each attempt is an ephemeral, read-only `codex exec` session in a fresh directory, ignoring user configuration/project instructions and forcing ChatGPT auth. API-key overrides are removed. A restricted bundled model catalog removes patch and experimental tools; CLI controls disable remaining tools, web search, apps, plugins, hooks and host skill discovery. Unexpected tool events invalidate the attempt. Managed requirements remain in force; the CLI and host are trusted.
+
+The runner's system message replaces built-in model instructions. Both conditions use the same framing; repairs render earlier turns chronologically. The final schema requests only the edit. A terminal JSONL receipt supplies input/cache-read/output tokens; cache-write tokens, dollar costs, returned model snapshot and tokenizer identity remain unknown. This transport is distinct from raw API calls and Claude CLI trials. `--max-calls` bounds adapter invocations, including failures, rather than tokens, subscription quota, charges or internal CLI retries. Selecting an additional dollar guard preserves its unknown-cost stop.
+
 ## Preparing a future live run
 
 Configuration creation does not call the API or read credentials. A real run requires a separately selected model, explicit effort, declared tokenizer identity or unavailable reason, a verified pricing entry, and an approved spend cap. For example, this creates a configuration only:

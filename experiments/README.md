@@ -88,7 +88,7 @@ Task IDs/instructions and acceptance stay versioned independently of the compile
 The task is always the same: implement `pipeline(a: &mut Account, v: i32) -> i32` to call 4–6 named helpers in order. Each call must match the helper's signature:
 - pass `&mut a` or `&a` explicitly;
 - build a fresh `Account` for a by-value helper, since a borrowed parameter cannot be moved;
-- bind each result to a new name, since there is no reassignment.
+- feed each result into the next stage. The current profile permits a mutable scalar running value; archived pilots before scalar mutation used distinct bindings because their compiler rejected reassignment.
 
 These tasks use **function-scoped edits**: `"edit": "function:pipeline"` in the task. The model returns only the new definition of `pipeline`, and the runner splices it into the current file by matching braces on tokens. The spliced file is what gets verified and archived, so `reverify` is unchanged. Without this, the model would have to reproduce up to 860 unchanged lines. That would measure copying, not the lookup under test.
 
@@ -120,7 +120,7 @@ python3 -m experiments run --adapter build/eval-fixture.json --out build/eval-re
 
 By default every (repetition, task, condition) trial runs once in an order shuffled by `--seed` (default 0), so time-varying provider behavior is not confounded with a condition; `--fixed-order` restores declaration order. Vector verification makes multiple compiler/native calls; each has the native timeout and the verifier has a separate total timeout. Identical prompts do not guarantee deterministic model sampling.
 
-**Live runs** (adapter `kind: live`) require `--max-cost-usd` and a clean working tree (`--allow-dirty` overrides and is recorded). Before each call the runner checks that recorded spend plus the most expensive call so far stays within the cap; a call whose cost is unknown stops the run because the cap can no longer be enforced. A stopped run stays `complete:false`, and its rates and totals are withheld. The cap bounds planning, not billing: one unusually expensive call can still exceed it.
+**Live runs** (adapter `kind: live`) require `--max-cost-usd`, `--max-calls`, or both, and a clean working tree (`--allow-dirty` overrides and is recorded). The dollar guard checks recorded spend plus the most expensive previous call; unknown cost stops it. The invocation guard counts each attempted adapter invocation once, including failures, and refuses another invocation at the limit. A call-only subscription trial retains unknown costs; it does not bound tokens, quota, billing or internal transport retries. When both guards are selected, either can stop the run. A stopped run stays `complete:false` with rates and totals withheld. The dollar cap bounds planning, not billing: an unusually expensive call can exceed it. See [Proposal 0033](../docs/proposals/0033-codex-subscription-evaluation.md).
 
 The verifier, C compiler and candidate programs run with an allow-listed environment (toolchain paths and locale, no credentials); candidate programs also get CPU-time and file-size limits on POSIX. The adapter receives the same list plus `ANTHROPIC_API_KEY` and proxy/certificate variables.
 

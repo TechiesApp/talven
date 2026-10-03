@@ -1,0 +1,488 @@
+{
+  "attempts": 9,
+  "note": "Original rejected outcomes retained. No recovered candidate is retrospectively scored as a pass.",
+  "runs": [
+    {
+      "attempts": [
+        {
+          "id": "pipeline-140-source-001",
+          "index": 0,
+          "provider_metadata": {
+            "billing": "chatgpt-subscription",
+            "catalog_sha256": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+            "cli_returncode": 0,
+            "cli_sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc",
+            "cli_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "cli_version": "codex-cli 0.154.0",
+            "completed_turns": 1,
+            "error": "unexpected_tool_or_item",
+            "event_types": [
+              "item.completed",
+              "thread.started",
+              "turn.completed",
+              "turn.started"
+            ],
+            "item_types": [
+              "agent_message",
+              "error"
+            ],
+            "model_identity": "CLI selector pinned; returned model snapshot unavailable",
+            "raw_usage": {
+              "cached_input_tokens": 0,
+              "input_tokens": 14549,
+              "output_tokens": 133
+            },
+            "request_sha256": "9992ddb93a27dd7b59e382067f0b28fb5903d181cf62b4d8712bcb26e19247cf",
+            "requested_model": "gpt-6-astra",
+            "response_sha256": "5212f27a88c3349ed49235333a5cccca8bb5f0e395b196271bd297bc4ff9be0c",
+            "transport": "codex-cli"
+          },
+          "request_sha256": "8b8ec72b63f6b38a776e92dfee514f04cdd1e175dfdf4508750fdf358c4257db",
+          "response_sha256": "b1ebf4ee6148eb254ab9002ec14c969bdf519e4f4f479446c94e6f593fd51728",
+          "status": "error",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 0,
+            "input_tokens": 14549,
+            "model_cost_usd": null,
+            "output_tokens": 133,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          }
+        },
+        {
+          "id": "pipeline-40-compiler-001",
+          "index": 0,
+          "provider_metadata": {
+            "billing": "chatgpt-subscription",
+            "catalog_sha256": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+            "cli_returncode": 0,
+            "cli_sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc",
+            "cli_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "cli_version": "codex-cli 0.154.0",
+            "completed_turns": 1,
+            "error": "unexpected_tool_or_item",
+            "event_types": [
+              "item.completed",
+              "thread.started",
+              "turn.completed",
+              "turn.started"
+            ],
+            "item_types": [
+              "agent_message",
+              "error"
+            ],
+            "model_identity": "CLI selector pinned; returned model snapshot unavailable",
+            "raw_usage": {
+              "cached_input_tokens": 0,
+              "input_tokens": 11820,
+              "output_tokens": 113
+            },
+            "request_sha256": "7b634686c3e27594ae17651274bc39c5f04e3f3ad7544fcd5687f9008e3dbde3",
+            "requested_model": "gpt-6-astra",
+            "response_sha256": "4bd9ae8d6ee8a1685e3ae6cff9529407bf9180f802f0d774a19bcee8975cb84f",
+            "transport": "codex-cli"
+          },
+          "request_sha256": "16675f5d76e3e5cd7dcb836b2f7419f29a837064f571e7f108e1ec737ddf36e6",
+          "response_sha256": "315d90a9861f4fea630df28443f3e848108599cf33b6a049408a0b84a3526e8a",
+          "status": "error",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 0,
+            "input_tokens": 11820,
+            "model_cost_usd": null,
+            "output_tokens": 113,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          }
+        },
+        {
+          "id": "pipeline-140-compiler-001",
+          "index": 0,
+          "provider_metadata": {
+            "billing": "chatgpt-subscription",
+            "catalog_sha256": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+            "cli_returncode": 0,
+            "cli_sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc",
+            "cli_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "cli_version": "codex-cli 0.154.0",
+            "completed_turns": 1,
+            "error": "unexpected_tool_or_item",
+            "event_types": [
+              "item.completed",
+              "thread.started",
+              "turn.completed",
+              "turn.started"
+            ],
+            "item_types": [
+              "agent_message",
+              "error"
+            ],
+            "model_identity": "CLI selector pinned; returned model snapshot unavailable",
+            "raw_usage": {
+              "cached_input_tokens": 0,
+              "input_tokens": 16972,
+              "output_tokens": 133
+            },
+            "request_sha256": "09e98906983029eb21ca49a239a6dea5d9c79195970bda9551d999da70661098",
+            "requested_model": "gpt-6-astra",
+            "response_sha256": "989a954ebef527a30c7089e280f3d2d41dc313e122d65e47dee21dddc07cb7d2",
+            "transport": "codex-cli"
+          },
+          "request_sha256": "ba5fc12959ca954b0829a0d7e8b3fa85830f0708f15fad7d1cd8fab9b610fda9",
+          "response_sha256": "4cf45bdee067c8662d1f99708e017d8c7c52612c5baf5c6dbe93427dddd03b5d",
+          "status": "error",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 0,
+            "input_tokens": 16972,
+            "model_cost_usd": null,
+            "output_tokens": 133,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          }
+        },
+        {
+          "id": "pipeline-80-source-001",
+          "index": 0,
+          "provider_metadata": {
+            "billing": "chatgpt-subscription",
+            "catalog_sha256": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+            "cli_returncode": 0,
+            "cli_sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc",
+            "cli_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "cli_version": "codex-cli 0.154.0",
+            "completed_turns": 1,
+            "error": "unexpected_tool_or_item",
+            "event_types": [
+              "item.completed",
+              "thread.started",
+              "turn.completed",
+              "turn.started"
+            ],
+            "item_types": [
+              "agent_message",
+              "error"
+            ],
+            "model_identity": "CLI selector pinned; returned model snapshot unavailable",
+            "raw_usage": {
+              "cached_input_tokens": 0,
+              "input_tokens": 12458,
+              "output_tokens": 126
+            },
+            "request_sha256": "7bd3e8798922f5622c0d733f0941905ac22d17e8951f0430fa7625af3bb84611",
+            "requested_model": "gpt-6-astra",
+            "response_sha256": "8e3188d984a0b51a728fcc0984080e9ad1600252b4c377f12493531db3858b6e",
+            "transport": "codex-cli"
+          },
+          "request_sha256": "b462658c1c25c5644f0e50c76f35b0c6294d9fe17192971143f8775f5d45d09b",
+          "response_sha256": "3f9974592a11dd7eb0ad5c15baa5a817384d1b1c046623d3147cd8b58ca640b8",
+          "status": "error",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 0,
+            "input_tokens": 12458,
+            "model_cost_usd": null,
+            "output_tokens": 126,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          }
+        },
+        {
+          "id": "pipeline-40-source-001",
+          "index": 0,
+          "provider_metadata": {
+            "billing": "chatgpt-subscription",
+            "catalog_sha256": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+            "cli_returncode": 0,
+            "cli_sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc",
+            "cli_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "cli_version": "codex-cli 0.154.0",
+            "completed_turns": 1,
+            "error": "unexpected_tool_or_item",
+            "event_types": [
+              "item.completed",
+              "thread.started",
+              "turn.completed",
+              "turn.started"
+            ],
+            "item_types": [
+              "agent_message",
+              "error"
+            ],
+            "model_identity": "CLI selector pinned; returned model snapshot unavailable",
+            "raw_usage": {
+              "cached_input_tokens": 0,
+              "input_tokens": 11068,
+              "output_tokens": 113
+            },
+            "request_sha256": "7d1d20be9f85168381f4ab50f972b149c1fe9554357e515eb4de0d5da5bd519a",
+            "requested_model": "gpt-6-astra",
+            "response_sha256": "6c0590c9a235144577bb1bbb4ef0dafc02b1b2f66b4c98b70de4cdd0ac50c83e",
+            "transport": "codex-cli"
+          },
+          "request_sha256": "f229c09493ff771855970816a98dfa9ee7ad68405a5fa59ef54ce2fb43a539b3",
+          "response_sha256": "7237ded6e5b824a7eac862de47a0451f38857cfeb3f1dfd3e344fff566800661",
+          "status": "error",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 0,
+            "input_tokens": 11068,
+            "model_cost_usd": null,
+            "output_tokens": 113,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          }
+        },
+        {
+          "id": "pipeline-80-compiler-001",
+          "index": 0,
+          "provider_metadata": {
+            "billing": "chatgpt-subscription",
+            "catalog_sha256": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+            "cli_returncode": 0,
+            "cli_sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc",
+            "cli_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "cli_version": "codex-cli 0.154.0",
+            "completed_turns": 1,
+            "error": "unexpected_tool_or_item",
+            "event_types": [
+              "item.completed",
+              "thread.started",
+              "turn.completed",
+              "turn.started"
+            ],
+            "item_types": [
+              "agent_message",
+              "error"
+            ],
+            "model_identity": "CLI selector pinned; returned model snapshot unavailable",
+            "raw_usage": {
+              "cached_input_tokens": 8832,
+              "input_tokens": 13878,
+              "output_tokens": 126
+            },
+            "request_sha256": "b3c3f93f5d04b632928473b6d562bb23feaf8cb91a846f26e555f218099d31eb",
+            "requested_model": "gpt-6-astra",
+            "response_sha256": "f45b34f1be1d2c4a45f853515d3b788fb7b18ccc80df95fa499eb12231cb44e5",
+            "transport": "codex-cli"
+          },
+          "request_sha256": "4b0d4bf3bc0cac3d49aff3fe7d27138df8d34e5326721f4ada5bf159a903e61e",
+          "response_sha256": "e59a1c6540a0b71ccf10c52ec780ea90ad06a28fb60ba59f7061c0f209657465",
+          "status": "error",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 8832,
+            "input_tokens": 13878,
+            "model_cost_usd": null,
+            "output_tokens": 126,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          }
+        },
+        {
+          "id": "pipeline-200-compiler-001",
+          "index": 0,
+          "provider_metadata": {
+            "billing": "chatgpt-subscription",
+            "catalog_sha256": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+            "cli_returncode": 0,
+            "cli_sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc",
+            "cli_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "cli_version": "codex-cli 0.154.0",
+            "completed_turns": 1,
+            "error": "unexpected_tool_or_item",
+            "event_types": [
+              "item.completed",
+              "thread.started",
+              "turn.completed",
+              "turn.started"
+            ],
+            "item_types": [
+              "agent_message",
+              "error"
+            ],
+            "model_identity": "CLI selector pinned; returned model snapshot unavailable",
+            "raw_usage": {
+              "cached_input_tokens": 0,
+              "input_tokens": 20064,
+              "output_tokens": 135
+            },
+            "request_sha256": "d17a2b5fa41250c39efc272eb747269fa66a633ed2d7cec63e9fa12aec3e364c",
+            "requested_model": "gpt-6-astra",
+            "response_sha256": "df5c53e17b5d133c785650bbfcebc321c07baf64ecbf9445b4b3593e1c61e405",
+            "transport": "codex-cli"
+          },
+          "request_sha256": "86d9e62e725362d6639736f336d1ee4c4bfd03e0dd84c3da5de85c4cec002336",
+          "response_sha256": "7f4da8192e80dd696a0ddefa862a4c794147dca3cd7dae8b08991c194723356d",
+          "status": "error",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 0,
+            "input_tokens": 20064,
+            "model_cost_usd": null,
+            "output_tokens": 135,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          }
+        },
+        {
+          "id": "pipeline-200-source-001",
+          "index": 0,
+          "provider_metadata": {
+            "billing": "chatgpt-subscription",
+            "catalog_sha256": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+            "cli_returncode": 0,
+            "cli_sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc",
+            "cli_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "cli_version": "codex-cli 0.154.0",
+            "completed_turns": 1,
+            "error": "unexpected_tool_or_item",
+            "event_types": [
+              "item.completed",
+              "thread.started",
+              "turn.completed",
+              "turn.started"
+            ],
+            "item_types": [
+              "agent_message",
+              "error"
+            ],
+            "model_identity": "CLI selector pinned; returned model snapshot unavailable",
+            "raw_usage": {
+              "cached_input_tokens": 0,
+              "input_tokens": 16636,
+              "output_tokens": 135
+            },
+            "request_sha256": "fd5a33115031316dd348b48eaf91db2ad39b01b35b5c914ffee0fbe5ce99c0dd",
+            "requested_model": "gpt-6-astra",
+            "response_sha256": "1b03467490d95d8940273c013cca6560ac94763a4745c52d128a25e79eecbcce",
+            "transport": "codex-cli"
+          },
+          "request_sha256": "b6d9a27b933ffe77ee389c659fbe5e56058ce9cf52a13949f29c8df18c1d7af3",
+          "response_sha256": "5cdf66223aa3ed0e204828657b553a5a0133a0f4f02759363a4fbb625d19a1f9",
+          "status": "error",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 0,
+            "input_tokens": 16636,
+            "model_cost_usd": null,
+            "output_tokens": 135,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          }
+        }
+      ],
+      "budget": {
+        "calls": 8,
+        "max_calls": 16,
+        "stopped": null
+      },
+      "classification": "CLI startup-warning integration failure; not a Talven task failure",
+      "complete": true,
+      "repository_revision": "6aa132d3098d578b869710d4c85dcf5d7690e0bc",
+      "started_at": "2026-10-03T07:59:06.878655+00:00",
+      "summary": {
+        "attempts": 8,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 8832,
+        "complete_cost_tasks": 0,
+        "correct_tasks": 0,
+        "correctness_interval_95_excluding_errors": null,
+        "correctness_rate": 0.0,
+        "correctness_rate_excluding_errors": null,
+        "cost_per_correct_task_usd": null,
+        "error_tasks": 8,
+        "failed_tasks": 0,
+        "input_tokens": 117445,
+        "model_cost_usd": null,
+        "output_tokens": 1014,
+        "repair_attempts": 0,
+        "tasks": 8,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "verification_cost_usd": null
+      }
+    },
+    {
+      "attempts": [
+        {
+          "id": "pipeline-40-source-001",
+          "index": 0,
+          "provider_metadata": {
+            "billing": "chatgpt-subscription",
+            "catalog_sha256": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+            "cli_returncode": 0,
+            "cli_sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc",
+            "cli_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "cli_version": "codex-cli 0.154.0",
+            "completed_turns": 1,
+            "error": "unexpected_tool_or_item",
+            "event_types": [
+              "item.completed",
+              "thread.started",
+              "turn.completed",
+              "turn.started"
+            ],
+            "item_types": [
+              "agent_message",
+              "error"
+            ],
+            "model_identity": "CLI selector pinned; returned model snapshot unavailable",
+            "raw_usage": {
+              "cached_input_tokens": 0,
+              "input_tokens": 11062,
+              "output_tokens": 113
+            },
+            "request_sha256": "7d1d20be9f85168381f4ab50f972b149c1fe9554357e515eb4de0d5da5bd519a",
+            "requested_model": "gpt-6-astra",
+            "response_sha256": "449a928f70fcb4d83d865c15f4078b001304084b8653b8f3247ea40582c5852a",
+            "transport": "codex-cli"
+          },
+          "request_sha256": "f229c09493ff771855970816a98dfa9ee7ad68405a5fa59ef54ce2fb43a539b3",
+          "response_sha256": "03f7760e426203023811e0d10198b2fd30c99d0694ee519f0f9ba46826af8382",
+          "status": "error",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 0,
+            "input_tokens": 11062,
+            "model_cost_usd": null,
+            "output_tokens": 113,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          }
+        }
+      ],
+      "budget": {
+        "calls": 1,
+        "max_calls": 1,
+        "stopped": null
+      },
+      "classification": "CLI startup-warning integration failure; not a Talven task failure",
+      "complete": true,
+      "repository_revision": "ba7db6912a6f7ec9c1cf19d16b39fab91949d572",
+      "started_at": "2026-10-03T08:02:07.492055+00:00",
+      "summary": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "complete_cost_tasks": 0,
+        "correct_tasks": 0,
+        "correctness_interval_95_excluding_errors": null,
+        "correctness_rate": 0.0,
+        "correctness_rate_excluding_errors": null,
+        "cost_per_correct_task_usd": null,
+        "error_tasks": 1,
+        "failed_tasks": 0,
+        "input_tokens": 11062,
+        "model_cost_usd": null,
+        "output_tokens": 113,
+        "repair_attempts": 0,
+        "tasks": 1,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "verification_cost_usd": null
+      }
+    }
+  ]
+}

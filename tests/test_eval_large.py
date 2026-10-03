@@ -1,4 +1,5 @@
 """Large-program corpus: generated starters, function-scoped edits, and acceptance."""
+import hashlib
 import json
 from pathlib import Path
 import shutil
@@ -8,7 +9,7 @@ import tempfile
 import unittest
 
 from experiments.large_tasks import LARGE_CORPUS, LARGE_TASKS, SOURCES, STAGES
-from experiments.runner import function_scope, splice_function
+from experiments.runner import function_scope, splice_function, trial_id
 from experiments.tasks import get_tasks
 from experiments.verifier import verify
 
@@ -55,6 +56,27 @@ class LargeCorpusTests(unittest.TestCase):
 
 @unittest.skipUnless(shutil.which("cc"), "Native acceptance requires a C11 compiler named cc")
 class LargeAcceptanceTests(unittest.TestCase):
+    def test_retained_codex_candidates_under_current_compiler(self):
+        archive = Path(__file__).resolve().parents[1] / 'experiments/results/pilot-codex-current-20261003'
+        run = json.loads((archive / 'run.json').read_text())
+        self.assertEqual(6, len(run['trials']))
+        for trial in run['trials']:
+            self.assertIn(trial['task'], LARGE_TASKS)
+            self.assertIn(trial['context_mode'], ('source', 'compiler'))
+            self.assertEqual(1, trial['repetition'])
+            identifier = trial_id(trial['task'], trial['context_mode'], 1)
+            self.assertEqual(identifier, trial['id'])
+            self.assertEqual(1, len(trial['attempts']))
+            attempt = trial['attempts'][0]
+            self.assertEqual(0, attempt['index'])
+            with self.subTest(trial=identifier):
+                source = (archive / identifier / 'attempt-000/task.tal').read_bytes()
+                self.assertEqual(attempt['source_sha256'], hashlib.sha256(source).hexdigest())
+                # Use the current trusted verifier/toolchain, never commands
+                # or compiler paths supplied by archived metadata.
+                result = verify(trial['task'], source.decode('utf-8'))
+                self.assertEqual('passed', result['status'], result['feedback'])
+
     def test_reference_solutions_pass_and_starters_fail(self):
         for task in LARGE_TASKS:
             with self.subTest(task=task):
