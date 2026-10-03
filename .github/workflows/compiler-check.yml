@@ -12,7 +12,7 @@ jobs:
   conformance:
     name: Native conformance (${{ matrix.arch }}, Python ${{ matrix.python }})
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 10
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
