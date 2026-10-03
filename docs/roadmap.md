@@ -95,19 +95,26 @@ The [module pilot](codex-module-pilot-evidence.md) under [Proposal 0038](proposa
 [Proposal 0039](proposals/0039-typed-failures-resource-contracts.md) begins the
 semantic foundation: concrete typed outcomes first, then explicit allocation and
 verified release/transfer paths, then concurrency after its lifetime/memory model.
-Its resource contracts remain design-only. [Proposal 0040](proposals/0040-concrete-typed-outcomes.md)
+Its broader resource/concurrency plan remains a design contract; bounded companions
+implement the slices below. [Proposal 0040](proposals/0040-concrete-typed-outcomes.md)
 implements the first [concrete outcome slice](outcomes.md) under an explicit
 companion profile: nominal alternatives, scalar/record payloads, exhaustive consuming
 matches and must-handle checking in reference and native compilers.
-[Proposal 0041](proposals/0041-supplied-storage-regions.md) drafts the next slice:
-stable lexical supplied-storage regions, one linear byte block per slot, explicit
-release and no block-bearing function results. [Proposal 0042](proposals/0042-supplied-storage-c-runtime.md)
-implements a standalone C descriptor/owner prototype with independent ledger,
-initialization rollback and sanitizer/trap gates. Region-aware frontend checking
-and compiler emission remain the next implementation gate; heap containers and
-an executor remain later.
+[Proposal 0041](proposals/0041-supplied-storage-regions.md) specifies stable lexical
+supplied-storage regions, one linear byte block per slot, explicit release and no
+block-bearing function results. [Proposal 0042](proposals/0042-supplied-storage-c-runtime.md)
+implements the standalone C descriptor/owner with independent ledger, rollback and
+sanitizer/trap gates. [Proposal 0043](proposals/0043-supplied-blocks-compiler.md)
+implements the [supplied-block companion](resources.md) in reference and Rust
+compilers: original-source checks, canonical formatting, exact hosted C11 parity,
+normal-path release/delegation obligations and versioned source/compiler/runtime
+context. Regions are bounded to eight declarations per function and literal
+capacities 1..4096, with one reusable slot each. These are per-function limits,
+not recursive total RAM bounds. Actual Linux x86-64/ARM64 resource execution with
+no skipped checks is required before merge; no total-memory, latency or agent benefit is measured. Heap containers,
+general allocator lifetimes, cancellation and an executor remain later work.
 
-Add allocator interfaces, containers, typed failures, structured tasks, cancellation, synchronization, and a selected optional executor.
+Continue with general allocator interfaces, containers, structured tasks, cancellation, synchronization, and a selected optional executor.
 
 Gate: resource lifetimes remain sound across errors, task cancellation, and concurrent operations. Measure binary size, allocations, RAM, task overhead, and tail latency.
 

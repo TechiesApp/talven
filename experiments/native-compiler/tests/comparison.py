@@ -19,7 +19,8 @@ class ComparisonTests(unittest.TestCase):
     def test_stale_native_build_sources_are_rejected(self):
         info = json.loads(subprocess.check_output([str(BINARY), "--build-info"]))
         comparison.verify_build_sources(info, ROOT / "experiments/native-compiler")
-        for name in ("src/lib.rs", "src/format.rs", "src/context.rs", "src/input.rs", "src/edit.rs", "src/c_api.rs"):
+        for name in ("src/lib.rs", "src/format.rs", "src/context.rs", "src/input.rs", "src/edit.rs", "src/c_api.rs", "src/resources.rs",
+                     "../supplied-storage/runtime.h", "../supplied-storage/source-runtime.c"):
             with self.subTest(source=name):
                 original = info["source_files"][name]
                 info["source_files"][name] += "// stale"

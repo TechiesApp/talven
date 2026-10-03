@@ -22,7 +22,7 @@ AI agents now write a large share of systems code, but today's languages were de
 
 That means:
 
-- **A language small enough to learn from one page.** The entire implemented language fits in a [one-page reference](docs/language-reference.md).
+- **A language small enough to learn from one page.** The base language fits in a [one-page reference](docs/language-reference.md).
 - **Compiler output built for agents.** The compiler returns structured diagnostics, bounded context for one symbol at a time, and edit previews checked against an exact source revision.
 - **Safety without a garbage collector.** Values move, borrows are checked, and arithmetic overflow traps instead of silently wrapping.
 - **Native and small.** Programs compile ahead of time, and a freestanding program can be under 3 KB.
@@ -104,7 +104,9 @@ Run the compiler test suite with `python3 -m unittest discover -s tests`. Run th
 
 The reference's explicit [local-module companion profile](docs/modules.md) adds bounded source imports, visibility, project builds/context and cross-file queries. The standalone Rust compiler checks resolved core source; native module graph resolution remains open.
 
-The explicit [concrete-outcome companion profile](docs/outcomes.md) adds typed failure alternatives, scalar/record payloads, consuming exhaustive matches and must-handle checking. Reference and Rust compilers independently check and emit it; allocator lifetimes, cleanup and concurrency remain open.
+The explicit [concrete-outcome companion profile](docs/outcomes.md) adds typed failure alternatives, scalar/record payloads, consuming exhaustive matches and must-handle checking. Reference and Rust compilers independently check and emit it; broader allocator lifetimes, cleanup and concurrency remain open.
+
+The explicit [supplied-block companion profile](docs/resources.md), `m2-supplied-blocks-v1`, adds bounded lexical regions, one reusable byte-block slot per region and checked explicit release or synchronous delegation. Reference and Rust compilers check original source, format it and emit identical hosted C11. Reference context and a custom LSP request expose origin, ownership and intrinsic contracts. Heap containers, general allocator lifetimes, automatic cleanup and concurrency remain open; this profile does not complete M2 or establish memory, latency or agent-cost benefits.
 
 Not built yet: loops, heap allocation, generics, concurrency, a package manager, and GPU backends. See the [roadmap](docs/roadmap.md).
 

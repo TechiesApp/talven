@@ -1,8 +1,8 @@
 # Proposal 0041: Sequential supplied-storage regions and linear byte blocks
 
-- Status: Draft; specification only, no compiler/runtime support
+- Status: Bounded lifetime contract implemented by Proposal 0043; broader allocator lifetimes remain open
 - Requirements: R01, R08, R09, R10, R11, R16, R24, R25
-- Decisions: D69 (proposed), D68, D67, D06, D07, D27
+- Decisions: D69 (proposed), D71 (proposed), D70, D68, D67, D06, D07, D27
 
 ## Problem and chosen boundary
 
@@ -22,13 +22,15 @@ contract; no block or block-bearing outcome can escape through a function result
 
 This is a candidate first resource profile, not general lifetime syntax, a heap
 allocator ABI, a container library, an arena with multiple allocations, or evidence
-that arbitrary returned heap owners are safe. The implemented outcome profile
-continues to admit only scalar/record payloads; the opaque types and grammar below
-require a separate implementation and verification gate.
+that arbitrary returned heap owners are safe. The outcome-only profile
+continues to admit only scalar/record payloads. [Proposal 0043](0043-supplied-blocks-compiler.md)
+implements the opaque types and grammar below as the separately selected
+[supplied-block profile](../resources.md), with original-source reference/native
+verification and independent source-ledger gates.
 
-## Proposed source and operations
+## Source and operations
 
-A future explicit `m2-supplied-blocks-v1` profile would add a scoped declaration:
+The explicit `m2-supplied-blocks-v1` profile adds a scoped declaration when selected with `--resources`:
 
 ~~~text
 region storage(64) {
@@ -43,32 +45,37 @@ region storage(64) {
 }
 ~~~
 
-This is proposed syntax; it does not compile today. A region capacity is a decimal
-literal from 1 through 4096 bytes. Initially allow at most eight region declarations
-per function, including declarations in mutually exclusive branches. Capacity and
+This syntax is implemented in the reference and Rust compilers under Proposal 0043.
+A region capacity is a decimal literal from 1 through 4096 bytes. A function may
+contain at most eight region declarations, including mutually exclusive branches. Capacity and
 region count are explicit compile-time bounds, with no runtime capacity expression
 or automatic capacity growth. Recursive calls may still create an unbounded total
 number of frames; these per-function limits are not whole-program RAM guarantees.
 
 The region token is a lexical capability accepted only by `reserve`. It is not an
 ordinary `&mut` loan and does not use existing `escapes:false` call metadata as a
-lifetime proof. A resource-aware frontend must relate the reservation outcome and
+lifetime proof. The resource-aware frontend relates the reservation outcome and
 selected block owner to the exact enclosing region declaration.
 
-| Proposed operation | Contract |
+| Operation | Contract |
 | --- | --- |
 | `reserve(region, size: i32, alignment: i32) -> Allocation` | Validate request, reserve one slot, initialize the selected byte range, return a typed outcome tied to this region |
 | `release(block: Block) -> i32` | Consume the linear owner, release exactly its originating slot, return 0 on the well-typed normal path; detected state/metadata violations trap |
 | `read_byte(block: &Block, index: i32) -> ByteRead` | Call-scoped read loan; return `Value(i32)` in 0..255 or `OutOfBounds` |
 | `write_byte(block: &mut Block, index: i32, value: i32) -> ByteWrite` | Call-scoped exclusive loan; return `Written`, `OutOfBounds` or `InvalidByte`; failures leave bytes unchanged |
 
-Proposed built-in concrete outcomes are `Allocation { Granted(Block), InvalidRequest,
+Built-in concrete outcomes are `Allocation { Granted(Block), InvalidRequest,
 Exhausted }`, `ByteRead { Value(i32), OutOfBounds }` and
-`ByteWrite { Written, OutOfBounds, InvalidByte }`. Outcome/variant names are nominal
-and reserved against user redefinition in this profile. A `Block` constructor,
-record literal, public fields, scalar conversion and forged pointer are unavailable.
-The resource profile would explicitly extend the outcome payload classifier for
-this opaque linear type; existing record payloads remain affine scalar aggregates.
+`ByteWrite { Written, OutOfBounds, InvalidByte }`. Outcome/variant names are nominal;
+Built-in type and operation names are reserved against user declarations in this
+profile. A `Block` constructor, record literal, public fields, scalar conversion
+and forged pointer are unavailable.
+The resource profile explicitly extends the outcome payload classifier for this
+opaque linear type; existing record payloads remain affine scalar aggregates.
+User records/outcomes cannot store Block or Allocation. `Allocation::Granted`
+can rewrap a live owner while preserving its origin and obligation; Allocation
+failure constructors are unavailable to source and arise only from reserve.
+ByteRead/ByteWrite constructors retain ordinary concrete-outcome rules.
 
 `release` is an explicit terminal ownership operation, not a fallible domain
 failure to ignore. Its scalar success receipt does not discharge an outcome by
@@ -109,10 +116,11 @@ length/alignment needed for release. The descriptor and block each carry a
 reservation; `UINT64_MAX` is exhaustion, never wraparound. Failed initialization
 rolls back occupancy but does not reuse its instance value. Thus a retained C
 copy of a released owner cannot release a later same-size/same-alignment owner
-while that origin remains alive. The chosen
-representation must be recorded before implementation, including every descriptor,
-owner, occupancy field, pointer and padding byte; this proposal does not invent a
-measured layout or byte count. Region initialization must initialize metadata before
+while that origin remains alive.
+[Proposal 0042](0042-supplied-storage-c-runtime.md) records the chosen descriptor,
+owner, occupancy and pointer representation and target-specific layout evidence.
+This lifetime contract does not infer a portable byte count or total frame cost
+from those measured C layouts. Region initialization must initialize metadata before
 use; only an allocated block's visible byte range needs initialization. Production
 reservation/release has no hidden heap allocation or reference count.
 
@@ -143,9 +151,9 @@ scope exit must have released it or transferred it to a checked synchronous
 consume-and-release parameter. Whole-value reassignment, record storage, copying,
 nonconsuming matching and block-bearing function results remain excluded. Returning
 a block-bearing outcome is rejected by its type even if a particular unit variant
-could contain no block. Initially block-bearing outcomes are local to the region's
-function; they cannot themselves be parameters. Ordinary scalar outcomes retain
-the implemented transfer/return rules.
+could contain no block. Allocation values are function-local, including rewrapped
+owning parameters; they cannot themselves be parameters or results. Ordinary
+scalar outcomes retain the implemented transfer/return rules.
 
 A function accepting an owned `Block` must have a scalar, scalar-record or
 non-block-bearing outcome result, and must prove release of its block parameters
@@ -160,7 +168,7 @@ mutable owner or an exclusive parameter. Moving a selected payload with
 linear obligation; whole-value reassignment remains forbidden. No thread/task
 transfer is granted.
 
-The checker needs region provenance in addition to the current moved-binding set.
+The checker tracks region provenance in addition to the moved-binding set.
 At continuing joins, live/released child obligations and occupied/free region state
 must agree. Each returning branch discharges all resource obligations before it is
 excluded from a join. Optional `&&`/`||` calls cannot be the only release path.
@@ -233,12 +241,17 @@ would widen the grammar and proof model before this single-slot workload needs t
 An ordinary `&mut` allocator argument is insufficient because its existing loan ends
 at the call. A mandatory process-global allocator would hide supply and target costs.
 
-Before implementing, fix the exact opaque C descriptor/owner representation and
-region-aware frontend state/diagnostics in an implementation proposal, with bounded
-source tests and ledger fixtures. Then implement the sequential supplied-block gate.
-This draft chooses the initial lifetime approach; it supplies no allocation execution
-evidence and does not complete M2's resource or concurrency milestones.
+[Proposal 0042](0042-supplied-storage-c-runtime.md) fixes and tests the standalone C
+representation. [Proposal 0043](0043-supplied-blocks-compiler.md) implements the
+bounded sequential companion: a shared region/opaque-owner AST and provenance
+checker, independent Rust checking of original source, exact C/formatter parity,
+versioned source/compiler/runtime context and source-ledger/sanitizer gates. It
+requires explicit resource selection and excludes module, ownership-export,
+freestanding, edit/test/watch/reuse/reload and native-resource-context integration.
 
-[Proposal 0042](0042-supplied-storage-c-runtime.md) now implements the standalone C
-representation and independent runtime gates. The region-aware frontend and
-Talven allocation execution remain unimplemented.
+Actual Linux x86-64/ARM64 resource execution with no skipped checks is required
+before merge. The supplied capacity, descriptors, temporaries and padding have
+distinct costs; no total RAM, latency,
+binary-size or agent benefit is measured. General allocator lifetimes, containers,
+automatic cleanup, cancellation and concurrency remain open, so the broader M2
+resource/concurrency milestone is incomplete.

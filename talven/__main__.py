@@ -76,7 +76,9 @@ def main(argv: list[str] | None = None) -> int:
     build.add_argument("--cc", default="cc", help="Trusted C compiler executable (one path, no shell command)")
     build.add_argument("--console", action="store_true", help="Enable optional hosted POSIX stdout writes")
     for operation in (check, fmt, ctx, emit, build):
-        operation.add_argument('--outcomes', action='store_true', help='Select m2-concrete-outcomes-v1 explicitly')
+        profile = operation.add_mutually_exclusive_group()
+        profile.add_argument('--outcomes', action='store_true', help='Select m2-concrete-outcomes-v1 explicitly')
+        profile.add_argument('--resources', action='store_true', help='Select m2-supplied-blocks-v1 explicitly')
     def interval(value):
         from .dev import interval as parse_interval
         return parse_interval(value)
@@ -187,12 +189,14 @@ def main(argv: list[str] | None = None) -> int:
         if len(data) > MAX_SOURCE_BYTES:
             raise CompileError("E0005", "Source exceeds the 256 KiB prototype limit", Span(0, 0))
         source = data.decode("utf-8")
+        if getattr(args, 'resources', False) and getattr(args, 'freestanding', False):
+            raise CompileError('E0502', 'The resource experiment currently supports hosted operations only', Span(0, 0))
         if getattr(args, 'outcomes', False) and getattr(args, 'freestanding', False):
             raise CompileError('E0502', 'The outcome experiment currently supports hosted operations only', Span(0, 0))
         if args.command == "fmt":
             if args.expect_source_hash is not None and args.expect_source_hash != source_hash(source):
                 raise CompileError("E0501", "Source revision changed; request fresh source before formatting", Span(0, 0))
-            formatted = format_source(source, module=args.module, outcomes=args.outcomes)
+            formatted = format_source(source, module=args.module, outcomes=args.outcomes, resources=args.resources)
             if args.check:
                 if formatted != source:
                     raise CompileError("E0601", "Source is not canonically formatted; run talven fmt --write", Span(0, 0))
@@ -217,11 +221,15 @@ def main(argv: list[str] | None = None) -> int:
             print(receipt, end='')
             return 0
         outcomes = getattr(args, 'outcomes', False)
-        if args.command == "check" and not outcomes:
+        resources = getattr(args, 'resources', False)
+        if args.command == "check" and not outcomes and not resources:
             _, reported = check_source(source)
             if reported:
                 raise reported[0]
-        if outcomes:
+        if resources:
+            from .resources import analyze_resources
+            result = analyze_resources(source)
+        elif outcomes:
             from .outcomes import analyze_outcomes
             result = analyze_outcomes(source)
         else:
@@ -231,9 +239,16 @@ def main(argv: list[str] | None = None) -> int:
                 receipt = {"schema": "talven.diagnostics.v1", "ok": True, "diagnostics": []}
                 if outcomes:
                     receipt['language_profile'] = 'm2-concrete-outcomes-v1'
+                elif resources:
+                    receipt['language_profile'] = 'm2-supplied-blocks-v1'
                 print(encode(receipt), end="")
             else:
                 print("Check passed")
+        elif args.command == 'context' and resources:
+            from .resources import resource_context
+            if args.symbol or args.include_body or args.freestanding or args.compact:
+                raise CompileError('E0502', 'Resource context requires whole-program hosted facts', Span(0, 0))
+            print(encode(resource_context(result, args.max_bytes, args.expect_source_hash)), end='')
         elif args.command == 'context' and outcomes:
             from .outcomes import outcome_context
             if args.symbol or args.include_body or args.freestanding or args.compact:
@@ -301,6 +316,8 @@ def main(argv: list[str] | None = None) -> int:
         receipt = {"schema": "talven.diagnostics.v1", "ok": False, "diagnostics": diagnostics}
         if getattr(args, 'outcomes', False):
             receipt['language_profile'] = 'm2-concrete-outcomes-v1'
+        elif getattr(args, 'resources', False):
+            receipt['language_profile'] = 'm2-supplied-blocks-v1'
         print(encode(receipt), end="")
     else:
         for error, diagnostic in zip(failures, diagnostics):

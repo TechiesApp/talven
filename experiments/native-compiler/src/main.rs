@@ -3,8 +3,8 @@ use std::io::{self, Write};
 use std::path::Path;
 use talven_native::{
     ContextOptions, Error, PROFILE, SOURCE_FILES, agent_context, analyze, analyze_measured,
-    analyze_outcomes, emit_c, format_outcomes, format_source, line_character, native_context,
-    read_source, receipt,
+    analyze_outcomes, analyze_resources, emit_c, format_outcomes, format_resources, format_source,
+    line_character, native_context, read_source, receipt,
 };
 fn main() {
     std::process::exit(run());
@@ -33,7 +33,8 @@ fn run() -> i32 {
             .collect::<Vec<_>>()
             .join(",");
         let output = format!(
-            "{{\"rustc\":{},\"target\":{},\"cargo_profile\":{},\"opt_level\":{},\"settings\":{},\"source_files\":{{{sources}}}}}\n",
+            "{{\"compiler_hash\":{},\"rustc\":{},\"target\":{},\"cargo_profile\":{},\"opt_level\":{},\"settings\":{},\"source_files\":{{{sources}}}}}\n",
+            talven_native::json(&talven_native::compiler_hash()),
             talven_native::json(env!("TALVEN_RUSTC")),
             talven_native::json(env!("TALVEN_TARGET")),
             talven_native::json(env!("TALVEN_PROFILE")),
@@ -61,32 +62,38 @@ fn run() -> i32 {
         } else if args[0] == "fmt" {
             args[2..].iter().filter(|a| *a == "--check").count() <= 1
                 && args[2..].iter().filter(|a| *a == "--json").count() <= 1
-                && args[2..]
-                    .iter()
-                    .all(|a| a == "--check" || a == "--json" || a == "--outcomes")
+                && args[2..].iter().all(|a| {
+                    a == "--check" || a == "--json" || a == "--outcomes" || a == "--resources"
+                })
                 && (!args[2..].iter().any(|a| a == "--json")
                     || args[2..].iter().any(|a| a == "--check"))
         } else {
             (args[0] == "check" || args[0] == "emit-c")
-                && args[2..]
-                    .iter()
-                    .all(|a| a == "--json" || a == "--console" || a == "--outcomes")
+                && args[2..].iter().all(|a| {
+                    a == "--json" || a == "--console" || a == "--outcomes" || a == "--resources"
+                })
                 && (args[0] != "emit-c" || args[2..].iter().all(|a| a != "--json"))
         };
+    let valid = valid
+        && !(args[2..].iter().any(|a| a == "--outcomes")
+            && args[2..].iter().any(|a| a == "--resources"));
     if !valid {
         eprintln!(
-            "Usage: talven-native check SOURCE [--json] | emit-c SOURCE [--console] | context SOURCE [--compact | --symbol NAME] [--max-bytes N] [--include-body] [--expect-source-hash HASH] [--json] | fmt SOURCE [--check [--json]]"
+            "Usage: talven-native check SOURCE [--json] [--outcomes | --resources] | emit-c SOURCE [--console] [--outcomes | --resources] | context SOURCE [--compact | --symbol NAME] [--max-bytes N] [--include-body] [--expect-source-hash HASH] [--json] | fmt SOURCE [--check [--json]] [--outcomes | --resources]"
         );
         return 2;
     }
     let structured = args[0] == "context" || args[2..].iter().any(|a| a == "--json");
     let console = args[2..].iter().any(|a| a == "--console");
     let outcomes = args[2..].iter().any(|a| a == "--outcomes");
+    let resources = args[2..].iter().any(|a| a == "--resources");
     let mut source = String::new();
     let outcome: Result<String, Error> = (|| {
         source = read_source(Path::new(&args[1]))?;
         if args[0] == "fmt" {
-            let formatted = if outcomes {
+            let formatted = if resources {
+                format_resources(&source)?
+            } else if outcomes {
                 format_outcomes(&source)?
             } else {
                 format_source(&source)?
@@ -101,7 +108,9 @@ fn run() -> i32 {
                 } else if structured {
                     Ok(receipt(&source, None).replace(
                         PROFILE,
-                        if outcomes {
+                        if resources {
+                            "m2-supplied-blocks-v1"
+                        } else if outcomes {
                             "m2-concrete-outcomes-v1"
                         } else {
                             PROFILE
@@ -117,7 +126,9 @@ fn run() -> i32 {
         if args[0] == "context" && !context_request.as_ref().unwrap().0 {
             return native_context(&source, &context_request.as_ref().unwrap().1);
         }
-        let program = if outcomes {
+        let program = if resources {
+            analyze_resources(&source)?
+        } else if outcomes {
             analyze_outcomes(&source)?
         } else {
             analyze(&source)?
@@ -129,7 +140,9 @@ fn run() -> i32 {
         } else if structured {
             Ok(receipt(&source, None).replace(
                 PROFILE,
-                if outcomes {
+                if resources {
+                    "m2-supplied-blocks-v1"
+                } else if outcomes {
                     "m2-concrete-outcomes-v1"
                 } else {
                     PROFILE
@@ -138,7 +151,9 @@ fn run() -> i32 {
         } else {
             Ok(format!(
                 "Check passed ({})\n",
-                if outcomes {
+                if resources {
+                    "m2-supplied-blocks-v1"
+                } else if outcomes {
                     "m2-concrete-outcomes-v1"
                 } else {
                     PROFILE
@@ -160,7 +175,9 @@ fn run() -> i32 {
                     receipt(&source, Some(&error))
                         .replace(
                             PROFILE,
-                            if outcomes {
+                            if resources {
+                                "m2-supplied-blocks-v1"
+                            } else if outcomes {
                                 "m2-concrete-outcomes-v1"
                             } else {
                                 PROFILE

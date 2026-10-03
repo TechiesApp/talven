@@ -74,7 +74,8 @@ def summarize(commands, repetitions, operations=CORE_OPERATIONS):
 
 
 def verify_build_sources(info, native_root):
-    names = {"Cargo.toml", "Cargo.lock", "build.rs", "src/main.rs", "src/lib.rs", "src/format.rs", "src/context.rs", "src/input.rs", "src/edit.rs", "src/c_api.rs", "src/runtime.c", "src/console.c"}
+    names = {"Cargo.toml", "Cargo.lock", "build.rs", "src/main.rs", "src/lib.rs", "src/format.rs", "src/context.rs", "src/input.rs", "src/edit.rs", "src/c_api.rs", "src/runtime.c", "src/console.c", "src/resources.rs",
+             "../supplied-storage/runtime.h", "../supplied-storage/source-runtime.c"}
     sources = info.get("source_files", {})
     base.require(set(sources) == names, "native build source manifest is missing or unexpected")
     for name in names:
@@ -108,6 +109,7 @@ def run(args):
         native = ROOT / "experiments/native-compiler"
         inputs = sorted([*ROOT.joinpath("talven").glob("*.py"), *native.joinpath("src").glob("*"),
                          *native.joinpath("tests").glob("*.py"), native / "build.rs", native / "Cargo.toml", native / "Cargo.lock",
+                         ROOT / "experiments/supplied-storage/runtime.h", ROOT / "experiments/supplied-storage/source-runtime.c",
                          Path(__file__).resolve(), ROOT / "scripts/measure-tooling.py", ROOT / "experiments/tooling_workloads.py",
                          ROOT / "examples/hello.tal"])
         for path in inputs:

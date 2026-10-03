@@ -106,6 +106,7 @@ def run(args):
         native = ROOT / 'experiments/native-compiler'
         inputs = sorted([*ROOT.joinpath('talven').glob('*.py'), *native.joinpath('src').glob('*'),
                          native / 'build.rs', native / 'Cargo.toml', native / 'Cargo.lock',
+                         ROOT / 'experiments/supplied-storage/runtime.h', ROOT / 'experiments/supplied-storage/source-runtime.c',
                          Path(__file__).resolve(), ROOT / 'scripts/measure-native-prototype.py',
                          ROOT / 'scripts/measure-incremental.py', ROOT / 'scripts/measure-tooling.py',
                          ROOT / 'experiments/tooling_workloads.py', ROOT / 'experiments/__init__.py',

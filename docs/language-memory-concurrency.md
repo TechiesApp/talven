@@ -4,17 +4,25 @@ Status: broader proposed semantics. The [prototype](prototype.md) implements aff
 
 [Proposal 0039](proposals/0039-typed-failures-resource-contracts.md) orders the first
 M2 work around concrete typed failures, consuming ownership branches, explicit
-allocator lifetime and release/transfer obligations. Its verification gates are
-design-only; it does not extend any implemented profile.
+allocator lifetime and release/transfer obligations. Its broader allocator and
+concurrency contracts remain design work; the bounded implementations follow below.
 
 [Proposal 0040](proposals/0040-concrete-typed-outcomes.md) implements the bounded
 typed-outcome companion. [Proposal 0041](proposals/0041-supplied-storage-regions.md)
-specifies a possible sequential resource slice with stable lexical supplied storage,
-linear byte blocks and explicit release. Its allocator/lifetime rules are design-only;
-they do not change the existing call-scoped record loans or add returned heap owners.
-[Proposal 0042](proposals/0042-supplied-storage-c-runtime.md) tests the standalone
-C runtime representation with independent ledger, fault and sanitizer gates.
-Talven region lifetime checking and allocation emission remain unimplemented.
+specifies the sequential lifetime contract with stable lexical supplied storage,
+linear byte blocks and explicit release. [Proposal 0042](proposals/0042-supplied-storage-c-runtime.md)
+tests the standalone C representation with independent ledger, fault and sanitizer
+gates. [Proposal 0043](proposals/0043-supplied-blocks-compiler.md) implements the
+explicit [supplied-block profile](resources.md): reference and Rust compilers check
+original source and enforce region provenance, normal-path release or checked
+synchronous delegation, nonescaping call loans and consistent continuing paths.
+They format that source and emit identical hosted C11. Each function may declare
+at most eight regions of 1..4096 bytes, each with one reusable slot; recursive total
+RAM remains unbounded. Allocation values cannot be parameters/results and Block
+owners cannot escape through results or user aggregates. Ordinary record loans
+retain their existing rules. Containers, returned heap owners, automatic cleanup,
+cancellation and concurrency remain future design work; no broad M2 or cost gate
+is complete.
 
 ## Syntax principles
 

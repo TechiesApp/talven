@@ -1,0 +1,41 @@
+fn finish(block: Block) -> i32 {
+    return release(block);
+}
+
+fn main() -> i32 {
+    region storage(64) {
+        match (reserve(storage, 16, 8)) {
+            Allocation::Granted(block) {
+                let mut bytes = block;
+                match (write_byte(&mut bytes, 0, 42)) {
+                    ByteWrite::Written {
+                        match (read_byte(&bytes, 0)) {
+                            ByteRead::Value(value) {
+                                finish(bytes);
+                                return value - 42;
+                            }
+                            ByteRead::OutOfBounds {
+                                finish(bytes);
+                                return 1;
+                            }
+                        }
+                    }
+                    ByteWrite::OutOfBounds {
+                        finish(bytes);
+                        return 2;
+                    }
+                    ByteWrite::InvalidByte {
+                        finish(bytes);
+                        return 3;
+                    }
+                }
+            }
+            Allocation::InvalidRequest {
+                return 4;
+            }
+            Allocation::Exhausted {
+                return 5;
+            }
+        }
+    }
+}

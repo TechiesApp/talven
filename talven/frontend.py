@@ -145,6 +145,7 @@ class Expr:
     args: list[Expr] = field(default_factory=list)
     fields: list[tuple[Token, Expr]] = field(default_factory=list)
     typ: str = ""
+    origin: str | None = None
 
 
 @dataclass
@@ -205,9 +206,10 @@ class Parser:
     PRECEDENCE = {"||": 1, "&&": 2, "==": 3, "!=": 3, "<": 4, ">": 4,
                   "<=": 4, ">=": 4, "+": 5, "-": 5, "*": 6, "/": 6, "%": 6}
 
-    def __init__(self, tokens: list[Token], recover: bool = False, *, outcomes: bool = False):
+    def __init__(self, tokens: list[Token], recover: bool = False, *, outcomes: bool = False, resources: bool = False):
         self.tokens, self.index, self.nesting = tokens, 0, 0
-        self.outcomes = outcomes
+        self.outcomes = outcomes or resources
+        self.resources = resources
         # With recovery, a syntax error is recorded and parsing resumes at the
         # next statement or declaration, so one check reports several errors.
         self.recover, self.errors = recover, []
@@ -354,6 +356,14 @@ class Parser:
 
     def statement(self) -> Statement:
         start = self.current.span.start
+        if self.resources and self.accept("region"):
+            name = self.take("id")
+            self.take("(")
+            capacity = self.take("int")
+            self.take(")")
+            body = self.block()
+            return Statement("region", Span(start, self.tokens[self.index - 1].span.end),
+                             Expr("int", capacity.span, capacity.text), name=name, then=body)
         if self.outcomes and self.accept("match"):
             self.take("(")
             expr = self.expression()
@@ -488,8 +498,13 @@ class State:
     moved: set[str] = field(default_factory=set)
     loans: dict[str, str] = field(default_factory=dict)
 
+    resources: dict[str, str] = field(default_factory=dict)
+    origins: dict[str, str] = field(default_factory=dict)
+    regions: dict[str, str] = field(default_factory=dict)
+
     def copy(self) -> State:
-        return State(dict(self.bindings), set(self.moved), dict(self.loans))
+        return State(dict(self.bindings), set(self.moved), dict(self.loans),
+                     dict(self.resources), dict(self.origins), dict(self.regions))
 
 
 @dataclass
@@ -506,10 +521,11 @@ class Analysis:
     records: dict[str, Record]
     functions: dict[str, Function]
     references: list[Reference]
+    resources: bool = False
 
 
 class Checker:
-    def __init__(self, source: str, program: Program, skip: set[str] | None = None):
+    def __init__(self, source: str, program: Program, skip: set[str] | None = None, *, resources: bool = False):
         # With skip given, function bodies are checked independently: errors are
         # collected in self.errors and the functions named in skip are not checked.
         self.source, self.program = source, program
@@ -518,11 +534,17 @@ class Checker:
         self.functions: dict[str, Function] = {}
         self.references: list[Reference] = []
         self.function: Function | None = None
+        self.resources = resources
+        if resources:
+            from .resources import builtin_types
+            self.records.update(builtin_types())
 
     def error(self, code: str, message: str, span: Span):
         raise CompileError(code, message, span)
 
     def reference(self, span: Span, definition: Span | None, description: str):
+        if self.resources and definition == Span(0, 0):
+            definition = None  # Compiler facts have no source declaration to rename.
         self.references.append(Reference(span, definition, description))
 
     def type_name(self, token: Token, parameter: bool = False):
@@ -545,7 +567,7 @@ class Checker:
             self.error("E0201", f"Expected {expected}, found {actual}; implicit conversions are not supported", span)
 
     def bind(self, name: Token, typ: str, state: State, mutable: bool = False):
-        if name.text in state.bindings:
+        if name.text in state.bindings or (self.resources and name.text in state.regions):
             self.error("E0102", f"Duplicate or shadowed binding {name.text}", name.span)
         if mutable and (isinstance(self.records.get(typ), Outcome) or
                         (typ not in SCALARS and typ not in self.records)):
@@ -619,6 +641,9 @@ class Checker:
 
     def check(self) -> Analysis:
         names = COPY_TYPES | BUILTINS
+        if self.resources:
+            from .resources import BUILTIN_NAMES
+            names = names | BUILTIN_NAMES
         for item in [*self.program.records, *self.program.functions]:
             if item.name.text in names:
                 self.error("E0102", f"Duplicate or reserved declaration {item.name.text}", item.name.span)
@@ -639,6 +664,8 @@ class Checker:
                     seen.add(name.text)
                     self.reference(name.span, name.span, f"{record.name.text}::{name.text}")
                     if payload:
+                        if self.resources and base_type(payload.text) in ("Block", "Allocation"):
+                            self.error("E0320", "User outcomes cannot contain Block or Allocation", payload.span)
                         if payload.text not in SCALARS and (payload.text not in self.records or
                                 isinstance(self.records[payload.text], Outcome)):
                             self.error("E0310", "Outcome payloads must be i32, bool, or owned scalar records", payload.span)
@@ -652,10 +679,18 @@ class Checker:
                 if name.text in fields:
                     self.error("E0102", f"Duplicate field {name.text}", name.span)
                 fields.add(name.text)
+                if self.resources and base_type(typ.text) in ("Block", "Allocation"):
+                    self.error("E0320", "User records cannot contain Block or Allocation", typ.span)
                 if typ.text not in SCALARS:
                     self.error("E0204", "Prototype record fields must be i32 or bool", typ.span)
                 self.reference(name.span, name.span, f"{name.text}: {typ.text}")
         for fn in self.program.functions:
+            if self.resources:
+                if base_type(fn.result.text) in ("Block", "Allocation"):
+                    self.error("E0320", "Resource owners and regions cannot escape through function results", fn.result.span)
+                for _, typ in fn.params:
+                    if base_type(typ.text) in ("Allocation",):
+                        self.error("E0320", "Allocation and regions cannot be function parameters", typ.span)
             self.type_name(fn.result)
             for _, typ in fn.params:
                 self.type_name(typ, parameter=True)
@@ -669,14 +704,32 @@ class Checker:
                 if self.skip is None:
                     raise
                 self.errors.append(error)
-        return Analysis(self.source, self.program, self.records, self.functions, self.references)
+        return Analysis(self.source, self.program, self.records, self.functions, self.references, self.resources)
 
     def check_function(self, fn: Function):
         """Check one body after every declaration and public contract is validated."""
         self.function = fn
         state = State()
+        self.region_count = 0
+        if self.resources:
+            pending = list(reversed(fn.body))
+            while pending:
+                stmt = pending.pop()
+                if stmt.kind == "region":
+                    self.region_count += 1
+                    digits = stmt.expr.value.lstrip("0") or "0"
+                    if len(digits) > 4 or not 1 <= int(digits) <= 4096:
+                        self.error("E0320", "Region capacity must be 1..4096 bytes", stmt.expr.span)
+                    if self.region_count > 8:
+                        self.error("E0320", "At most eight regions are allowed per function", stmt.name.span)
+                children = [*stmt.then, *stmt.otherwise, *(child for arm in stmt.arms for child in arm.body)]
+                pending.extend(reversed(children))
         for name, typ in fn.params:
             self.bind(name, typ.text, state)
+            if self.resources and typ.text == "Block":
+                origin = f"{fn.name.text}:parameter:{name.span.start}"
+                state.origins[name.text] = origin
+                state.resources[origin] = "live"
         if self.block(fn.body, state):
             self.error("E0205", f"Function {fn.name.text} must return {fn.result.text} on every path", fn.name.span)
 
@@ -687,6 +740,19 @@ class Checker:
         for stmt in statements:
             if not reachable:
                 self.error("E0206", "Unreachable statement", stmt.span)
+            if self.resources and stmt.kind == "region":
+                if stmt.name.text in state.bindings or stmt.name.text in state.regions:
+                    self.error("E0102", f"Duplicate or shadowed binding {stmt.name.text}", stmt.name.span)
+                origin = f"{self.function.name.text}:region:{stmt.name.span.start}"
+                state.regions[stmt.name.text] = origin
+                state.resources[origin] = "free"
+                self.reference(stmt.name.span, stmt.name.span, f"region {stmt.name.text} ({int(stmt.expr.value.lstrip('0') or '0')} bytes; lexical)")
+                reachable = self.block(stmt.then, state)
+                if reachable and state.resources[origin] != "free":
+                    self.error("E0321", "Region leaves scope with an outstanding owner or reservation", stmt.name.span)
+                del state.regions[stmt.name.text]
+                del state.resources[origin]
+                continue
             if stmt.kind == "assign":
                 self.assignment(stmt, state)
                 continue
@@ -696,9 +762,13 @@ class Checker:
                     self.type_name(stmt.annotation)
                     self.same_type(typ, stmt.annotation.text, stmt.expr.span)
                 self.bind(stmt.name, typ, state, mutable=stmt.mutable)
+                if self.resources and stmt.expr.origin is not None:
+                    state.origins[stmt.name.text] = stmt.expr.origin
             elif stmt.kind == "return":
                 self.same_type(typ, self.function.result.text, stmt.expr.span)
                 self.handled(state, state.bindings)
+                if self.resources and any(slot != "free" for slot in state.resources.values()):
+                    self.error("E0321", "Normal return requires every resource obligation to be released", stmt.span)
                 reachable = False
             elif stmt.kind == "if":
                 self.same_type(typ, "bool", stmt.expr.span)
@@ -725,26 +795,49 @@ class Checker:
                     if bool(payload) != bool(arm.binding):
                         self.error("E0310", "Match payload binding must agree with its variant", arm.variant.span)
                     branch = state.copy()
+                    if self.resources and typ == "Allocation":
+                        branch.resources[stmt.expr.origin] = "live" if payload else "free"
                     if payload:
                         self.bind(arm.binding, payload.text, branch)
+                        if self.resources and payload.text == "Block":
+                            branch.origins[arm.binding.text] = stmt.expr.origin
                     if self.block(arm.body, branch):
+                        if self.resources and payload:
+                            self.handled(branch, [arm.binding.text])
                         survivors.append(branch)
                 if seen != set(variants):
                     self.error("E0310", "Match must handle every variant exactly once", stmt.span)
                 self.join(state, survivors, stmt.span)
                 reachable = bool(survivors)
+            elif self.resources and stmt.kind == "expr" and typ in ("Block", "Allocation"):
+                self.error("E0321", "Resource owner or reservation cannot be discarded", stmt.expr.span)
             elif stmt.kind == "expr" and isinstance(self.records.get(typ), Outcome):
                 self.error("E0311", "An outcome must be matched, returned, or transferred to an owning parameter", stmt.expr.span)
         if reachable:
             self.handled(state, set(state.bindings) - initial)
+        if self.resources:
+            for name in set(state.bindings) - initial:
+                del state.bindings[name]
+                state.origins.pop(name, None)
+                state.moved.discard(name)
         return reachable
 
     def handled(self, state: State, names):
         for name in sorted(names):
+            if self.resources and name not in state.moved and state.bindings[name].typ in ("Block", "Allocation"):
+                self.error("E0321", f"Resource {name} leaves scope unreleased", state.bindings[name].declaration)
             if name not in state.moved and isinstance(self.records.get(state.bindings[name].typ), Outcome):
                 self.error("E0311", f"Outcome {name} leaves scope unhandled", state.bindings[name].declaration)
 
     def join(self, state: State, survivors: list[State], span: Span):
+        if self.resources and survivors:
+            for origin in state.resources:
+                if len({s.resources.get(origin) for s in survivors}) > 1:
+                    self.error("E0321", "Resource obligations must agree on continuing branches", span)
+            for name, binding in state.bindings.items():
+                if binding.typ in ("Block", "Allocation") and len({name in s.moved for s in survivors}) > 1:
+                    self.error("E0321", f"Resource {name} must be consumed consistently on continuing branches", span)
+            state.resources = dict(survivors[0].resources)
         for name, binding in state.bindings.items():
             if isinstance(self.records.get(binding.typ), Outcome) and survivors:
                 if len({name in s.moved for s in survivors}) > 1:
@@ -753,6 +846,12 @@ class Checker:
 
     def expr(self, expr: Expr, state: State, consume: bool = True) -> str:
         kind, value = expr.kind, expr.value
+        if self.resources:
+            from .resources import check_resource_expr
+            resource_type = check_resource_expr(self, expr, state)
+            if resource_type is not None:
+                expr.typ = resource_type
+                return resource_type
         if kind == "int":
             digits = value.lstrip("0") or "0"
             if len(digits) > 10 or int(digits) > 2147483647:
@@ -765,6 +864,8 @@ class Checker:
         elif kind == "name":
             binding = self.lookup(expr, state)
             typ = binding.typ
+            if self.resources:
+                expr.origin = state.origins.get(value)
             if consume and borrow_mode(typ):
                 self.error("E0304", "Borrowed parameters cannot be used as owned values; reborrow explicitly in a call", expr.span)
             self.access(expr, state, "move" if consume and typ not in COPY_TYPES else "read")
@@ -831,6 +932,7 @@ class Checker:
             if len(expr.args) != len(fn.params):
                 self.error("E0203", f"{value} expects {len(fn.params)} arguments", expr.span)
             outer_loans = dict(state.loans)
+            transferred = []
             try:
                 for child, (_, expected) in zip(expr.args, fn.params):
                     if child.kind == "borrow":
@@ -840,10 +942,15 @@ class Checker:
                     else:
                         actual = self.expr(child, state)
                     self.same_type(actual, expected.text, child.span)
+                    if self.resources and expected.text == "Block":
+                        transferred.append(child.origin)
             finally:
                 # Nested calls release only their loans. Any loans already
                 # held by an enclosing call's earlier arguments remain live.
                 state.loans = outer_loans
+            if self.resources:
+                for origin in transferred:
+                    state.resources[origin] = "free"
             self.function.calls.add(value)
             self.reference(Span(expr.span.start, expr.span.start + len(value)), fn.name.span, fn.signature())
             typ = fn.result.text

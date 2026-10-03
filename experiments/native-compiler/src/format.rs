@@ -1,6 +1,8 @@
 //! Canonical syntax-only layout. No filesystem writes, configuration or subprocesses.
 
-use crate::{MAX_SOURCE, Result, Token, TokenKind, error, lex_with_comments, parse_program_mode};
+use crate::{
+    MAX_SOURCE, Result, Token, TokenKind, error, lex_with_comments, parse_program_profiles,
+};
 
 #[derive(Clone, Copy, PartialEq)]
 enum Kind {
@@ -164,24 +166,30 @@ fn same_tokens(original: &[Token], formatted: &[Token]) -> bool {
 
 /// Format valid grammar even when types, return paths or ownership are invalid.
 pub fn format_source(source: &str) -> Result<String> {
-    format_mode(source, false)
+    format_mode(source, false, false)
 }
 pub fn format_outcomes(source: &str) -> Result<String> {
-    format_mode(source, true)
+    format_mode(source, true, false)
 }
-fn outcome_tokens(tokens: &mut [Token]) {
+pub fn format_resources(source: &str) -> Result<String> {
+    format_mode(source, true, true)
+}
+fn outcome_tokens(tokens: &mut [Token], resources: bool) {
     for token in tokens {
-        if token.kind == TokenKind::Id && matches!(token.text.as_str(), "outcome" | "match") {
+        if token.kind == TokenKind::Id
+            && (matches!(token.text.as_str(), "outcome" | "match")
+                || (resources && token.text == "region"))
+        {
             token.kind = TokenKind::Fixed;
         }
     }
 }
-fn format_mode(source: &str, outcomes: bool) -> Result<String> {
-    parse_program_mode(source, outcomes)?;
+fn format_mode(source: &str, outcomes: bool, resources: bool) -> Result<String> {
+    parse_program_profiles(source, outcomes, resources)?;
     let mut tokens = lex_with_comments(source, true)?;
     tokens.pop(); // EOF is not a layout token.
     if outcomes {
-        outcome_tokens(&mut tokens);
+        outcome_tokens(&mut tokens, resources);
     }
     let delimiters = groups(&tokens);
     let mut writer = Writer::default();
@@ -264,7 +272,7 @@ fn format_mode(source: &str, outcomes: bool) -> Result<String> {
     let mut formatted_tokens = lex_with_comments(&formatted, true)?;
     formatted_tokens.pop();
     if outcomes {
-        outcome_tokens(&mut formatted_tokens);
+        outcome_tokens(&mut formatted_tokens, resources);
     }
     if !same_tokens(&tokens, &formatted_tokens) {
         return Err(error(

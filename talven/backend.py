@@ -5,8 +5,10 @@ import re
 from .frontend import Analysis, CompileError, Expr, Function, Outcome, Span, Statement, base_type, borrow_mode, require_entry
 
 
-def ctype(typ: str) -> str:
+def ctype(typ: str, *, resources: bool = False) -> str:
     mode = borrow_mode(typ)
+    if resources and base_type(typ) == "Block":
+        return ("const " if mode == "shared" else "") + "tv_block" + (" *" if mode else "")
     if mode:
         return ("const " if mode == "shared" else "") + f"struct tv_s_{base_type(typ)} *"
     return {"i32": "int32_t", "bool": "bool", "str": "tv_str"}.get(typ, f"struct tv_s_{typ}")
@@ -65,11 +67,15 @@ static int32_t tv_console_print(tv_str text) {
 
 
 class Emitter:
-    def __init__(self):
+    def __init__(self, *, resources: bool = False):
+        self.resources = resources
         self.lines: list[str] = []
         self.indent = 0
         self.counter = 0
         self.outcomes: dict[str, Outcome] = {}
+
+    def ctype(self, typ: str) -> str:
+        return ctype(typ, resources=self.resources)
 
     def line(self, text: str):
         self.lines.append("    " * self.indent + text)
@@ -77,7 +83,7 @@ class Emitter:
     def temp(self, typ: str, value: str) -> str:
         self.counter += 1
         name = f"tv_tmp_{self.counter}"
-        self.line(f"{ctype(typ)} {name} = {value};")
+        self.line(f"{self.ctype(typ)} {name} = {value};")
         return name
 
     def place(self, expr: Expr) -> str:
@@ -113,6 +119,8 @@ class Emitter:
             self.line("};")
             return self.temp("str", f"(tv_str){{{name}, {len(data)}}}")
         if kind == "name":
+            if self.resources and expr.typ == "region":
+                return f"&tv_region_{value}"
             return self.temp(expr.typ, f"tv_v_{value}")
         if kind == "field":
             base = expr.args[0]
@@ -128,6 +136,9 @@ class Emitter:
         if kind == "call":
             args = [self.expr(child) for child in expr.args]
             callee = "tv_console_print" if value == "print" else f"tv_f_{value}"
+            if self.resources and value in ("reserve", "release", "read_byte", "write_byte"):
+                callee = {"reserve": "tv_source_reserve", "release": "tv_source_release",
+                          "read_byte": "tv_source_read", "write_byte": "tv_source_write"}[value]
             return self.temp(expr.typ, f"{callee}({', '.join(args)})")
         if kind == "unary":
             child = expr.args[0]
@@ -154,9 +165,20 @@ class Emitter:
 
     def block(self, body: list[Statement]):
         for stmt in body:
+            if self.resources and stmt.kind == "region":
+                name, capacity = stmt.name.text, int(stmt.expr.value.lstrip("0") or "0")
+                self.line("{")
+                self.indent += 1
+                self.line(f"_Alignas(16) uint8_t tv_storage_{name}[{capacity}];")
+                self.line(f"tv_region tv_region_{name};")
+                self.line(f"tv_source_init(&tv_region_{name}, tv_storage_{name}, {capacity});")
+                self.block(stmt.then)
+                self.indent -= 1
+                self.line("}")
+                continue
             value = self.expr(stmt.expr)
             if stmt.kind == "let":
-                self.line(f"{ctype(stmt.expr.typ)} tv_v_{stmt.name.text} = {value};")
+                self.line(f"{self.ctype(stmt.expr.typ)} tv_v_{stmt.name.text} = {value};")
                 self.line(f"(void)tv_v_{stmt.name.text};")
             elif stmt.kind == "return":
                 self.line(f"return {value};")
@@ -184,7 +206,7 @@ class Emitter:
                     self.line(f"case {tag}: {{")
                     self.indent += 1
                     if payload:
-                        self.line(f"{ctype(payload.text)} tv_v_{arm.binding.text} = ({value}).tv_payload.tv_m_{arm.variant.text};")
+                        self.line(f"{self.ctype(payload.text)} tv_v_{arm.binding.text} = ({value}).tv_payload.tv_m_{arm.variant.text};")
                         self.line(f"(void)tv_v_{arm.binding.text};")
                     self.block(arm.body)
                     self.line("break;")
@@ -195,10 +217,10 @@ class Emitter:
                 self.line("}")
 
 
-def signature(fn: Function, *, parameter_names: bool = True) -> str:
-    params = ", ".join(f"{ctype(t.text)} tv_v_{n.text}" if parameter_names else ctype(t.text)
+def signature(fn: Function, *, parameter_names: bool = True, resources: bool = False) -> str:
+    params = ", ".join(f"{ctype(t.text, resources=resources)} tv_v_{n.text}" if parameter_names else ctype(t.text, resources=resources)
                        for n, t in fn.params) or "void"
-    return f"{ctype(fn.result.text)} tv_f_{fn.name.text}({params})"
+    return f"{ctype(fn.result.text, resources=resources)} tv_f_{fn.name.text}({params})"
 
 
 MAX_C_UNITS = 256
@@ -206,6 +228,8 @@ MAX_C_UNIT_BYTES = 16 * 1024 * 1024
 
 
 def emission_options(analysis, freestanding, console, *, library=False):
+    if analysis.resources and freestanding:
+        raise CompileError("E0404", "Supplied blocks require hosted C11 emission", Span(0, 0))
     needs_console = any("print" in fn.calls for fn in analysis.program.functions)
     if console and freestanding:
         raise CompileError("E0404", "Console output requires hosted POSIX emission; --console and --freestanding cannot be combined", Span(0, 0))
@@ -233,7 +257,15 @@ def emit_prefix(emitter, analysis, freestanding, needs_console, *, functions=Non
     if needs_console:
         emitter.lines.append(CONSOLE)
     helpers_at = len(emitter.lines)
-    for record in sorted(analysis.program.records, key=lambda r: isinstance(r, Outcome)):
+    records = sorted(analysis.program.records, key=lambda r: isinstance(r, Outcome))
+    if analysis.resources:
+        from .resources import runtime_sources
+        header, adapter = runtime_sources()
+        emitter.lines.append(header.rstrip("\n"))
+        scalar_records = [r for r in records if not isinstance(r, Outcome)]
+        user_outcomes = [r for r in records if isinstance(r, Outcome)]
+        records = [*scalar_records, *(analysis.records[n] for n in ("Allocation", "ByteRead", "ByteWrite")), *user_outcomes]
+    for record in records:
         emitter.line(f"struct tv_s_{record.name.text} {{")
         if isinstance(record, Outcome):
             emitter.outcomes[record.name.text] = record
@@ -241,25 +273,29 @@ def emit_prefix(emitter, analysis, freestanding, needs_console, *, functions=Non
             emitter.line("    union {")
             for name, payload in record.variants:
                 if payload:
-                    emitter.line(f"        {ctype(payload.text)} tv_m_{name.text};")
+                    emitter.line(f"        {emitter.ctype(payload.text)} tv_m_{name.text};")
             if not any(payload for _, payload in record.variants):
                 emitter.line("        uint8_t tv_empty;")
             emitter.line("    } tv_payload;")
         else:
             for name, typ in record.fields:
-                emitter.line(f"    {ctype(typ.text)} tv_m_{name.text};")
+                emitter.line(f"    {emitter.ctype(typ.text)} tv_m_{name.text};")
         emitter.line("};")
+    if analysis.resources:
+        emitter.lines.append(adapter.rstrip("\n"))
     for fn in (analysis.program.functions if functions is None else functions):
-        emitter.line(signature(fn, parameter_names=parameter_names) + ";")
+        emitter.line(signature(fn, parameter_names=parameter_names, resources=analysis.resources) + ";")
     return helpers_at
 
 
 def emit_function(emitter, fn):
-    emitter.line(signature(fn) + " {")
+    emitter.line(signature(fn, resources=emitter.resources) + " {")
     emitter.indent += 1
     for name, _ in fn.params:
         emitter.line(f"(void)tv_v_{name.text};")
     emitter.block(fn.body)
+    if emitter.resources:
+        emitter.line("talven_trap();")
     emitter.indent -= 1
     emitter.line("}")
 
@@ -274,7 +310,7 @@ def finish_c(emitter, helpers_at, freestanding=False):
 
 def emit_c(analysis: Analysis, freestanding: bool = False, *, console: bool = False, library: bool = False) -> str:
     needs_console = emission_options(analysis, freestanding, console, library=library)
-    emitter = Emitter()
+    emitter = Emitter(resources=analysis.resources)
     helpers_at = emit_prefix(emitter, analysis, freestanding, needs_console)
     for fn in analysis.program.functions:
         emit_function(emitter, fn)
@@ -295,6 +331,8 @@ def emit_c_units(analysis: Analysis, *, console: bool = False, local_contracts: 
     Temporary numbering is local to its function; cross-unit calls are external.
     This emits text only, not compiled objects or a reuse/acceptance receipt.
     """
+    if analysis.resources:
+        raise CompileError("E0502", "Supplied blocks do not support hosted C units", Span(0, 0))
     if type(local_contracts) is not bool:
         raise ValueError('Local contracts must be an explicit boolean')
     emission_options(analysis, False, console)
@@ -328,6 +366,8 @@ def emit_preprocess_units(analysis: Analysis, *, console: bool = False,
     Repeated static definitions are separated after preprocessing. Common headers
     expand once; layouts remain global and selected prototypes are opt-in.
     """
+    if analysis.resources:
+        raise CompileError("E0502", "Supplied blocks do not support hosted C units", Span(0, 0))
     if type(local_contracts) is not bool:
         raise ValueError('Local contracts must be an explicit boolean')
     needs_console = emission_options(analysis, False, console)
