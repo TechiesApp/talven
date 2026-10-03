@@ -92,6 +92,13 @@ The [module pilot](codex-module-pilot-evidence.md) under [Proposal 0038](proposa
 
 ## M2: Memory and concurrency foundations
 
+[Proposal 0039](proposals/0039-typed-failures-resource-contracts.md) begins the
+semantic foundation: concrete typed outcomes first, then explicit allocation and
+verified release/transfer paths, then concurrency after its lifetime/memory model.
+It is design-only. The next implementation proposal fixes bounded outcome grammar,
+layout, exhaustive consuming branches and must-handle behavior before adding heap
+containers or an executor.
+
 Add allocator interfaces, containers, typed failures, structured tasks, cancellation, synchronization, and a selected optional executor.
 
 Gate: resource lifetimes remain sound across errors, task cancellation, and concurrent operations. Measure binary size, allocations, RAM, task overhead, and tail latency.

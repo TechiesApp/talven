@@ -66,3 +66,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0036 | [Hosted scalar C API units](0036-hosted-scalar-c-api.md) | Draft; implemented experiment |
 | 0037 | [Bounded local source modules](0037-bounded-local-modules.md) | Draft; implemented experiment |
 | 0038 | [Multi-file agent evaluation](0038-module-agent-evaluation.md) | Draft; implemented corpus/harness |
+| 0039 | [Typed failures and resource contracts](0039-typed-failures-resource-contracts.md) | Draft; design only |
