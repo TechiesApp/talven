@@ -1,0 +1,645 @@
+{
+  "adapter": {
+    "artifact_sha256": {
+      "adapter-executable": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+      "claude_code_cli.py": "7532b51733c632aff57ca52a97b4e744baf386b6f59c319d020369e5a8a3b4d7",
+      "codex_cli.py": "f5c9478809e78fcadab84229d8d3b24eec411391631438abf52271b5e66c0005",
+      "python3.14": "87d4df53fd91304be5bac391fb204643c36b7df2023c04a0953bcbc7d4fdf634"
+    },
+    "config_sha256": "bb8e70b7c969e1c1f2bbc4706d3adee4c7681b30bfd3323553b557b4f477b637",
+    "kind": "live",
+    "model": "gpt-6-astra",
+    "provider": "openai-codex-cli",
+    "schema": "talven.eval.adapter.v1",
+    "settings": {
+      "catalog_sha256": "85a933580db29521dbdef07fb568bc4257069d8981ac7aee4041c1ecea382501",
+      "cli_sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc",
+      "cli_version": "codex-cli 0.154.0",
+      "effort": "low"
+    },
+    "tokenizer": "unavailable: Codex CLI does not expose tokenizer identity"
+  },
+  "budget": {
+    "calls": 6,
+    "max_calls": 7,
+    "stopped": null
+  },
+  "complete": true,
+  "context_order": [
+    "source",
+    "compiler"
+  ],
+  "corpus_version": "m1-large-tasks-v1",
+  "environment": {
+    "c_flags": [
+      "-std=c11",
+      "-O2"
+    ],
+    "cc": "/usr/bin/cc",
+    "cc_sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+    "cc_target": "arm64-apple-darwin27.0.0",
+    "cc_version": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+    "compiler_hash": "eade83b77ed0c08188e76588fdeebbe589b8e8628020b18332b5d32a8f826183",
+    "compiler_version": "0.5.0-dev",
+    "language_profile": "m1-scalar-mutation-v1",
+    "logical_cpus": 10,
+    "machine": "arm64",
+    "processor": "arm",
+    "python": "3.14.7",
+    "python_implementation": "CPython",
+    "release": "27.0.0",
+    "repository_dirty": false,
+    "repository_revision": "1aa02fc2b30a5817e7198738b919d365f08633b1",
+    "system": "Darwin"
+  },
+  "input_hashes": {
+    "docs/language-reference.md": "7613afc1f3a31bae2c5495d8fa7411ca08828ff7915e0b5546eeeda53778dd9c",
+    "experiments/__init__.py": "992f30680275133f63f852a2098a47df022a4b7fbe0121f71dae440b0c626c08",
+    "experiments/__main__.py": "fb333bbcab539a5cc3651553532866cd4584b50324b1edfd2035a6b6c3d213db",
+    "experiments/adapters/__init__.py": "f44760a4ebff4a6dd697b52fb8d13653167de7e2eaac34604f5e7e40035d8d8c",
+    "experiments/adapters/anthropic_messages.py": "0fe0bd56cfed0b80c14fc2076cddae640343555799bb40961d369dcb6d353563",
+    "experiments/adapters/claude_code_cli.py": "7532b51733c632aff57ca52a97b4e744baf386b6f59c319d020369e5a8a3b4d7",
+    "experiments/adapters/codex_cli.py": "f5c9478809e78fcadab84229d8d3b24eec411391631438abf52271b5e66c0005",
+    "experiments/borrowing_tasks.py": "cc5458b28f6c89dd3bb8945696b6751b15f709b2641e5da63f8f86b23c85c8ed",
+    "experiments/borrowing_verifier.py": "80ff8a2dd988e866b3d831eb9d849be5e71690fcff6bd37a998c3487ade9f251",
+    "experiments/corpora/large-v1/pipeline140.tal": "fcad25164e9f7d3ea52d61352db8150c8c15f5dd10c917ab6341c81d033c4bad",
+    "experiments/corpora/large-v1/pipeline200.tal": "bde8633cb40d0c5c6650f66c17014dfbd5d3368c7c3cc21b743b47d42c6ae9e0",
+    "experiments/corpora/large-v1/pipeline40.tal": "d601f1effbdc6fbf69422098bb9f2dc6bc8dabf6a79f449311ada503137afa0b",
+    "experiments/corpora/large-v1/pipeline80.tal": "f183d1b09d05241a47872344d30554eaa3edd62d6dfbee9bff79a97e97c8cdf7",
+    "experiments/hard_tasks.py": "dad61876cb0c61ab9428bb8c3d34f61321560255a40bf9d1e6ae394cb8286100",
+    "experiments/hard_verifier.py": "a5703f775b45baa592e13fe24283f4c11586f87f40b8f0ed746e50f54a1facc5",
+    "experiments/large_tasks.py": "2cc899313af833bc5264f24b4eaee412e8e3f7b6e6e58c2c1bbca4af3d864366",
+    "experiments/large_verifier.py": "cd453d630da0e92a60596cd97f568cd1d05b2cdc7782c50f883fb5c172ba5289",
+    "experiments/metrics.py": "b907deec882e9fb8c6c1a7c6d9c1a4dc88cebc495f1ac506276aae8e23edf47f",
+    "experiments/native-compiler/tests/comparison.py": "02c06f521e78c456c3ce21c5d66cfae8aeb1ab8ff3e06058dc368ba4d615a895",
+    "experiments/native-compiler/tests/conformance.py": "4ffc0445445fa56b03cd14e448581eaa806040ba5f89d27a48584e63150801ca",
+    "experiments/native-compiler/tests/differential.py": "c62828c60402aecfa1dab58f595f01c890fc531eb8af9de14a59e88bb99eb2f6",
+    "experiments/native-compiler/tests/formatting.py": "d4b3b008b83fb57cd3f229dc1cc1e73ddfd10ae59ed986ae87f6711a2ce6229b",
+    "experiments/process.py": "dba31ef73e067d79cbd683e8cff0c1b739415dcc1b8a3dea8d5b007448a6dd06",
+    "experiments/protocol.py": "efa2ef0d8224a517bb571a27b478b67f03855b0b5c95145644e80e2bb6c6cf6e",
+    "experiments/runner.py": "b8013441dcf5d03642ea6688b80045ba52d063b3b7e14a7b57b9693a82011b90",
+    "experiments/tasks.py": "7578ca6d65762c65d45b003bc16fcf3e6b7f34451ab273acaaddb706aa09bbb8",
+    "experiments/tooling_workloads.py": "3596d3f588f3d384f180d1acec5b357cfa239029db46ccb02351a3020c9a72ad",
+    "experiments/verifier.py": "0f4163ad04b860d834b22bc1c3379006adbb872cdc122809f105ad96c08005d2",
+    "talven/__init__.py": "07d62eabb70387d13288c22e19bd34137f57b91541d63a694afcd146ca325783",
+    "talven/__main__.py": "19206ab12fa70ed74a88c681a2af8a1d033933a34092d8e0e834351324699985",
+    "talven/backend.py": "e875da790edb771f871dca46375e82fe99f6b81dea7410ee1760488cb659a921",
+    "talven/body_syntax.py": "bd90e6403a4953adc68f0df498701e826277aeb205ee1cacba06ced41d9a588f",
+    "talven/c_command.py": "52c19524837fede3ab67dc2f6b4b88f092c9efcccc5b8104078e2de45749989a",
+    "talven/c_pipeline.py": "411206cccd1c66dab632df6a9c9dd1c5de644263ec00e95659d48626e47edce3",
+    "talven/completion.py": "9b5fc0ffe3ea0b2149cd3a09dbae76f151fcffe37645a7b5277f245c853bd7cd",
+    "talven/context.py": "090fbd69eec861899f299d40b8415a1e4ab765425204823169d3023c50a19b5d",
+    "talven/dev.py": "5eb62b6e9486b0114b8a13bc64480d163048a73a3d1a6f9d4d35a25ad0335550",
+    "talven/document_changes.py": "bdf794716690570dd8fd5d2774b4c0bb70d811d194cbb8f9dc0e60c37c496d61",
+    "talven/edit_validation.py": "4e6faf4e6d1f85a5e1642bf9a9a0480dd415b1cc1ec1d654623f4c50bf9ff4d3",
+    "talven/formatter.py": "f4238109ff03e13cb95928856ee6646dac87b9311dc06e5ab11ab278c42e3650",
+    "talven/frontend.py": "7a907d16e4f42d8ba5c773e394e05855b1f4b99a8371fb02e6fbbcea058f06cb",
+    "talven/incremental.py": "424b5436bd17dbe5554b66cf36f33d39feda79972b72c65824dc725eae5ddb21",
+    "talven/lsp.py": "80c33700af5e169b275b37a0cb880a439df68b6e53d0b86fef45f7355cf98071",
+    "talven/native.py": "cca4f6d74fbcd407fd90a1a63ce0e78716e5dda2d1bae92a5546bd4a4ec18688",
+    "talven/preprocessed_units.py": "0892917679c3e90f982d7633a432a5246f802a2c55600e6183e5e2a7b4c661c9",
+    "talven/semantic_tokens.py": "3f4ed45f95aa8fdeb28795f7460c95945e652ef171ed76bdbe951b4111ea4ae3",
+    "talven/signature_help.py": "afa154933910f3856ffad0b3775a4f912701a4840909ec3aac8ad091b9fc05ba",
+    "talven/source_edit.py": "c98344818be1685774b95bca6ae61462064733d80f1e99b950152df4011066f9",
+    "talven/test_runner.py": "ece4aac1b6024a7de531413e1a257f5e60c054bf411cb01142c4d8cf9533874b",
+    "talven/unit_build.py": "09ed03ac7e133f8bc588be37ca1035d48c9e43d1fd781af7271afe63dba724d9"
+  },
+  "limits": {
+    "adapter_timeout": 360.0,
+    "context_bytes": 16384,
+    "max_repairs": 1,
+    "native_timeout": 5,
+    "task_timeout": 900.0,
+    "verification_timeout": 60
+  },
+  "measurement_kind": "live",
+  "order_seed": 0,
+  "planned_trials": 6,
+  "publication": {
+    "normalization": "Local command paths and nested process transcripts removed; exact requests, adapter responses and accepted sources retained. Use the matching trusted repository revision for reverification.",
+    "original_run_sha256": "8f2bed79124b3cf47ac571d496e5d2ee8b4b014004442c931e2f43c19e34b07d"
+  },
+  "repetitions": 1,
+  "schema": "talven.eval.v2",
+  "started_at": "2026-10-03T08:03:59.298866+00:00",
+  "summary": {
+    "attempts": 6,
+    "cache_write_input_tokens": null,
+    "cached_input_tokens": 17664,
+    "complete_cost_tasks": 0,
+    "correct_tasks": 6,
+    "correctness_interval_95_excluding_errors": [
+      0.6096657120978346,
+      1.0
+    ],
+    "correctness_rate": 1.0,
+    "correctness_rate_excluding_errors": 1.0,
+    "cost_per_correct_task_usd": null,
+    "error_tasks": 0,
+    "failed_tasks": 0,
+    "input_tokens": 94557,
+    "model_cost_usd": null,
+    "output_tokens": 788,
+    "repair_attempts": 0,
+    "tasks": 6,
+    "tool_cost_usd": null,
+    "total_task_cost_usd": null,
+    "verification_cost_usd": null
+  },
+  "task_order": [
+    "pipeline-80",
+    "pipeline-140",
+    "pipeline-200"
+  ],
+  "tool_permissions": "source replacement only; no model tools; trusted adapter command",
+  "trial_order": [
+    "pipeline-200-source-001",
+    "pipeline-140-source-001",
+    "pipeline-80-compiler-001",
+    "pipeline-80-source-001",
+    "pipeline-200-compiler-001",
+    "pipeline-140-compiler-001"
+  ],
+  "trials": [
+    {
+      "attempts": [
+        {
+          "index": 0,
+          "request_sha256": "b6d9a27b933ffe77ee389c659fbe5e56058ce9cf52a13949f29c8df18c1d7af3",
+          "response_sha256": "d6c0ff9a19fa5436ff316d296d0d6b9d4a0588a0925a77a01ad1e76f0c3a6588",
+          "source_sha256": "477a954bf9ccc71b9ddd427c0f474cdecc385084fd90d69b0c5136c35d33f774",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 0,
+            "input_tokens": 16632,
+            "model_cost_usd": null,
+            "output_tokens": 135,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "starter declarations preserved and every stage called",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "elapsed_seconds": 0.46432191698113456,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "elapsed_seconds": 0.3248512080172077,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "source",
+      "elapsed_seconds": 12.146108291985001,
+      "id": "pipeline-200-source-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 16632,
+        "model_cost_usd": null,
+        "output_tokens": 135,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "pipeline-200"
+    },
+    {
+      "attempts": [
+        {
+          "index": 0,
+          "request_sha256": "8b8ec72b63f6b38a776e92dfee514f04cdd1e175dfdf4508750fdf358c4257db",
+          "response_sha256": "80dc20781165214e1f20a8505e286a7f4c8b447628f62981aa37b840a32c1bb7",
+          "source_sha256": "b7674ce525850280fd03dc930a6e9f973206056eec4166d3681afb0f8b75e1a6",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 8832,
+            "input_tokens": 14547,
+            "model_cost_usd": null,
+            "output_tokens": 133,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "starter declarations preserved and every stage called",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "elapsed_seconds": 0.3412383330287412,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "elapsed_seconds": 0.2842913749627769,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "source",
+      "elapsed_seconds": 12.042507458012551,
+      "id": "pipeline-140-source-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 8832,
+        "input_tokens": 14547,
+        "model_cost_usd": null,
+        "output_tokens": 133,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "pipeline-140"
+    },
+    {
+      "attempts": [
+        {
+          "index": 0,
+          "request_sha256": "4b0d4bf3bc0cac3d49aff3fe7d27138df8d34e5326721f4ada5bf159a903e61e",
+          "response_sha256": "580a5239c944f2beeaa723260d02f24f88adf7a539640438cc7b639694c40c61",
+          "source_sha256": "3f4aa492425851498001313b2b2cb0196450323976b30e61accaa30613535ebb",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 0,
+            "input_tokens": 13880,
+            "model_cost_usd": null,
+            "output_tokens": 126,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "starter declarations preserved and every stage called",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "elapsed_seconds": 0.41787233302602544,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "elapsed_seconds": 0.3146252919686958,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "compiler",
+      "elapsed_seconds": 11.591897750040516,
+      "id": "pipeline-80-compiler-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 13880,
+        "model_cost_usd": null,
+        "output_tokens": 126,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "pipeline-80"
+    },
+    {
+      "attempts": [
+        {
+          "index": 0,
+          "request_sha256": "b462658c1c25c5644f0e50c76f35b0c6294d9fe17192971143f8775f5d45d09b",
+          "response_sha256": "354f843912ed2dc38261cdefea374a5a7ea5e2812bfcfe69b2f4715e5fea7000",
+          "source_sha256": "3f4aa492425851498001313b2b2cb0196450323976b30e61accaa30613535ebb",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 8832,
+            "input_tokens": 12458,
+            "model_cost_usd": null,
+            "output_tokens": 126,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "starter declarations preserved and every stage called",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "elapsed_seconds": 0.11255479202372953,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "elapsed_seconds": 0.06391174998134375,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "source",
+      "elapsed_seconds": 10.343785792007111,
+      "id": "pipeline-80-source-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 8832,
+        "input_tokens": 12458,
+        "model_cost_usd": null,
+        "output_tokens": 126,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "pipeline-80"
+    },
+    {
+      "attempts": [
+        {
+          "index": 0,
+          "request_sha256": "86d9e62e725362d6639736f336d1ee4c4bfd03e0dd84c3da5de85c4cec002336",
+          "response_sha256": "42f7de190039d4b166dd1b7aec9275a49429822452aa8c1975f36fc4091109fc",
+          "source_sha256": "477a954bf9ccc71b9ddd427c0f474cdecc385084fd90d69b0c5136c35d33f774",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 0,
+            "input_tokens": 20066,
+            "model_cost_usd": null,
+            "output_tokens": 135,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "starter declarations preserved and every stage called",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "elapsed_seconds": 0.23114404099760577,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "elapsed_seconds": 0.054430375050287694,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "compiler",
+      "elapsed_seconds": 8.034841458022129,
+      "id": "pipeline-200-compiler-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 20066,
+        "model_cost_usd": null,
+        "output_tokens": 135,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "pipeline-200"
+    },
+    {
+      "attempts": [
+        {
+          "index": 0,
+          "request_sha256": "ba5fc12959ca954b0829a0d7e8b3fa85830f0708f15fad7d1cd8fab9b610fda9",
+          "response_sha256": "8e82877936c6aea7f34505b45eafd51439506eb28876f1f0e2bc07bfb9d6af0a",
+          "source_sha256": "b7674ce525850280fd03dc930a6e9f973206056eec4166d3681afb0f8b75e1a6",
+          "status": "passed",
+          "usage": {
+            "cache_write_input_tokens": null,
+            "cached_input_tokens": 0,
+            "input_tokens": 16974,
+            "model_cost_usd": null,
+            "output_tokens": 133,
+            "tool_cost_usd": null,
+            "usage_source": "Codex CLI turn.completed usage"
+          },
+          "verification": {
+            "checks": [
+              {
+                "message": "shared frontend and native entry checks passed",
+                "name": "frontend",
+                "passed": true
+              },
+              {
+                "message": "starter declarations preserved and every stage called",
+                "name": "task-structure",
+                "passed": true
+              },
+              {
+                "message": "native check passed",
+                "name": "native-values",
+                "passed": true
+              }
+            ],
+            "commands": [
+              {
+                "elapsed_seconds": 0.3556398749933578,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "",
+                "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "elapsed_seconds": 0.07975316699594259,
+                "error": null,
+                "returncode": 0,
+                "stderr": "",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout": "native checks passed\n",
+                "stdout_sha256": "e0f444f8b190ed701b8dde991e57e576959d21afb5146be285d7a5cfcd8a0ab0"
+              }
+            ],
+            "feedback": "all task acceptance checks passed",
+            "status": "passed"
+          }
+        }
+      ],
+      "context_mode": "compiler",
+      "elapsed_seconds": 10.899562957987655,
+      "id": "pipeline-140-compiler-001",
+      "metrics": {
+        "attempts": 1,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": 0,
+        "input_tokens": 16974,
+        "model_cost_usd": null,
+        "output_tokens": 133,
+        "repair_attempts": 0,
+        "tool_cost_usd": null,
+        "total_task_cost_usd": null,
+        "usage_reported_attempts": 1,
+        "verification_cost_usd": null
+      },
+      "repetition": 1,
+      "status": "passed",
+      "task": "pipeline-140"
+    }
+  ]
+}
