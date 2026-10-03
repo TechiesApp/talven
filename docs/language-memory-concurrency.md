@@ -2,6 +2,11 @@
 
 Status: broader proposed semantics. The [prototype](prototype.md) implements affine scalar-field records and [M1c call-scoped borrowing](borrowing.md). Broader borrowing, allocation, and concurrency rules here remain future design work.
 
+[Proposal 0039](proposals/0039-typed-failures-resource-contracts.md) orders the first
+M2 work around concrete typed failures, consuming ownership branches, explicit
+allocator lifetime and release/transfer obligations. Its verification gates are
+design-only; it does not extend any implemented profile.
+
 ## Syntax principles
 
 Aim for familiar block structure, named fields, readable function signatures, local inference, and a single canonical formatter. Borrow familiarity from TypeScript without assuming JavaScript's runtime or dynamic semantics.

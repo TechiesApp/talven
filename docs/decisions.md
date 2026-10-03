@@ -84,6 +84,8 @@ Status definitions:
 
 | D66 | Proposed | Evaluate bounded immutable-dependency module edits with identical source controls and added fresh semantic context | [Proposal 0038](proposals/0038-module-agent-evaluation.md); finite executed-call/value acceptance and pinned module guide; live benefit and M1 completion remain separate |
 
+| D67 | Proposed | Establish concrete typed failures and verified release/transfer obligations before allocator-backed containers and concurrency | [Proposal 0039](proposals/0039-typed-failures-resource-contracts.md); consuming outcomes, allocator lifetime and failure-injection gates; design only, no runtime/compiler support |
+
 ## Open decisions
 
 | Decision | Questions to resolve |

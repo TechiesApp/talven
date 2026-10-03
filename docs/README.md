@@ -52,6 +52,10 @@ Pick the path that matches why you are here. Documents marked *evidence* record 
 
 ## Design and direction
 
+See [Proposal 0039](proposals/0039-typed-failures-resource-contracts.md) for the M2
+typed-failure and resource-lifetime gates; it is design-only and adds no grammar
+or allocator implementation.
+
 | Read | To learn |
 | --- | --- |
 | [Requirements](requirements.md) | The product requirements and the current evidence for each |
