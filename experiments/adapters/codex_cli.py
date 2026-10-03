@@ -162,7 +162,7 @@ def translate_events(data):
     return result, 0
 
 
-def run(request, executable, catalog, timeout):
+def run(request, executable, catalog, timeout, trace_dir=None):
     settings = request['model']['settings']
     if (digest(Path(executable).read_bytes()) != settings['cli_sha256']
             or digest(Path(catalog).read_bytes()) != settings['catalog_sha256']):
@@ -181,6 +181,16 @@ def run(request, executable, catalog, timeout):
         env = {k: v for k, v in os.environ.items() if k not in ('OPENAI_API_KEY', 'CODEX_API_KEY', 'ANTHROPIC_API_KEY')}
         process = run_process(argv, cwd=directory, timeout=timeout, stdin=prompt, max_bytes=MAX_BYTES,
                               env=env, start_new_session=False)
+    if trace_dir is not None:
+        # Local diagnostics stay outside the public envelope. Never commit this
+        # directory automatically: arbitrary provider errors may contain private data.
+        trace = Path(trace_dir)
+        trace.mkdir(parents=True, exist_ok=True)
+        data = encode(process).encode()
+        target = trace / (digest(data) + '.json')
+        if not target.exists():
+            with target.open('xb') as handle:
+                handle.write(data)
     result, code = translate_events(process['stdout'])
     metadata = result['provider_metadata']
     metadata.update(cli_version=CLI_VERSION, cli_sha256=settings['cli_sha256'],
@@ -221,7 +231,8 @@ def write_config(args):
               'settings': {'effort': args.effort, 'cli_version': version,
                            'cli_sha256': digest(Path(executable).read_bytes()), 'catalog_sha256': digest(catalog_bytes)},
               'command': [str(Path(sys.executable).resolve()), str(script), '--codex', executable,
-                          '--catalog', str(catalog_path), '--timeout', str(args.timeout)],
+                          '--catalog', str(catalog_path), '--timeout', str(args.timeout),
+                          '--trace-dir', str(target.parent / (target.stem + '.receipts'))],
               'artifacts': [str(script), str(script.with_name('claude_code_cli.py')), str(catalog_path)]}
     with catalog_path.open('xb') as handle:
         handle.write(catalog_bytes)
@@ -236,6 +247,7 @@ def main(argv=None):
     parser.add_argument('--effort', choices=EFFORTS)
     parser.add_argument('--codex', default='codex')
     parser.add_argument('--catalog')
+    parser.add_argument('--trace-dir')
     parser.add_argument('--timeout', type=float, default=900)
     args = parser.parse_args(argv)
     try:
@@ -251,7 +263,7 @@ def main(argv=None):
             raise ValueError('request_size_limit')
         request = strict_json(data.decode())
         validate_request(request)
-        result, code = run(request, args.codex, args.catalog, args.timeout)
+        result, code = run(request, args.codex, args.catalog, args.timeout, args.trace_dir)
     except (ValueError, OSError, UnicodeError, KeyError, TypeError, subprocess.SubprocessError):
         result, code = envelope('invalid_input_or_configuration'), 2
     sys.stdout.write(encode(result))
