@@ -17,7 +17,7 @@
       "probe": "stale",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
           "stale"
         ],
         "returncode": -6,
@@ -43,7 +43,7 @@
       "probe": "double",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
           "double"
         ],
         "returncode": -6,
@@ -69,7 +69,7 @@
       "probe": "length",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
           "length"
         ],
         "returncode": -6,
@@ -95,7 +95,7 @@
       "probe": "block-capacity",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
           "block-capacity"
         ],
         "returncode": -6,
@@ -121,7 +121,7 @@
       "probe": "alignment",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
           "alignment"
         ],
         "returncode": -6,
@@ -147,7 +147,7 @@
       "probe": "instance",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
           "instance"
         ],
         "returncode": -6,
@@ -173,7 +173,7 @@
       "probe": "read-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
           "read-closed"
         ],
         "returncode": -6,
@@ -199,7 +199,7 @@
       "probe": "write-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
           "write-closed"
         ],
         "returncode": -6,
@@ -225,7 +225,7 @@
       "probe": "push-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
           "push-closed"
         ],
         "returncode": -6,
@@ -251,7 +251,7 @@
       "probe": "pop-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
           "pop-closed"
         ],
         "returncode": -6,
@@ -277,7 +277,7 @@
       "probe": "length-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
           "length-closed"
         ],
         "returncode": -6,
@@ -303,7 +303,7 @@
       "probe": "capacity-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
           "capacity-closed"
         ],
         "returncode": -6,
@@ -330,7 +330,7 @@
       "probe": "stale",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
           "stale"
         ],
         "returncode": -6,
@@ -357,7 +357,7 @@
       "probe": "double",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
           "double"
         ],
         "returncode": -6,
@@ -384,7 +384,7 @@
       "probe": "length",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
           "length"
         ],
         "returncode": -6,
@@ -411,7 +411,7 @@
       "probe": "block-capacity",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
           "block-capacity"
         ],
         "returncode": -6,
@@ -438,7 +438,7 @@
       "probe": "alignment",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
           "alignment"
         ],
         "returncode": -6,
@@ -465,7 +465,7 @@
       "probe": "instance",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
           "instance"
         ],
         "returncode": -6,
@@ -492,7 +492,7 @@
       "probe": "read-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
           "read-closed"
         ],
         "returncode": -6,
@@ -519,7 +519,7 @@
       "probe": "write-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
           "write-closed"
         ],
         "returncode": -6,
@@ -546,7 +546,7 @@
       "probe": "push-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
           "push-closed"
         ],
         "returncode": -6,
@@ -573,7 +573,7 @@
       "probe": "pop-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
           "pop-closed"
         ],
         "returncode": -6,
@@ -600,7 +600,7 @@
       "probe": "length-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
           "length-closed"
         ],
         "returncode": -6,
@@ -627,7 +627,7 @@
       "probe": "capacity-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
           "capacity-closed"
         ],
         "returncode": -6,
@@ -653,7 +653,7 @@
       "probe": "stale",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
           "stale"
         ],
         "returncode": -6,
@@ -679,7 +679,7 @@
       "probe": "double",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
           "double"
         ],
         "returncode": -6,
@@ -705,7 +705,7 @@
       "probe": "length",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
           "length"
         ],
         "returncode": -6,
@@ -731,7 +731,7 @@
       "probe": "block-capacity",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
           "block-capacity"
         ],
         "returncode": -6,
@@ -757,7 +757,7 @@
       "probe": "alignment",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
           "alignment"
         ],
         "returncode": -6,
@@ -783,7 +783,7 @@
       "probe": "instance",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
           "instance"
         ],
         "returncode": -6,
@@ -809,7 +809,7 @@
       "probe": "read-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
           "read-closed"
         ],
         "returncode": -6,
@@ -835,7 +835,7 @@
       "probe": "write-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
           "write-closed"
         ],
         "returncode": -6,
@@ -861,7 +861,7 @@
       "probe": "push-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
           "push-closed"
         ],
         "returncode": -6,
@@ -887,7 +887,7 @@
       "probe": "pop-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
           "pop-closed"
         ],
         "returncode": -6,
@@ -913,7 +913,7 @@
       "probe": "length-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
           "length-closed"
         ],
         "returncode": -6,
@@ -939,7 +939,7 @@
       "probe": "capacity-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
           "capacity-closed"
         ],
         "returncode": -6,
@@ -966,7 +966,7 @@
       "probe": "stale",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
           "stale"
         ],
         "returncode": -6,
@@ -993,7 +993,7 @@
       "probe": "double",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
           "double"
         ],
         "returncode": -6,
@@ -1020,7 +1020,7 @@
       "probe": "length",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
           "length"
         ],
         "returncode": -6,
@@ -1047,7 +1047,7 @@
       "probe": "block-capacity",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
           "block-capacity"
         ],
         "returncode": -6,
@@ -1074,7 +1074,7 @@
       "probe": "alignment",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
           "alignment"
         ],
         "returncode": -6,
@@ -1101,7 +1101,7 @@
       "probe": "instance",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
           "instance"
         ],
         "returncode": -6,
@@ -1128,7 +1128,7 @@
       "probe": "read-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
           "read-closed"
         ],
         "returncode": -6,
@@ -1155,7 +1155,7 @@
       "probe": "write-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
           "write-closed"
         ],
         "returncode": -6,
@@ -1182,7 +1182,7 @@
       "probe": "push-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
           "push-closed"
         ],
         "returncode": -6,
@@ -1209,7 +1209,7 @@
       "probe": "pop-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
           "pop-closed"
         ],
         "returncode": -6,
@@ -1236,7 +1236,7 @@
       "probe": "length-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
           "length-closed"
         ],
         "returncode": -6,
@@ -1263,7 +1263,7 @@
       "probe": "capacity-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
           "capacity-closed"
         ],
         "returncode": -6,
@@ -1289,7 +1289,7 @@
       "probe": "stale",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
           "stale"
         ],
         "returncode": -6,
@@ -1315,7 +1315,7 @@
       "probe": "double",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
           "double"
         ],
         "returncode": -6,
@@ -1341,7 +1341,7 @@
       "probe": "length",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
           "length"
         ],
         "returncode": -6,
@@ -1367,7 +1367,7 @@
       "probe": "block-capacity",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
           "block-capacity"
         ],
         "returncode": -6,
@@ -1393,7 +1393,7 @@
       "probe": "alignment",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
           "alignment"
         ],
         "returncode": -6,
@@ -1419,7 +1419,7 @@
       "probe": "instance",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
           "instance"
         ],
         "returncode": -6,
@@ -1445,7 +1445,7 @@
       "probe": "read-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
           "read-closed"
         ],
         "returncode": -6,
@@ -1471,7 +1471,7 @@
       "probe": "write-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
           "write-closed"
         ],
         "returncode": -6,
@@ -1497,7 +1497,7 @@
       "probe": "push-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
           "push-closed"
         ],
         "returncode": -6,
@@ -1523,7 +1523,7 @@
       "probe": "pop-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
           "pop-closed"
         ],
         "returncode": -6,
@@ -1549,7 +1549,7 @@
       "probe": "length-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
           "length-closed"
         ],
         "returncode": -6,
@@ -1575,7 +1575,7 @@
       "probe": "capacity-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
           "capacity-closed"
         ],
         "returncode": -6,
@@ -1602,7 +1602,7 @@
       "probe": "stale",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
           "stale"
         ],
         "returncode": -6,
@@ -1629,7 +1629,7 @@
       "probe": "double",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
           "double"
         ],
         "returncode": -6,
@@ -1656,7 +1656,7 @@
       "probe": "length",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
           "length"
         ],
         "returncode": -6,
@@ -1683,7 +1683,7 @@
       "probe": "block-capacity",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
           "block-capacity"
         ],
         "returncode": -6,
@@ -1710,7 +1710,7 @@
       "probe": "alignment",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
           "alignment"
         ],
         "returncode": -6,
@@ -1737,7 +1737,7 @@
       "probe": "instance",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
           "instance"
         ],
         "returncode": -6,
@@ -1764,7 +1764,7 @@
       "probe": "read-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
           "read-closed"
         ],
         "returncode": -6,
@@ -1791,7 +1791,7 @@
       "probe": "write-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
           "write-closed"
         ],
         "returncode": -6,
@@ -1818,7 +1818,7 @@
       "probe": "push-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
           "push-closed"
         ],
         "returncode": -6,
@@ -1845,7 +1845,7 @@
       "probe": "pop-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
           "pop-closed"
         ],
         "returncode": -6,
@@ -1872,7 +1872,7 @@
       "probe": "length-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
           "length-closed"
         ],
         "returncode": -6,
@@ -1899,7 +1899,7 @@
       "probe": "capacity-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
           "capacity-closed"
         ],
         "returncode": -6,
@@ -1925,7 +1925,7 @@
       "probe": "stale",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
           "stale"
         ],
         "returncode": -6,
@@ -1951,7 +1951,7 @@
       "probe": "double",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
           "double"
         ],
         "returncode": -6,
@@ -1977,7 +1977,7 @@
       "probe": "length",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
           "length"
         ],
         "returncode": -6,
@@ -2003,7 +2003,7 @@
       "probe": "block-capacity",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
           "block-capacity"
         ],
         "returncode": -6,
@@ -2029,7 +2029,7 @@
       "probe": "alignment",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
           "alignment"
         ],
         "returncode": -6,
@@ -2055,7 +2055,7 @@
       "probe": "instance",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
           "instance"
         ],
         "returncode": -6,
@@ -2081,7 +2081,7 @@
       "probe": "read-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
           "read-closed"
         ],
         "returncode": -6,
@@ -2107,7 +2107,7 @@
       "probe": "write-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
           "write-closed"
         ],
         "returncode": -6,
@@ -2133,7 +2133,7 @@
       "probe": "push-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
           "push-closed"
         ],
         "returncode": -6,
@@ -2159,7 +2159,7 @@
       "probe": "pop-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
           "pop-closed"
         ],
         "returncode": -6,
@@ -2185,7 +2185,7 @@
       "probe": "length-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
           "length-closed"
         ],
         "returncode": -6,
@@ -2211,7 +2211,7 @@
       "probe": "capacity-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
           "capacity-closed"
         ],
         "returncode": -6,
@@ -2238,7 +2238,7 @@
       "probe": "stale",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
           "stale"
         ],
         "returncode": -6,
@@ -2265,7 +2265,7 @@
       "probe": "double",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
           "double"
         ],
         "returncode": -6,
@@ -2292,7 +2292,7 @@
       "probe": "length",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
           "length"
         ],
         "returncode": -6,
@@ -2319,7 +2319,7 @@
       "probe": "block-capacity",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
           "block-capacity"
         ],
         "returncode": -6,
@@ -2346,7 +2346,7 @@
       "probe": "alignment",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
           "alignment"
         ],
         "returncode": -6,
@@ -2373,7 +2373,7 @@
       "probe": "instance",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
           "instance"
         ],
         "returncode": -6,
@@ -2400,7 +2400,7 @@
       "probe": "read-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
           "read-closed"
         ],
         "returncode": -6,
@@ -2427,7 +2427,7 @@
       "probe": "write-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
           "write-closed"
         ],
         "returncode": -6,
@@ -2454,7 +2454,7 @@
       "probe": "push-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
           "push-closed"
         ],
         "returncode": -6,
@@ -2481,7 +2481,7 @@
       "probe": "pop-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
           "pop-closed"
         ],
         "returncode": -6,
@@ -2508,7 +2508,7 @@
       "probe": "length-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
           "length-closed"
         ],
         "returncode": -6,
@@ -2535,7 +2535,7 @@
       "probe": "capacity-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
           "capacity-closed"
         ],
         "returncode": -6,
@@ -2561,7 +2561,7 @@
       "probe": "stale",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
           "stale"
         ],
         "returncode": -6,
@@ -2587,7 +2587,7 @@
       "probe": "double",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
           "double"
         ],
         "returncode": -6,
@@ -2613,7 +2613,7 @@
       "probe": "length",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
           "length"
         ],
         "returncode": -6,
@@ -2639,7 +2639,7 @@
       "probe": "block-capacity",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
           "block-capacity"
         ],
         "returncode": -6,
@@ -2665,7 +2665,7 @@
       "probe": "alignment",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
           "alignment"
         ],
         "returncode": -6,
@@ -2691,7 +2691,7 @@
       "probe": "instance",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
           "instance"
         ],
         "returncode": -6,
@@ -2717,7 +2717,7 @@
       "probe": "read-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
           "read-closed"
         ],
         "returncode": -6,
@@ -2743,7 +2743,7 @@
       "probe": "write-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
           "write-closed"
         ],
         "returncode": -6,
@@ -2769,7 +2769,7 @@
       "probe": "push-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
           "push-closed"
         ],
         "returncode": -6,
@@ -2795,7 +2795,7 @@
       "probe": "pop-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
           "pop-closed"
         ],
         "returncode": -6,
@@ -2821,7 +2821,7 @@
       "probe": "length-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
           "length-closed"
         ],
         "returncode": -6,
@@ -2847,7 +2847,7 @@
       "probe": "capacity-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
           "capacity-closed"
         ],
         "returncode": -6,
@@ -2874,7 +2874,7 @@
       "probe": "stale",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
           "stale"
         ],
         "returncode": -6,
@@ -2901,7 +2901,7 @@
       "probe": "double",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
           "double"
         ],
         "returncode": -6,
@@ -2928,7 +2928,7 @@
       "probe": "length",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
           "length"
         ],
         "returncode": -6,
@@ -2955,7 +2955,7 @@
       "probe": "block-capacity",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
           "block-capacity"
         ],
         "returncode": -6,
@@ -2982,7 +2982,7 @@
       "probe": "alignment",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
           "alignment"
         ],
         "returncode": -6,
@@ -3009,7 +3009,7 @@
       "probe": "instance",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
           "instance"
         ],
         "returncode": -6,
@@ -3036,7 +3036,7 @@
       "probe": "read-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
           "read-closed"
         ],
         "returncode": -6,
@@ -3063,7 +3063,7 @@
       "probe": "write-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
           "write-closed"
         ],
         "returncode": -6,
@@ -3090,7 +3090,7 @@
       "probe": "push-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
           "push-closed"
         ],
         "returncode": -6,
@@ -3117,7 +3117,7 @@
       "probe": "pop-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
           "pop-closed"
         ],
         "returncode": -6,
@@ -3144,7 +3144,7 @@
       "probe": "length-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
           "length-closed"
         ],
         "returncode": -6,
@@ -3171,7 +3171,7 @@
       "probe": "capacity-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
           "capacity-closed"
         ],
         "returncode": -6,
@@ -3197,7 +3197,7 @@
       "probe": "stale",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
           "stale"
         ],
         "returncode": -6,
@@ -3223,7 +3223,7 @@
       "probe": "double",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
           "double"
         ],
         "returncode": -6,
@@ -3249,7 +3249,7 @@
       "probe": "length",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
           "length"
         ],
         "returncode": -6,
@@ -3275,7 +3275,7 @@
       "probe": "block-capacity",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
           "block-capacity"
         ],
         "returncode": -6,
@@ -3301,7 +3301,7 @@
       "probe": "alignment",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
           "alignment"
         ],
         "returncode": -6,
@@ -3327,7 +3327,7 @@
       "probe": "instance",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
           "instance"
         ],
         "returncode": -6,
@@ -3353,7 +3353,7 @@
       "probe": "read-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
           "read-closed"
         ],
         "returncode": -6,
@@ -3379,7 +3379,7 @@
       "probe": "write-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
           "write-closed"
         ],
         "returncode": -6,
@@ -3405,7 +3405,7 @@
       "probe": "push-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
           "push-closed"
         ],
         "returncode": -6,
@@ -3431,7 +3431,7 @@
       "probe": "pop-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
           "pop-closed"
         ],
         "returncode": -6,
@@ -3457,7 +3457,7 @@
       "probe": "length-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
           "length-closed"
         ],
         "returncode": -6,
@@ -3483,7 +3483,7 @@
       "probe": "capacity-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
           "capacity-closed"
         ],
         "returncode": -6,
@@ -3510,7 +3510,7 @@
       "probe": "stale",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
           "stale"
         ],
         "returncode": -6,
@@ -3537,7 +3537,7 @@
       "probe": "double",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
           "double"
         ],
         "returncode": -6,
@@ -3564,7 +3564,7 @@
       "probe": "length",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
           "length"
         ],
         "returncode": -6,
@@ -3591,7 +3591,7 @@
       "probe": "block-capacity",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
           "block-capacity"
         ],
         "returncode": -6,
@@ -3618,7 +3618,7 @@
       "probe": "alignment",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
           "alignment"
         ],
         "returncode": -6,
@@ -3645,7 +3645,7 @@
       "probe": "instance",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
           "instance"
         ],
         "returncode": -6,
@@ -3672,7 +3672,7 @@
       "probe": "read-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
           "read-closed"
         ],
         "returncode": -6,
@@ -3699,7 +3699,7 @@
       "probe": "write-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
           "write-closed"
         ],
         "returncode": -6,
@@ -3726,7 +3726,7 @@
       "probe": "push-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
           "push-closed"
         ],
         "returncode": -6,
@@ -3753,7 +3753,7 @@
       "probe": "pop-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
           "pop-closed"
         ],
         "returncode": -6,
@@ -3780,7 +3780,7 @@
       "probe": "length-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
           "length-closed"
         ],
         "returncode": -6,
@@ -3807,7 +3807,7 @@
       "probe": "capacity-closed",
       "result": {
         "command": [
-          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+          "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
           "capacity-closed"
         ],
         "returncode": -6,
@@ -3832,132 +3832,132 @@
     {
       "final": {
         "bytes": 105840,
-        "sha256": "b3b5e32950b2eca9ea002cfec492df14e993dec650ef091f6854687f8de6baa5"
+        "sha256": "33da4f92de700b1f5c620775966166d6dec874130704656a246963d6d28e933b"
       },
       "initial": {
         "bytes": 105840,
-        "sha256": "b3b5e32950b2eca9ea002cfec492df14e993dec650ef091f6854687f8de6baa5"
+        "sha256": "33da4f92de700b1f5c620775966166d6dec874130704656a246963d6d28e933b"
       },
       "path": "check-1-O0-0"
     },
     {
       "final": {
         "bytes": 122496,
-        "sha256": "9c4c5f958307b20df3f20f00b4f32209041b46eb21e1c0818e8368c80d33eabf"
+        "sha256": "9288ab1b39ba05dfb90e15da4826879677622debeed793b988b545c441054234"
       },
       "initial": {
         "bytes": 122496,
-        "sha256": "9c4c5f958307b20df3f20f00b4f32209041b46eb21e1c0818e8368c80d33eabf"
+        "sha256": "9288ab1b39ba05dfb90e15da4826879677622debeed793b988b545c441054234"
       },
       "path": "check-1-O0-1"
     },
     {
       "final": {
         "bytes": 71904,
-        "sha256": "9df1f69da402c933dd4c358e8598a4073a696152b223f4743a849354b3915110"
+        "sha256": "f2b608295b035d9a030503a4aa5432b823adc5c03acaac7bed2d31e06ce3806c"
       },
       "initial": {
         "bytes": 71904,
-        "sha256": "9df1f69da402c933dd4c358e8598a4073a696152b223f4743a849354b3915110"
+        "sha256": "f2b608295b035d9a030503a4aa5432b823adc5c03acaac7bed2d31e06ce3806c"
       },
       "path": "check-1-O2-0"
     },
     {
       "final": {
         "bytes": 72000,
-        "sha256": "0012a3e4e2518e2f7d3a0b573837369bf6109a5154a26aa3b24e7449c06cf6f4"
+        "sha256": "650f566b8ec93e6059b4b5ac66640977486cbf3e3e47e77a310391c69a56f567"
       },
       "initial": {
         "bytes": 72000,
-        "sha256": "0012a3e4e2518e2f7d3a0b573837369bf6109a5154a26aa3b24e7449c06cf6f4"
+        "sha256": "650f566b8ec93e6059b4b5ac66640977486cbf3e3e47e77a310391c69a56f567"
       },
       "path": "check-1-O2-1"
     },
     {
       "final": {
         "bytes": 105840,
-        "sha256": "ead7060f75d4e839fd6203b2ad877b5199cb4e51871b016097fcff16be27eec7"
+        "sha256": "e6cc725f5fe24d1fa84077e84e72c509a364d4afb74abc792f28ca1afbd60773"
       },
       "initial": {
         "bytes": 105840,
-        "sha256": "ead7060f75d4e839fd6203b2ad877b5199cb4e51871b016097fcff16be27eec7"
+        "sha256": "e6cc725f5fe24d1fa84077e84e72c509a364d4afb74abc792f28ca1afbd60773"
       },
       "path": "check-32-O0-0"
     },
     {
       "final": {
         "bytes": 122496,
-        "sha256": "9f1b3bc4528faaecdf477ef55554896ba7e7cc1e55bdcf0091a59bd8819259e1"
+        "sha256": "0b34a58408f315fc6a56de47198cb068abbb19392f7ed8e321f7bd558cd91255"
       },
       "initial": {
         "bytes": 122496,
-        "sha256": "9f1b3bc4528faaecdf477ef55554896ba7e7cc1e55bdcf0091a59bd8819259e1"
+        "sha256": "0b34a58408f315fc6a56de47198cb068abbb19392f7ed8e321f7bd558cd91255"
       },
       "path": "check-32-O0-1"
     },
     {
       "final": {
         "bytes": 71904,
-        "sha256": "4c59c0b6539ff999b49995b89028f31f5806364c822327a4cc1928074d39516e"
+        "sha256": "aa8b687e93cc65a0f2d7f04890269451abbd157b4de37b7f060899de98aa2793"
       },
       "initial": {
         "bytes": 71904,
-        "sha256": "4c59c0b6539ff999b49995b89028f31f5806364c822327a4cc1928074d39516e"
+        "sha256": "aa8b687e93cc65a0f2d7f04890269451abbd157b4de37b7f060899de98aa2793"
       },
       "path": "check-32-O2-0"
     },
     {
       "final": {
         "bytes": 72000,
-        "sha256": "cef7320140c38b54ea4f8405fd4ed5b62b34eeae423ca398958451f7df0709ed"
+        "sha256": "b27abebaf40d941bc9429d88298cd2d947f608aab7fa115e903ba73cd30fed62"
       },
       "initial": {
         "bytes": 72000,
-        "sha256": "cef7320140c38b54ea4f8405fd4ed5b62b34eeae423ca398958451f7df0709ed"
+        "sha256": "b27abebaf40d941bc9429d88298cd2d947f608aab7fa115e903ba73cd30fed62"
       },
       "path": "check-32-O2-1"
     },
     {
       "final": {
         "bytes": 105904,
-        "sha256": "f7883b953adedd0a522c72cf427a91c68c67edf01dab1486b1ba315b0b3d88bc"
+        "sha256": "98a4f8848b6ff0731dedf5c80ffce11611d490118481a3189919108440f46d25"
       },
       "initial": {
         "bytes": 105904,
-        "sha256": "f7883b953adedd0a522c72cf427a91c68c67edf01dab1486b1ba315b0b3d88bc"
+        "sha256": "98a4f8848b6ff0731dedf5c80ffce11611d490118481a3189919108440f46d25"
       },
       "path": "check-4096-O0-0"
     },
     {
       "final": {
         "bytes": 122560,
-        "sha256": "956ee540d5e9593960031a1739b5296eae9526e8fc1e6f5cb7aecae9b4c649f9"
+        "sha256": "a7008aed19f000f4646e3f670e46cb654be1cff1d23de0c09526257e2e171d72"
       },
       "initial": {
         "bytes": 122560,
-        "sha256": "956ee540d5e9593960031a1739b5296eae9526e8fc1e6f5cb7aecae9b4c649f9"
+        "sha256": "a7008aed19f000f4646e3f670e46cb654be1cff1d23de0c09526257e2e171d72"
       },
       "path": "check-4096-O0-1"
     },
     {
       "final": {
         "bytes": 71968,
-        "sha256": "dbdd0f12c86b18f0b46f2ad523a3d0c5001676a44333c890d043ed94a362521f"
+        "sha256": "31852e7af16ecd155b86c0b645255866b18dc80c903abc8c56afe04dcb03e5db"
       },
       "initial": {
         "bytes": 71968,
-        "sha256": "dbdd0f12c86b18f0b46f2ad523a3d0c5001676a44333c890d043ed94a362521f"
+        "sha256": "31852e7af16ecd155b86c0b645255866b18dc80c903abc8c56afe04dcb03e5db"
       },
       "path": "check-4096-O2-0"
     },
     {
       "final": {
         "bytes": 72080,
-        "sha256": "bba52246162c0952d63f4596241c25a20d3184f6cc336484851034cb47df54ed"
+        "sha256": "ae453ecb9a02ce3dfe6958a415d2dbe1ad43af833997b4a1e633f8b6639c61ed"
       },
       "initial": {
         "bytes": 72080,
-        "sha256": "bba52246162c0952d63f4596241c25a20d3184f6cc336484851034cb47df54ed"
+        "sha256": "ae453ecb9a02ce3dfe6958a415d2dbe1ad43af833997b4a1e633f8b6639c61ed"
       },
       "path": "check-4096-O2-1"
     },
@@ -4132,9 +4132,9 @@
         "-isysroot",
         "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
         "-c",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/target.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/target.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/target.o"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/target.o"
       ],
       "returncode": 0,
       "stderr": "",
@@ -4159,9 +4159,9 @@
         "-fsanitize=address,undefined",
         "-fno-sanitize-recover=all",
         "-DCAPACITY=1",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/tests/fixtures/byte-buffer-driver.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/tests/fixtures/byte-buffer-driver.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0"
       ],
       "returncode": 0,
       "stderr": "",
@@ -4174,7 +4174,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0"
       ],
       "returncode": 0,
       "stderr": "",
@@ -4183,7 +4183,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
         "stale"
       ],
       "returncode": -6,
@@ -4193,7 +4193,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
         "double"
       ],
       "returncode": -6,
@@ -4203,7 +4203,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
         "length"
       ],
       "returncode": -6,
@@ -4213,7 +4213,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
         "block-capacity"
       ],
       "returncode": -6,
@@ -4223,7 +4223,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
         "alignment"
       ],
       "returncode": -6,
@@ -4233,7 +4233,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
         "instance"
       ],
       "returncode": -6,
@@ -4243,7 +4243,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
         "read-closed"
       ],
       "returncode": -6,
@@ -4253,7 +4253,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
         "write-closed"
       ],
       "returncode": -6,
@@ -4263,7 +4263,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
         "push-closed"
       ],
       "returncode": -6,
@@ -4273,7 +4273,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
         "pop-closed"
       ],
       "returncode": -6,
@@ -4283,7 +4283,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
         "length-closed"
       ],
       "returncode": -6,
@@ -4293,7 +4293,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
         "capacity-closed"
       ],
       "returncode": -6,
@@ -4303,7 +4303,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
         "unknown-probe"
       ],
       "returncode": 42,
@@ -4326,9 +4326,9 @@
         "-fno-sanitize-recover=all",
         "-DCAPACITY=1",
         "-DTV_REGION_TEST_FAULT",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/tests/fixtures/byte-buffer-driver.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/tests/fixtures/byte-buffer-driver.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1"
       ],
       "returncode": 0,
       "stderr": "",
@@ -4341,7 +4341,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1"
       ],
       "returncode": 0,
       "stderr": "",
@@ -4350,7 +4350,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
         "stale"
       ],
       "returncode": -6,
@@ -4360,7 +4360,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
         "double"
       ],
       "returncode": -6,
@@ -4370,7 +4370,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
         "length"
       ],
       "returncode": -6,
@@ -4380,7 +4380,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
         "block-capacity"
       ],
       "returncode": -6,
@@ -4390,7 +4390,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
         "alignment"
       ],
       "returncode": -6,
@@ -4400,7 +4400,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
         "instance"
       ],
       "returncode": -6,
@@ -4410,7 +4410,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
         "read-closed"
       ],
       "returncode": -6,
@@ -4420,7 +4420,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
         "write-closed"
       ],
       "returncode": -6,
@@ -4430,7 +4430,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
         "push-closed"
       ],
       "returncode": -6,
@@ -4440,7 +4440,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
         "pop-closed"
       ],
       "returncode": -6,
@@ -4450,7 +4450,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
         "length-closed"
       ],
       "returncode": -6,
@@ -4460,7 +4460,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-1",
         "capacity-closed"
       ],
       "returncode": -6,
@@ -4482,9 +4482,9 @@
         "-fsanitize=address,undefined",
         "-fno-sanitize-recover=all",
         "-DCAPACITY=1",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/tests/fixtures/byte-buffer-driver.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/tests/fixtures/byte-buffer-driver.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0"
       ],
       "returncode": 0,
       "stderr": "",
@@ -4497,7 +4497,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0"
       ],
       "returncode": 0,
       "stderr": "",
@@ -4506,7 +4506,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
         "stale"
       ],
       "returncode": -6,
@@ -4516,7 +4516,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
         "double"
       ],
       "returncode": -6,
@@ -4526,7 +4526,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
         "length"
       ],
       "returncode": -6,
@@ -4536,7 +4536,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
         "block-capacity"
       ],
       "returncode": -6,
@@ -4546,7 +4546,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
         "alignment"
       ],
       "returncode": -6,
@@ -4556,7 +4556,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
         "instance"
       ],
       "returncode": -6,
@@ -4566,7 +4566,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
         "read-closed"
       ],
       "returncode": -6,
@@ -4576,7 +4576,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
         "write-closed"
       ],
       "returncode": -6,
@@ -4586,7 +4586,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
         "push-closed"
       ],
       "returncode": -6,
@@ -4596,7 +4596,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
         "pop-closed"
       ],
       "returncode": -6,
@@ -4606,7 +4606,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
         "length-closed"
       ],
       "returncode": -6,
@@ -4616,7 +4616,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-0",
         "capacity-closed"
       ],
       "returncode": -6,
@@ -4639,9 +4639,9 @@
         "-fno-sanitize-recover=all",
         "-DCAPACITY=1",
         "-DTV_REGION_TEST_FAULT",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/tests/fixtures/byte-buffer-driver.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/tests/fixtures/byte-buffer-driver.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1"
       ],
       "returncode": 0,
       "stderr": "",
@@ -4654,7 +4654,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1"
       ],
       "returncode": 0,
       "stderr": "",
@@ -4663,7 +4663,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
         "stale"
       ],
       "returncode": -6,
@@ -4673,7 +4673,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
         "double"
       ],
       "returncode": -6,
@@ -4683,7 +4683,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
         "length"
       ],
       "returncode": -6,
@@ -4693,7 +4693,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
         "block-capacity"
       ],
       "returncode": -6,
@@ -4703,7 +4703,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
         "alignment"
       ],
       "returncode": -6,
@@ -4713,7 +4713,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
         "instance"
       ],
       "returncode": -6,
@@ -4723,7 +4723,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
         "read-closed"
       ],
       "returncode": -6,
@@ -4733,7 +4733,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
         "write-closed"
       ],
       "returncode": -6,
@@ -4743,7 +4743,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
         "push-closed"
       ],
       "returncode": -6,
@@ -4753,7 +4753,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
         "pop-closed"
       ],
       "returncode": -6,
@@ -4763,7 +4763,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
         "length-closed"
       ],
       "returncode": -6,
@@ -4773,7 +4773,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O2-1",
         "capacity-closed"
       ],
       "returncode": -6,
@@ -4795,9 +4795,9 @@
         "-fsanitize=address,undefined",
         "-fno-sanitize-recover=all",
         "-DCAPACITY=32",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/tests/fixtures/byte-buffer-driver.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/tests/fixtures/byte-buffer-driver.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0"
       ],
       "returncode": 0,
       "stderr": "",
@@ -4810,7 +4810,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0"
       ],
       "returncode": 0,
       "stderr": "",
@@ -4819,7 +4819,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
         "stale"
       ],
       "returncode": -6,
@@ -4829,7 +4829,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
         "double"
       ],
       "returncode": -6,
@@ -4839,7 +4839,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
         "length"
       ],
       "returncode": -6,
@@ -4849,7 +4849,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
         "block-capacity"
       ],
       "returncode": -6,
@@ -4859,7 +4859,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
         "alignment"
       ],
       "returncode": -6,
@@ -4869,7 +4869,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
         "instance"
       ],
       "returncode": -6,
@@ -4879,7 +4879,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
         "read-closed"
       ],
       "returncode": -6,
@@ -4889,7 +4889,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
         "write-closed"
       ],
       "returncode": -6,
@@ -4899,7 +4899,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
         "push-closed"
       ],
       "returncode": -6,
@@ -4909,7 +4909,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
         "pop-closed"
       ],
       "returncode": -6,
@@ -4919,7 +4919,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
         "length-closed"
       ],
       "returncode": -6,
@@ -4929,7 +4929,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-0",
         "capacity-closed"
       ],
       "returncode": -6,
@@ -4952,9 +4952,9 @@
         "-fno-sanitize-recover=all",
         "-DCAPACITY=32",
         "-DTV_REGION_TEST_FAULT",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/tests/fixtures/byte-buffer-driver.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/tests/fixtures/byte-buffer-driver.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1"
       ],
       "returncode": 0,
       "stderr": "",
@@ -4967,7 +4967,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1"
       ],
       "returncode": 0,
       "stderr": "",
@@ -4976,7 +4976,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
         "stale"
       ],
       "returncode": -6,
@@ -4986,7 +4986,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
         "double"
       ],
       "returncode": -6,
@@ -4996,7 +4996,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
         "length"
       ],
       "returncode": -6,
@@ -5006,7 +5006,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
         "block-capacity"
       ],
       "returncode": -6,
@@ -5016,7 +5016,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
         "alignment"
       ],
       "returncode": -6,
@@ -5026,7 +5026,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
         "instance"
       ],
       "returncode": -6,
@@ -5036,7 +5036,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
         "read-closed"
       ],
       "returncode": -6,
@@ -5046,7 +5046,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
         "write-closed"
       ],
       "returncode": -6,
@@ -5056,7 +5056,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
         "push-closed"
       ],
       "returncode": -6,
@@ -5066,7 +5066,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
         "pop-closed"
       ],
       "returncode": -6,
@@ -5076,7 +5076,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
         "length-closed"
       ],
       "returncode": -6,
@@ -5086,7 +5086,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O0-1",
         "capacity-closed"
       ],
       "returncode": -6,
@@ -5108,9 +5108,9 @@
         "-fsanitize=address,undefined",
         "-fno-sanitize-recover=all",
         "-DCAPACITY=32",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/tests/fixtures/byte-buffer-driver.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/tests/fixtures/byte-buffer-driver.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0"
       ],
       "returncode": 0,
       "stderr": "",
@@ -5123,7 +5123,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0"
       ],
       "returncode": 0,
       "stderr": "",
@@ -5132,7 +5132,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
         "stale"
       ],
       "returncode": -6,
@@ -5142,7 +5142,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
         "double"
       ],
       "returncode": -6,
@@ -5152,7 +5152,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
         "length"
       ],
       "returncode": -6,
@@ -5162,7 +5162,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
         "block-capacity"
       ],
       "returncode": -6,
@@ -5172,7 +5172,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
         "alignment"
       ],
       "returncode": -6,
@@ -5182,7 +5182,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
         "instance"
       ],
       "returncode": -6,
@@ -5192,7 +5192,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
         "read-closed"
       ],
       "returncode": -6,
@@ -5202,7 +5202,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
         "write-closed"
       ],
       "returncode": -6,
@@ -5212,7 +5212,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
         "push-closed"
       ],
       "returncode": -6,
@@ -5222,7 +5222,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
         "pop-closed"
       ],
       "returncode": -6,
@@ -5232,7 +5232,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
         "length-closed"
       ],
       "returncode": -6,
@@ -5242,7 +5242,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-0",
         "capacity-closed"
       ],
       "returncode": -6,
@@ -5265,9 +5265,9 @@
         "-fno-sanitize-recover=all",
         "-DCAPACITY=32",
         "-DTV_REGION_TEST_FAULT",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/tests/fixtures/byte-buffer-driver.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/tests/fixtures/byte-buffer-driver.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1"
       ],
       "returncode": 0,
       "stderr": "",
@@ -5280,7 +5280,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1"
       ],
       "returncode": 0,
       "stderr": "",
@@ -5289,7 +5289,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
         "stale"
       ],
       "returncode": -6,
@@ -5299,7 +5299,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
         "double"
       ],
       "returncode": -6,
@@ -5309,7 +5309,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
         "length"
       ],
       "returncode": -6,
@@ -5319,7 +5319,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
         "block-capacity"
       ],
       "returncode": -6,
@@ -5329,7 +5329,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
         "alignment"
       ],
       "returncode": -6,
@@ -5339,7 +5339,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
         "instance"
       ],
       "returncode": -6,
@@ -5349,7 +5349,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
         "read-closed"
       ],
       "returncode": -6,
@@ -5359,7 +5359,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
         "write-closed"
       ],
       "returncode": -6,
@@ -5369,7 +5369,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
         "push-closed"
       ],
       "returncode": -6,
@@ -5379,7 +5379,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
         "pop-closed"
       ],
       "returncode": -6,
@@ -5389,7 +5389,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
         "length-closed"
       ],
       "returncode": -6,
@@ -5399,7 +5399,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-32-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-32-O2-1",
         "capacity-closed"
       ],
       "returncode": -6,
@@ -5421,9 +5421,9 @@
         "-fsanitize=address,undefined",
         "-fno-sanitize-recover=all",
         "-DCAPACITY=4096",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/tests/fixtures/byte-buffer-driver.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/tests/fixtures/byte-buffer-driver.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0"
       ],
       "returncode": 0,
       "stderr": "",
@@ -5436,7 +5436,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0"
       ],
       "returncode": 0,
       "stderr": "",
@@ -5445,7 +5445,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
         "stale"
       ],
       "returncode": -6,
@@ -5455,7 +5455,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
         "double"
       ],
       "returncode": -6,
@@ -5465,7 +5465,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
         "length"
       ],
       "returncode": -6,
@@ -5475,7 +5475,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
         "block-capacity"
       ],
       "returncode": -6,
@@ -5485,7 +5485,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
         "alignment"
       ],
       "returncode": -6,
@@ -5495,7 +5495,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
         "instance"
       ],
       "returncode": -6,
@@ -5505,7 +5505,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
         "read-closed"
       ],
       "returncode": -6,
@@ -5515,7 +5515,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
         "write-closed"
       ],
       "returncode": -6,
@@ -5525,7 +5525,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
         "push-closed"
       ],
       "returncode": -6,
@@ -5535,7 +5535,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
         "pop-closed"
       ],
       "returncode": -6,
@@ -5545,7 +5545,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
         "length-closed"
       ],
       "returncode": -6,
@@ -5555,7 +5555,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-0",
         "capacity-closed"
       ],
       "returncode": -6,
@@ -5578,9 +5578,9 @@
         "-fno-sanitize-recover=all",
         "-DCAPACITY=4096",
         "-DTV_REGION_TEST_FAULT",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/tests/fixtures/byte-buffer-driver.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/tests/fixtures/byte-buffer-driver.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1"
       ],
       "returncode": 0,
       "stderr": "",
@@ -5593,7 +5593,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1"
       ],
       "returncode": 0,
       "stderr": "",
@@ -5602,7 +5602,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
         "stale"
       ],
       "returncode": -6,
@@ -5612,7 +5612,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
         "double"
       ],
       "returncode": -6,
@@ -5622,7 +5622,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
         "length"
       ],
       "returncode": -6,
@@ -5632,7 +5632,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
         "block-capacity"
       ],
       "returncode": -6,
@@ -5642,7 +5642,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
         "alignment"
       ],
       "returncode": -6,
@@ -5652,7 +5652,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
         "instance"
       ],
       "returncode": -6,
@@ -5662,7 +5662,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
         "read-closed"
       ],
       "returncode": -6,
@@ -5672,7 +5672,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
         "write-closed"
       ],
       "returncode": -6,
@@ -5682,7 +5682,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
         "push-closed"
       ],
       "returncode": -6,
@@ -5692,7 +5692,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
         "pop-closed"
       ],
       "returncode": -6,
@@ -5702,7 +5702,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
         "length-closed"
       ],
       "returncode": -6,
@@ -5712,7 +5712,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O0-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O0-1",
         "capacity-closed"
       ],
       "returncode": -6,
@@ -5734,9 +5734,9 @@
         "-fsanitize=address,undefined",
         "-fno-sanitize-recover=all",
         "-DCAPACITY=4096",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/tests/fixtures/byte-buffer-driver.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/tests/fixtures/byte-buffer-driver.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0"
       ],
       "returncode": 0,
       "stderr": "",
@@ -5749,7 +5749,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0"
       ],
       "returncode": 0,
       "stderr": "",
@@ -5758,7 +5758,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
         "stale"
       ],
       "returncode": -6,
@@ -5768,7 +5768,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
         "double"
       ],
       "returncode": -6,
@@ -5778,7 +5778,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
         "length"
       ],
       "returncode": -6,
@@ -5788,7 +5788,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
         "block-capacity"
       ],
       "returncode": -6,
@@ -5798,7 +5798,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
         "alignment"
       ],
       "returncode": -6,
@@ -5808,7 +5808,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
         "instance"
       ],
       "returncode": -6,
@@ -5818,7 +5818,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
         "read-closed"
       ],
       "returncode": -6,
@@ -5828,7 +5828,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
         "write-closed"
       ],
       "returncode": -6,
@@ -5838,7 +5838,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
         "push-closed"
       ],
       "returncode": -6,
@@ -5848,7 +5848,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
         "pop-closed"
       ],
       "returncode": -6,
@@ -5858,7 +5858,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
         "length-closed"
       ],
       "returncode": -6,
@@ -5868,7 +5868,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-0",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-0",
         "capacity-closed"
       ],
       "returncode": -6,
@@ -5891,9 +5891,9 @@
         "-fno-sanitize-recover=all",
         "-DCAPACITY=4096",
         "-DTV_REGION_TEST_FAULT",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/tests/fixtures/byte-buffer-driver.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/tests/fixtures/byte-buffer-driver.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1"
       ],
       "returncode": 0,
       "stderr": "",
@@ -5906,7 +5906,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1"
       ],
       "returncode": 0,
       "stderr": "",
@@ -5915,7 +5915,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
         "stale"
       ],
       "returncode": -6,
@@ -5925,7 +5925,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
         "double"
       ],
       "returncode": -6,
@@ -5935,7 +5935,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
         "length"
       ],
       "returncode": -6,
@@ -5945,7 +5945,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
         "block-capacity"
       ],
       "returncode": -6,
@@ -5955,7 +5955,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
         "alignment"
       ],
       "returncode": -6,
@@ -5965,7 +5965,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
         "instance"
       ],
       "returncode": -6,
@@ -5975,7 +5975,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
         "read-closed"
       ],
       "returncode": -6,
@@ -5985,7 +5985,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
         "write-closed"
       ],
       "returncode": -6,
@@ -5995,7 +5995,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
         "push-closed"
       ],
       "returncode": -6,
@@ -6005,7 +6005,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
         "pop-closed"
       ],
       "returncode": -6,
@@ -6015,7 +6015,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
         "length-closed"
       ],
       "returncode": -6,
@@ -6025,7 +6025,7 @@
     },
     {
       "command": [
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-4096-O2-1",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-4096-O2-1",
         "capacity-closed"
       ],
       "returncode": -6,
@@ -6045,9 +6045,9 @@
         "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
         "-O2",
         "-c",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/production.c",
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/production.c",
         "-o",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/production.o"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/production.o"
       ],
       "returncode": 0,
       "stderr": "",
@@ -6062,7 +6062,7 @@
       "command": [
         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/llvm-nm",
         "-u",
-        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/production.o"
+        "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/production.o"
       ],
       "returncode": 0,
       "stderr": "",
@@ -6725,8 +6725,8 @@
     },
     {
       "path": "tests/test_byte_buffer_runtime.py",
-      "sha256": "b4ce6ea720e02f6a9c62425892799f8b2eb7fc2ecc8e439add0e37c56ce3ae65",
-      "text": "import importlib.util\nimport json\nfrom pathlib import Path\nimport shutil\nimport signal\nimport subprocess\nimport tempfile\nimport unittest\nfrom unittest.mock import patch\n\nROOT = Path(__file__).resolve().parents[1]\nspec = importlib.util.spec_from_file_location('byte_buffer_gate', ROOT / 'scripts/check-byte-buffer-runtime.py')\ngate = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(gate)\n\n\nclass ByteBufferRuntimeTests(unittest.TestCase):\n    def test_independent_ledger_faults_traps_and_dependencies(self):\n        report = gate.verify()\n        self.assertTrue(report['ok'] and report['complete'] and report['passed'])\n        self.assertEqual('talven.byte-buffer-runtime-check.v1', report['schema'])\n        self.assertEqual('c11-supplied-byte-buffer-v1', report['profile'])\n        self.assertEqual(12, report['positive_executions'])\n        self.assertEqual(144, report['negative_trap_executions'])\n        self.assertEqual(set(gate.SOURCES), {entry['path'] for entry in report['inputs']})\n        for capacity in (1, 32, 4096):\n            layouts = [row['layout'] for row in report['executions'] if row['layout']['capacity'] == capacity]\n            self.assertEqual(4, len(layouts))\n            self.assertTrue(all(row == layouts[0] for row in layouts))\n        for artifact in report['artifacts']:\n            self.assertEqual(artifact['initial'], artifact['final'])\n        for tool in report['tools'].values():\n            self.assertEqual(tool['initial'], tool['final'])\n        self.assertEqual(42, report['unknown_probe']['returncode'])\n        self.assertEqual('C-runtime-only; no Talven lifetime checking', report['validation'])\n\n    def compile_driver(self, directory, header):\n        for relative in (gate.SOURCES[0], gate.SOURCES[2]):\n            target = directory / relative\n            target.parent.mkdir(parents=True, exist_ok=True)\n            target.write_bytes((ROOT / relative).read_bytes())\n        target = directory / gate.SOURCES[1]\n        target.parent.mkdir(parents=True, exist_ok=True)\n        target.write_text(header)\n        binary = directory / 'check'\n        command = ['cc', *gate.FLAGS, '-O0', '-DCAPACITY=1', str(directory / gate.SOURCES[2]), '-o', str(binary)]\n        compiled = subprocess.run(command, capture_output=True, text=True, timeout=30)\n        self.assertEqual(0, compiled.returncode, compiled.stderr)\n        return subprocess.run([str(binary)], capture_output=True, text=True, timeout=10)\n\n    def test_behavioral_mutations_are_rejected_by_compiled_independent_oracle(self):\n        source = (ROOT / gate.SOURCES[1]).read_text()\n        mutations = {\n            'missing-push-write': ('region->storage[buffer->length] = (uint8_t)value;', '(void)region;'),\n            'missing-length-increment': ('buffer->length += 1;', 'buffer->length += 0;'),\n            'wrong-pop-value': ('int32_t value = region->storage[buffer->length - 1];',\n                                'int32_t value = region->storage[buffer->length - 1] ^ 1;'),\n            'invalid-byte-before-full': (\n                'if (buffer->length == buffer->block.length) { return TV_BUFFER_FULL; }\\n    if (value < 0 || value > 255) { return TV_BUFFER_INVALID_BYTE; }',\n                'if (value < 0 || value > 255) { return TV_BUFFER_INVALID_BYTE; }\\n    if (buffer->length == buffer->block.length) { return TV_BUFFER_FULL; }'),\n        }\n        with tempfile.TemporaryDirectory(prefix='talven-buffer-mutations-') as temp:\n            result = self.compile_driver(Path(temp) / 'baseline', source)\n            self.assertEqual(0, result.returncode, result.stderr)\n            for name, (old, new) in mutations.items():\n                with self.subTest(mutation=name):\n                    self.assertEqual(1, source.count(old))\n                    result = self.compile_driver(Path(temp) / name, source.replace(old, new))\n                    self.assertEqual(41, result.returncode, result.stderr)\n                    self.assertIn('oracle:', result.stderr)\n\n    def test_strict_layout_rejects_wrong_shape_bool_float_duplicates(self):\n        valid = {'capacity': 1, 'descriptor_bytes': 48, 'block_bytes': 32, 'buffer_bytes': 40,\n                 'allocation_bytes': 48, 'pop_result_bytes': 8}\n        self.assertEqual(valid, gate.layout(json.dumps(valid), 1))\n        for value in (True, 1.0, 0, -1, '1', None):\n            with self.subTest(value=value), self.assertRaises(RuntimeError):\n                gate.layout(json.dumps(dict(valid, capacity=value)), 1)\n        for output in ('[]', '{}', json.dumps(dict(valid, unexpected=1)),\n                       json.dumps(valid)[:-1] + ',\"capacity\":1}', json.dumps(valid).replace('48', 'NaN', 1)):\n            with self.subTest(output=output), self.assertRaises(RuntimeError):\n                gate.layout(output, 1)\n\n    def test_nm_accepts_only_exact_known_gnu_and_macho_undefined_rows(self):\n        self.assertEqual(['GLOBAL_OFFSET_TABLE_', 'abort', 'stack_chk_fail'],\n                         gate.undefined_symbols('                 U abort\\n U __stack_chk_fail\\n U _GLOBAL_OFFSET_TABLE_\\n', 'Linux'))\n        self.assertEqual(['abort', 'bzero', 'chkstk_darwin', 'stack_chk_fail'],\n                         gate.undefined_symbols('_abort\\n_bzero\\n___stack_chk_fail\\n___chkstk_darwin\\n', 'Darwin'))\n        for output, system in ((' U malloc\\n', 'Linux'), (' U tv_region_test_fault\\n', 'Linux'),\n                               ('abort\\n', 'Linux'), (' T abort\\n', 'Linux'), ('__abort\\n', 'Darwin'),\n                               ('_malloc\\n', 'Darwin'), ('archive.o:\\n U abort\\n', 'Linux')):\n            with self.subTest(output=output), self.assertRaises(RuntimeError):\n                gate.undefined_symbols(output, system)\n\n    def test_nonzero_oracle_and_sanitizer_failures_never_count_as_contract_traps(self):\n        for returncode, stderr, stdout in ((41, 'oracle:1\\n', ''), (42, '', ''),\n                                          (-signal.SIGABRT, 'oracle:1\\n', ''),\n                                          (-signal.SIGABRT, 'AddressSanitizer: bad\\n', ''),\n                                          (-signal.SIGABRT, 'runtime error: bad\\n', ''),\n                                          (-signal.SIGABRT, '', 'unexpected')):\n            with self.subTest(returncode=returncode, stderr=stderr), self.assertRaises(RuntimeError):\n                gate.accept_trap({'returncode': returncode, 'stderr': stderr, 'stdout': stdout}, 'test')\n        gate.accept_trap({'returncode': -signal.SIGABRT, 'stderr': '', 'stdout': ''}, 'test')\n\n    def test_gate_rejects_input_mutation_during_real_tool_run(self):\n        actual_run = subprocess.run\n        with tempfile.TemporaryDirectory(prefix='talven-buffer-stability-') as temp:\n            root = Path(temp)\n            for name in gate.SOURCES:\n                target = root / name\n                target.parent.mkdir(parents=True, exist_ok=True)\n                shutil.copyfile(ROOT / name, target)\n            def mutate(command, **kwargs):\n                result = actual_run(command, **kwargs)\n                target = root / gate.SOURCES[1]\n                target.write_bytes(target.read_bytes() + b'\\n/* changed during gate */\\n')\n                return result\n            with patch.object(gate, 'ROOT', root), patch.object(gate.subprocess, 'run', side_effect=mutate):\n                with self.assertRaisesRegex(RuntimeError, 'Observed gate input change'):\n                    gate.verify()\n\n    def test_gate_rejects_compiled_artifact_mutation_during_real_execution(self):\n        actual_run = subprocess.run\n        def mutate(command, **kwargs):\n            result = actual_run(command, **kwargs)\n            binary = Path(command[0])\n            if len(command) == 1 and binary.name.startswith('check-'):\n                binary.write_bytes(binary.read_bytes() + b'changed artifact')\n            return result\n        with patch.object(gate.subprocess, 'run', side_effect=mutate):\n            with self.assertRaisesRegex(RuntimeError, 'Observed compiled artifact change'):\n                gate.verify()\n\n    def test_gate_rejects_tool_mutation_before_first_use(self):\n        actual_run = subprocess.run\n        actual_which = shutil.which\n        with tempfile.TemporaryDirectory(prefix='talven-buffer-tool-stability-') as temp:\n            tool = Path(temp) / 'uname'\n            shutil.copyfile(actual_which('uname'), tool)\n            tool.chmod(0o755)\n            def which(name):\n                return str(tool) if name == 'uname' else actual_which(name)\n            def mutate(command, **kwargs):\n                result = actual_run(command, **kwargs)\n                tool.write_bytes(tool.read_bytes() + b'changed tool')\n                return result\n            with patch.object(gate.shutil, 'which', side_effect=which), patch.object(gate.subprocess, 'run', side_effect=mutate):\n                with self.assertRaisesRegex(RuntimeError, 'Tool executable changed before use: uname'):\n                    gate.verify()\n\n    def test_stability_checks_compare_actual_bytes_and_artifacts(self):\n        with tempfile.TemporaryDirectory() as temp:\n            path = Path(temp) / 'input'\n            path.write_bytes(b'original')\n            identity = gate.fingerprint(path)\n            gate.check_bytes(path, b'original')\n            gate.check_artifacts({path: identity})\n            path.write_bytes(b'mutation')\n            with self.assertRaisesRegex(RuntimeError, 'input change'):\n                gate.check_bytes(path, b'original')\n            with self.assertRaisesRegex(RuntimeError, 'artifact change'):\n                gate.check_artifacts({path: identity})\n\n    def test_out_refuses_existing_file_before_verification(self):\n        with tempfile.TemporaryDirectory() as temp:\n            output = Path(temp) / 'receipt.json'\n            output.write_text('preserved')\n            with patch.object(gate.sys, 'argv', ['check-byte-buffer-runtime.py', '--out', str(output)]), patch.object(gate, 'verify') as verify:\n                with self.assertRaises(SystemExit):\n                    gate.main()\n                verify.assert_not_called()\n            self.assertEqual('preserved', output.read_text())\n\n\nif __name__ == '__main__':\n    unittest.main()\n"
+      "sha256": "de6b496cdadfc61f8f17f45ff93ec99af6867a3cb466d6f67a2214558e97afca",
+      "text": "import importlib.util\nimport json\nfrom pathlib import Path\nimport shutil\nimport signal\nimport subprocess\nimport tempfile\nimport unittest\nfrom unittest.mock import patch\n\nROOT = Path(__file__).resolve().parents[1]\nspec = importlib.util.spec_from_file_location('byte_buffer_gate', ROOT / 'scripts/check-byte-buffer-runtime.py')\ngate = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(gate)\n\n\nclass ByteBufferRuntimeTests(unittest.TestCase):\n    def test_independent_ledger_faults_traps_and_dependencies(self):\n        report = gate.verify()\n        self.assertTrue(report['ok'] and report['complete'] and report['passed'])\n        self.assertEqual('talven.byte-buffer-runtime-check.v1', report['schema'])\n        self.assertEqual('c11-supplied-byte-buffer-v1', report['profile'])\n        self.assertEqual(12, report['positive_executions'])\n        self.assertEqual(144, report['negative_trap_executions'])\n        self.assertEqual(set(gate.SOURCES), {entry['path'] for entry in report['inputs']})\n        for capacity in (1, 32, 4096):\n            layouts = [row['layout'] for row in report['executions'] if row['layout']['capacity'] == capacity]\n            self.assertEqual(4, len(layouts))\n            self.assertTrue(all(row == layouts[0] for row in layouts))\n        for artifact in report['artifacts']:\n            self.assertEqual(artifact['initial'], artifact['final'])\n        for tool in report['tools'].values():\n            self.assertEqual(tool['initial'], tool['final'])\n        self.assertEqual(42, report['unknown_probe']['returncode'])\n        self.assertEqual('C-runtime-only; no Talven lifetime checking', report['validation'])\n\n    def compile_driver(self, directory, header):\n        for relative in (gate.SOURCES[0], gate.SOURCES[2]):\n            target = directory / relative\n            target.parent.mkdir(parents=True, exist_ok=True)\n            target.write_bytes((ROOT / relative).read_bytes())\n        target = directory / gate.SOURCES[1]\n        target.parent.mkdir(parents=True, exist_ok=True)\n        target.write_text(header)\n        binary = directory / 'check'\n        command = ['cc', *gate.FLAGS, '-O0', '-DCAPACITY=1', str(directory / gate.SOURCES[2]), '-o', str(binary)]\n        compiled = subprocess.run(command, capture_output=True, text=True, timeout=30)\n        self.assertEqual(0, compiled.returncode, compiled.stderr)\n        return subprocess.run([str(binary)], capture_output=True, text=True, timeout=10)\n\n    def test_behavioral_mutations_are_rejected_by_compiled_independent_oracle(self):\n        source = (ROOT / gate.SOURCES[1]).read_text()\n        mutations = {\n            'missing-push-write': ('region->storage[buffer->length] = (uint8_t)value;', '(void)region;'),\n            'missing-length-increment': ('buffer->length += 1;', 'buffer->length += 0;'),\n            'wrong-pop-value': ('int32_t value = region->storage[buffer->length - 1];',\n                                'int32_t value = region->storage[buffer->length - 1] ^ 1;'),\n            'invalid-byte-before-full': (\n                'if (buffer->length == buffer->block.length) { return TV_BUFFER_FULL; }\\n    if (value < 0 || value > 255) { return TV_BUFFER_INVALID_BYTE; }',\n                'if (value < 0 || value > 255) { return TV_BUFFER_INVALID_BYTE; }\\n    if (buffer->length == buffer->block.length) { return TV_BUFFER_FULL; }'),\n        }\n        with tempfile.TemporaryDirectory(prefix='talven-buffer-mutations-') as temp:\n            result = self.compile_driver(Path(temp) / 'baseline', source)\n            self.assertEqual(0, result.returncode, result.stderr)\n            for name, (old, new) in mutations.items():\n                with self.subTest(mutation=name):\n                    self.assertEqual(1, source.count(old))\n                    result = self.compile_driver(Path(temp) / name, source.replace(old, new))\n                    self.assertEqual(41, result.returncode, result.stderr)\n                    self.assertIn('oracle:', result.stderr)\n\n    def test_strict_layout_rejects_wrong_shape_bool_float_duplicates(self):\n        valid = {'capacity': 1, 'descriptor_bytes': 48, 'block_bytes': 32, 'buffer_bytes': 40,\n                 'allocation_bytes': 48, 'pop_result_bytes': 8}\n        self.assertEqual(valid, gate.layout(json.dumps(valid), 1))\n        for value in (True, 1.0, 0, -1, '1', None):\n            with self.subTest(value=value), self.assertRaises(RuntimeError):\n                gate.layout(json.dumps(dict(valid, capacity=value)), 1)\n        for output in ('[]', '{}', json.dumps(dict(valid, unexpected=1)),\n                       json.dumps(valid)[:-1] + ',\"capacity\":1}', json.dumps(valid).replace('48', 'NaN', 1)):\n            with self.subTest(output=output), self.assertRaises(RuntimeError):\n                gate.layout(output, 1)\n\n    def test_nm_accepts_only_exact_known_gnu_and_macho_undefined_rows(self):\n        self.assertEqual(['GLOBAL_OFFSET_TABLE_', 'abort', 'stack_chk_fail'],\n                         gate.undefined_symbols('                 U abort\\n U __stack_chk_fail\\n U _GLOBAL_OFFSET_TABLE_\\n', 'Linux'))\n        self.assertEqual(['abort', 'bzero', 'chkstk_darwin', 'stack_chk_fail'],\n                         gate.undefined_symbols('_abort\\n_bzero\\n___stack_chk_fail\\n___chkstk_darwin\\n', 'Darwin'))\n        for output, system in ((' U malloc\\n', 'Linux'), (' U tv_region_test_fault\\n', 'Linux'),\n                               ('abort\\n', 'Linux'), (' T abort\\n', 'Linux'), ('__abort\\n', 'Darwin'),\n                               ('_malloc\\n', 'Darwin'), ('archive.o:\\n U abort\\n', 'Linux')):\n            with self.subTest(output=output), self.assertRaises(RuntimeError):\n                gate.undefined_symbols(output, system)\n\n    def test_nonzero_oracle_and_sanitizer_failures_never_count_as_contract_traps(self):\n        for returncode, stderr, stdout in ((41, 'oracle:1\\n', ''), (42, '', ''),\n                                          (-signal.SIGABRT, 'oracle:1\\n', ''),\n                                          (-signal.SIGABRT, 'AddressSanitizer: bad\\n', ''),\n                                          (-signal.SIGABRT, 'runtime error: bad\\n', ''),\n                                          (-signal.SIGABRT, '', 'unexpected')):\n            with self.subTest(returncode=returncode, stderr=stderr), self.assertRaises(RuntimeError):\n                gate.accept_trap({'returncode': returncode, 'stderr': stderr, 'stdout': stdout}, 'test')\n        gate.accept_trap({'returncode': -signal.SIGABRT, 'stderr': '', 'stdout': ''}, 'test')\n\n    def test_gate_rejects_input_mutation_during_real_tool_run(self):\n        actual_run = subprocess.run\n        with tempfile.TemporaryDirectory(prefix='talven-buffer-stability-') as temp:\n            root = Path(temp)\n            for name in gate.SOURCES:\n                target = root / name\n                target.parent.mkdir(parents=True, exist_ok=True)\n                shutil.copyfile(ROOT / name, target)\n            def mutate(command, **kwargs):\n                result = actual_run(command, **kwargs)\n                target = root / gate.SOURCES[1]\n                target.write_bytes(target.read_bytes() + b'\\n/* changed during gate */\\n')\n                return result\n            with patch.object(gate, 'ROOT', root), patch.object(gate.subprocess, 'run', side_effect=mutate):\n                with self.assertRaisesRegex(RuntimeError, 'Observed gate input change'):\n                    gate.verify()\n\n    def test_gate_rejects_compiled_artifact_mutation_during_real_execution(self):\n        actual_run = subprocess.run\n        def mutate(command, **kwargs):\n            result = actual_run(command, **kwargs)\n            binary = Path(command[0])\n            if len(command) == 1 and binary.name.startswith('check-'):\n                # Linux can retain the executable inode after wait returns.\n                replacement = binary.with_suffix('.replacement')\n                replacement.write_bytes(binary.read_bytes() + b'changed artifact')\n                replacement.chmod(binary.stat().st_mode)\n                replacement.replace(binary)\n            return result\n        with patch.object(gate.subprocess, 'run', side_effect=mutate):\n            with self.assertRaisesRegex(RuntimeError, 'Observed compiled artifact change'):\n                gate.verify()\n\n    def test_gate_rejects_tool_mutation_before_first_use(self):\n        actual_run = subprocess.run\n        actual_which = shutil.which\n        with tempfile.TemporaryDirectory(prefix='talven-buffer-tool-stability-') as temp:\n            tool = Path(temp) / 'uname'\n            shutil.copyfile(actual_which('uname'), tool)\n            tool.chmod(0o755)\n            def which(name):\n                return str(tool) if name == 'uname' else actual_which(name)\n            def mutate(command, **kwargs):\n                result = actual_run(command, **kwargs)\n                tool.write_bytes(tool.read_bytes() + b'changed tool')\n                return result\n            with patch.object(gate.shutil, 'which', side_effect=which), patch.object(gate.subprocess, 'run', side_effect=mutate):\n                with self.assertRaisesRegex(RuntimeError, 'Tool executable changed before use: uname'):\n                    gate.verify()\n\n    def test_stability_checks_compare_actual_bytes_and_artifacts(self):\n        with tempfile.TemporaryDirectory() as temp:\n            path = Path(temp) / 'input'\n            path.write_bytes(b'original')\n            identity = gate.fingerprint(path)\n            gate.check_bytes(path, b'original')\n            gate.check_artifacts({path: identity})\n            path.write_bytes(b'mutation')\n            with self.assertRaisesRegex(RuntimeError, 'input change'):\n                gate.check_bytes(path, b'original')\n            with self.assertRaisesRegex(RuntimeError, 'artifact change'):\n                gate.check_artifacts({path: identity})\n\n    def test_out_refuses_existing_file_before_verification(self):\n        with tempfile.TemporaryDirectory() as temp:\n            output = Path(temp) / 'receipt.json'\n            output.write_text('preserved')\n            with patch.object(gate.sys, 'argv', ['check-byte-buffer-runtime.py', '--out', str(output)]), patch.object(gate, 'verify') as verify:\n                with self.assertRaises(SystemExit):\n                    gate.main()\n                verify.assert_not_called()\n            self.assertEqual('preserved', output.read_text())\n\n\nif __name__ == '__main__':\n    unittest.main()\n"
     }
   ],
   "limits": [
@@ -6866,7 +6866,7 @@
   },
   "unknown_probe": {
     "command": [
-      "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-hoqo9h4h/check-1-O0-0",
+      "/var/folders/n_/yw5v7s0n6298s7nfygx3kjfm0000gn/T/talven-byte-buffer-uq6780c6/check-1-O0-0",
       "unknown-probe"
     ],
     "returncode": 42,

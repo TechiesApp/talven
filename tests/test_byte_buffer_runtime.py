@@ -125,7 +125,11 @@ class ByteBufferRuntimeTests(unittest.TestCase):
             result = actual_run(command, **kwargs)
             binary = Path(command[0])
             if len(command) == 1 and binary.name.startswith('check-'):
-                binary.write_bytes(binary.read_bytes() + b'changed artifact')
+                # Linux can retain the executable inode after wait returns.
+                replacement = binary.with_suffix('.replacement')
+                replacement.write_bytes(binary.read_bytes() + b'changed artifact')
+                replacement.chmod(binary.stat().st_mode)
+                replacement.replace(binary)
             return result
         with patch.object(gate.subprocess, 'run', side_effect=mutate):
             with self.assertRaisesRegex(RuntimeError, 'Observed compiled artifact change'):
