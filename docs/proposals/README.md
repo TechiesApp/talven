@@ -67,3 +67,8 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0037 | [Bounded local source modules](0037-bounded-local-modules.md) | Draft; implemented experiment |
 | 0038 | [Multi-file agent evaluation](0038-module-agent-evaluation.md) | Draft; implemented corpus/harness |
 | 0039 | [Typed failures and resource contracts](0039-typed-failures-resource-contracts.md) | Draft; design only |
+| 0040 | [Concrete typed outcomes](0040-concrete-typed-outcomes.md) | Draft; implemented experiment |
+| 0041 | [Supplied-storage regions](0041-supplied-storage-regions.md) | Draft; bounded compiler companion implemented |
+| 0042 | [Supplied-storage C runtime](0042-supplied-storage-c-runtime.md) | Accepted; standalone runtime implemented |
+| 0043 | [Checked supplied-block compiler profile](0043-supplied-blocks-compiler.md) | Draft; implemented experiment |
+| 0044 | [Supplied-block production cost evidence](0044-supplied-block-production-costs.md) | Draft; measurement experiment |

@@ -130,7 +130,11 @@ and [native compiler](../experiments/results/resource-source-20261004/native.jso
 these are sanitizer/dependency acceptance, not performance measurements.
 
 Capacity remains reserved until its lexical region ends after release. Descriptor,
-owner/outcome temporaries, alignment padding, stack-probe helpers and the test ledger
-add costs; no total RAM, binary-size, reserve/release latency or agent benefit is
-measured. Heap containers, cancellation, general allocator lifetimes and concurrency
-remain open; this sequential profile does not complete the broader M2 milestone.
+owner/outcome temporaries, alignment padding and stack-probe helpers can affect
+compiled costs. The separate [production cost experiment](resource-costs.md)
+reports target layouts, compiler-reported static stack usage, artifact sizes and
+complete-call batch timing for fixed sequential workloads, after independent
+acceptance. Its production binaries omit the ledger. Total RAM, isolated
+reserve/release latency and agent benefit remain unmeasured. Heap containers,
+cancellation, general allocator lifetimes and concurrency remain open; this
+sequential profile does not complete the broader M2 milestone.
