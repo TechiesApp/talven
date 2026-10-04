@@ -118,6 +118,8 @@ and verified complete-call batch timing. These costs remain distinct from total
 RAM, isolated intrinsic latency, tail latency and agent benefit. Heap containers,
 general allocator lifetimes, cancellation and an executor remain later work.
 
+[Proposal 0045](proposals/0045-supplied-byte-buffer-runtime.md) adds the next standalone C foundation: a fixed-capacity byte buffer with private logical length, bounded mutation, explicit close and independent state/byte/fault gates. It shares the region slot/token contract. Talven Buffer syntax, source ownership/tooling parity and buffer production cost evidence remain follow-ups.
+
 Continue with general allocator interfaces, containers, structured tasks, cancellation, synchronization, and a selected optional executor.
 
 Gate: resource lifetimes remain sound across errors, task cancellation, and concurrent operations. Measure binary size, allocations, RAM, task overhead, and tail latency.
