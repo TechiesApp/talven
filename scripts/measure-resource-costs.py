@@ -101,19 +101,20 @@ def validate_timing(output, workload, iterations):
 
 
 def parse_stack_usage(output, selected=SYMBOLS):
-    """GCC and Clang .su labels differ; the final colon component names C functions."""
+    """Retain reliable per-function reports and their exact compiler qualifiers."""
     result = {}
     for line in output.decode("utf-8").splitlines():
         fields = line.split("\t")
-        base.require(len(fields) == 3 and fields[2] == "static" and re.fullmatch(r"[0-9]+", fields[1]) is not None,
-                     "malformed or dynamic compiler stack-usage record")
+        base.require(len(fields) == 3 and fields[2] in ("static", "dynamic,bounded")
+                     and re.fullmatch(r"[0-9]+", fields[1]) is not None,
+                     "malformed or unbounded compiler stack-usage record")
         label = fields[0]
         base.require(re.fullmatch(r".+:[0-9]+(?::[0-9]+)?:[A-Za-z_][A-Za-z_0-9]*(?:\.[A-Za-z_0-9]+)*", label) is not None,
                      "malformed compiler stack-usage label")
         symbol = label.rsplit(":", 1)[-1]
         if symbol in selected:
             base.require(symbol not in result, "duplicate selected compiler stack record")
-            result[symbol] = int(fields[1])
+            result[symbol] = {"bytes": int(fields[1]), "qualifier": fields[2]}
     base.require(set(result) == set(selected), "missing selected compiler stack-usage records")
     return result
 
@@ -351,8 +352,8 @@ def measure_unit(recorder, args, cc, tools, directory, capacity, optimization, s
     stack_file = directory / "object-stack.su"
     (directory / "generated.su").replace(stack_file)
     remember(stack_file)
-    unit["compiler_reported_static_stack_bytes"] = parse_stack_usage(stack_file.read_bytes())
-    unit["stack_scope"] = "compiler-reported per-function static bytes; excludes callers, startup and recursive accumulation"
+    unit["compiler_reported_stack_usage"] = parse_stack_usage(stack_file.read_bytes())
+    unit["stack_scope"] = "compiler-reported bounded per-function usage; excludes callees, callers, startup, whole-stack usage and physical RAM"
     fixture_inputs()
     command(recorder, [cc, *settings, "-c", driver, "-o", driver_object], operation="production-driver-object")
     remember(driver_object)
@@ -370,7 +371,7 @@ def measure_unit(recorder, args, cc, tools, directory, capacity, optimization, s
     remember(assembly)
     remember(directory / "generated.su")
     fixture_inputs()
-    base.require(parse_stack_usage((directory / "generated.su").read_bytes()) == unit["compiler_reported_static_stack_bytes"],
+    base.require(parse_stack_usage((directory / "generated.su").read_bytes()) == unit["compiler_reported_stack_usage"],
                  "object and assembly compiler stack reports differ")
     unchanged(subject)
     unit["production_undefined_symbols"], _ = command(recorder, [tools["nm"], "-u", subject],
@@ -448,7 +449,7 @@ def run(args):
                            "timing": "driver monotonic clock around successful complete-call batch; parsing and process launch excluded",
                            "minimum_batch_clock_resolutions": 100},
               "limits": ["OS caches and CPU frequency uncontrolled; no cold-cache claim",
-                         "compiler-reported per-function static stack bytes are not whole-stack usage or physical total RAM",
+                         "compiler-reported bounded per-function stack usage excludes callees, whole-stack usage and physical RAM",
                          "section sizes remain tool-native reports; no cross-format section total",
                          "source-derived initialization counts are not measured memory traffic",
                          "no isolated reserve/release latency, p99, RSS, agent benefit or broader M2 completion"]}

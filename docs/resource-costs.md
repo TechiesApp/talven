@@ -35,7 +35,8 @@ The report separates these quantities:
 
 - Executed target C sizes, alignments and field offsets, including nominal outcomes.
 - Literal supplied capacity and source-derived operation/initialized-byte counts.
-- Compiler-reported static per-function stack usage, with raw records and assembly.
+- Compiler-reported bounded per-function stack usage, preserving `static` or
+  `dynamic,bounded` qualifiers with raw records and assembly; unbounded reports fail.
 - Actual object/executable file sizes and raw section/symbol output.
 - Verified batch-average elapsed time per complete call, with every raw sample.
 
@@ -88,7 +89,7 @@ and checksum overhead and are not isolated intrinsic costs.
 
 The committed JSON preserves identities and sample records. Its relative command
 and artifact paths refer to the full local bundle at
-`build/resource-costs-macos-arm64-20261004-v5`, rather than files committed beside
+`build/resource-costs-macos-arm64-20261004-v6`, rather than files committed beside
 the JSON. CI uploads complete Linux bundles, including raw outputs, source,
 assembly and binaries, with 30-day retention. Regenerate into a fresh directory
 when that retention expires; the public report alone is not the complete binary

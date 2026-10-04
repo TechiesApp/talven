@@ -65,19 +65,36 @@ class ResourceCostReceiptTests(unittest.TestCase):
                         b"generated.c:385:tv_f_reuse\t256\tstatic\n"
                         b"generated.c:461:tv_f_sequential\t512\tstatic\n"):
             self.assertEqual(costs.parse_stack_usage(records),
-                             {"tv_f_cycle": 128, "tv_f_reuse": 256, "tv_f_sequential": 512})
+                             {symbol: {"bytes": count, "qualifier": "static"} for symbol, count in
+                              (("tv_f_cycle", 128), ("tv_f_reuse", 256), ("tv_f_sequential", 512))})
 
-    def test_stack_reports_cannot_hide_dynamic_or_missing_functions(self):
+    def test_actual_gcc_bounded_dynamic_reports_retain_exact_qualifier(self):
+        records = (b"/home/runner/work/talven/talven/build/resource-costs/workloads/1/O0/generated.c:117:23:tv_region_release\t64\tdynamic,bounded\n"
+                   b"/home/runner/work/talven/talven/build/resource-costs/workloads/1/O0/generated.c:125:28:tv_region_read\t96\tdynamic,bounded\n"
+                   b"/home/runner/work/talven/talven/build/resource-costs/workloads/1/O0/generated.c:134:24:tv_region_write\t80\tdynamic,bounded\n"
+                   b"/home/runner/work/talven/talven/build/resource-costs/workloads/1/O0/generated.c:184:9:tv_source_release\t64\tdynamic,bounded\n"
+                   b"/home/runner/work/talven/talven/build/resource-costs/workloads/1/O0/generated.c:209:9:tv_f_cycle\t304\tdynamic,bounded\n"
+                   b"/home/runner/work/talven/talven/build/resource-costs/workloads/1/O0/generated.c:265:9:tv_f_reuse\t480\tdynamic,bounded\n"
+                   b"/home/runner/work/talven/talven/build/resource-costs/workloads/1/O0/generated.c:399:9:tv_f_sequential\t352\tdynamic,bounded\n")
+        self.assertEqual(costs.parse_stack_usage(records),
+                         {symbol: {"bytes": count, "qualifier": "dynamic,bounded"} for symbol, count in
+                          (("tv_f_cycle", 304), ("tv_f_reuse", 480), ("tv_f_sequential", 352))})
+
+    def test_stack_reports_cannot_hide_unbounded_or_missing_functions(self):
         good = b"file.c:1:tv_f_cycle\t32\tstatic\nfile.c:2:tv_f_reuse\t32\tstatic\nfile.c:3:tv_f_sequential\t64\tstatic\n"
         for output in (good.replace(b"static", b"dynamic", 1),
-                       good.replace(b"static", b"dynamic,bounded", 1),
                        good.replace(b"\t32\t", b"\t-32\t", 1),
                        good + b"file.c:4:helper\t16\tdynamic\n",
                        good + good.splitlines(keepends=True)[0], good.splitlines(keepends=True)[0],
                        good + b"badrecord\n", b""):
             with self.subTest(output=output), self.assertRaises(costs.base.MeasurementError):
                 costs.parse_stack_usage(output)
-        self.assertEqual(costs.parse_stack_usage(good + b"file.c:5:helper.constprop.0\t16\tstatic\n")["tv_f_cycle"], 32)
+        self.assertEqual(costs.parse_stack_usage(good + b"file.c:5:helper.constprop.0\t16\tstatic\n")["tv_f_cycle"],
+                         {"bytes": 32, "qualifier": "static"})
+        for qualifier in (b"bounded", b"static,bounded", b"static,dynamic", b"dynamic,static",
+                          b"dynamic,bounded,bounded", b"bounded,dynamic", b"dynamic, bounded", b"dynamic,bounded "):
+            with self.subTest(qualifier=qualifier), self.assertRaises(costs.base.MeasurementError):
+                costs.parse_stack_usage(good.replace(b"static", qualifier, 1))
 
     def samples(self):
         return [{"phase": "measured", "verified": True, "capacity": capacity,

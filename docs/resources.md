@@ -132,7 +132,7 @@ these are sanitizer/dependency acceptance, not performance measurements.
 Capacity remains reserved until its lexical region ends after release. Descriptor,
 owner/outcome temporaries, alignment padding and stack-probe helpers can affect
 compiled costs. The separate [production cost experiment](resource-costs.md)
-reports target layouts, compiler-reported static stack usage, artifact sizes and
+reports target layouts, compiler-reported bounded stack usage, artifact sizes and
 complete-call batch timing for fixed sequential workloads, after independent
 acceptance. Its production binaries omit the ledger. Total RAM, isolated
 reserve/release latency and agent benefit remain unmeasured. Heap containers,

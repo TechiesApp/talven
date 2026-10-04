@@ -32,7 +32,7 @@ the ledger nor sanitizers.
 | --- | --- | --- |
 | C layouts | Executed `sizeof`, `_Alignof`, `offsetof` probe for runtime and nominal outcomes | Target-specific representation and padding; not total RAM |
 | Supplied backing and work | Literal capacities, lexical regions, independently checked operation counts and successful request bytes | Source-derived semantic work; not executed memory traffic |
-| Per-function stack usage | Compiler-produced static `.su` records for selected generated functions at O0/O2 | Compiler-reported bytes, not a measured whole-stack or peak-memory bound |
+| Per-function stack usage | Compiler-produced static or `dynamic,bounded` `.su` records for selected generated functions at O0/O2 | Compiler-reported bounded bytes with their exact qualifier; not a measured whole-stack or peak-memory bound |
 | Artifact sizes | Exact object/executable file bytes, raw named-section and symbol output | Toolchain-specific file/section evidence; no unique runtime-overhead subtraction |
 | Complete-call latency | Monotonic-clock batch duration divided by verified call count | Includes initialization, matching, zeroing, reads, release, call and loop overhead |
 
@@ -46,10 +46,14 @@ without requiring an optimization.
 [GCC's stack-usage documentation](https://gcc.gnu.org/onlinedocs/gcc-13.3.0/gcc.pdf)
 distinguishes static, dynamic and bounded records;
 [Clang documents its `.su` output option](https://clang.llvm.org/docs/ClangCommandLineReference.html#cmdoption-clang-fstack-usage).
-This experiment accepts only static selected-function records. It archives
-assembly for inspection but does not independently interpret every ABI frame,
+The [GCC qualifier guide](https://gcc.gnu.org/onlinedocs/gcc-14.1.0/gnat_ugn/Static-Stack-Usage-Analysis.html)
+identifies `dynamic,bounded` bytes as a compiler-known maximum, unlike unbounded
+`dynamic` records. GCC x86-64 O0 reports that bounded qualifier for these fixed
+source functions. Accept exact `static` or `dynamic,bounded` records and retain
+the qualifier alongside bytes; reject unbounded or malformed records. Archive
+assembly for inspection but do not independently interpret every ABI frame,
 red zone, callee frame or recursive call chain. Report the evidence as
-**compiler-reported stack usage**, including zero when the compiler reports zero.
+**compiler-reported bounded stack usage**, including zero when the compiler reports zero.
 
 Compile generated C and the production driver separately with LTO disabled at
 fixed strict C11 O0/O2 settings. Retain unchanged generated C, assembly, objects,
@@ -89,11 +93,11 @@ Reuse the offline recorder's bounded subprocesses, fresh output directory,
 fingerprints and raw command archives. The `talven.resource-cost.v1` receipt starts
 with `complete/passed` false and no summary. It records exact expanded sources and
 schedule, archived inputs, native build/binary identity, acceptance receipts,
-artifacts, layouts, static stack records and timings. Recheck all captured input
+artifacts, layouts, bounded stack records and timings. Recheck all captured input
 and producer/tool identities before completion. Preserve failed commands and
 partial artifacts without publishing successful summaries.
 
-Tests cover malformed/missing/dynamic stack records, strict timing output,
+Tests cover malformed/missing/unbounded stack records, strict timing output,
 checksums, inadequate clocks, incomplete groups, excluded warmups, bounded options,
 existing output protection and producer/input changes. CI executes on actual
 Linux x86-64 and ARM64 hosts, retains receipts and checks correctness/completeness;
