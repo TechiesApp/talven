@@ -111,7 +111,11 @@ normal-path release/delegation obligations and versioned source/compiler/runtime
 context. Regions are bounded to eight declarations per function and literal
 capacities 1..4096, with one reusable slot each. These are per-function limits,
 not recursive total RAM bounds. Actual Linux x86-64/ARM64 resource execution with
-no skipped checks is required before merge; no total-memory, latency or agent benefit is measured. Heap containers,
+no skipped checks is required before merge. [Proposal 0044](proposals/0044-supplied-block-production-costs.md)
+adds a [production cost runner](resource-costs.md) for fixed sequential source
+workloads: target C layouts, compiler-reported bounded stack usage, artifact sizes
+and verified complete-call batch timing. These costs remain distinct from total
+RAM, isolated intrinsic latency, tail latency and agent benefit. Heap containers,
 general allocator lifetimes, cancellation and an executor remain later work.
 
 Continue with general allocator interfaces, containers, structured tasks, cancellation, synchronization, and a selected optional executor.

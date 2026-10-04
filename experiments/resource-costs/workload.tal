@@ -1,0 +1,137 @@
+fn cycle(size: i32, alignment: i32, index: i32) -> i32 {
+    region storage(32) {
+        match (reserve(storage, size, alignment)) {
+            Allocation::Granted(block) {
+                match (read_byte(&block, index)) {
+                    ByteRead::Value(byte) {
+                        release(block);
+                        return byte;
+                    }
+                    ByteRead::OutOfBounds {
+                        release(block);
+                        return -30;
+                    }
+                }
+            }
+            Allocation::InvalidRequest {
+                return -10;
+            }
+            Allocation::Exhausted {
+                return -20;
+            }
+        }
+    }
+}
+
+fn reuse(size: i32, alignment: i32, index: i32) -> i32 {
+    region storage(32) {
+        match (reserve(storage, size, alignment)) {
+            Allocation::Granted(block) {
+                let mut writable = block;
+                match (write_byte(&mut writable, index, 137)) {
+                    ByteWrite::Written {
+                        match (read_byte(&writable, index)) {
+                            ByteRead::Value(byte) {
+                                release(writable);
+                                if (byte != 137) {
+                                    return -50;
+                                }
+                            }
+                            ByteRead::OutOfBounds {
+                                release(writable);
+                                return -30;
+                            }
+                        }
+                    }
+                    ByteWrite::OutOfBounds {
+                        release(writable);
+                        return -30;
+                    }
+                    ByteWrite::InvalidByte {
+                        release(writable);
+                        return -40;
+                    }
+                }
+            }
+            Allocation::InvalidRequest {
+                return -10;
+            }
+            Allocation::Exhausted {
+                return -20;
+            }
+        }
+        match (reserve(storage, size, alignment)) {
+            Allocation::Granted(block) {
+                match (read_byte(&block, index)) {
+                    ByteRead::Value(byte) {
+                        release(block);
+                        return byte;
+                    }
+                    ByteRead::OutOfBounds {
+                        release(block);
+                        return -30;
+                    }
+                }
+            }
+            Allocation::InvalidRequest {
+                return -10;
+            }
+            Allocation::Exhausted {
+                return -20;
+            }
+        }
+    }
+}
+
+fn sequential(size: i32, alignment: i32, index: i32) -> i32 {
+    region storage(32) {
+        match (reserve(storage, size, alignment)) {
+            Allocation::Granted(block) {
+                match (read_byte(&block, index)) {
+                    ByteRead::Value(byte) {
+                        release(block);
+                        if (byte != 0) {
+                            return -50;
+                        }
+                    }
+                    ByteRead::OutOfBounds {
+                        release(block);
+                        return -30;
+                    }
+                }
+            }
+            Allocation::InvalidRequest {
+                return -10;
+            }
+            Allocation::Exhausted {
+                return -20;
+            }
+        }
+    }
+    region storage(32) {
+        match (reserve(storage, size, alignment)) {
+            Allocation::Granted(block) {
+                match (read_byte(&block, index)) {
+                    ByteRead::Value(byte) {
+                        release(block);
+                        return byte;
+                    }
+                    ByteRead::OutOfBounds {
+                        release(block);
+                        return -30;
+                    }
+                }
+            }
+            Allocation::InvalidRequest {
+                return -10;
+            }
+            Allocation::Exhausted {
+                return -20;
+            }
+        }
+    }
+}
+
+fn main() -> i32 {
+    return 0;
+}
