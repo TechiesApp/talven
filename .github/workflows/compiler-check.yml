@@ -188,14 +188,20 @@ jobs:
         if: matrix.native
         timeout-minutes: 5
         run: rustup toolchain install 1.96.0 --profile minimal --component rustfmt,clippy
-      - name: Build and lint the bounded native compiler experiment
+      - name: Format and lint the bounded native compiler experiment
         if: matrix.native
-        timeout-minutes: 10
+        timeout-minutes: 5
         run: |
           cargo +1.96.0 fmt --manifest-path experiments/native-compiler/Cargo.toml --check
-          cargo +1.96.0 clippy --locked --offline --all-targets --manifest-path experiments/native-compiler/Cargo.toml -- -D warnings
-          cargo +1.96.0 test --locked --offline --manifest-path experiments/native-compiler/Cargo.toml
-          cargo +1.96.0 build --release --offline --locked --manifest-path experiments/native-compiler/Cargo.toml
+          cargo +1.96.0 clippy --verbose --verbose --locked --offline --all-targets --manifest-path experiments/native-compiler/Cargo.toml -- -D warnings
+      - name: Run the bounded native compiler unit tests
+        if: matrix.native
+        timeout-minutes: 5
+        run: cargo +1.96.0 test --locked --offline --manifest-path experiments/native-compiler/Cargo.toml
+      - name: Build the bounded native compiler release artifact
+        if: matrix.native
+        timeout-minutes: 5
+        run: cargo +1.96.0 build --release --offline --locked --manifest-path experiments/native-compiler/Cargo.toml
       - name: Verify original native source and tooling contracts
         if: matrix.native
         timeout-minutes: 10
