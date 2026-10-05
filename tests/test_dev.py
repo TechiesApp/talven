@@ -320,7 +320,9 @@ class DevelopmentTests(unittest.TestCase):
 
     def test_compiler_descendant_is_stopped_on_interrupt(self):
         child = ("import os,pathlib,signal,time; signal.signal(signal.SIGTERM, signal.SIG_IGN); "
-                 f"pathlib.Path({str(self.directory / 'child-pid')!r}).write_text(str(os.getpid())); "
+                 f"pidfile = pathlib.Path({str(self.directory / 'child-pid')!r}); "
+                 "pending = pidfile.with_suffix('.pending'); "
+                 "pending.write_text(str(os.getpid())); pending.replace(pidfile); "
                  "time.sleep(30)")
         cc = self.wrapper("signal.signal(signal.SIGTERM, signal.SIG_IGN)\n"
                           f"child = subprocess.Popen([sys.executable, '-c', {child!r}])\n"

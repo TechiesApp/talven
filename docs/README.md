@@ -33,6 +33,7 @@ Pick the path that matches why you are here. Documents marked *evidence* record 
 | [Native edit previews](proposals/0035-native-edit-previews.md) | Read-only native snapshots and revision-checked complete repairs |
 | [Native focused context](proposals/0034-native-focused-context.md) | Bounded native symbol facts, source bodies and input identities |
 | [Native agent-tool CLI baseline](native-agent-tools-baseline.md) | Verified compact context/formatting process costs and finite local samples |
+| [Supplied-storage byte-buffer experiment](../experiments/byte-buffer/README.md) | Standalone C container invariants and acceptance; source integration remains open |
 
 ## Agent evaluation
 

@@ -72,3 +72,4 @@ Small ideas that are not ready for a full proposal can start as a GitHub Discuss
 | 0042 | [Supplied-storage C runtime](0042-supplied-storage-c-runtime.md) | Accepted; standalone runtime implemented |
 | 0043 | [Checked supplied-block compiler profile](0043-supplied-blocks-compiler.md) | Draft; implemented experiment |
 | 0044 | [Supplied-block production cost evidence](0044-supplied-block-production-costs.md) | Draft; measurement experiment |
+| 0045 | [Supplied-storage byte-buffer runtime](0045-supplied-byte-buffer-runtime.md) | Draft; standalone C experiment |

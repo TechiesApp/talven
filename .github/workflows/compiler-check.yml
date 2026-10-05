@@ -12,7 +12,7 @@ jobs:
   conformance:
     name: Native conformance (${{ matrix.arch }}, Python ${{ matrix.python }})
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 20
+    timeout-minutes: ${{ matrix.native && 40 || 20 }}
     strategy:
       fail-fast: false
       matrix:
@@ -118,6 +118,15 @@ jobs:
           path: build/region-runtime.json
           if-no-files-found: error
           retention-days: 30
+      - name: Preserve supplied-storage byte-buffer runtime evidence
+        run: python3 scripts/check-byte-buffer-runtime.py --out build/byte-buffer-runtime.json
+      - name: Upload byte-buffer runtime receipt
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: byte-buffer-runtime-${{ matrix.arch }}-python-${{ matrix.python }}
+          path: build/byte-buffer-runtime.json
+          if-no-files-found: error
+          retention-days: 30
       - name: Preserve reference supplied-block source evidence
         run: python3 scripts/check-resource-sanitizers.py --out build/resource-reference.json
       - name: Upload reference supplied-block source receipt
@@ -175,14 +184,28 @@ jobs:
         env:
           TALVEN_EXPECT_ARCH: ${{ matrix.arch }}
         run: python3 scripts/check-freestanding.py --expect-arch "$TALVEN_EXPECT_ARCH" --out build/freestanding-check
-      - name: Build and verify the bounded native compiler experiment
+      - name: Install the pinned native compiler toolchain
         if: matrix.native
+        timeout-minutes: 5
+        run: rustup toolchain install 1.96.0 --profile minimal --component rustfmt,clippy
+      - name: Format and lint the bounded native compiler experiment
+        if: matrix.native
+        timeout-minutes: 5
         run: |
-          rustup toolchain install 1.96.0 --profile minimal --component rustfmt,clippy
           cargo +1.96.0 fmt --manifest-path experiments/native-compiler/Cargo.toml --check
-          cargo +1.96.0 clippy --locked --offline --all-targets --manifest-path experiments/native-compiler/Cargo.toml -- -D warnings
-          cargo +1.96.0 test --locked --offline --manifest-path experiments/native-compiler/Cargo.toml
-          cargo +1.96.0 build --release --offline --locked --manifest-path experiments/native-compiler/Cargo.toml
+          cargo +1.96.0 clippy --verbose --verbose --locked --offline --all-targets --manifest-path experiments/native-compiler/Cargo.toml -- -D warnings
+      - name: Run the bounded native compiler unit tests
+        if: matrix.native
+        timeout-minutes: 5
+        run: cargo +1.96.0 test --locked --offline --manifest-path experiments/native-compiler/Cargo.toml
+      - name: Build the bounded native compiler release artifact
+        if: matrix.native
+        timeout-minutes: 5
+        run: cargo +1.96.0 build --release --offline --locked --manifest-path experiments/native-compiler/Cargo.toml
+      - name: Verify original native source and tooling contracts
+        if: matrix.native
+        timeout-minutes: 10
+        run: |
           python3 experiments/native-compiler/tests/conformance.py
           python3 experiments/native-compiler/tests/formatting.py
           python3 experiments/native-compiler/tests/context.py
@@ -191,6 +214,10 @@ jobs:
           python3 experiments/native-compiler/tests/project.py
           python3 experiments/native-compiler/tests/outcomes.py
           python3 experiments/native-compiler/tests/resources.py
+      - name: Verify native differential and sanitizer acceptance
+        if: matrix.native
+        timeout-minutes: 10
+        run: |
           python3 experiments/native-compiler/tests/differential.py
           python3 experiments/native-compiler/tests/comparison.py
           python3 scripts/check-borrow-sanitizers.py --native experiments/native-compiler/target/release/talven-native

@@ -138,3 +138,9 @@ acceptance. Its production binaries omit the ledger. Total RAM, isolated
 reserve/release latency and agent benefit remain unmeasured. Heap containers,
 cancellation, general allocator lifetimes and concurrency remain open; this
 sequential profile does not complete the broader M2 milestone.
+
+[Proposal 0045](proposals/0045-supplied-byte-buffer-runtime.md) adds a separate
+standalone C byte-buffer experiment on the same slot/token contract, with private
+logical length, bounded push/pop and explicit close. It does not add Buffer types
+or operations to this Talven source profile. Source ownership/tooling integration
+and buffer production cost measurements are subsequent gates.
