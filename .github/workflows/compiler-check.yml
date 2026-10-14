@@ -112,7 +112,7 @@ jobs:
       - name: Preserve sequential supplied-storage C runtime evidence
         run: python3 scripts/check-region-runtime.py --out build/region-runtime.json
       - name: Upload supplied-storage C runtime receipt
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: region-runtime-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/region-runtime.json
@@ -121,7 +121,7 @@ jobs:
       - name: Preserve reference supplied-block source evidence
         run: python3 scripts/check-resource-sanitizers.py --out build/resource-reference.json
       - name: Upload reference supplied-block source receipt
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: resource-source-reference-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/resource-reference.json
@@ -165,7 +165,7 @@ jobs:
           PY
       - name: Preserve native test receipts
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: native-tests-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/native-tests.json
@@ -199,7 +199,7 @@ jobs:
         run: python3 scripts/check-resource-sanitizers.py --native experiments/native-compiler/target/release/talven-native --out build/resource-native.json
       - name: Upload native supplied-block source receipt
         if: matrix.native
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: resource-source-native-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/resource-native.json
@@ -210,7 +210,7 @@ jobs:
         run: python3 scripts/measure-resource-costs.py --native experiments/native-compiler/target/release/talven-native --expect-arch '${{ matrix.arch }}' --out build/resource-costs --repetitions 3 --warmups 1 --iterations 100000 --environment-note 'GitHub Actions shared runner; CPU frequency, migration and caches uncontrolled; no performance threshold'
       - name: Preserve supplied-block production cost evidence
         if: always() && matrix.native
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: resource-costs-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/resource-costs/
@@ -227,7 +227,7 @@ jobs:
         run: python3 scripts/measure-native-prototype.py --native experiments/native-compiler/target/release/talven-native --expect-arch '${{ matrix.arch }}' --out build/native-agent-tools --repetitions 3 --warmups 1 --agent-tools --environment-note 'GitHub Actions shared runner; exact checked compact context and syntax-only canonical formatting; process startup and source I/O included'
       - name: Preserve native agent-tool evidence
         if: always() && matrix.native
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: native-agent-tools-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/native-agent-tools/
@@ -235,7 +235,7 @@ jobs:
           retention-days: 30
       - name: Preserve native phase evidence
         if: always() && matrix.native
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: native-phase-baseline-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/native-phase-baseline/
@@ -243,7 +243,7 @@ jobs:
           retention-days: 30
       - name: Preserve native comparison evidence
         if: always() && matrix.native
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: native-comparison-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/native-comparison/
@@ -253,7 +253,7 @@ jobs:
         run: python3 scripts/measure-tooling.py --expect-arch '${{ matrix.arch }}' --out build/tooling-baseline --repetitions 3 --warmups 1 --environment-note 'GitHub Actions shared runner; checkout on runner filesystem'
       - name: Preserve tooling baseline evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: tooling-baseline-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/tooling-baseline/
@@ -267,7 +267,7 @@ jobs:
         run: python3 scripts/measure-incremental.py --expect-arch '${{ matrix.arch }}' --out build/incremental-comparison --repetitions 3 --warmups 1 --environment-note 'GitHub Actions shared runner; in-process reference checks; verification outside timing'
       - name: Preserve persistent checking evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: incremental-comparison-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/incremental-comparison/
@@ -277,7 +277,7 @@ jobs:
         run: python3 scripts/measure-incremental.py --expect-arch '${{ matrix.arch }}' --out build/call-type-contracts --repetitions 1 --warmups 0 --call-type-contracts --environment-note 'GitHub Actions shared runner; explicit call type contracts; current full analysis/context/C and untimed native acceptance'
       - name: Preserve call type checking evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: call-type-contracts-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/call-type-contracts/
@@ -287,7 +287,7 @@ jobs:
         run: python3 scripts/measure-incremental.py --expect-arch '${{ matrix.arch }}' --out build/body-syntax --repetitions 1 --warmups 0 --call-type-contracts --reuse-body-syntax --environment-note 'GitHub Actions shared runner; full current lexing/declarations, exact body grammar; current analysis/context/C and untimed native acceptance'
       - name: Preserve body syntax evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: body-syntax-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/body-syntax/
@@ -297,7 +297,7 @@ jobs:
         run: python3 scripts/measure-unit-rebuilds.py --expect-arch '${{ matrix.arch }}' --out build/unit-rebuild-comparison --repetitions 1 --warmups 0 --timeout 60 --stable-toolchain --environment-note 'GitHub Actions shared runner; trusted fixed job toolchain; in-process current builds, actual-object native acceptance outside timing'
       - name: Preserve private object rebuild evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: unit-rebuild-comparison-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/unit-rebuild-comparison/
@@ -307,7 +307,7 @@ jobs:
         run: python3 scripts/measure-native-watch.py --expect-arch '${{ matrix.arch }}' --out build/native-watch-baseline --repetitions 1 --warmups 0 --timeout 60 --stable-toolchain --environment-note 'GitHub Actions shared runner; actual full/native watcher sessions; 50 ms polling and 100 ms debounce; terminal receipts are not application readiness'
       - name: Preserve native watcher edit evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: native-watch-baseline-${{ matrix.arch }}-python-${{ matrix.python }}
           path: build/native-watch-baseline/
@@ -319,7 +319,7 @@ jobs:
           python3 scripts/measure-native-watch.py --expect-arch '${{ matrix.arch }}' --out build/local-contract-watch --repetitions 1 --warmups 0 --timeout 60 --stable-toolchain --local-contracts --environment-note 'GitHub Actions shared runner; explicit local contracts; actual watcher native acceptance'
       - name: Preserve local-contract native evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: local-contracts-${{ matrix.arch }}-python-${{ matrix.python }}
           path: |
